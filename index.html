@@ -906,7 +906,7 @@
         if (hasRoom2) html += '<td>' + escHtml(cell2) + '</td>';
         html += '</tr>';
       } else if (isClickable) {
-        html += '<tr class="clickable" onclick="onOverviewRowClick(\\'' + (tabName || '') + '\\')"' + timeAttr + '>';
+        html += '<tr class="clickable" onclick="onOverviewRowClick(\'' + (tabName || '') + '\')"' + timeAttr + '>';
         html += '<td>' + escHtml(cell0) + '</td>';
         html += '<td' + (hasRoom2 ? '' : ' colspan="2"') + '>' + formatSessionCell(cell1) + '</td>';
         if (hasRoom2) html += '<td>' + formatSessionCell(cell2) + '</td>';
@@ -966,7 +966,7 @@
         var item = sec.items[l];
         if (item.selectable) {
           var isSelected = state.selections.indexOf(item.id) >= 0;
-          html += '<div class="lecture-row' + (isSelected ? ' selected' : '') + '" data-id="' + item.id + '" data-time="' + escHtml(item.time) + '" onclick="toggleLecture(\\'' + item.id + '\\')">';
+          html += '<div class="lecture-row' + (isSelected ? ' selected' : '') + '" data-id="' + item.id + '" data-time="' + escHtml(item.time) + '" onclick="toggleLecture(\'' + item.id + '\')">';
           html += '<span class="material-icons select-indicator">' + (isSelected ? 'check_circle' : 'radio_button_unchecked') + '</span>';
           html += '<div class="lec-time">' + escHtml(item.time) + '</div>';
           html += '<div class="lec-title">' + escHtml(item.title) + '</div>';
