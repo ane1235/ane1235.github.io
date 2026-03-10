@@ -21,8 +21,6 @@ description: >
 **v2.0부터 MD→PDF 변환 파서를 내장하여, MD 파일을 SSOT로 사용한다.**
 **v3.0부터 Chat/Cowork 양쪽 환경에서 동일하게 작동한다 (환경 자동 감지 + 폰트 자동 관리).**
 
-> **Python 템플릿 파일 위치:** `.claude/skills/pdf-report-templates/` 하위에 `md_to_pdf_converter.py`, `pdf_template_KrGov_1_0.py`, `pdf_template_USDoD_v3.py`, `tests/test_templates.py`가 있다.
-
 ---
 
 ## ★ 핵심 원칙: SSOT (Single Source of Truth)
@@ -201,6 +199,7 @@ convert_md_to_pdf(
 > reportlab 엔진 + 영문/한글 폰트 완전 분리 + 동적 높이 계산
 > null bytes 0개, 텍스트 잘림 없음 검증 완료
 > ★ v3.0 추가: `_detect_environment()`, `_find_font()`, `_get_outputs_dir()`
+>   Chat/Cowork 양쪽에서 폰트 자동 탐색 + 다운로드 + fallback 처리
 
 ### 기본 사양
 - 용지: A4 | 여백: L25.4 / R19.1 / T25.4 / B19.1 mm
@@ -217,6 +216,7 @@ convert_md_to_pdf(
 
 > **null bytes 원인:** 한글 포함 텍스트에 DejaVuSans를 사용하면
 > ToUnicode CMap 누락으로 뷰어에서 글자가 사라진다.
+> `canvas.drawString()`은 한글 포함 여부가 불확실하므로 항상 NanumGothicBold 사용.
 
 ### 동적 높이 계산 원칙
 
@@ -324,36 +324,3 @@ box = HighlightBox("핵심 분석",
 |---|---|
 | `pdf_template_USDoD_fpdf2.py` | 서식 불안정 |
 | `pdf_template_USDoD_1.py` | 한글 null bytes (ToUnicode CMap 오류) |
-
----
-
-## CHANGELOG
-
-### v3.0 (2026-03-06)
-
-**추가 (New):**
-- `_detect_environment()` — Chat/Cowork 환경 자동 감지 함수
-- `_find_font()` — 동적 폰트 탐색 + 자동 다운로드 함수
-- `_get_outputs_dir()` — 환경별 outputs 디렉토리 자동 결정
-
-**변경 (Changed):**
-- pdf_template_KrGov_1_0.py: 하드코딩 폰트 경로 → `_find_font()` 동적 탐색
-- pdf_template_USDoD_v3.py: 4종 폰트 등록에 try/except + `_find_font()` 적용
-- md_to_pdf_converter.py: 하드코딩 경로 → `$HOME` 기반 동적 경로
-- SKILL.md: 환경 자동 감지 설명으로 전면 개정
-
-**수정 (Fixed):**
-- USDoD 폰트 등록 crash (os.path.exists 체크 누락)
-- 하드코딩 세션 경로 문제
-
-### v2.0 (2026-03-06)
-
-**추가 (New):**
-- md_to_pdf_converter.py — MD→PDF 자동 변환 파서 (IR 노드 13종, 한글 자동 감지)
-
-**변경 (Changed):**
-- SSOT 원칙 명시, 방법 A/B 이원화
-
-### v1.0 (2026-03-03)
-
-- 최초 릴리스: KrGov + USDoD v3 템플릿, 기본 테스트 3종

@@ -175,31 +175,14 @@ mcp__Claude_in_Chrome__ 도구군 사용
 
 ### 5-2. Obsidian 저장 경로
 
-도메인별 Obsidian 경로 핵심 매핑:
+도메인별 Obsidian 경로는 `references/obsidian_paths.md`를 참조한다. 핵심 매핑:
 
-| 프로젝트 도메인 | Obsidian 경로 |
-|---|---|
-| 군사보안 연구 | /Users/kayen/ClaudeKB/03_Military_Security/Research/ |
-| 군사보안 번역 | /Users/kayen/ClaudeKB/03_Military_Security/Translations/ |
-| 투자 분석 | /Users/kayen/ClaudeKB/02_Investment/Research/ |
-| 투자 포트폴리오 | /Users/kayen/ClaudeKB/02_Investment/Portfolio/ |
-| 의학 연구 | /Users/kayen/ClaudeKB/04_Medical/Research/ |
-| CATS APP 스킬 | /Users/kayen/ClaudeKB/01_CATS_APP/Skills/ |
-| CATS APP 프로토콜 | /Users/kayen/ClaudeKB/01_CATS_APP/Protocols/ |
-| CATS APP 세션 로그 | /Users/kayen/ClaudeKB/01_CATS_APP/Session_Logs/ |
-| Apple 생태계 | /Users/kayen/ClaudeKB/05_Apple_Ecosystem/Tips/ |
-| 템플릿 공통 | /Users/kayen/ClaudeKB/00_Templates/ |
-| 기타/대기 | /Users/kayen/ClaudeKB/output/ |
-
-도메인 자동 분류 키워드:
-
-| 도메인 | 키워드 |
-|--------|--------|
-| 군사보안 | missile, artillery, military, defense, weapon, army, navy, 미사일, 포병, 군사, 국방, drone, UAV, ICBM, hypersonic |
-| 투자 | stock, market, investment, finance, economy, GDP, 주식, 투자, 경제, 금리, ETF, portfolio, bond |
-| 의학 | medical, health, disease, treatment, clinical, 의학, 건강, 질환, 치료, pharmaceutical, drug |
-| CATS APP | CATS, Claude, MCP, skill, protocol, agent |
-| Apple | Apple, iPhone, Mac, iOS, macOS, iPad, Swift |
+| 도메인 | 경로 |
+|--------|------|
+| 군사보안 연구 | `/Users/kayen/ClaudeKB/03_Military_Security/Research/` |
+| 투자 분석 | `/Users/kayen/ClaudeKB/02_Investment/Research/` |
+| 의학 연구 | `/Users/kayen/ClaudeKB/04_Medical/Research/` |
+| 기타 | `/Users/kayen/ClaudeKB/output/` |
 
 최종 저장 경로: `{도메인경로}/{폴더명}/{파일명}.md`
 
@@ -226,8 +209,6 @@ mcp__Claude_in_Chrome__ 도구군 사용
 - 형식: `topic_keyword_{suffix}.md` (소문자, 밑줄 구분)
 - 예: `flamingo_votkinsk_strike_analysis.md`
 - 기사 제목에서 핵심 키워드 2~3개를 추출하여 구성
-
-*Obsidian Vault 기본 경로: /Users/kayen/ClaudeKB/*
 
 ---
 
@@ -416,47 +397,7 @@ mcp__Claude_in_Chrome__ 도구군 사용
 
 | 파일/소스 | 내용 | 언제 참조하는가 |
 |-----------|------|----------------|
-| webpage-report 스킬 | 6단계 파이프라인 상세 | 서브에이전트 프롬프트 작성 시 |
-| pdf-report-templates 스킬 | PDF 템플릿 규칙 | PDF 옵션 사용 시 |
+| `references/obsidian_paths.md` | 5개 도메인별 Obsidian 경로 | 저장 경로 결정 시 |
+| webpage-report SKILL.md | 6단계 파이프라인 상세 | 서브에이전트 프롬프트 작성 시 |
+| pdf-report-templates SKILL.md | PDF 템플릿 규칙 | PDF 옵션 사용 시 |
 | Supermemory: 크롤링 프로파일 | 사이트별 난이도·폴백 이력 | 배치 계획 수립 시 |
-
----
-
-## CHANGELOG
-
-### v1.2 (2026-03-09)
-
-**변경 사유:** MD only 모드에서 병렬 배치를 3개에서 5개로 확대하고, 사용자가 작업을 모니터하지 않아도 되는 무중단 자동 처리 프로토콜을 신설했다.
-
-**추가 (New):**
-- Section 3-1: 출력 모드별 배치 크기 결정표 신설
-- Section 3-3: 서브에이전트 프롬프트에 ⛔ 금지 사항 블록 추가
-- Section 7: 실행 흐름에 "2. 사전 준비" 단계 추가
-- Section 12 (NEW): "무중단 자동 처리 프로토콜" 신설
-
-**변경 (Changed):**
-- Section 3: 기존 "3개 동시 실행" → 출력 모드별 결정표 + 배치 구성 원칙 + 프롬프트 템플릿으로 3개 하위 섹션 분리
-- Section 5-3: "mcp__obsidian + bash cp" → "mcp__obsidian 전용" 강화
-- Section 9: 배치 크기를 3으로 줄인다 (Section 3-1 참조)
-- Section 10: 서브에이전트 도구 통제 bullet 추가
-
-### v1.1 (2026-03-09)
-
-**변경 사유:** 30개 군사·방산 URL 실전 배치(2026-03-08) 처리 과정에서 발견된 크롤링 실패 패턴, 경로 오류, 컨텍스트 윈도우 한계를 반영하여 스킬을 개선했다.
-
-**추가 (New):**
-- Section 4-3: 대체소스 전략 신설
-- Section 4-5: 사이트별 크롤링 난이도 참조표 신설
-- Section 11: 실패 URL 재시도 프로토콜 신설
-- Section 12: 레퍼런스 테이블 신설
-
-**변경 (Changed):**
-- Section 3: 서브에이전트 프롬프트에 절대 경로 명시 강제 추가
-- Section 4: 크롤링 폴백 3단계 → 4단계로 확장
-- Section 7: 실행 흐름에 "5. 실패 URL 재시도" 단계 추가
-- Section 8: _processing_summary.md 파일 생성 규칙 추가
-- Section 10: 주의사항 3개 항목 추가
-
-### v1 (2026-03-08)
-
-- 최초 릴리스: URL 파싱 → 언어 감지 → 배치 구성 → 병렬 크롤링+보고서 생성 → Obsidian 저장
