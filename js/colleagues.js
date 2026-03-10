@@ -142,15 +142,18 @@ function _buildLabelsHtml(data) {
 
 /**
  * 1분(60초) 간격으로 동료 데이터를 자동 갱신한다.
- * 갱신 후 현재 뷰를 다시 렌더링하여 레이블을 업데이트한다.
+ * 데이터가 실제로 변경된 경우에만 뷰를 다시 렌더링하여 깜박임을 방지한다.
  */
 function startColleaguePolling() {
   stopColleaguePolling();   /* 기존 타이머 정리 */
   _colleagueTimer = setInterval(function() {
+    var before = JSON.stringify(state.colleagues);
     fetchColleagues().then(function() {
-      /* 현재 뷰 갱신: showView를 재호출하여 레이블 반영 */
-      if (state.currentView && state.currentView !== 'login') {
-        showView(state.currentView, state.currentTab);
+      /* 데이터가 변경된 경우에만 뷰 재렌더링 (깜박임 방지) */
+      if (JSON.stringify(state.colleagues) !== before) {
+        if (state.currentView && state.currentView !== 'login') {
+          showView(state.currentView, state.currentTab);
+        }
       }
     });
   }, 60000);
