@@ -1,4 +1,5 @@
-/* KSCTVA 2026 — nav.js V3.0 */
+/* KSCTVA 2026 — nav.js V4.0 */
+/* V4.0: 페이지 이동 시 동료 데이터 갱신 */
 
 function buildDropdownMenus() {
   var map = APP_DATA.menuMap;
@@ -60,4 +61,19 @@ function showView(viewName, param) {
   }
   updateTimeHighlight();
   window.scrollTo(0, 0);
+
+  /* V4.0: 페이지 이동마다 동료 데이터 즉시 갱신 (최신 보장) */
+  fetchColleagues().then(function() {
+    /* 갱신 완료 후 현재 뷰 재렌더링 */
+    var a = document.getElementById('content-area');
+    switch (viewName) {
+      case 'overview':
+        a.innerHTML = '<div class="view-container">' + renderOverview() + '</div>'; break;
+      case 'session':
+        a.innerHTML = '<div class="view-container">' + renderSession(state.currentTab) + '</div>'; break;
+      case 'mypage':
+        a.innerHTML = '<div class="view-container">' + renderMyPage() + '</div>'; break;
+    }
+    updateTimeHighlight();
+  });
 }

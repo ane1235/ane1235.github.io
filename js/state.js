@@ -1,5 +1,6 @@
-/* KSCTVA 2026 — state.js V3.1 */
-/* V3.1 변경: localStorage 기반 로그인 세션 유지 (refresh 시 로그인 풀림 해결) */
+/* KSCTVA 2026 — state.js V4.0 */
+/* V4.0 변경: 동료 수강자 레이블 기능 통합 (colleagues 상태 + polling) */
+/* V3.1 기반: localStorage 기반 로그인 세션 유지 */
 
 /* ── 상수 ── */
 var STORAGE_KEY_USER = 'ksctva_user';   // localStorage 키 (= 로그인 사용자 정보 저장용)
@@ -8,6 +9,7 @@ var STORAGE_KEY_USER = 'ksctva_user';   // localStorage 키 (= 로그인 사용�
 var state = {
   user: null,
   selections: [],
+  colleagues: [],    /* V4.0: 동료 수강자 데이터 (colleagues.js에서 관리) */
   currentView: 'login',
   currentTab: null,
   mypageDay: 1,
@@ -113,6 +115,10 @@ function initApp() {
 }
 
 function onAllDataReady() {
+  /* V4.0: 동료 데이터 초기 로드 + polling 시작 */
+  fetchColleagues();
+  startColleaguePolling();
+
   showView('overview');
   updateTimeHighlight();
   state.highlightTimer = setInterval(updateTimeHighlight, 60000);
@@ -124,8 +130,10 @@ function onAllDataReady() {
 
 function handleLogout() {
   if (state.highlightTimer) clearInterval(state.highlightTimer);
+  stopColleaguePolling();   /* V4.0: polling 정지 */
   state.user = null;
   state.selections = [];
+  state.colleagues = [];    /* V4.0: 동료 데이터 초기화 */
   state.currentView = 'login';
   clearSession();   /* ← V3.1 추가: localStorage에서 삭제 */
 
@@ -160,6 +168,9 @@ function toggleLecture(lectureId) {
   })
   .then(function(r) { if (!r.success) showToast('저장 실패: ' + (r.error || '')); })
   .catch(function(err) { showToast('저장 오류: ' + err.message); });
+
+  /* V4.0: 본인 동료 데이터 즉시 갱신 */
+  updateLocalColleague();
 
   showToast(idx >= 0 ? '선택 해제됨' : '선택 완료');
 }

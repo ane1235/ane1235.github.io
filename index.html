@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  KSCTVA 2026 춘계학술대회 — GitHub Pages V3.0
-  파일 분리 + 데이터 하드코딩 (2026-03-10)
+  KSCTVA 2026 춘계학술대회 — GitHub Pages V4.0
+  V4.0: 동료 수강자 레이블 표시 기능 + views.js 3분할 리팩토링
 -->
 <html lang="ko">
 <head>
@@ -75,12 +75,15 @@
 
   <div id="toast" class="toast"></div>
 
-  <!-- JS 로드 순서 중요: config → data → utils → state → nav → views -->
+  <!-- JS 로드 순서 중요: config → data → utils → colleagues → state → nav → views (3분할) -->
   <script src="js/config.js"></script>
   <script src="js/data.js"></script>
   <script src="js/utils.js"></script>
+  <script src="js/colleagues.js"></script>
   <script src="js/state.js"></script>
   <script src="js/nav.js"></script>
-  <script src="js/views.js"></script>
+  <script src="js/view-overview.js"></script>
+  <script src="js/view-session.js"></script>
+  <script src="js/view-mypage.js"></script>
 </body>
 </html>
