@@ -1,0 +1,155 @@
+<script>
+  /* ============================================================
+   * script_state.html — 전역 상태 + 로그인 + 앱 초기화
+   * ============================================================
+   * - state 전역 객체 (앱 전체 상태 관리)
+   * - 로그인 처리
+   * - 로그인 성공 후 데이터 로드
+   * ============================================================ */
+
+  // ── 전역 상태 관리 객체 ──
+  var state = {
+    user: null,           // { name: "홍길동", sn2: "20240208" }
+    appData: null,        // { overview, sessions, menuMap, event }
+    selections: [],       // ["Day1_A1_R5", "Day1_P2_R15", ...]
+    currentView: "login", // "login" | "overview" | "session" | "mypage"
+    currentTab: null,     // 현재 세션 탭 이름 (예: "Day1_A1")
+    mypageDay: 1,         // MyPage 선택 탭 (1 또는 2)
+    highlightTimer: null  // 현재시간 하이라이트 타이머 ID
+  };
+
+  // ── 로그인 버튼 클릭 또는 Enter 시 실행 ──
+  function handleLoginSubmit() {
+    var name = document.getElementById("input-name").value.trim();
+    var sn2 = document.getElementById("input-sn2").value.trim();
+    var errorEl = document.getElementById("login-error");
+
+    if (!name || !sn2) {
+      errorEl.textContent = "이름과 사번을 모두 입력해주세요.";
+      errorEl.classList.remove("hidden");
+      return;
+    }
+
+    errorEl.classList.add("hidden");
+
+    // 백엔드 호출
+    google.script.run
+      .withSuccessHandler(onLoginSuccess)
+      .withFailureHandler(function(err) {
+        errorEl.textContent = "서버 연결 오류: " + err.message;
+        errorEl.classList.remove("hidden");
+      })
+      .handleLogin(name, sn2);
+  }
+
+  // ── 로그인 결과 처리 ──
+  function onLoginSuccess(result) {
+    var errorEl = document.getElementById("login-error");
+    if (result.success) {
+      state.user = result.data;
+      initApp();
+    } else {
+      errorEl.textContent = result.error || "로그인에 실패했습니다.";
+      errorEl.classList.remove("hidden");
+    }
+  }
+
+  // ── 앱 초기화 (로그인 성공 후) ──
+  function initApp() {
+    document.getElementById("view-login").classList.add("hidden");
+    document.getElementById("app-container").classList.remove("hidden");
+    document.getElementById("user-display").textContent = state.user.name;
+    loadAppData();
+  }
+
+  // ── 전체 데이터 + 선택 목록 동시 로드 ──
+  function loadAppData() {
+    var loaded = { data: false, sel: false };
+
+    // 1) 전체 시트 데이터
+    google.script.run
+      .withSuccessHandler(function(result) {
+        if (result.success) {
+          state.appData = result.data;
+          buildDropdownMenus();
+        }
+        loaded.data = true;
+        if (loaded.data && loaded.sel) onAllDataReady();
+      })
+      .withFailureHandler(function(err) {
+        showToast("데이터 로드 실패: " + err.message);
+        loaded.data = true;
+        if (loaded.data && loaded.sel) onAllDataReady();
+      })
+      .getAllData();
+
+    // 2) 강좌 선택 목록
+    google.script.run
+      .withSuccessHandler(function(result) {
+        if (result.success) {
+          state.selections = result.data || [];
+        }
+        loaded.sel = true;
+        if (loaded.data && loaded.sel) onAllDataReady();
+      })
+      .withFailureHandler(function(err) {
+        state.selections = [];
+        loaded.sel = true;
+        if (loaded.data && loaded.sel) onAllDataReady();
+      })
+      .getSelections(state.user.sn2);
+  }
+
+  // ── 모든 데이터 로드 완료 후 ──
+  function onAllDataReady() {
+    showView("overview");
+    updateTimeHighlight();
+    state.highlightTimer = setInterval(updateTimeHighlight, 60000);
+  }
+
+  // ── 로그아웃 ──
+  function handleLogout() {
+    if (state.highlightTimer) clearInterval(state.highlightTimer);
+    state.user = null;
+    state.appData = null;
+    state.selections = [];
+    state.currentView = "login";
+
+    document.getElementById("app-container").classList.add("hidden");
+    document.getElementById("view-login").classList.remove("hidden");
+    document.getElementById("input-name").value = "";
+    document.getElementById("input-sn2").value = "";
+    document.getElementById("login-error").classList.add("hidden");
+  }
+
+  // ── 강좌 선택/해제 토글 ──
+  function toggleLecture(lectureId) {
+    var idx = state.selections.indexOf(lectureId);
+    if (idx >= 0) {
+      state.selections.splice(idx, 1);
+    } else {
+      state.selections.push(lectureId);
+    }
+
+    // UI 즉시 업데이트
+    var el = document.querySelector('[data-id="' + lectureId + '"]');
+    if (el) {
+      var isNowSelected = state.selections.indexOf(lectureId) >= 0;
+      el.classList.toggle("selected", isNowSelected);
+      var icon = el.querySelector(".select-indicator");
+      if (icon) icon.textContent = isNowSelected ? "check_circle" : "radio_button_unchecked";
+    }
+
+    // 서버에 비동기 저장
+    google.script.run
+      .withSuccessHandler(function(result) {
+        if (!result.success) showToast("저장 실패: " + (result.error || ""));
+      })
+      .withFailureHandler(function(err) {
+        showToast("저장 오류: " + err.message);
+      })
+      .saveSelections(state.user.sn2, state.selections);
+
+    showToast(idx >= 0 ? "선택 해제됨" : "선택 완료");
+  }
+</script>

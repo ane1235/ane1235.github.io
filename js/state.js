@@ -1,6 +1,10 @@
-/* KSCTVA 2026 — state.js V3.0 */
-/* 핵심 변경: getAllData() 서버 호출 제거 → data.js의 APP_DATA 직접 사용 */
+/* KSCTVA 2026 — state.js V3.1 */
+/* V3.1 변경: localStorage 기반 로그인 세션 유지 (refresh 시 로그인 풀림 해결) */
 
+/* ── 상수 ── */
+var STORAGE_KEY_USER = 'ksctva_user';   // localStorage 키 (= 로그인 사용자 정보 저장용)
+
+/* ── 전역 상태 ── */
 var state = {
   user: null,
   selections: [],
@@ -10,20 +14,64 @@ var state = {
   highlightTimer: null
 };
 
-/* 로그인 */
+/* ═══════════════════════════════════════════
+   세션 저장/복원 (localStorage 기반)
+   ═══════════════════════════════════════════ */
+
+/* 로그인 정보를 localStorage에 저장 */
+function saveSession(userData) {
+  try {
+    localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(userData));
+  } catch (e) {
+    /* Private Browsing 등에서 localStorage 차단 시 무시 — 기능은 동작하되 세션 유지만 불가 */
+  }
+}
+
+/* localStorage에서 로그인 정보 복원 시도 */
+function restoreSession() {
+  try {
+    var saved = localStorage.getItem(STORAGE_KEY_USER);
+    if (!saved) return null;
+    var userData = JSON.parse(saved);
+    /* 필수 필드 검증: name과 sn2가 모두 있어야 유효한 세션 */
+    if (userData && userData.name && userData.sn2) return userData;
+    /* 유효하지 않은 데이터 → 정리 */
+    localStorage.removeItem(STORAGE_KEY_USER);
+    return null;
+  } catch (e) {
+    /* JSON 파싱 실패 등 → 정리 후 null 반환 */
+    localStorage.removeItem(STORAGE_KEY_USER);
+    return null;
+  }
+}
+
+/* localStorage에서 세션 삭제 */
+function clearSession() {
+  try {
+    localStorage.removeItem(STORAGE_KEY_USER);
+  } catch (e) { /* 무시 */ }
+}
+
+/* ═══════════════════════════════════════════
+   로그인
+   ═══════════════════════════════════════════ */
+
 function handleLoginSubmit() {
   var name = document.getElementById('input-name').value.trim();
-  var sn2 = document.getElementById('input-sn2').value.trim();
+  var sn2  = document.getElementById('input-sn2').value.trim();
   var errEl = document.getElementById('login-error');
+
   if (!name || !sn2) {
-    errEl.textContent = '\uC774\uB984\uACFC \uC0AC\uBC88\uC744 \uBAA8\uB450 \uC785\uB825\uD574\uC8FC\uC138\uC694.';
-    errEl.classList.remove('hidden'); return;
+    errEl.textContent = '이름과 사번을 모두 입력해주세요.';
+    errEl.classList.remove('hidden');
+    return;
   }
   errEl.classList.add('hidden');
+
   callApi({ action: 'login', name: name, sn2: sn2 })
     .then(onLoginSuccess)
     .catch(function(err) {
-      errEl.textContent = '\uC11C\uBC84 \uC5F0\uACB0 \uC624\uB958: ' + err.message;
+      errEl.textContent = '서버 연결 오류: ' + err.message;
       errEl.classList.remove('hidden');
     });
 }
@@ -32,12 +80,17 @@ function onLoginSuccess(result) {
   var errEl = document.getElementById('login-error');
   if (result.success) {
     state.user = result.data;
+    saveSession(result.data);   /* ← V3.1 추가: localStorage에 저장 */
     initApp();
   } else {
-    errEl.textContent = result.error || '\uB85C\uADF8\uC778\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.';
+    errEl.textContent = result.error || '로그인에 실패했습니다.';
     errEl.classList.remove('hidden');
   }
 }
+
+/* ═══════════════════════════════════════════
+   앱 초기화 (로그인 성공 후 또는 세션 복원 후)
+   ═══════════════════════════════════════════ */
 
 function initApp() {
   document.getElementById('view-login').classList.add('hidden');
@@ -65,10 +118,17 @@ function onAllDataReady() {
   state.highlightTimer = setInterval(updateTimeHighlight, 60000);
 }
 
-/* 로그아웃 */
+/* ═══════════════════════════════════════════
+   로그아웃
+   ═══════════════════════════════════════════ */
+
 function handleLogout() {
   if (state.highlightTimer) clearInterval(state.highlightTimer);
-  state.user = null; state.selections = []; state.currentView = 'login';
+  state.user = null;
+  state.selections = [];
+  state.currentView = 'login';
+  clearSession();   /* ← V3.1 추가: localStorage에서 삭제 */
+
   document.getElementById('app-container').classList.add('hidden');
   document.getElementById('view-login').classList.remove('hidden');
   document.getElementById('input-name').value = '';
@@ -76,7 +136,10 @@ function handleLogout() {
   document.getElementById('login-error').classList.add('hidden');
 }
 
-/* 강좌 선택/해제 */
+/* ═══════════════════════════════════════════
+   강좌 선택/해제
+   ═══════════════════════════════════════════ */
+
 function toggleLecture(lectureId) {
   var idx = state.selections.indexOf(lectureId);
   if (idx >= 0) state.selections.splice(idx, 1);
@@ -90,9 +153,27 @@ function toggleLecture(lectureId) {
     if (icon) icon.textContent = sel ? 'check_circle' : 'radio_button_unchecked';
   }
 
-  callApiPost({ action: 'saveSelections', sn2: state.user.sn2, selections: state.selections })
-    .then(function(r) { if (!r.success) showToast('\uC800\uC7A5 \uC2E4\uD328: ' + (r.error || '')); })
-    .catch(function(err) { showToast('\uC800\uC7A5 \uC624\uB958: ' + err.message); });
+  callApiPost({
+    action: 'saveSelections',
+    sn2: state.user.sn2,
+    selections: state.selections
+  })
+  .then(function(r) { if (!r.success) showToast('저장 실패: ' + (r.error || '')); })
+  .catch(function(err) { showToast('저장 오류: ' + err.message); });
 
-  showToast(idx >= 0 ? '\uC120\uD0DD \uD574\uC81C\uB428' : '\uC120\uD0DD \uC644\uB8CC');
+  showToast(idx >= 0 ? '선택 해제됨' : '선택 완료');
 }
+
+/* ═══════════════════════════════════════════
+   페이지 로드 시 자동 세션 복원
+   ═══════════════════════════════════════════ */
+
+document.addEventListener('DOMContentLoaded', function() {
+  var savedUser = restoreSession();
+  if (savedUser) {
+    /* 저장된 세션 존재 → 로그인 건너뛰고 바로 앱 초기화 */
+    state.user = savedUser;
+    initApp();
+  }
+  /* 저장된 세션 없음 → 로그인 화면 유지 (HTML 기본 상태) */
+});

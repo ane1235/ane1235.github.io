@@ -1,0 +1,201 @@
+<script>
+  /* ============================================================
+   * script_utils.html — 유틸리티 함수
+   * ============================================================
+   * 다른 script_*.html 에서 사용하는 공통 함수 모음.
+   * index.html에서 가장 먼저 include 되어야 한다.
+   * ============================================================ */
+
+  // ── HTML 이스케이프 (XSS 방지) ──
+  function escHtml(str) {
+    if (!str) return '';
+    return str.toString()
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  // ── 토스트 알림 표시 ──
+  function showToast(msg) {
+    var toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(function() { toast.classList.remove("show"); }, 2000);
+  }
+
+  // ── 시간 문자열 파싱 ("10:30" → {h:10, m:30, total:630}) ──
+  function parseTime(str) {
+    if (!str) return null;
+    str = str.trim();
+    var match = str.match(/(\d{1,2}):(\d{2})/);
+    if (!match) return null;
+    var h = parseInt(match[1]);
+    var m = parseInt(match[2]);
+    return { h: h, m: m, total: h * 60 + m };
+  }
+
+  // ── 현재 시간 하이라이트 업데이트 (1분마다 호출) ──
+  function updateTimeHighlight() {
+    // 이전 하이라이트 제거
+    document.querySelectorAll(".time-highlight").forEach(function(el) {
+      el.classList.remove("time-highlight");
+    });
+
+    var now = new Date();
+    var nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+    // 학회 날짜가 아니면 하이라이트 안 함 (테스트 시 아래 주석 해제)
+    // var todayStr = now.getFullYear() + "-" +
+    //   String(now.getMonth() + 1).padStart(2, "0") + "-" +
+    //   String(now.getDate()).padStart(2, "0");
+    // if (todayStr !== "2026-04-11" && todayStr !== "2026-04-12") return;
+
+    // data-time 속성이 있는 모든 요소에서 현재 시간 매칭
+    document.querySelectorAll("[data-time]").forEach(function(el) {
+      var timeStr = el.getAttribute("data-time");
+      var range = timeStr.split(/[–-]/);
+      if (range.length < 2) return;
+
+      var start = parseTime(range[0]);
+      var end = parseTime(range[1]);
+      if (start && end && nowMinutes >= start.total && nowMinutes < end.total) {
+        el.classList.add("time-highlight");
+      }
+    });
+  }
+
+  // ── 세션 탭의 raw 데이터를 sections 배열로 파싱 ──
+  // 각 section = { title, chair, items[] }
+  // 각 item = { id, time, title, speaker, selectable, rowIndex }
+  function parseSessionData(tabName, rawData) {
+    var sections = [];
+    var currentSection = null;
+
+    for (var i = 0; i < rawData.length; i++) {
+      var row = rawData[i];
+      var cell0 = (row[0] || "").toString().trim();
+      var cell1 = (row[1] || "").toString().trim();
+      var cell2 = (row[2] || "").toString().trim();
+
+      // 빈 행 건너뛰기
+      if (!cell0 && !cell1 && !cell2) continue;
+
+      // 날짜 헤더 (📅) 건너뛰기
+      if (cell0.indexOf("📅") === 0) continue;
+
+      // 새 섹션 시작 ("Session" 으로 시작하는 행)
+      if (cell0.indexOf("Session") === 0) {
+        currentSection = { title: cell0, chair: null, items: [] };
+        sections.push(currentSection);
+        continue;
+      }
+
+      // 헤더 행 ("시간", "제목", "연자/소속") 건너뛰기
+      if (cell0 === "시간" && cell1 === "제목") continue;
+
+      // 좌장 행
+      if (cell0.indexOf("좌장") === 0) {
+        if (currentSection) currentSection.chair = cell0;
+        continue;
+      }
+
+      // 세션이 아직 시작되지 않았으면 건너뛰기
+      if (!currentSection) continue;
+
+      // 시간이 있는 행 → 강좌 또는 이벤트
+      if (cell0 && cell0.match(/\d{1,2}:\d{2}/)) {
+        var isEvent = isEventRow(cell1);
+        currentSection.items.push({
+          id: tabName + "_R" + i,
+          time: cell0,
+          title: cell1,
+          speaker: cell2,
+          selectable: !isEvent && !!cell1 && !!cell2,
+          rowIndex: i
+        });
+      }
+    }
+
+    return sections;
+  }
+
+  // ── 토론, 런천, 휴식 등 이벤트 행 판별 ──
+  function isEventRow(title) {
+    if (!title) return true;
+    var keywords = ["토론", "Discussion", "런천", "휴식", "폐회", "총회", "개회"];
+    for (var k = 0; k < keywords.length; k++) {
+      if (title.indexOf(keywords[k]) >= 0) return true;
+    }
+    return false;
+  }
+
+  // ── 강좌 ID로 원본 데이터 복원 ──
+  // ID 형식: "Day1_A1_R5" → 탭이름 "Day1_A1", 행번호 5
+  function getLectureDataById(lectureId) {
+    var lastR = lectureId.lastIndexOf("_R");
+    if (lastR < 0) return null;
+
+    var tabName = lectureId.substring(0, lastR);
+    var rowIdx = parseInt(lectureId.substring(lastR + 2));
+
+    if (!state.appData.sessions[tabName]) return null;
+    var row = state.appData.sessions[tabName][rowIdx];
+    if (!row) return null;
+
+    return {
+      id: lectureId,
+      tab: tabName,
+      time: (row[0] || "").toString().trim(),
+      title: (row[1] || "").toString().trim(),
+      speaker: (row[2] || "").toString().trim()
+    };
+  }
+
+  // ── 세션 셀 포맷팅 (줄바꿈 → <br>) ──
+  function formatSessionCell(text) {
+    if (!text) return '';
+    return escHtml(text).replace(/\n/g, '<br>');
+  }
+
+  // ── 휴식/폐회 등 비활성 행 판별 (Overview용) ──
+  function isBreakRow(text) {
+    if (!text) return true;
+    var keywords = ["휴식", "폐회"];
+    for (var i = 0; i < keywords.length; i++) {
+      if (text.indexOf(keywords[i]) >= 0) return true;
+    }
+    return false;
+  }
+
+  // ── Overview 행 → 세션 탭 이름 추론 ──
+  function findTabForOverviewRow(timeStr, sessionText, rowIdx) {
+    var match = sessionText.match(/Session\s+(\d+)/);
+    if (match) {
+      var sNum = parseInt(match[1]);
+      var sMap = { 1:"Day1_A1", 2:"Day1_A1", 3:"Day1_P1", 4:"Day1_P2", 5:"Day1_P2",
+                   6:"Day1_P3", 7:"Day1_P3", 8:null, 9:"Day2_A1", 10:"Day2_A1",
+                   11:"Day2_P1", 12:"Day2_P1", 13:"Day2_P2", 14:"Day2_P2" };
+      return sMap[sNum] || null;
+    }
+    if (sessionText.indexOf("런천 세션 1") >= 0 || sessionText.indexOf("런천 세션 2") >= 0) return "Day1_A1";
+    if (sessionText.indexOf("런천 세션 3") >= 0 || sessionText.indexOf("런천 세션 4") >= 0) return "Day2_A1";
+    return null;
+  }
+
+  // ── 강좌 시간이 어떤 overview 슬롯에 해당하는지 찾기 ──
+  function findMatchingSlot(lectureTime, slots) {
+    var lecStart = parseTime(lectureTime.split(/[–-]/)[0]);
+    if (!lecStart) return null;
+
+    for (var i = 0; i < slots.length; i++) {
+      var range = slots[i].time.split(/[–-]/);
+      var slotStart = parseTime(range[0]);
+      var slotEnd = parseTime(range[1]);
+      if (slotStart && slotEnd && lecStart.total >= slotStart.total && lecStart.total < slotEnd.total) {
+        return slots[i].time;
+      }
+    }
+    return null;
+  }
+</script>

@@ -1,0 +1,100 @@
+<script>
+  /* ============================================================
+   * script_nav.html — 드롭다운 메뉴 + 뷰 라우터
+   * ============================================================
+   * - Day1/Day2 서브메뉴 동적 생성
+   * - showView() 라우터 (SPA 페이지 전환)
+   * - 드롭다운 열기/닫기
+   * ============================================================ */
+
+  // ── 드롭다운 메뉴 동적 생성 ──
+  function buildDropdownMenus() {
+    if (!state.appData || !state.appData.menuMap) return;
+    var map = state.appData.menuMap;
+
+    // Day 1 서브메뉴
+    var dd1 = document.getElementById("dropdown-day1");
+    dd1.innerHTML = "";
+    if (map.DAY1) {
+      map.DAY1.forEach(function(item) {
+        var div = document.createElement("div");
+        div.className = "dropdown-item";
+        div.textContent = item.label;
+        div.onclick = function(e) {
+          e.stopPropagation();
+          closeAllDropdowns();
+          showView("session", item.tab);
+        };
+        dd1.appendChild(div);
+      });
+    }
+
+    // Day 2 서브메뉴
+    var dd2 = document.getElementById("dropdown-day2");
+    dd2.innerHTML = "";
+    if (map.DAY2) {
+      map.DAY2.forEach(function(item) {
+        var div = document.createElement("div");
+        div.className = "dropdown-item";
+        div.textContent = item.label;
+        div.onclick = function(e) {
+          e.stopPropagation();
+          closeAllDropdowns();
+          showView("session", item.tab);
+        };
+        dd2.appendChild(div);
+      });
+    }
+  }
+
+  // ── 드롭다운 토글 ──
+  function toggleDropdown(id) {
+    var menu = document.getElementById("dropdown-" + id);
+    var isOpen = menu.classList.contains("show");
+    closeAllDropdowns();
+    if (!isOpen) menu.classList.add("show");
+  }
+
+  function closeAllDropdowns() {
+    document.querySelectorAll(".dropdown-menu").forEach(function(el) {
+      el.classList.remove("show");
+    });
+  }
+
+  // 페이지 아무 곳 클릭 시 드롭다운 닫기
+  document.addEventListener("click", function(e) {
+    if (!e.target.closest(".nav-item")) closeAllDropdowns();
+  });
+
+  // ── SPA 뷰 라우터 ──
+  // viewName: "overview" | "session" | "mypage"
+  // param: 세션 탭 이름 (session 뷰일 때만 사용)
+  function showView(viewName, param) {
+    state.currentView = viewName;
+    var area = document.getElementById("content-area");
+
+    // 네비게이션 활성 상태 초기화
+    document.querySelectorAll(".nav-item").forEach(function(el) { el.classList.remove("active"); });
+
+    switch (viewName) {
+      case "overview":
+        area.innerHTML = '<div class="view-container">' + renderOverview() + '</div>';
+        break;
+      case "session":
+        state.currentTab = param;
+        area.innerHTML = '<div class="view-container">' + renderSession(param) + '</div>';
+        if (param && param.startsWith("Day1")) document.getElementById("nav-day1").classList.add("active");
+        if (param && param.startsWith("Day2")) document.getElementById("nav-day2").classList.add("active");
+        break;
+      case "mypage":
+        area.innerHTML = '<div class="view-container">' + renderMyPage() + '</div>';
+        document.getElementById("nav-mypage").classList.add("active");
+        break;
+      default:
+        area.innerHTML = '<div class="view-container">' + renderOverview() + '</div>';
+    }
+
+    updateTimeHighlight();
+    window.scrollTo(0, 0);
+  }
+</script>
