@@ -1,115 +1,5 @@
-/* KSCTVA 2026 — views.js V3.1 */
-/* V3.1 변경: MyPage 테이블 스크롤 래퍼 + th width를 %로 변환 */
-
-/* ────────── Overview ────────── */
-function renderOverview() {
-  var rows = APP_DATA.overview;
-  if (!rows) return '<p class="text-center py-10 text-gray-500">데이터를 불러올 수 없습니다.</p>';
-
-  var html = '';
-  html += '<div class="text-center mb-6">';
-  html += '<h2 class="text-2xl font-bold text-primary-dark">' + escHtml(rows[0][0] || '') + '</h2>';
-  html += '<p class="text-sm text-gray-500 mt-1">' + escHtml(rows[1] ? rows[1][0] : '') + '</p>';
-  html += '</div>';
-
-  html += '<table class="overview-table">';
-  html += '<colgroup><col style="width:15%"><col style="width:42.5%"><col style="width:42.5%"></colgroup>';
-
-  for (var i = 2; i < rows.length; i++) {
-    var row = rows[i];
-    var c0 = (row[0] || '').toString(), c1 = (row[1] || '').toString(), c2 = (row[2] || '').toString();
-    if (!c0 && !c1 && !c2) continue;
-
-    if (c0.indexOf('\uD83D\uDCC5') === 0) {
-      html += '<tr class="day-header"><td colspan="3">' + escHtml(c0) + '</td></tr>';
-      continue;
-    }
-    if (c0 === '\uC2DC\uAC04') {
-      html += '<tr><th>' + escHtml(c0) + '</th><th>' + escHtml(extractRoomName(c1)) + '</th>';
-      if (c2) html += '<th>' + escHtml(extractRoomName(c2)) + '</th>';
-      html += '</tr>';
-      continue;
-    }
-    if (c0.indexOf('\uC77C\uC2DC:') === 0 || c0.indexOf('\uC0AC\uC804\uB4F1\uB85D\uBE44') === 0) {
-      html += '<tr><td colspan="3" class="text-xs text-gray-500" style="background:#f8fafc;">' + escHtml(c0) + '</td></tr>';
-      continue;
-    }
-
-    var brk = isBreakRow(c1), evt = isEventCenter(c1);
-    var click = !brk && c1.indexOf('Session') >= 0;
-    var tab = click ? findTabForOverviewRow(c0, c1, i) : null;
-    var has2 = !!c2, ta = c0 ? ' data-time="' + escHtml(c0) + '"' : '';
-
-    if (brk) {
-      html += '<tr class="break-row"' + ta + '><td>' + escHtml(c0) + '</td>';
-      html += '<td' + (has2 ? '' : ' colspan="2"') + '>' + escHtml(c1) + '</td>';
-      if (has2) html += '<td>' + escHtml(c2) + '</td>';
-      html += '</tr>';
-    } else if (click) {
-      html += '<tr class="clickable" onclick="onOverviewRowClick(\'' + (tab || '') + '\')"' + ta + '>';
-      html += '<td>' + escHtml(c0) + '</td>';
-      if (!has2) html += '<td colspan="2" class="session-common">' + formatSessionCell(c1) + '</td>';
-      else { html += '<td>' + formatSessionCell(c1) + '</td><td>' + formatSessionCell(c2) + '</td>'; }
-      html += '</tr>';
-    } else if (evt) {
-      html += '<tr class="event-center"' + ta + '><td>' + escHtml(c0) + '</td>';
-      html += '<td' + (has2 ? '' : ' colspan="2"') + '>' + escHtml(c1) + '</td>';
-      if (has2) html += '<td>' + escHtml(c2) + '</td>';
-      html += '</tr>';
-    } else {
-      html += '<tr' + ta + '><td>' + escHtml(c0) + '</td>';
-      html += '<td' + (has2 ? '' : ' colspan="2"') + '>' + escHtml(c1) + '</td>';
-      if (has2) html += '<td>' + escHtml(c2) + '</td>';
-      html += '</tr>';
-    }
-  }
-  html += '</table>';
-
-  var ev = APP_DATA.event;
-  html += '<div class="text-center text-xs text-gray-400 mt-4">' + escHtml(ev.VENUE) + ' | ' + escHtml(ev.DATE_DAY1) + ' ~ ' + escHtml(ev.DATE_DAY2) + '</div>';
-  return html;
-}
-
-function onOverviewRowClick(tabName) {
-  if (tabName) showView('session', tabName);
-}
-
-/* ────────── Session ────────── */
-function renderSession(tabName) {
-  if (!APP_DATA.sessions[tabName]) return '<p class="text-center py-10 text-gray-500">세션 데이터를 찾을 수 없습니다.</p>';
-  var rawData = APP_DATA.sessions[tabName];
-  var sections = parseSessionData(tabName, rawData);
-  var html = '';
-
-  if (rawData.length > 0 && rawData[0][0]) {
-    html += '<div class="text-center mb-4"><h3 class="text-lg font-bold text-primary-dark">' + escHtml(rawData[0][0]) + '</h3></div>';
-  }
-
-  for (var s = 0; s < sections.length; s++) {
-    var sec = sections[s];
-    html += '<div class="session-section"><div class="session-header">' + escHtml(sec.title) + '</div>';
-    if (sec.chair) html += '<div class="session-chair"><span class="material-icons mr-1" style="font-size:16px; color:#2563eb;">person</span>' + escHtml(sec.chair) + '</div>';
-
-    for (var l = 0; l < sec.items.length; l++) {
-      var item = sec.items[l];
-      if (item.selectable) {
-        var isSel = state.selections.indexOf(item.id) >= 0;
-        html += '<div class="lecture-row' + (isSel ? ' selected' : '') + '" data-id="' + item.id + '" data-time="' + escHtml(item.time) + '" onclick="toggleLecture(\'' + item.id + '\')">';
-        html += '<span class="material-icons select-indicator">' + (isSel ? 'check_circle' : 'radio_button_unchecked') + '</span>';
-        html += '<div class="lec-time">' + escHtml(item.time) + '</div>';
-        html += '<div class="lec-title">' + escHtml(item.title) + '</div>';
-        html += '<div class="lec-speaker">' + escHtml(item.speaker) + '</div></div>';
-      } else {
-        html += '<div class="event-row" data-time="' + escHtml(item.time) + '">';
-        html += '<div class="lec-time">' + escHtml(item.time) + '</div>';
-        html += '<div class="lec-title">' + escHtml(item.title) + '</div>';
-        html += '<div class="lec-speaker">' + escHtml(item.speaker || '') + '</div></div>';
-      }
-    }
-    html += '</div>';
-  }
-  return html;
-}
+/* KSCTVA 2026 — view-mypage.js V4.0 */
+/* V4.0: views.js에서 분리 + 동료 레이블 표시 기능 추가 */
 
 /* ────────── MyPage ────────── */
 function renderMyPage() {
@@ -137,7 +27,6 @@ function renderMyPageDay(dayNum) {
   var slots = getOverviewSlots(dayNum);
   var grouped = groupSelectionsBySlot(dayNum, slots);
 
-  /* V3.1: 스크롤 래퍼 추가 + th width를 %로 변환 */
   var html = '<div class="my-table-wrapper">';
   html += '<table class="my-table">';
   html += '<tr><th style="width:18%;">세션 시간</th><th style="width:12%;">Room</th><th style="width:16%;">강좌시간</th><th>주제</th><th style="width:22%;">연자/소속</th></tr>';
@@ -169,7 +58,9 @@ function renderMyPageDay(dayNum) {
         if (l === 0) html += '<td' + (lecs.length > 1 ? ' rowspan="' + lecs.length + '"' : '') + ' class="font-semibold text-primary-dark align-top">' + escHtml(slot.time) + '</td>';
         var rb = 'room-badge' + (lec.room === 'Room 1' ? ' room-1' : lec.room === 'Room 2' ? ' room-2' : ' room-common');
         html += '<td><span class="' + rb + '">' + escHtml(lec.room) + '</span></td>';
-        html += '<td class="text-sm">' + escHtml(lec.time) + '</td><td>' + escHtml(lec.title) + '</td>';
+        html += '<td class="text-sm">' + escHtml(lec.time) + '</td>';
+        /* 주제 셀: 제목 아래에 동료 레이블 삽입 */
+        html += '<td>' + escHtml(lec.title) + renderColleagueLabels(lec.id) + '</td>';
         html += '<td class="text-sm text-gray-500">' + escHtml(lec.speaker) + '</td></tr>';
       }
 
@@ -182,7 +73,7 @@ function renderMyPageDay(dayNum) {
 
   if (!hasAny) html += '<tr><td colspan="5" class="text-center py-4 text-gray-400 text-sm">세션 페이지에서 강좌를 선택해주세요.</td></tr>';
 
-  html += '</table></div>';   /* V3.1: </div> 래퍼 닫기 */
+  html += '</table></div>';
 
   if (hasAny) {
     var olMsg = totalOL > 0 ? ' | <span class="text-red-500">\u26A0 시간 중복 ' + totalOL + '건</span>' : '';
