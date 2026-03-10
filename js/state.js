@@ -115,13 +115,13 @@ function initApp() {
 }
 
 function onAllDataReady() {
-  /* V4.0: 동료 데이터 초기 로드 + polling 시작 */
-  fetchColleagues();
-  startColleaguePolling();
-
-  showView('overview');
-  updateTimeHighlight();
-  state.highlightTimer = setInterval(updateTimeHighlight, 60000);
+  /* V4.0: 동료 데이터를 먼저 가져온 후 뷰를 렌더링한다 (깜박임 방지) */
+  fetchColleagues().then(function() {
+    showView('overview');
+    updateTimeHighlight();
+    state.highlightTimer = setInterval(updateTimeHighlight, 60000);
+    startColleaguePolling();
+  });
 }
 
 /* ═══════════════════════════════════════════
