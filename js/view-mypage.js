@@ -1,7 +1,5 @@
-/* KSCTVA 2026 — view-mypage.js V4.0 */
-/* V4.0: views.js에서 분리 + 동료 레이블 표시 기능 추가 */
+/* KSCTVA 2026 — view-mypage.js V5.0 (전략 B: 구조화 데이터 직접 렌더링) */
 
-/* ────────── MyPage ────────── */
 function renderMyPage() {
   var html = '<div class="text-center mb-4">';
   html += '<h3 class="text-lg font-bold text-primary-dark"><span class="material-icons mr-1" style="vertical-align:middle;">bookmark</span>내 강좌</h3>';
@@ -21,6 +19,23 @@ function renderMyPage() {
 function switchMypageDay(d) {
   state.mypageDay = d;
   showView('mypage');
+}
+
+/* overview 구조에서 세션 슬롯 직접 추출 — V5.0: getOverviewSlots 대체 */
+function getOverviewSlots(dayNum) {
+  var dayIdx = dayNum - 1;
+  var days = APP_DATA.overview.days;
+  if (!days || !days[dayIdx]) return [];
+  var rows = days[dayIdx].rows;
+  var slots = [];
+  for (var i = 0; i < rows.length; i++) {
+    var row = rows[i];
+    if (row.type === 'session' || (row.type === 'event' && row.cells)) {
+      var label = row.cells ? row.cells[0].text : row.text;
+      slots.push({ time: row.time, label: label });
+    }
+  }
+  return slots;
 }
 
 function renderMyPageDay(dayNum) {
@@ -59,7 +74,6 @@ function renderMyPageDay(dayNum) {
         var rb = 'room-badge' + (lec.room === 'Room 1' ? ' room-1' : lec.room === 'Room 2' ? ' room-2' : ' room-common');
         html += '<td><span class="' + rb + '">' + escHtml(lec.room) + '</span></td>';
         html += '<td class="text-sm">' + escHtml(lec.time) + '</td>';
-        /* 주제 셀: 제목 아래에 동료 레이블 삽입 */
         html += '<td>' + escHtml(lec.title) + renderColleagueLabels(lec.id) + '</td>';
         html += '<td class="text-sm text-gray-500">' + escHtml(lec.speaker) + '</td></tr>';
       }
@@ -98,21 +112,6 @@ function getOverlappingIds(lectures) {
     }
   }
   return ids;
-}
-
-/* overview에서 세션 슬롯 추출 */
-function getOverviewSlots(dayNum) {
-  var rows = APP_DATA.overview, slots = [], inDay = false;
-  for (var i = 0; i < rows.length; i++) {
-    var c0 = (rows[i][0] || '').toString(), c1 = (rows[i][1] || '').toString();
-    if (c0.indexOf('\uD83D\uDCC5 Day ' + dayNum) >= 0) { inDay = true; continue; }
-    if (c0.indexOf('\uD83D\uDCC5 Day') >= 0 && inDay) break;
-    if (!inDay) continue;
-    if (c0 === '\uC2DC\uAC04' || !c0) continue;
-    if (c0.indexOf('\uC77C\uC2DC:') === 0 || c0.indexOf('\uC0AC\uC804\uB4F1\uB85D\uBE44') === 0) continue;
-    if (c1.indexOf('Session') >= 0 || c1.indexOf('\uB7F0\uCC9C') >= 0) slots.push({ time: c0, label: c1 });
-  }
-  return slots;
 }
 
 /* 선택 강좌를 슬롯별로 그룹핑 */
