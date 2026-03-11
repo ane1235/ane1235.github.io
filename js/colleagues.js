@@ -68,11 +68,25 @@ function getColleaguesForLecture(lectureId) {
 
 /**
  * 특정 세션(tabName)의 강의를 하나라도 선택한 동료 이름 목록을 반환한다.
- * Lecture ID가 'tabName_R숫자' 형태인 점을 활용하여 빠르게 판별한다.
+ * sectionIdx가 지정되면 해당 섹션의 강좌 ID만 매칭한다.
+ * 하나의 탭에 2개 세션이 있을 때(예: Day2_P2에 Session 13,14) 정확히 구분한다.
  */
-function getColleaguesForSession(tabName) {
+function getColleaguesForSession(tabName, sectionIdx) {
   var result = { me: null, others: [] };
   if (!state.colleagues || !tabName) return result;
+
+  /* sectionIdx가 지정된 경우: 해당 섹션의 강좌 ID 집합을 미리 구한다 */
+  var validIds = null;
+  if (typeof sectionIdx === 'number' && APP_DATA.sessions[tabName]) {
+    var sec = APP_DATA.sessions[tabName].sections[sectionIdx];
+    if (sec) {
+      validIds = {};
+      for (var k = 0; k < sec.items.length; k++) {
+        validIds[sec.items[k].id] = true;
+      }
+    }
+  }
+
   var prefix = tabName + '_R';
 
   for (var i = 0; i < state.colleagues.length; i++) {
@@ -81,7 +95,14 @@ function getColleaguesForSession(tabName) {
 
     var found = false;
     for (var j = 0; j < c.selections.length; j++) {
-      if (c.selections[j].indexOf(prefix) === 0) { found = true; break; }
+      var sid = c.selections[j];
+      if (sid.indexOf(prefix) !== 0) continue;
+      /* validIds가 있으면 해당 섹션 강좌만 매칭 */
+      if (validIds) {
+        if (validIds[sid]) { found = true; break; }
+      } else {
+        found = true; break;
+      }
     }
     if (!found) continue;
 
@@ -112,9 +133,10 @@ function renderColleagueLabels(lectureId) {
 /**
  * 특정 세션(tabName)의 동료 pill badge HTML을 생성한다.
  * Overview 페이지의 Session 셀에서 사용된다.
+ * sectionIdx를 전달하면 탭 내 특정 섹션만 필터링한다.
  */
-function renderColleagueLabelsForSession(tabName) {
-  var data = getColleaguesForSession(tabName);
+function renderColleagueLabelsForSession(tabName, sectionIdx) {
+  var data = getColleaguesForSession(tabName, sectionIdx);
   return _buildLabelsHtml(data);
 }
 

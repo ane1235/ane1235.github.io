@@ -40,14 +40,16 @@ function renderOverview() {
         if (row.cells) {
           /* 멀티 셀 이벤트 (런천 세션 등) */
           var tab0 = row.cells[0].tab;
-          var labels0 = tab0 ? renderColleagueLabelsForSession(tab0) : '';
+          var si0 = row.cells[0].sectionIdx;
+          var labels0 = tab0 ? renderColleagueLabelsForSession(tab0, si0) : '';
           html += '<tr class="event-center"' + ta + '><td>' + escHtml(row.time) + '</td>';
           if (row.cells.length === 1) {
             html += '<td colspan="2">' + escHtml(row.cells[0].text) + labels0 + '</td>';
           } else {
             html += '<td>' + escHtml(row.cells[0].text) + labels0 + '</td>';
             var tab1 = row.cells[1].tab;
-            var labels1 = tab1 ? renderColleagueLabelsForSession(tab1) : '';
+            var si1 = row.cells[1].sectionIdx;
+            var labels1 = tab1 ? renderColleagueLabelsForSession(tab1, si1) : '';
             html += '<td>' + escHtml(row.cells[1].text) + labels1 + '</td>';
           }
           html += '</tr>';
@@ -60,7 +62,8 @@ function renderOverview() {
       } else if (row.type === 'session') {
         var cells = row.cells;
         var tab0 = cells[0].tab;
-        var labels0 = tab0 ? renderColleagueLabelsForSession(tab0) : '';
+        var si0 = cells[0].sectionIdx;
+        var labels0 = tab0 ? renderColleagueLabelsForSession(tab0, si0) : '';
         html += '<tr class="clickable" onclick="onOverviewRowClick(\'' + (tab0 || '') + '\')"' + ta + '>';
         html += '<td>' + escHtml(row.time) + '</td>';
         if (cells.length === 1) {
@@ -68,7 +71,8 @@ function renderOverview() {
         } else {
           html += '<td>' + formatSessionCell(cells[0].text) + labels0 + '</td>';
           var tab1 = cells[1].tab;
-          var labels1 = tab1 ? renderColleagueLabelsForSession(tab1) : '';
+          var si1 = cells[1].sectionIdx;
+          var labels1 = tab1 ? renderColleagueLabelsForSession(tab1, si1) : '';
           html += '<td>' + formatSessionCell(cells[1].text) + labels1 + '</td>';
         }
         html += '</tr>';

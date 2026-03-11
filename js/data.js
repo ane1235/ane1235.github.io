@@ -36,25 +36,25 @@ var APP_DATA = {
         rows: [
           { type: "event", time: "10:00–10:30", text: "총회 및 개회식" },
           { type: "session", time: "10:30–12:00", cells: [
-            { text: "Session 1\n흉부 수술 (Lung & Thorax) 마취", tab: "Day1_A1" },
-            { text: "Session 2\n승모판막(MV) 질환", tab: "Day1_A1" }
+            { text: "Session 1\n흉부 수술 (Lung & Thorax) 마취", tab: "Day1_A1", sectionIdx: 0 },
+            { text: "Session 2\n승모판막(MV) 질환", tab: "Day1_A1", sectionIdx: 1 }
           ]},
           { type: "event", time: "12:00–13:00", cells: [
-            { text: "런천 세션 1", tab: "Day1_A1" },
-            { text: "런천 세션 2", tab: "Day1_A1" }
+            { text: "런천 세션 1", tab: "Day1_A1", sectionIdx: 0 },
+            { text: "런천 세션 2", tab: "Day1_A1", sectionIdx: 1 }
           ]},
           { type: "session", time: "13:00–14:30", cells: [
             { text: "Session 3 (Room 1&2 공통) : Brain Care (영어 세션) ", tab: "Day1_P1" }
           ]},
           { type: "break", time: "14:30–14:50", text: "휴식" },
           { type: "session", time: "14:50–16:20", cells: [
-            { text: "Session 4 (영어세션)\n일본-한국 심혈관외과학회 합동 세션 ", tab: "Day1_P2" },
-            { text: "Session 5\n대동맥 판막(AV)", tab: "Day1_P2" }
+            { text: "Session 4 (영어세션)\n일본-한국 심혈관외과학회 합동 세션 ", tab: "Day1_P2", sectionIdx: 0 },
+            { text: "Session 5\n대동맥 판막(AV)", tab: "Day1_P2", sectionIdx: 1 }
           ]},
           { type: "break", time: "16:20–16:40", text: "휴식" },
           { type: "session", time: "16:40–18:00", cells: [
-            { text: "Session 6\n주술기 혈액관리(PBM)", tab: "Day1_P3" },
-            { text: "Session 7\n심장수술에서의 최신 혈역학 관리", tab: "Day1_P3" }
+            { text: "Session 6\n주술기 혈액관리(PBM)", tab: "Day1_P3", sectionIdx: 0 },
+            { text: "Session 7\n심장수술에서의 최신 혈역학 관리", tab: "Day1_P3", sectionIdx: 1 }
           ]}
         ]
       },
@@ -67,21 +67,21 @@ var APP_DATA = {
           ]},
           { type: "break", time: "10:30–10:50", text: "휴식" },
           { type: "session", time: "10:50–12:20", cells: [
-            { text: "Session 9\n대동맥 질환(Aorta)", tab: "Day2_A1" },
-            { text: "Session 10\n선천성 심장질환 (Congenital)", tab: "Day2_A1" }
+            { text: "Session 9\n대동맥 질환(Aorta)", tab: "Day2_A1", sectionIdx: 0 },
+            { text: "Session 10\n선천성 심장질환 (Congenital)", tab: "Day2_A1", sectionIdx: 1 }
           ]},
           { type: "event", time: "12:30–13:30", cells: [
-            { text: "런천 세션 3", tab: "Day2_A1" },
-            { text: "런천 세션 4", tab: "Day2_A1" }
+            { text: "런천 세션 3", tab: "Day2_A1", sectionIdx: 0 },
+            { text: "런천 세션 4", tab: "Day2_A1", sectionIdx: 1 }
           ]},
           { type: "session", time: "13:30–15:00", cells: [
-            { text: "Session 11\n관상동맥질환 (Coronary a. Ds.)", tab: "Day2_P1" },
-            { text: "Session 12\n심부전 (Heart Failure)", tab: "Day2_P1" }
+            { text: "Session 11\n관상동맥질환 (Coronary a. Ds.)", tab: "Day2_P1", sectionIdx: 0 },
+            { text: "Session 12\n심부전 (Heart Failure)", tab: "Day2_P1", sectionIdx: 1 }
           ]},
           { type: "break", time: "15:00–15:20", text: "휴식" },
           { type: "session", time: "15:20–16:50", cells: [
-            { text: "Session 13\n한국-일본 심혈관외과학회 합동 세션\n– 심혈관의학에서 AI ; 과장, 희망, 임상 현실", tab: "Day2_P2" },
-            { text: "Session 14\n비 심장수술 마취 (Non-Cardiac Surgery)에서 고려할 심장질환 문제들", tab: "Day2_P2" }
+            { text: "Session 13\n한국-일본 심혈관외과학회 합동 세션\n– 심혈관의학에서 AI ; 과장, 희망, 임상 현실", tab: "Day2_P2", sectionIdx: 0 },
+            { text: "Session 14\n비 심장수술 마취 (Non-Cardiac Surgery)에서 고려할 심장질환 문제들", tab: "Day2_P2", sectionIdx: 1 }
           ]},
           { type: "event", time: "16:50–17:00", text: "폐회" }
         ]
