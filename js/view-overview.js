@@ -1,79 +1,89 @@
-/* KSCTVA 2026 — view-overview.js V4.0 */
-/* V4.0: views.js에서 분리 + 동료 레이블 표시 기능 추가 */
+/* KSCTVA 2026 — view-overview.js V5.0 (전략 B: 구조화 데이터 직접 렌더링) */
 
-/* ────────── Overview ────────── */
 function renderOverview() {
-  var rows = APP_DATA.overview;
-  if (!rows) return '<p class="text-center py-10 text-gray-500">데이터를 불러올 수 없습니다.</p>';
+  var ov = APP_DATA.overview;
+  if (!ov) return '<p class="text-center py-10 text-gray-500">데이터를 불러올 수 없습니다.</p>';
 
   var html = '';
   html += '<div class="text-center mb-6">';
-  html += '<h2 class="text-2xl font-bold text-primary-dark">' + escHtml(rows[0][0] || '') + '</h2>';
-  html += '<p class="text-sm text-gray-500 mt-1">' + escHtml(rows[1] ? rows[1][0] : '') + '</p>';
+  html += '<h2 class="text-2xl font-bold text-primary-dark">' + escHtml(ov.title) + '</h2>';
+  html += '<p class="text-sm text-gray-500 mt-1">' + escHtml(ov.subtitle) + '</p>';
   html += '</div>';
 
   html += '<table class="overview-table">';
   html += '<colgroup><col style="width:15%"><col style="width:42.5%"><col style="width:42.5%"></colgroup>';
 
-  for (var i = 2; i < rows.length; i++) {
-    var row = rows[i];
-    var c0 = (row[0] || '').toString(), c1 = (row[1] || '').toString(), c2 = (row[2] || '').toString();
-    if (!c0 && !c1 && !c2) continue;
+  for (var d = 0; d < ov.days.length; d++) {
+    var day = ov.days[d];
 
-    if (c0.indexOf('\uD83D\uDCC5') === 0) {
-      html += '<tr class="day-header"><td colspan="3">' + escHtml(c0) + '</td></tr>';
-      continue;
+    /* Day 헤더 */
+    html += '<tr class="day-header"><td colspan="3">' + escHtml(day.label) + '</td></tr>';
+
+    /* Room 헤더 */
+    html += '<tr><th>시간</th>';
+    for (var r = 0; r < day.rooms.length; r++) {
+      html += '<th>' + escHtml(day.rooms[r]) + '</th>';
     }
-    if (c0 === '\uC2DC\uAC04') {
-      html += '<tr><th>' + escHtml(c0) + '</th><th>' + escHtml(extractRoomName(c1)) + '</th>';
-      if (c2) html += '<th>' + escHtml(extractRoomName(c2)) + '</th>';
-      html += '</tr>';
-      continue;
-    }
-    if (c0.indexOf('\uC77C\uC2DC:') === 0 || c0.indexOf('\uC0AC\uC804\uB4F1\uB85D\uBE44') === 0) {
-      html += '<tr><td colspan="3" class="text-xs text-gray-500" style="background:#f8fafc;">' + escHtml(c0) + '</td></tr>';
-      continue;
-    }
+    if (day.rooms.length < 2) html += '<th></th>';
+    html += '</tr>';
 
-    var brk = isBreakRow(c1), evt = isEventCenter(c1);
-    var click = !brk && c1.indexOf('Session') >= 0;
-    var tab = click ? findTabForOverviewRow(c0, c1, i) : null;
-    var has2 = !!c2, ta = c0 ? ' data-time="' + escHtml(c0) + '"' : '';
+    /* 행 렌더링 — type 기반 분기 */
+    for (var i = 0; i < day.rows.length; i++) {
+      var row = day.rows[i];
+      var ta = row.time ? ' data-time="' + escHtml(row.time) + '"' : '';
 
-    if (brk) {
-      html += '<tr class="break-row"' + ta + '><td>' + escHtml(c0) + '</td>';
-      html += '<td' + (has2 ? '' : ' colspan="2"') + '>' + escHtml(c1) + '</td>';
-      if (has2) html += '<td>' + escHtml(c2) + '</td>';
-      html += '</tr>';
-    } else if (click) {
-      /* Session 셀: 탭 이름 기준으로 동료 레이블 삽입 */
-      var tab1 = findTabForOverviewRow(c0, c1, i);
-      var tab2 = has2 ? findTabForOverviewRow(c0, c2, i) : null;
-      var labels1 = tab1 ? renderColleagueLabelsForSession(tab1) : '';
-      var labels2 = tab2 ? renderColleagueLabelsForSession(tab2) : '';
+      if (row.type === 'break') {
+        html += '<tr class="break-row"' + ta + '><td>' + escHtml(row.time) + '</td>';
+        html += '<td colspan="2">' + escHtml(row.text) + '</td></tr>';
 
-      html += '<tr class="clickable" onclick="onOverviewRowClick(\'' + (tab || '') + '\')"' + ta + '>';
-      html += '<td>' + escHtml(c0) + '</td>';
-      if (!has2) {
-        html += '<td colspan="2" class="session-common">' + formatSessionCell(c1) + labels1 + '</td>';
-      } else {
-        html += '<td>' + formatSessionCell(c1) + labels1 + '</td>';
-        html += '<td>' + formatSessionCell(c2) + labels2 + '</td>';
+      } else if (row.type === 'event') {
+        if (row.cells) {
+          /* 멀티 셀 이벤트 (런천 세션 등) */
+          var tab0 = row.cells[0].tab;
+          var labels0 = tab0 ? renderColleagueLabelsForSession(tab0) : '';
+          html += '<tr class="event-center"' + ta + '><td>' + escHtml(row.time) + '</td>';
+          if (row.cells.length === 1) {
+            html += '<td colspan="2">' + escHtml(row.cells[0].text) + labels0 + '</td>';
+          } else {
+            html += '<td>' + escHtml(row.cells[0].text) + labels0 + '</td>';
+            var tab1 = row.cells[1].tab;
+            var labels1 = tab1 ? renderColleagueLabelsForSession(tab1) : '';
+            html += '<td>' + escHtml(row.cells[1].text) + labels1 + '</td>';
+          }
+          html += '</tr>';
+        } else {
+          /* 단일 텍스트 이벤트 (총회, 폐회 등) */
+          html += '<tr class="event-center"' + ta + '><td>' + escHtml(row.time) + '</td>';
+          html += '<td colspan="2">' + escHtml(row.text) + '</td></tr>';
+        }
+
+      } else if (row.type === 'session') {
+        var cells = row.cells;
+        var tab0 = cells[0].tab;
+        var labels0 = tab0 ? renderColleagueLabelsForSession(tab0) : '';
+        html += '<tr class="clickable" onclick="onOverviewRowClick(\'' + (tab0 || '') + '\')"' + ta + '>';
+        html += '<td>' + escHtml(row.time) + '</td>';
+        if (cells.length === 1) {
+          html += '<td colspan="2" class="session-common">' + formatSessionCell(cells[0].text) + labels0 + '</td>';
+        } else {
+          html += '<td>' + formatSessionCell(cells[0].text) + labels0 + '</td>';
+          var tab1 = cells[1].tab;
+          var labels1 = tab1 ? renderColleagueLabelsForSession(tab1) : '';
+          html += '<td>' + formatSessionCell(cells[1].text) + labels1 + '</td>';
+        }
+        html += '</tr>';
       }
-      html += '</tr>';
-    } else if (evt) {
-      html += '<tr class="event-center"' + ta + '><td>' + escHtml(c0) + '</td>';
-      html += '<td' + (has2 ? '' : ' colspan="2"') + '>' + escHtml(c1) + '</td>';
-      if (has2) html += '<td>' + escHtml(c2) + '</td>';
-      html += '</tr>';
-    } else {
-      html += '<tr' + ta + '><td>' + escHtml(c0) + '</td>';
-      html += '<td' + (has2 ? '' : ' colspan="2"') + '>' + escHtml(c1) + '</td>';
-      if (has2) html += '<td>' + escHtml(c2) + '</td>';
-      html += '</tr>';
     }
   }
+
   html += '</table>';
+
+  /* 푸터 */
+  if (ov.footer) {
+    for (var f = 0; f < ov.footer.length; f++) {
+      html += '<div class="text-center text-xs text-gray-400 mt-2">' + escHtml(ov.footer[f]) + '</div>';
+    }
+  }
 
   var ev = APP_DATA.event;
   html += '<div class="text-center text-xs text-gray-400 mt-4">' + escHtml(ev.VENUE) + ' | ' + escHtml(ev.DATE_DAY1) + ' ~ ' + escHtml(ev.DATE_DAY2) + '</div>';

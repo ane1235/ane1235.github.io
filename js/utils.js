@@ -1,4 +1,4 @@
-/* KSCTVA 2026 — utils.js V3.0 */
+/* KSCTVA 2026 — utils.js V5.0 (전략 B: 구조화 데이터 대응) */
 
 /* GET 요청 헬퍼 */
 function callApi(params) {
@@ -58,66 +58,23 @@ function updateTimeHighlight() {
   });
 }
 
-/* 세션 제목에서 Room 정보 추출 */
-function getRoomFromSectionTitle(title) {
-  if (!title) return '\u2014';
-  if (/Room\s*1\s*[&]\s*2/.test(title) || title.indexOf('\uACF5\uD1B5') >= 0) return '\uACF5\uD1B5';
-  if (/Room\s*1/i.test(title)) return 'Room 1';
-  if (/Room\s*2/i.test(title)) return 'Room 2';
-  return '\u2014';
-}
-
-/* 세션 데이터 파싱 (raw 2D배열 → 섹션 배열) */
-function parseSessionData(tabName, rawData) {
-  var sections = [], cur = null;
-  for (var i = 0; i < rawData.length; i++) {
-    var r = rawData[i];
-    var c0 = (r[0] || '').toString().trim();
-    var c1 = (r[1] || '').toString().trim();
-    var c2 = (r[2] || '').toString().trim();
-    if (!c0 && !c1 && !c2) continue;
-    if (c0.indexOf('\uD83D\uDCC5') === 0) continue;
-    if (c0.indexOf('Session') === 0) {
-      cur = { title: c0, chair: null, room: getRoomFromSectionTitle(c0), items: [] };
-      sections.push(cur); continue;
-    }
-    if (c0 === '\uC2DC\uAC04' && c1 === '\uC81C\uBAA9') continue;
-    if (c0.indexOf('\uC88C\uC7A5') === 0) { if (cur) cur.chair = c0; continue; }
-    if (!cur) continue;
-    if (c0 && /\d{1,2}:\d{2}/.test(c0)) {
-      cur.items.push({
-        id: tabName + '_R' + i, time: c0, title: c1, speaker: c2,
-        selectable: !isEventRow(c1) && !!c1 && !!c2,
-        rowIndex: i, room: cur.room
-      });
-    }
-  }
-  return sections;
-}
-
-/* 이벤트(토론, 런천, 휴식 등) 판별 */
-function isEventRow(title) {
-  if (!title) return true;
-  var kw = ['\uD1A0\uB860', 'Discussion', '\uB7F0\uCC9C', '\uD734\uC2DD', '\uD3D0\uD68C', '\uCD1D\uD68C', '\uAC1C\uD68C'];
-  for (var k = 0; k < kw.length; k++) { if (title.indexOf(kw[k]) >= 0) return true; }
-  return false;
-}
-
-/* 강좌 ID로 데이터 조회 */
+/* 강좌 ID로 데이터 조회 — V5.0: 구조화 데이터에서 직접 검색 */
 function getLectureDataById(id) {
   var p = id.lastIndexOf('_R');
   if (p < 0) return null;
-  var tab = id.substring(0, p), ri = parseInt(id.substring(p + 2));
-  if (!APP_DATA.sessions[tab]) return null;
-  var raw = APP_DATA.sessions[tab], row = raw[ri];
-  if (!row) return null;
-  var room = '\u2014';
-  for (var j = ri; j >= 0; j--) {
-    var chk = (raw[j][0] || '').toString().trim();
-    if (chk.indexOf('Session') === 0) { room = getRoomFromSectionTitle(chk); break; }
+  var tab = id.substring(0, p);
+  var sessionData = APP_DATA.sessions[tab];
+  if (!sessionData) return null;
+  for (var s = 0; s < sessionData.sections.length; s++) {
+    var sec = sessionData.sections[s];
+    for (var i = 0; i < sec.items.length; i++) {
+      if (sec.items[i].id === id) {
+        var item = sec.items[i];
+        return { id: id, tab: tab, time: item.time, title: item.title, speaker: item.speaker, room: sec.room };
+      }
+    }
   }
-  return { id: id, tab: tab, time: (row[0]||'').toString().trim(),
-           title: (row[1]||'').toString().trim(), speaker: (row[2]||'').toString().trim(), room: room };
+  return null;
 }
 
 /* 세션 셀 포맷: Session ## 강조 + 줄바꿈→<br> */
@@ -126,47 +83,6 @@ function formatSessionCell(text) {
   var h = escHtml(text);
   h = h.replace(/(Session\s+\d+)/, '<span class="session-num">$1</span>');
   return h.replace(/\n/g, '<br>');
-}
-
-/* 헤더에서 Room 이름만 추출 */
-function extractRoomName(headerText) {
-  if (!headerText) return '';
-  var parts = headerText.split('\u2014');
-  if (parts.length >= 2) return parts[parts.length - 1].trim();
-  parts = headerText.split(' - ');
-  if (parts.length >= 2) return parts[parts.length - 1].trim();
-  return headerText;
-}
-
-/* break 행 (휴식, 폐회) */
-function isBreakRow(text) {
-  if (!text) return true;
-  var kw = ['\uD734\uC2DD', '\uD3D0\uD68C'];
-  for (var i = 0; i < kw.length; i++) { if (text.indexOf(kw[i]) >= 0) return true; }
-  return false;
-}
-
-/* 이벤트 가운데 정렬 대상 */
-function isEventCenter(text) {
-  if (!text) return false;
-  var kw = ['\uCD1D\uD68C', '\uAC1C\uD68C', '\uB7F0\uCC9C', '\uD734\uC2DD', '\uD3D0\uD68C'];
-  for (var k = 0; k < kw.length; k++) { if (text.indexOf(kw[k]) >= 0) return true; }
-  return false;
-}
-
-/* overview → 탭 이름 매핑 */
-function findTabForOverviewRow(timeStr, sessionText, rowIdx) {
-  var m = sessionText.match(/Session\s+(\d+)/);
-  if (m) {
-    var sn = parseInt(m[1]);
-    var map = {1:'Day1_A1',2:'Day1_A1',3:'Day1_P1',4:'Day1_P2',5:'Day1_P2',
-               6:'Day1_P3',7:'Day1_P3',8:null,9:'Day2_A1',10:'Day2_A1',
-               11:'Day2_P1',12:'Day2_P1',13:'Day2_P2',14:'Day2_P2'};
-    return map[sn] || null;
-  }
-  if (sessionText.indexOf('\uB7F0\uCC9C \uC138\uC158 1') >= 0 || sessionText.indexOf('\uB7F0\uCC9C \uC138\uC158 2') >= 0) return 'Day1_A1';
-  if (sessionText.indexOf('\uB7F0\uCC9C \uC138\uC158 3') >= 0 || sessionText.indexOf('\uB7F0\uCC9C \uC138\uC158 4') >= 0) return 'Day2_A1';
-  return null;
 }
 
 /* MyPage: 강좌 시간 → overview 슬롯 매칭 */
