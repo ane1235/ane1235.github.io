@@ -289,43 +289,49 @@ body {
 }
 
 /* ══════════════════════════════════════════════════
-   V5.0 데스크탑 가독성 최적화 (≥769px)
+   V5.1 데스크탑 가독성 최적화 (≥769px)
    ══════════════════════════════════════════════════ */
 @media (min-width: 769px) {
-  /* 네비게이션: 여유있는 크기 */
-  .navbar { height: 52px; padding: 0 20px; }
+  /* 레이아웃: 960px → 1200px 확대 — 데스크탑 화면 활용도 증가 */
+  .navbar { max-width: 1200px; height: 52px; padding: 0 24px; }
+  .content-area { max-width: 1200px; padding: 24px 24px; }
   .nav-item { height: 52px; font-size: 14px; padding: 0 16px; }
-  .dropdown-menu { top: 52px; min-width: 220px; }
-  .dropdown-item { padding: 12px 18px; font-size: 14px; }
+  .dropdown-menu { top: 52px; min-width: 240px; }
+  .dropdown-item { padding: 12px 20px; font-size: 14px; }
 
-  /* 콘텐츠 여백 */
-  .content-area { padding: 24px 20px; }
-
-  /* Overview 테이블: 폰트 확대 + 넉넉한 셀 패딩 */
+  /* Overview 테이블: 폰트 확대 + 넉넉한 셀 패딩 + 가독성 보조 */
   .overview-table th { padding: 12px 16px; font-size: 14px; }
-  .overview-table td { padding: 12px 16px; font-size: 14px; line-height: 1.5; }
+  .overview-table td { padding: 14px 16px; font-size: 14px; line-height: 1.6; }
   .overview-table tr.day-header td { font-size: 16px; padding: 14px 16px; }
+  .overview-table tr.clickable:nth-child(odd) td { background: rgba(241,245,249,0.4); }
+  .overview-table tr.clickable:hover td { background: #dbeafe; }
   .session-num { font-size: 14px; }
 
   /* 세션 페이지 */
-  .session-header { padding: 14px 20px; font-size: 15px; }
-  .session-chair { padding: 10px 20px; font-size: 13px; }
-  .lecture-row { padding: 12px 20px; }
-  .lecture-row .lec-time { font-size: 13px; width: 110px; }
+  .session-section { margin-bottom: 20px; }
+  .session-header { padding: 14px 24px; font-size: 15px; }
+  .session-chair { padding: 10px 24px; font-size: 13px; }
+  .lecture-row { padding: 14px 24px; }
+  .lecture-row .lec-time { font-size: 13px; width: 120px; }
   .lecture-row .lec-title { font-size: 14px; }
-  .lecture-row .lec-speaker { font-size: 13px; width: 180px; }
+  .lecture-row .lec-speaker { font-size: 13px; width: 200px; }
   .select-indicator { font-size: 20px; }
-  .event-row { padding: 10px 20px; font-size: 13px; }
-  .event-row .lec-time { width: 110px; }
-  .event-row .lec-speaker { width: 180px; }
+  .event-row { padding: 10px 24px; font-size: 13px; }
+  .event-row .lec-time { width: 120px; }
+  .event-row .lec-speaker { width: 200px; }
 
   /* MyPage 테이블 */
-  .my-table th { padding: 10px 14px; font-size: 13px; }
-  .my-table td { padding: 10px 14px; font-size: 13px; }
-  .mypage-tab { padding: 10px 24px; font-size: 14px; }
+  .my-table th { padding: 12px 14px; font-size: 13px; }
+  .my-table td { padding: 12px 14px; font-size: 13px; line-height: 1.5; }
+  .my-table tbody tr:nth-child(even) { background: rgba(241,245,249,0.3); }
+  .mypage-tab { padding: 10px 28px; font-size: 14px; }
+
+  /* Room badge 데스크탑 크기 */
+  .room-badge { font-size: 11px; padding: 3px 8px; }
 
   /* 동료 레이블 */
   .colleague-badge { font-size: 11px; padding: 2px 7px; }
+  .colleague-container { gap: 4px; margin-top: 5px; }
 
   /* 중복 경고 */
   .overlap-legend { font-size: 12px; padding: 8px 14px; }
