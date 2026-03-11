@@ -38,19 +38,13 @@ function renderOverview() {
 
       } else if (row.type === 'event') {
         if (row.cells) {
-          /* 멀티 셀 이벤트 (런천 세션 등) */
-          var tab0 = row.cells[0].tab;
-          var si0 = row.cells[0].sectionIdx;
-          var labels0 = tab0 ? renderColleagueLabelsForSession(tab0, si0) : '';
+          /* 멀티 셀 이벤트 (런천 세션 등) — 선택 대상이 아니므로 동료 레이블 미표시 */
           html += '<tr class="event-center"' + ta + '><td>' + escHtml(row.time) + '</td>';
           if (row.cells.length === 1) {
-            html += '<td colspan="2">' + escHtml(row.cells[0].text) + labels0 + '</td>';
+            html += '<td colspan="2">' + escHtml(row.cells[0].text) + '</td>';
           } else {
-            html += '<td>' + escHtml(row.cells[0].text) + labels0 + '</td>';
-            var tab1 = row.cells[1].tab;
-            var si1 = row.cells[1].sectionIdx;
-            var labels1 = tab1 ? renderColleagueLabelsForSession(tab1, si1) : '';
-            html += '<td>' + escHtml(row.cells[1].text) + labels1 + '</td>';
+            html += '<td>' + escHtml(row.cells[0].text) + '</td>';
+            html += '<td>' + escHtml(row.cells[1].text) + '</td>';
           }
           html += '</tr>';
         } else {
