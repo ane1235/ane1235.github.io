@@ -1,0 +1,35 @@
+theme: jekyll-theme-modernist
+title: 4Link Report
+description: 문서 및 보고서 저장소
+url: http://localhost:4000
+baseurl: /4link/report
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /:title/
+
+# Permalink style
+permalink: /:title/
+
+# Pagination
+paginate: 10
+paginate_path: /page:num/
+
+# Excludes
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - .gitignore
+  - vendor
+
+plugins:
+  - jekyll-paginate
+  - jekyll-seo-tag
