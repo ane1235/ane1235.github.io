@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-4link/report 폴더의 마크다운 파일에 front matter를 자동으로 추가/보완합니다.
+blog 레포지토리의 마크다운 파일에 front matter를 자동으로 추가/보완합니다.
 
 처리 규칙:
 - front matter가 아예 없으면 → title/date/layout/permalink 전부 자동 생성
@@ -9,7 +9,7 @@
 
 title  : 파일 내 첫 번째 '# 제목' 줄에서 추출 (없으면 파일명 사용)
 date   : 파일명 앞 YYYY-MM-DD 패턴에서 추출 (없으면 오늘 날짜)
-permalink: /4link/report/YYYYMMDD-{파일명 md5 앞 6자리}/
+permalink: /blog/YYYYMMDD-{파일명 md5 앞 6자리}/
 """
 
 import os
@@ -17,8 +17,8 @@ import re
 import hashlib
 from datetime import date as today_date
 
-REPORT_DIR = "4link/report"
-PERMALINK_PREFIX = "/4link/report/"
+REPORT_DIR = "."
+PERMALINK_PREFIX = "/blog/"
 
 
 # ── 헬퍼 ──────────────────────────────────────────────
@@ -39,7 +39,7 @@ def extract_date_from_filename(filename):
 
 
 def make_permalink(filename):
-    """파일명 → /4link/report/YYYYMMDD-{hash6}/"""
+    """파일명 → /blog/YYYYMMDD-{hash6}/"""
     m = re.match(r'(\d{4}-\d{2}-\d{2})', filename)
     date_str = m.group(1).replace('-', '') if m else 'report'
     h = hashlib.md5(filename.encode('utf-8')).hexdigest()[:6]
