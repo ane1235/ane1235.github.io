@@ -1,7 +1,0 @@
-source "https://rubygems.org"
-
-gem "jekyll", "~> 4.3.0"
-gem "jekyll-theme-modernist"
-gem "jekyll-paginate"
-gem "jekyll-seo-tag"
-gem "webrick"

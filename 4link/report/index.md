@@ -1,6 +1,7 @@
 ---
-layout: default
+layout: report
 title: 문서 목록
+permalink: /4link/report/
 ---
 
 # 📚 4Link Report
