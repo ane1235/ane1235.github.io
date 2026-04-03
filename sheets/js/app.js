@@ -186,7 +186,9 @@ function renderSectionCards() {
     html += '</div>';
 
     if (matchedTab) {
-      html += '<div class="section-subtitle">' + escHtml(matchedTab.name) + '</div>';
+      if (!isAssign) {
+        html += '<div class="section-subtitle">' + escHtml(matchedTab.name) + '</div>';
+      }
       html += '<div class="section-content" id="section-data-' + escHtml(src.key) + '">';
       if (isAssign) {
         if (isWeekend) {
