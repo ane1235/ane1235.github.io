@@ -7,4 +7,4 @@
  *   3. 배포 → 웹 앱 → 실행 계정: 나, 액세스: 모든 사용자 → 배포
  *   4. 아래 URL을 배포된 웹앱 URL로 교체
  */
-var API_URL = 'PASTE_YOUR_DEPLOYED_URL_HERE';
+var API_URL = 'https://script.google.com/macros/s/AKfycbzhaQRh-P7RFHUlc4-3DFrdiLWs_IegB0UCI-YCDddZ9nQGSDPRR3FT8blBcDKnOmkfmg/exec';
