@@ -218,6 +218,36 @@ body {
   font-size: 11px; padding: 2px 8px; border-radius: 4px;
 }
 
+/* ── Assign 수술 테이블 ── */
+.assign-table-wrap {
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding: 0;
+}
+.assign-table {
+  width: 100%; border-collapse: collapse;
+  min-width: 500px;
+}
+.assign-table th {
+  background: #0b6e3d; color: white;
+  padding: 8px 10px; font-size: 12px; font-weight: 600;
+  text-align: left; white-space: nowrap;
+}
+.assign-table td {
+  padding: 8px 10px; font-size: 13px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top; line-height: 1.4;
+}
+.assign-table tr:hover { background: #f0faf4; }
+.assign-table tr:nth-child(even) { background: #f8fdfb; }
+.assign-table tr:nth-child(even):hover { background: #e8f5ee; }
+
+/* 열 폭 */
+.col-time { width: 60px; white-space: nowrap; font-weight: 600; color: #0b6e3d; }
+.col-surgeon { width: 50px; text-align: center; }
+.col-opname { min-width: 180px; }
+.col-anes { width: 40px; text-align: center; font-weight: 600; color: #2563eb; }
+.col-nurse { width: 80px; white-space: nowrap; }
+
 /* ── 기타 UI ── */
 .spinner {
   border: 3px solid #d4edda; border-top: 3px solid #0f9d58;
@@ -254,6 +284,9 @@ body {
   .section-subtitle { font-size: 18px; padding: 16px 20px 12px; }
   .section-card-header { padding: 14px 20px; }
   .section-source-label { font-size: 14px; }
+  .assign-table th { padding: 10px 14px; font-size: 13px; }
+  .assign-table td { padding: 10px 14px; font-size: 14px; }
+  .col-opname { min-width: 240px; }
 }
 
 /* ── 모바일 (≤768px) ── */
@@ -268,6 +301,11 @@ body {
   .section-subtitle { font-size: 15px; padding: 12px 14px 8px; }
   .login-card { padding: 28px 24px; }
   .login-card input { font-size: 14px; padding: 10px 14px; }
+  .assign-table { min-width: 420px; }
+  .assign-table th { padding: 6px 8px; font-size: 11px; }
+  .assign-table td { padding: 6px 8px; font-size: 12px; }
+  .col-time { width: 50px; }
+  .col-nurse { width: 70px; }
 }
 
 /* ── 소형 모바일 (≤375px) ── */
