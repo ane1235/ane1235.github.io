@@ -297,12 +297,14 @@ function findDatePosition(rows, targetDay) {
 
   /* 날짜 탐색: colStart ~ colStart+10 범위에서 targetDay 찾기 */
   var dateRow = -1;
+  var dateCol = -1;  /* 날짜가 발견된 열을 기억 */
   for (var r = 0; r < rows.length; r++) {
     var row = rows[r];
     if (!row) continue;
     for (var c = colStart; c <= colStart + 10 && c < row.length; c++) {
       if (parseDateNum(row[c]) === targetDay) {
         dateRow = r;
+        dateCol = c;
         break;
       }
     }
@@ -311,19 +313,17 @@ function findDatePosition(rows, targetDay) {
 
   if (dateRow < 0) return null;
 
-  /* 다음 날짜 행 찾기: 같은 열 블록에서 다음 날짜가 있는 행 */
+  /* 다음 날짜 행 찾기: 같은 열(dateCol)에서만 다음 날짜를 탐색
+     — 전체 블록을 검색하면 수술 시간 등 숫자가 날짜로 오인됨 */
   var nextDateRow = rows.length;
   for (var r2 = dateRow + 1; r2 < rows.length; r2++) {
     var row2 = rows[r2];
     if (!row2) continue;
-    for (var c2 = colStart; c2 <= colStart + 10 && c2 < row2.length; c2++) {
-      var dn = parseDateNum(row2[c2]);
-      if (!isNaN(dn) && dn !== targetDay) {
-        nextDateRow = r2;
-        break;
-      }
+    var dn = parseDateNum(row2[dateCol]);
+    if (!isNaN(dn) && dn !== targetDay) {
+      nextDateRow = r2;
+      break;
     }
-    if (nextDateRow < rows.length) break;
   }
 
   return {

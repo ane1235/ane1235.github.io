@@ -87,13 +87,17 @@ body {
 }
 
 /* ── 날짜 카운터 ── */
+.date-counter-wrap {
+  position: relative;
+  max-width: 400px;
+  margin: 8px auto 20px;
+  z-index: 50;
+}
 .date-counter {
   display: flex; align-items: center; justify-content: center;
   background: white; border: 2px solid #d4edda;
   border-radius: 12px; padding: 12px 20px;
-  margin: 8px auto 20px;
   cursor: pointer; transition: all 0.2s;
-  max-width: 400px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 .date-counter:hover { border-color: #0f9d58; box-shadow: 0 4px 16px rgba(15,157,88,0.15); }
@@ -108,18 +112,32 @@ body {
   margin-left: 6px; vertical-align: middle;
 }
 
-/* ── 달력 패널 ── */
+/* ── 달력 오버레이 배경 ── */
+.calendar-overlay {
+  display: none;
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 49;
+}
+.calendar-overlay.open { display: block; }
+
+/* ── 달력 패널 (오버레이) ── */
 .calendar-panel {
-  max-width: 400px; margin: 0 auto 16px;
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%) scale(0.95);
+  width: 100%; max-width: 400px;
   background: white; border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
   overflow: hidden;
-  max-height: 0; opacity: 0;
-  transition: max-height 0.3s ease, opacity 0.2s ease, margin 0.3s ease;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 51;
+  margin-top: 8px;
 }
 .calendar-panel.open {
-  max-height: 400px; opacity: 1;
-  margin-bottom: 20px;
+  opacity: 1; pointer-events: auto;
+  transform: translateX(-50%) scale(1);
 }
 
 .cal-header {
@@ -325,9 +343,10 @@ body {
   .nav-item { padding: 0 8px; height: 44px; font-size: 12px; }
   .content-area { padding: 10px 6px; max-width: 100%; }
   .page-title { font-size: 18px; padding: 12px 0 6px; }
-  .date-counter { padding: 10px 16px; margin: 6px auto 14px; }
+  .date-counter-wrap { margin: 6px auto 14px; }
+  .date-counter { padding: 10px 16px; }
   .date-text { font-size: 14px; }
-  .calendar-panel { margin-left: 8px; margin-right: 8px; }
+  .calendar-panel { width: calc(100vw - 24px); left: 50%; }
   .section-subtitle { font-size: 15px; padding: 12px 14px 8px; }
   .login-card { padding: 28px 24px; }
   .login-card input { font-size: 14px; padding: 10px 14px; }

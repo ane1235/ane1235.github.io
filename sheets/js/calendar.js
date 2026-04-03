@@ -38,15 +38,22 @@ function isSameDay(a, b) {
 function renderDateCounter() {
   var todayLabel = isToday(selectedDate) ? ' <span class="today-badge">오늘</span>' : '';
   var html = '';
+
+  /* 오버레이 배경 — 달력 바깥 클릭 시 닫기 */
+  html += '<div id="calendar-overlay" class="calendar-overlay' + (calendarOpen ? ' open' : '') + '" onclick="closeCalendar()"></div>';
+
+  /* 날짜 카운터 + 달력 패널을 하나의 relative 컨테이너에 배치 */
+  html += '<div class="date-counter-wrap">';
   html += '<div class="date-counter" onclick="toggleCalendar()">';
   html += '<span class="material-icons" style="font-size:24px; color:#0f9d58; margin-right:8px;">calendar_today</span>';
   html += '<span class="date-text">' + formatDateDisplay(selectedDate) + todayLabel + '</span>';
   html += '<span class="material-icons" style="font-size:18px; color:#94a3b8; margin-left:8px;">' + (calendarOpen ? 'expand_less' : 'expand_more') + '</span>';
   html += '</div>';
 
-  /* 달력 패널 */
+  /* 달력 패널 — absolute로 오버레이 표시 */
   html += '<div id="calendar-panel" class="calendar-panel' + (calendarOpen ? ' open' : '') + '">';
   html += renderCalendarGrid();
+  html += '</div>';
   html += '</div>';
 
   return html;
@@ -113,7 +120,29 @@ function toggleCalendar() {
     calendarYear = selectedDate.getFullYear();
     calendarMonth = selectedDate.getMonth();
   }
-  refreshDashboard();
+  /* 오버레이 방식: DOM만 토글하여 아래 콘텐츠를 다시 렌더링하지 않음 */
+  var panel = document.getElementById('calendar-panel');
+  var overlay = document.getElementById('calendar-overlay');
+  if (panel && overlay) {
+    if (calendarOpen) {
+      panel.innerHTML = renderCalendarGrid();
+      panel.classList.add('open');
+      overlay.classList.add('open');
+    } else {
+      panel.classList.remove('open');
+      overlay.classList.remove('open');
+    }
+  } else {
+    refreshDashboard();
+  }
+}
+
+function closeCalendar() {
+  calendarOpen = false;
+  var panel = document.getElementById('calendar-panel');
+  var overlay = document.getElementById('calendar-overlay');
+  if (panel) panel.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
 }
 
 function calendarPrev() {
