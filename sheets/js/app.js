@@ -1,15 +1,48 @@
-/* 근무 대시보드 — app.js V3.0 */
+/* 근무 대시보드 — app.js V4.0 */
 /* Assign Note 시트에서 선택 날짜의 수술 일정을 파싱하여 표시 */
 
 /* ── 전역 ── */
 var sheetSources = [];
 var DISPLAY_LABELS = { sheet1: 'ASSIGN', sheet2: '근무표 및 특기사항' };
-var assignDataCache = {};   /* gid → raw sheet data 캐시 */
+var assignDataCache = {};
 
-/* ── 열 간격 상수 ── */
-var DAY_COL_SPAN = 10;     /* 각 날짜가 차지하는 열 수 */
-/* 요일 헤더 열 위치: 일=1, 월=11, 화=21, 수=31, 목=41, 금=51, 토=61 */
-var WEEKDAY_COLS = [1, 11, 21, 31, 41, 51, 61];
+/*
+ * ═══════════════════════════════════════════
+ * 열 구조 (0-based index)
+ * ═══════════════════════════════════════════
+ * index 0    : 공백
+ * index 1~10 : 일요일 (10열) — 별도 구조, 현재 미처리
+ * index 11~21: 월요일 (11열)
+ * index 22~32: 화요일 (11열)
+ * index 33~43: 수요일 (11열)
+ * index 44~54: 목요일 (11열)
+ * index 55~65: 금요일 (11열)
+ * index 66~74: 토요일 (9열) — 별도 구조, 현재 미처리
+ *
+ * 평일 11열 블록 (offset 0~10):
+ *   0: 시간
+ *   1: 집도의
+ *   2~7: 수술 이름 (6열, 셀 병합 가능 → 비어있지 않은 값 합침)
+ *   8: 담당 마취의 이니셜
+ *   9: 담당 간호사 First
+ *   10: 담당 간호사 Second
+ *
+ * 날짜 아래 3줄: 주간 근무자 근무표 → 건너뜀
+ * 4줄째부터: 수술 이벤트 데이터
+ */
+
+/* 요일별 시작 열 인덱스 (0-based). JS Date.getDay(): 0=일,1=월,...,6=토 */
+var WEEKDAY_COL_START = {
+  0: 1,    /* 일 — 10열, 현재 미처리 */
+  1: 11,   /* 월 */
+  2: 22,   /* 화 */
+  3: 33,   /* 수 */
+  4: 44,   /* 목 */
+  5: 55,   /* 금 */
+  6: 66    /* 토 — 9열, 현재 미처리 */
+};
+
+var WEEKDAY_SKIP_ROWS = 3;  /* 날짜 아래 근무표 3줄 건너뜀 */
 
 function initApp() {
   document.getElementById('view-login').classList.add('hidden');
@@ -62,7 +95,6 @@ function refreshDashboard() {
   html += '</div>';
   dashboard.innerHTML = html;
 
-  /* Assign Note 데이터 로드 */
   loadAssignData();
 }
 
@@ -138,6 +170,9 @@ function renderSectionCards() {
   }
 
   var html = '';
+  var dow = selectedDate.getDay();
+  var isWeekend = (dow === 0 || dow === 6);
+
   for (var i = 0; i < sheetSources.length; i++) {
     var src = sheetSources[i];
     var label = DISPLAY_LABELS[src.key] || src.label;
@@ -154,7 +189,12 @@ function renderSectionCards() {
       html += '<div class="section-subtitle">' + escHtml(matchedTab.name) + '</div>';
       html += '<div class="section-content" id="section-data-' + escHtml(src.key) + '">';
       if (isAssign) {
-        html += '<div class="text-center" style="padding:20px;"><div class="spinner mb-2"></div><p class="text-gray-400 text-sm">수술 일정을 불러오는 중...</p></div>';
+        if (isWeekend) {
+          html += '<div class="section-no-match"><span class="material-icons" style="font-size:20px; color:#94a3b8;">weekend</span>';
+          html += '<span>주말은 별도 구조로 되어 있어 현재 미지원입니다.</span></div>';
+        } else {
+          html += '<div class="text-center" style="padding:20px;"><div class="spinner mb-2"></div><p class="text-gray-400 text-sm">수술 일정을 불러오는 중...</p></div>';
+        }
       } else {
         html += '<p class="text-gray-400 text-sm" style="padding:20px; text-align:center;">데이터 영역 (레이아웃 구상 중)</p>';
       }
@@ -185,10 +225,14 @@ function renderNoMatch(src) {
 }
 
 /* ═══════════════════════════════════════════
-   Assign Note 데이터 로드 및 파싱
+   Assign Note 데이터 로드
    ═══════════════════════════════════════════ */
 
 function loadAssignData() {
+  /* 주말이면 로드하지 않음 */
+  var dow = selectedDate.getDay();
+  if (dow === 0 || dow === 6) return;
+
   var src = null;
   for (var i = 0; i < sheetSources.length; i++) {
     if (sheetSources[i].key === 'sheet1') { src = sheetSources[i]; break; }
@@ -201,7 +245,6 @@ function loadAssignData() {
   var container = document.getElementById('section-data-sheet1');
   if (!container) return;
 
-  /* 캐시 확인 */
   var cacheKey = tab.gid;
   if (assignDataCache[cacheKey]) {
     renderAssignSection(assignDataCache[cacheKey], container);
@@ -214,7 +257,6 @@ function loadAssignData() {
         container.innerHTML = '<p class="text-danger text-sm" style="padding:16px;">' + escHtml(result.error) + '</p>';
         return;
       }
-      /* 캐시 저장: headers를 rows 앞에 삽입하여 전체 2D 배열로 */
       var allRows = [result.data.headers].concat(result.data.rows);
       assignDataCache[cacheKey] = allRows;
       renderAssignSection(allRows, container);
@@ -225,98 +267,96 @@ function loadAssignData() {
 }
 
 /* ═══════════════════════════════════════════
-   Assign Note 파싱 — 날짜 컬럼 찾기
+   Assign Note 파싱 — 날짜 위치 찾기
    ═══════════════════════════════════════════ */
 
 /**
- * 2D 배열에서 선택된 날짜의 데이터 컬럼 시작 위치와 행 범위를 찾는다.
- *
- * 시트 구조:
- *   - 행 1 (rows[1]): 요일 헤더 (일=col1, 월=col11, ..., 토=col61)
- *   - 날짜 행: 날짜 숫자가 해당 요일 열+1 위치에 배치
- *   - 날짜 행 아래: 해당 날짜의 이벤트 데이터 (다음 날짜 행까지)
- *   - 각 날짜는 10열 블록 (요일헤더열 ~ 요일헤더열+9)
- *
- * @return {Object|null} { colStart, colEnd, dataStartRow, dataEndRow }
+ * 선택된 날짜의 요일에 해당하는 열 블록에서 날짜를 찾는다.
+ * @return {Object|null} { colStart, dateRow, dataStartRow, dataEndRow }
  */
 function findDatePosition(rows, targetDay) {
-  /* 모든 행을 스캔하여 날짜 숫자가 있는 위치 찾기 */
-  var datePositions = [];  /* { row, col, day } */
+  var dow = selectedDate.getDay();
+  /* 평일만 (1=월~5=금) */
+  if (dow < 1 || dow > 5) return null;
 
-  for (var r = 1; r < rows.length; r++) {
+  var colStart = WEEKDAY_COL_START[dow];
+
+  /* 날짜 숫자 탐색: colStart ~ colStart+10 범위에서 targetDay 찾기 */
+  var dateRow = -1;
+  for (var r = 0; r < rows.length; r++) {
     var row = rows[r];
     if (!row) continue;
-
-    /* 요일 헤더 열 +1 위치에서 날짜 숫자 검색 */
-    for (var w = 0; w < WEEKDAY_COLS.length; w++) {
-      var dateCol = WEEKDAY_COLS[w] + 1;
-      if (dateCol >= row.length) continue;
-      var val = row[dateCol];
+    for (var c = colStart; c <= colStart + 10 && c < row.length; c++) {
+      var val = row[c];
       if (val === '' || val === null || val === undefined) continue;
-
       var num = parseInt(val);
-      if (!isNaN(num) && num >= 1 && num <= 31 && num.toString() === val.toString().trim()) {
-        datePositions.push({ row: r, col: WEEKDAY_COLS[w], day: num });
+      if (num === targetDay && num.toString() === val.toString().trim()) {
+        dateRow = r;
+        break;
       }
     }
+    if (dateRow >= 0) break;
   }
 
-  /* 타깃 날짜 찾기 */
-  var target = null;
-  var targetIdx = -1;
-  for (var d = 0; d < datePositions.length; d++) {
-    if (datePositions[d].day === targetDay) {
-      target = datePositions[d];
-      targetIdx = d;
-      break;
-    }
-  }
-  if (!target) return null;
+  if (dateRow < 0) return null;
 
-  /* 같은 주(같은 날짜 행)의 다음 날짜 행을 찾아 데이터 범위 결정 */
-  var dateRow = target.row;
-  var nextDateRow = rows.length; /* 기본: 시트 끝까지 */
-
-  /* 다음 날짜 행 찾기: 같은 열 블록이 아닌 다른 행에 날짜가 있는 경우 */
-  for (var n = 0; n < datePositions.length; n++) {
-    if (datePositions[n].row > dateRow && datePositions[n].row < nextDateRow) {
-      nextDateRow = datePositions[n].row;
+  /* 다음 날짜 행 찾기: 같은 열 블록에서 다음 날짜 숫자가 있는 행 */
+  var nextDateRow = rows.length;
+  for (var r2 = dateRow + 1; r2 < rows.length; r2++) {
+    var row2 = rows[r2];
+    if (!row2) continue;
+    for (var c2 = colStart; c2 <= colStart + 10 && c2 < row2.length; c2++) {
+      var val2 = row2[c2];
+      if (val2 === '' || val2 === null || val2 === undefined) continue;
+      var num2 = parseInt(val2);
+      if (!isNaN(num2) && num2 >= 1 && num2 <= 31 && num2.toString() === val2.toString().trim()) {
+        nextDateRow = r2;
+        break;
+      }
     }
+    if (nextDateRow < rows.length) break;
   }
 
   return {
-    colStart: target.col,       /* 요일 헤더 열 */
-    colEnd: target.col + DAY_COL_SPAN - 1,
-    dataStartRow: dateRow + 1,  /* 날짜 행 다음부터 */
-    dataEndRow: nextDateRow - 1 /* 다음 날짜 행 직전까지 */
+    colStart: colStart,
+    dateRow: dateRow,
+    dataStartRow: dateRow + 1 + WEEKDAY_SKIP_ROWS,  /* 날짜 행 + 근무표 3줄 건너뜀 + 1 */
+    dataEndRow: nextDateRow - 1
   };
 }
 
 /**
  * 날짜 블록에서 수술 이벤트 추출
- * 10열 블록 내 offset:
- *   [0]: 빈칸/기타  [1]: 시간  [2]: 집도의  [3]: 수술명
- *   [4-7]: 기타     [8]: 마취의 이니셜  [9]: 마취회복팀 간호사
+ * 평일 11열 블록 (offset 0~10):
+ *   0: 시간, 1: 집도의, 2~7: 수술명(6열), 8: 마취의, 9: 간호사1, 10: 간호사2
  */
 function extractEvents(rows, pos) {
   var events = [];
+  var base = pos.colStart;
 
   for (var r = pos.dataStartRow; r <= pos.dataEndRow && r < rows.length; r++) {
     var row = rows[r];
     if (!row) continue;
 
-    var c = pos.colStart;
-    /* 10열 블록에서 데이터 추출 */
-    var time    = cellStr(row, c + 1);
-    var surgeon = cellStr(row, c + 2);
-    var opName  = cellStr(row, c + 3);
-    var anes    = cellStr(row, c + 8);
-    var nurse   = cellStr(row, c + 9);
+    var time    = cellStr(row, base + 0);
+    var surgeon = cellStr(row, base + 1);
+
+    /* 수술명: offset 2~7 (6열) — 비어있지 않은 값을 합침 */
+    var opParts = [];
+    for (var k = 2; k <= 7; k++) {
+      var v = cellStr(row, base + k);
+      if (v) opParts.push(v);
+    }
+    var opName = opParts.join(' ');
+
+    var anes   = cellStr(row, base + 8);
+    var nurse1 = cellStr(row, base + 9);
+    var nurse2 = cellStr(row, base + 10);
 
     /* 시간 또는 수술명이 있는 행만 이벤트로 인식 */
     if (!time && !opName && !surgeon) continue;
 
-    /* 시간값이 Google Sheets Date (1899-12-30...) 형태이면 건너뜀 */
+    /* Google Sheets Date 유령값 필터링 */
     if (time && time.indexOf('1899') >= 0) continue;
 
     events.push({
@@ -324,7 +364,8 @@ function extractEvents(rows, pos) {
       surgeon: surgeon,
       opName: opName,
       anesthesiologist: anes,
-      nurse: nurse
+      nurse1: nurse1,
+      nurse2: nurse2
     });
   }
   return events;
@@ -376,12 +417,18 @@ function renderAssignSection(allRows, container) {
 
   for (var i = 0; i < events.length; i++) {
     var ev = events[i];
+    /* 간호사: nurse2가 있으면 합침 */
+    var nurseDisplay = ev.nurse1;
+    if (ev.nurse2) {
+      nurseDisplay = nurseDisplay ? nurseDisplay + ', ' + ev.nurse2 : ev.nurse2;
+    }
+
     html += '<tr>';
     html += '<td class="col-time">' + escHtml(ev.time) + '</td>';
     html += '<td class="col-surgeon">' + escHtml(ev.surgeon) + '</td>';
     html += '<td class="col-opname">' + escHtml(ev.opName) + '</td>';
     html += '<td class="col-anes">' + escHtml(ev.anesthesiologist) + '</td>';
-    html += '<td class="col-nurse">' + escHtml(ev.nurse) + '</td>';
+    html += '<td class="col-nurse">' + escHtml(nurseDisplay) + '</td>';
     html += '</tr>';
   }
 
