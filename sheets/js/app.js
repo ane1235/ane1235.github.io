@@ -279,6 +279,8 @@ function parseDateNum(val) {
   if (val === '' || val === null || val === undefined) return NaN;
   var s = val.toString().trim();
   if (!s) return NaN;
+  /* 시간 패턴 제외: "4:30", "8:30A", "1:30P" 등 */
+  if (/^\d{1,2}:/.test(s)) return NaN;
   var m = s.match(/^(\d{1,2})\b/);
   if (!m) return NaN;
   var num = parseInt(m[1]);
