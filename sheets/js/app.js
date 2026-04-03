@@ -3,6 +3,7 @@
 
 /* ── 전역 ── */
 var sheetSources = [];
+var DISPLAY_LABELS = { sheet1: 'ASSIGN', sheet2: '근무표 및 특기사항' };
 
 function initApp() {
   document.getElementById('view-login').classList.add('hidden');
@@ -186,7 +187,7 @@ function renderSectionCards() {
 
     /* 시트 유형에 따라 매칭 전략 결정 */
     var matchedTab = null;
-    var label = src.label;
+    var label = DISPLAY_LABELS[src.key] || src.label;
     var isAssignNote = (label.indexOf('Assign') >= 0 || label.indexOf('assign') >= 0 ||
                         label.indexOf('Note') >= 0 || label.indexOf('note') >= 0 ||
                         src.key === 'sheet1');
