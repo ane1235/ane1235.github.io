@@ -1,5 +1,5 @@
-/* Sheets Viewer — style.css V1.0 */
-/* 녹색 계열 Google Sheets 테마 — KSCTVA style.css 레이아웃 기반 */
+/* 근무 대시보드 — style.css V2.0 */
+/* 녹색 계열 Google Sheets 테마 */
 
 /* ── 글로벌 ── */
 html, body { overflow-x: hidden; max-width: 100%; }
@@ -79,50 +79,144 @@ body {
   padding: 16px 12px;
 }
 
-/* ── 시트 테이블 ── */
-.sheet-table {
-  width: 100%; border-collapse: collapse;
-  background: white; border-radius: 12px; overflow: hidden;
+/* ── 페이지 제목 ── */
+.page-title {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700; color: #0b6e3d;
+  padding: 16px 0 8px;
+}
+
+/* ── 날짜 카운터 ── */
+.date-counter {
+  display: flex; align-items: center; justify-content: center;
+  background: white; border: 2px solid #d4edda;
+  border-radius: 12px; padding: 12px 20px;
+  margin: 8px auto 20px;
+  cursor: pointer; transition: all 0.2s;
+  max-width: 400px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.date-counter:hover { border-color: #0f9d58; box-shadow: 0 4px 16px rgba(15,157,88,0.15); }
+.date-text {
+  font-size: 16px; font-weight: 600; color: #1e293b;
+}
+.today-badge {
+  display: inline-block;
+  background: #0f9d58; color: white;
+  font-size: 11px; font-weight: 700;
+  padding: 1px 8px; border-radius: 10px;
+  margin-left: 6px; vertical-align: middle;
+}
+
+/* ── 달력 패널 ── */
+.calendar-panel {
+  max-width: 400px; margin: 0 auto 16px;
+  background: white; border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  overflow: hidden;
+  max-height: 0; opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.2s ease, margin 0.3s ease;
+}
+.calendar-panel.open {
+  max-height: 400px; opacity: 1;
+  margin-bottom: 20px;
+}
+
+.cal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px 8px;
+}
+.cal-title { font-size: 16px; font-weight: 700; color: #1e293b; }
+.cal-nav {
+  cursor: pointer; padding: 4px; border-radius: 50%;
+  transition: background 0.2s;
+}
+.cal-nav:hover { background: #f0faf4; }
+.cal-nav .material-icons { font-size: 24px; color: #0f9d58; }
+
+.cal-weekdays {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  padding: 4px 12px;
+}
+.cal-wd {
+  text-align: center; font-size: 12px; font-weight: 600;
+  color: #94a3b8; padding: 4px 0;
+}
+.cal-wd.sun { color: #ef4444; }
+.cal-wd.sat { color: #3b82f6; }
+
+.cal-days {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  padding: 4px 12px 12px; gap: 2px;
+}
+.cal-day {
+  text-align: center; padding: 8px 0;
+  font-size: 14px; font-weight: 500; color: #374151;
+  border-radius: 50%; cursor: pointer;
+  transition: all 0.15s;
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+}
+.cal-day:hover { background: #f0faf4; }
+.cal-day.empty { cursor: default; }
+.cal-day.empty:hover { background: transparent; }
+.cal-day.sun { color: #ef4444; }
+.cal-day.sat { color: #3b82f6; }
+.cal-day.today {
+  background: #e8f5ee; font-weight: 700;
+  box-shadow: inset 0 0 0 2px #0f9d58;
+}
+.cal-day.selected {
+  background: #0f9d58; color: white !important; font-weight: 700;
+}
+.cal-day.today.selected {
+  background: #0f9d58; color: white !important;
+  box-shadow: none;
+}
+
+.cal-today-btn {
+  text-align: center; padding: 10px;
+  font-size: 13px; font-weight: 600; color: #0f9d58;
+  cursor: pointer; border-top: 1px solid #e2e8f0;
+  transition: background 0.2s;
+}
+.cal-today-btn:hover { background: #f0faf4; }
+
+/* ── 섹션 카드 ── */
+.section-card {
+  background: white; border-radius: 12px;
+  margin-bottom: 16px; overflow: hidden;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border: 1px solid #e2e8f0;
 }
-.sheet-table th {
-  background: #0b6e3d; color: white;
-  padding: 10px 12px; text-align: left; font-size: 13px;
-  position: sticky; top: 48px; z-index: 10;
+.section-card-header {
+  display: flex; align-items: center;
+  background: #f8fdfb; padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
 }
-.sheet-table td {
-  padding: 10px 12px; border-bottom: 1px solid #e2e8f0;
-  font-size: 13px; line-height: 1.4;
-  word-break: keep-all; overflow-wrap: break-word;
+.section-source-label {
+  font-size: 13px; font-weight: 600; color: #64748b;
 }
-.sheet-table tr:hover { background: #f0faf4; }
-.sheet-table tr:nth-child(even) { background: #f8fdfb; }
-.sheet-table tr:nth-child(even):hover { background: #e8f5ee; }
-
-/* ── 시트 탭 ── */
-.sheet-tabs {
-  display: flex; gap: 4px; margin-bottom: 16px;
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
-  padding-bottom: 4px;
+.section-subtitle {
+  padding: 14px 16px 10px;
+  font-size: 17px; font-weight: 700; color: #0b6e3d;
+  border-bottom: 1px solid #f1f5f9;
 }
-.sheet-tab {
-  padding: 8px 16px; cursor: pointer; font-weight: 500; font-size: 13px;
-  border: 1px solid #d4edda; border-radius: 8px 8px 0 0;
-  background: white; color: #64748b; transition: all 0.2s; white-space: nowrap;
+.section-content {
+  min-height: 80px;
 }
-.sheet-tab.active {
-  background: #0f9d58; color: white; border-color: #0f9d58;
+.section-no-match {
+  display: flex; align-items: center; gap: 8px;
+  padding: 16px; color: #94a3b8; font-size: 13px;
 }
-.sheet-tab:hover:not(.active) { background: #d4edda; color: #0b6e3d; }
-
-/* ── 공사중 배너 ── */
-.wip-banner {
-  background: linear-gradient(135deg, #fef3c7, #fde68a);
-  border: 2px dashed #f59e0b;
-  border-radius: 12px; padding: 24px; margin-bottom: 16px;
-  text-align: center;
+.section-tabs-hint {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px;
+  padding: 8px 16px 12px;
 }
-.wip-banner .material-icons { font-size: 40px; color: #d97706; }
+.hint-tab {
+  display: inline-block;
+  background: #f1f5f9; color: #64748b;
+  font-size: 11px; padding: 2px 8px; border-radius: 4px;
+}
 
 /* ── 기타 UI ── */
 .spinner {
@@ -154,9 +248,12 @@ body {
   .navbar { max-width: 1200px; height: 52px; padding: 0 24px; }
   .content-area { max-width: 1200px; padding: 24px 24px; }
   .nav-item { height: 52px; font-size: 14px; padding: 0 16px; }
-  .sheet-table th { padding: 12px 16px; font-size: 14px; top: 52px; }
-  .sheet-table td { padding: 14px 16px; font-size: 14px; line-height: 1.6; }
-  .sheet-tab { padding: 10px 24px; font-size: 14px; }
+  .page-title { font-size: 24px; padding: 20px 0 10px; }
+  .date-counter { padding: 14px 28px; }
+  .date-text { font-size: 18px; }
+  .section-subtitle { font-size: 18px; padding: 16px 20px 12px; }
+  .section-card-header { padding: 14px 20px; }
+  .section-source-label { font-size: 14px; }
 }
 
 /* ── 모바일 (≤768px) ── */
@@ -164,9 +261,11 @@ body {
   .navbar { padding: 0 6px; height: 44px; max-width: 100%; }
   .nav-item { padding: 0 8px; height: 44px; font-size: 12px; }
   .content-area { padding: 10px 6px; max-width: 100%; }
-  .sheet-table th { padding: 8px 6px; font-size: 12px; top: 44px; }
-  .sheet-table td { padding: 8px 6px; font-size: 12px; line-height: 1.35; }
-  .sheet-tab { padding: 6px 12px; font-size: 12px; }
+  .page-title { font-size: 18px; padding: 12px 0 6px; }
+  .date-counter { padding: 10px 16px; margin: 6px auto 14px; }
+  .date-text { font-size: 14px; }
+  .calendar-panel { margin-left: 8px; margin-right: 8px; }
+  .section-subtitle { font-size: 15px; padding: 12px 14px 8px; }
   .login-card { padding: 28px 24px; }
   .login-card input { font-size: 14px; padding: 10px 14px; }
 }
@@ -176,7 +275,8 @@ body {
   .navbar { padding: 0 4px; height: 42px; }
   .nav-item { padding: 0 6px; font-size: 11px; height: 42px; }
   .content-area { padding: 8px 4px; }
-  .sheet-table th { padding: 6px 4px; font-size: 11px; top: 42px; }
-  .sheet-table td { padding: 6px 4px; font-size: 11px; line-height: 1.3; }
+  .page-title { font-size: 16px; }
+  .date-text { font-size: 13px; }
+  .cal-day { font-size: 13px; padding: 6px 0; }
   .login-card { padding: 24px 20px; max-width: 340px; }
 }

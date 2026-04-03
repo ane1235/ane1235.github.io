@@ -1,10 +1,8 @@
-/* Sheets Viewer — app.js V1.0 */
-/* Google Sheets 데이터를 Apps Script 경유로 읽어와 테이블로 렌더링 */
+/* 근무 대시보드 — app.js V2.0 */
+/* 두 시트에서 오늘 날짜에 해당하는 탭을 찾아 대시보드로 표시 */
 
 /* ── 전역 ── */
-var sheetSources = [];   /* getSheetList 결과 캐시 */
-var currentSheetKey = null;
-var currentGid = null;
+var sheetSources = [];
 
 function initApp() {
   document.getElementById('view-login').classList.add('hidden');
@@ -15,14 +13,14 @@ function initApp() {
 }
 
 /* ═══════════════════════════════════════════
-   시트 목록 로드
+   시트 목록 로드 → 대시보드 렌더링
    ═══════════════════════════════════════════ */
 
 function loadSheetList() {
   var loading = document.getElementById('loading-screen');
-  var content = document.getElementById('sheet-content');
+  var dashboard = document.getElementById('dashboard');
   loading.classList.remove('hidden');
-  content.classList.add('hidden');
+  dashboard.classList.add('hidden');
 
   callApi({ action: 'getSheetList' })
     .then(function(result) {
@@ -32,18 +30,8 @@ function loadSheetList() {
       }
       sheetSources = result.data;
       loading.classList.add('hidden');
-      content.classList.remove('hidden');
-
-      /* 첫 번째 시트의 defaultGid 탭을 자동 로드 */
-      if (sheetSources.length > 0) {
-        var first = sheetSources[0];
-        currentSheetKey = first.key;
-        currentGid = first.defaultGid;
-        renderSheetSelector();
-        loadSheetData(currentSheetKey, currentGid);
-      } else {
-        content.innerHTML = '<p class="text-center py-10 text-gray-500">조회 가능한 시트가 없습니다.</p>';
-      }
+      dashboard.classList.remove('hidden');
+      refreshDashboard();
     })
     .catch(function(err) {
       loading.innerHTML = '<p class="text-danger text-center py-10">서버 연결 오류: ' + escHtml(err.message) + '</p>';
@@ -51,144 +39,201 @@ function loadSheetList() {
 }
 
 /* ═══════════════════════════════════════════
-   시트/탭 선택 UI
+   대시보드 렌더링
    ═══════════════════════════════════════════ */
 
-function renderSheetSelector() {
-  var content = document.getElementById('sheet-content');
+function refreshDashboard() {
+  var dashboard = document.getElementById('dashboard');
+  if (!dashboard) return;
 
-  /* 시트 소스 선택 (상단) */
   var html = '<div class="view-container">';
 
-  /* 스프레드시트 선택 탭 */
-  html += '<div class="sheet-tabs" id="source-tabs">';
-  for (var i = 0; i < sheetSources.length; i++) {
-    var src = sheetSources[i];
-    var active = (src.key === currentSheetKey) ? ' active' : '';
-    html += '<div class="sheet-tab source-tab' + active + '" data-key="' + escHtml(src.key) + '" '
-          + 'data-gid="' + src.defaultGid + '" '
-          + 'onclick="switchSource(\'' + escHtml(src.key) + '\',' + src.defaultGid + ')">'
-          + '<span class="material-icons" style="font-size:16px; vertical-align:middle; margin-right:4px;">description</span>'
-          + escHtml(src.label)
-          + '</div>';
-  }
+  /* 페이지 제목 */
+  html += '<div class="page-title">';
+  html += '<span class="material-icons" style="font-size:28px; margin-right:8px;">assignment</span>';
+  html += '오늘 근무 및 할 일들';
   html += '</div>';
 
-  /* 탭(시트 내부 탭) 선택 */
-  html += '<div class="sheet-tabs" id="tab-tabs" style="margin-top:-8px; margin-bottom:12px;"></div>';
+  /* 날짜 카운터 + 캘린더 */
+  html += renderDateCounter();
 
-  /* 데이터 테이블 영역 */
-  html += '<div id="table-area"><div class="text-center py-10"><div class="spinner mb-4"></div><p class="text-gray-500">데이터를 불러오는 중...</p></div></div>';
+  /* 섹션 카드들 */
+  html += renderSectionCards();
+
   html += '</div>';
-
-  content.innerHTML = html;
-
-  /* 현재 시트의 탭 목록 렌더링 */
-  renderTabSelector();
-}
-
-function renderTabSelector() {
-  var tabContainer = document.getElementById('tab-tabs');
-  if (!tabContainer) return;
-
-  var src = null;
-  for (var i = 0; i < sheetSources.length; i++) {
-    if (sheetSources[i].key === currentSheetKey) { src = sheetSources[i]; break; }
-  }
-  if (!src || !src.tabs) { tabContainer.innerHTML = ''; return; }
-
-  var html = '';
-  for (var j = 0; j < src.tabs.length; j++) {
-    var tab = src.tabs[j];
-    var active = (tab.gid === currentGid) ? ' active' : '';
-    html += '<div class="sheet-tab' + active + '" '
-          + 'onclick="switchTab(\'' + escHtml(currentSheetKey) + '\',' + tab.gid + ')">'
-          + escHtml(tab.name) + '</div>';
-  }
-  tabContainer.innerHTML = html;
+  dashboard.innerHTML = html;
 }
 
 /* ═══════════════════════════════════════════
-   시트/탭 전환
+   탭 매칭 로직
    ═══════════════════════════════════════════ */
 
-function switchSource(sheetKey, defaultGid) {
-  currentSheetKey = sheetKey;
-  currentGid = defaultGid;
+/**
+ * Assign Note 탭 매칭: "2026년 4월" 형태의 탭 이름에서 선택된 날짜의 연월과 일치하는 탭
+ */
+function findAssignNoteTab(src) {
+  var d = selectedDate;
+  var y = d.getFullYear();
+  var m = d.getMonth() + 1;
 
-  /* 소스 탭 활성화 상태 업데이트 */
-  var sourceTabs = document.querySelectorAll('.source-tab');
-  for (var i = 0; i < sourceTabs.length; i++) {
-    sourceTabs[i].classList.toggle('active', sourceTabs[i].getAttribute('data-key') === sheetKey);
-  }
+  /* 패턴: "YYYY년 M월" 또는 "YYYY년 MM월" */
+  var pattern1 = y + '년 ' + m + '월';
+  var pattern2 = y + '년 ' + (m < 10 ? '0' + m : m) + '월';
 
-  renderTabSelector();
-  loadSheetData(sheetKey, defaultGid);
-}
-
-function switchTab(sheetKey, gid) {
-  currentGid = gid;
-  renderTabSelector();
-  loadSheetData(sheetKey, gid);
-}
-
-/* ═══════════════════════════════════════════
-   시트 데이터 로드 및 렌더링
-   ═══════════════════════════════════════════ */
-
-function loadSheetData(sheetKey, gid) {
-  var area = document.getElementById('table-area');
-  area.innerHTML = '<div class="text-center py-10"><div class="spinner mb-4"></div><p class="text-gray-500">데이터를 불러오는 중...</p></div>';
-
-  callApi({ action: 'getSheetData', sheetKey: sheetKey, gid: gid })
-    .then(function(result) {
-      if (!result.success) {
-        area.innerHTML = '<p class="text-danger text-center py-10">' + escHtml(result.error) + '</p>';
-        return;
-      }
-      renderTable(result.data);
-    })
-    .catch(function(err) {
-      area.innerHTML = '<p class="text-danger text-center py-10">데이터 로드 오류: ' + escHtml(err.message) + '</p>';
-    });
-}
-
-function renderTable(data) {
-  var area = document.getElementById('table-area');
-
-  if (!data.headers || data.headers.length === 0) {
-    area.innerHTML = '<p class="text-center py-10 text-gray-500">데이터가 비어 있습니다.</p>';
-    return;
-  }
-
-  var html = '<div style="overflow-x:auto; -webkit-overflow-scrolling:touch;">';
-  html += '<table class="sheet-table">';
-
-  /* 헤더 */
-  html += '<thead><tr>';
-  for (var h = 0; h < data.headers.length; h++) {
-    html += '<th>' + escHtml(data.headers[h]) + '</th>';
-  }
-  html += '</tr></thead>';
-
-  /* 데이터 행 */
-  html += '<tbody>';
-  if (data.rows.length === 0) {
-    html += '<tr><td colspan="' + data.headers.length + '" class="text-center text-gray-400" style="padding:20px;">데이터 없음</td></tr>';
-  } else {
-    for (var r = 0; r < data.rows.length; r++) {
-      html += '<tr>';
-      for (var c = 0; c < data.rows[r].length; c++) {
-        var cellVal = data.rows[r][c];
-        html += '<td>' + escHtml(cellVal !== null && cellVal !== undefined ? cellVal.toString() : '') + '</td>';
-      }
-      html += '</tr>';
+  for (var i = 0; i < src.tabs.length; i++) {
+    var name = src.tabs[i].name.trim();
+    if (name === pattern1 || name === pattern2) {
+      return src.tabs[i];
     }
   }
-  html += '</tbody></table></div>';
 
-  /* 행 수 표시 */
-  html += '<p class="text-xs text-gray-400 mt-2 text-right">' + data.rows.length + '행 · ' + escHtml(data.tabName) + '</p>';
+  /* 부분 매칭 시도: 탭 이름에 연도+월이 포함 */
+  for (var j = 0; j < src.tabs.length; j++) {
+    var n = src.tabs[j].name;
+    if (n.indexOf(y + '') >= 0 && (n.indexOf(m + '월') >= 0)) {
+      return src.tabs[j];
+    }
+  }
+  return null;
+}
 
-  area.innerHTML = html;
+/**
+ * 근무표 탭 매칭: 매달 16일~다음 달 15일 단위의 shift schedule
+ * 탭 이름에서 기간을 파싱하여 선택된 날짜가 포함되는 탭을 찾는다
+ */
+function findShiftTab(src) {
+  var d = selectedDate;
+  var dTime = d.getTime();
+
+  for (var i = 0; i < src.tabs.length; i++) {
+    var name = src.tabs[i].name.trim();
+    var range = parseShiftPeriod(name);
+    if (range) {
+      if (dTime >= range.start.getTime() && dTime <= range.end.getTime()) {
+        return src.tabs[i];
+      }
+    }
+  }
+
+  /* 기간 파싱 실패 시: 16일 기준 추정 매칭 */
+  var y = d.getFullYear();
+  var m = d.getMonth();
+  var day = d.getDate();
+
+  /* 16일 이전이면 이전 달 16일 ~ 이번 달 15일 구간 */
+  var periodMonth, periodYear;
+  if (day < 16) {
+    if (m === 0) { periodYear = y - 1; periodMonth = 12; }
+    else { periodYear = y; periodMonth = m; }
+  } else {
+    periodYear = y;
+    periodMonth = m + 1;
+  }
+
+  /* 탭 이름에 월 숫자가 포함되는지 확인 */
+  for (var j = 0; j < src.tabs.length; j++) {
+    var n = src.tabs[j].name;
+    if (n.indexOf(periodMonth + '월') >= 0 || n.indexOf(periodMonth + '/') >= 0) {
+      return src.tabs[j];
+    }
+  }
+  return null;
+}
+
+/**
+ * 탭 이름에서 기간 파싱 시도
+ * 예: "4/16~5/15", "2026.4.16-5.15", "4월16일~5월15일" 등
+ */
+function parseShiftPeriod(name) {
+  /* 패턴 1: M/D~M/D 또는 M.D~M.D */
+  var m = name.match(/(\d{1,2})[\/\.](\d{1,2})\s*[~\-]\s*(\d{1,2})[\/\.](\d{1,2})/);
+  if (m) {
+    var y = selectedDate.getFullYear();
+    var sm = parseInt(m[1]), sd = parseInt(m[2]);
+    var em = parseInt(m[3]), ed = parseInt(m[4]);
+    var start = new Date(y, sm - 1, sd, 0, 0, 0);
+    var end = new Date(y, em - 1, ed, 23, 59, 59);
+    if (end < start) end.setFullYear(y + 1);
+    return { start: start, end: end };
+  }
+
+  /* 패턴 2: M월D일~M월D일 */
+  var m2 = name.match(/(\d{1,2})월\s*(\d{1,2})일?\s*[~\-]\s*(\d{1,2})월\s*(\d{1,2})일?/);
+  if (m2) {
+    var y2 = selectedDate.getFullYear();
+    var start2 = new Date(y2, parseInt(m2[1]) - 1, parseInt(m2[2]), 0, 0, 0);
+    var end2 = new Date(y2, parseInt(m2[3]) - 1, parseInt(m2[4]), 23, 59, 59);
+    if (end2 < start2) end2.setFullYear(y2 + 1);
+    return { start: start2, end: end2 };
+  }
+
+  return null;
+}
+
+/* ═══════════════════════════════════════════
+   섹션 카드 렌더링
+   ═══════════════════════════════════════════ */
+
+function renderSectionCards() {
+  if (sheetSources.length === 0) {
+    return '<p class="text-center py-10 text-gray-500">조회 가능한 시트가 없습니다.</p>';
+  }
+
+  var html = '';
+
+  for (var i = 0; i < sheetSources.length; i++) {
+    var src = sheetSources[i];
+
+    /* 시트 유형에 따라 매칭 전략 결정 */
+    var matchedTab = null;
+    var label = src.label;
+    var isAssignNote = (label.indexOf('Assign') >= 0 || label.indexOf('assign') >= 0 ||
+                        label.indexOf('Note') >= 0 || label.indexOf('note') >= 0 ||
+                        src.key === 'sheet1');
+    var isShift = (label.indexOf('근무') >= 0 || label.indexOf('연장') >= 0 ||
+                   label.indexOf('합계') >= 0 || src.key === 'sheet2');
+
+    if (isAssignNote) {
+      matchedTab = findAssignNoteTab(src);
+    } else if (isShift) {
+      matchedTab = findShiftTab(src);
+    } else {
+      /* 기본: Assign Note 방식 시도 → 실패 시 Shift 방식 */
+      matchedTab = findAssignNoteTab(src) || findShiftTab(src);
+    }
+
+    /* 카드 렌더링 */
+    html += '<div class="section-card">';
+    html += '<div class="section-card-header">';
+    html += '<span class="material-icons" style="font-size:20px; margin-right:8px;">' + (isAssignNote ? 'note_alt' : 'schedule') + '</span>';
+    html += '<span class="section-source-label">' + escHtml(label) + '</span>';
+    html += '</div>';
+
+    if (matchedTab) {
+      html += '<div class="section-subtitle">' + escHtml(matchedTab.name) + '</div>';
+      html += '<div class="section-content" id="section-data-' + escHtml(src.key) + '">';
+      html += '<p class="text-gray-400 text-sm" style="padding:20px; text-align:center;">데이터 영역 (레이아웃 구상 중)</p>';
+      html += '</div>';
+    } else {
+      html += '<div class="section-no-match">';
+      html += '<span class="material-icons" style="font-size:20px; color:#94a3b8;">search_off</span>';
+      html += '<span>선택한 날짜에 해당하는 탭을 찾지 못했습니다.</span>';
+      html += '</div>';
+
+      /* 사용 가능한 탭 목록 표시 */
+      if (src.tabs && src.tabs.length > 0) {
+        html += '<div class="section-tabs-hint">';
+        html += '<span class="text-xs text-gray-400">사용 가능한 탭: </span>';
+        for (var t = 0; t < Math.min(src.tabs.length, 6); t++) {
+          html += '<span class="hint-tab">' + escHtml(src.tabs[t].name) + '</span>';
+        }
+        if (src.tabs.length > 6) html += '<span class="text-xs text-gray-400">외 ' + (src.tabs.length - 6) + '개</span>';
+        html += '</div>';
+      }
+    }
+
+    html += '</div>';
+  }
+
+  return html;
 }
