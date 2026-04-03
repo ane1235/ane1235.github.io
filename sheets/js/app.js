@@ -271,26 +271,37 @@ function loadAssignData() {
    ═══════════════════════════════════════════ */
 
 /**
+ * 셀 값에서 앞부분 날짜 숫자를 추출한다.
+ * "3" → 3, "10 Dr.Y 휴가" → 10, "abc" → NaN
+ * 날짜 셀은 숫자로 시작하되 뒤에 휴가자 정보 등이 붙을 수 있다.
+ */
+function parseDateNum(val) {
+  if (val === '' || val === null || val === undefined) return NaN;
+  var s = val.toString().trim();
+  if (!s) return NaN;
+  var m = s.match(/^(\d{1,2})\b/);
+  if (!m) return NaN;
+  var num = parseInt(m[1]);
+  return (num >= 1 && num <= 31) ? num : NaN;
+}
+
+/**
  * 선택된 날짜의 요일에 해당하는 열 블록에서 날짜를 찾는다.
  * @return {Object|null} { colStart, dateRow, dataStartRow, dataEndRow }
  */
 function findDatePosition(rows, targetDay) {
   var dow = selectedDate.getDay();
-  /* 평일만 (1=월~5=금) */
   if (dow < 1 || dow > 5) return null;
 
   var colStart = WEEKDAY_COL_START[dow];
 
-  /* 날짜 숫자 탐색: colStart ~ colStart+10 범위에서 targetDay 찾기 */
+  /* 날짜 탐색: colStart ~ colStart+10 범위에서 targetDay 찾기 */
   var dateRow = -1;
   for (var r = 0; r < rows.length; r++) {
     var row = rows[r];
     if (!row) continue;
     for (var c = colStart; c <= colStart + 10 && c < row.length; c++) {
-      var val = row[c];
-      if (val === '' || val === null || val === undefined) continue;
-      var num = parseInt(val);
-      if (num === targetDay && num.toString() === val.toString().trim()) {
+      if (parseDateNum(row[c]) === targetDay) {
         dateRow = r;
         break;
       }
@@ -300,16 +311,14 @@ function findDatePosition(rows, targetDay) {
 
   if (dateRow < 0) return null;
 
-  /* 다음 날짜 행 찾기: 같은 열 블록에서 다음 날짜 숫자가 있는 행 */
+  /* 다음 날짜 행 찾기: 같은 열 블록에서 다음 날짜가 있는 행 */
   var nextDateRow = rows.length;
   for (var r2 = dateRow + 1; r2 < rows.length; r2++) {
     var row2 = rows[r2];
     if (!row2) continue;
     for (var c2 = colStart; c2 <= colStart + 10 && c2 < row2.length; c2++) {
-      var val2 = row2[c2];
-      if (val2 === '' || val2 === null || val2 === undefined) continue;
-      var num2 = parseInt(val2);
-      if (!isNaN(num2) && num2 >= 1 && num2 <= 31 && num2.toString() === val2.toString().trim()) {
+      var dn = parseDateNum(row2[c2]);
+      if (!isNaN(dn) && dn !== targetDay) {
         nextDateRow = r2;
         break;
       }
@@ -320,18 +329,22 @@ function findDatePosition(rows, targetDay) {
   return {
     colStart: colStart,
     dateRow: dateRow,
-    dataStartRow: dateRow + 1 + WEEKDAY_SKIP_ROWS,  /* 날짜 행 + 근무표 3줄 건너뜀 + 1 */
+    dataStartRow: dateRow + 1 + WEEKDAY_SKIP_ROWS,
     dataEndRow: nextDateRow - 1
   };
 }
 
 /**
- * 날짜 블록에서 수술 이벤트 추출
+ * 날짜 블록에서 수술 이벤트와 메모를 분리 추출
  * 평일 11열 블록 (offset 0~10):
  *   0: 시간, 1: 집도의, 2~7: 수술명(6열), 8: 마취의, 9: 간호사1, 10: 간호사2
+ *
+ * 판별 기준: 집도의(offset 1) 또는 마취의(offset 8)가 있으면 수술, 둘 다 없으면 메모
+ * @return {{ events: Array, memos: Array }}
  */
 function extractEvents(rows, pos) {
   var events = [];
+  var memos = [];
   var base = pos.colStart;
 
   for (var r = pos.dataStartRow; r <= pos.dataEndRow && r < rows.length; r++) {
@@ -353,22 +366,34 @@ function extractEvents(rows, pos) {
     var nurse1 = cellStr(row, base + 9);
     var nurse2 = cellStr(row, base + 10);
 
-    /* 시간 또는 수술명이 있는 행만 이벤트로 인식 */
-    if (!time && !opName && !surgeon) continue;
+    /* 빈 행 무시 */
+    if (!time && !opName && !surgeon && !anes) continue;
 
     /* Google Sheets Date 유령값 필터링 */
     if (time && time.indexOf('1899') >= 0) continue;
 
-    events.push({
-      time: time,
-      surgeon: surgeon,
-      opName: opName,
-      anesthesiologist: anes,
-      nurse1: nurse1,
-      nurse2: nurse2
-    });
+    /* 집도의 또는 마취의가 있으면 수술, 없으면 메모 */
+    if (surgeon || anes) {
+      events.push({
+        time: time,
+        surgeon: surgeon,
+        opName: opName,
+        anesthesiologist: anes,
+        nurse1: nurse1,
+        nurse2: nurse2
+      });
+    } else {
+      /* 메모: 시간 + 나머지 텍스트를 합쳐 하나의 메모 문자열로 */
+      var memoParts = [];
+      if (time) memoParts.push(time);
+      if (opName) memoParts.push(opName);
+      if (nurse1) memoParts.push(nurse1);
+      if (nurse2) memoParts.push(nurse2);
+      var memoText = memoParts.join(' ');
+      if (memoText) memos.push(memoText);
+    }
   }
-  return events;
+  return { events: events, memos: memos };
 }
 
 function cellStr(row, colIdx) {
@@ -394,9 +419,11 @@ function renderAssignSection(allRows, container) {
     return;
   }
 
-  var events = extractEvents(allRows, pos);
+  var result = extractEvents(allRows, pos);
+  var events = result.events;
+  var memos = result.memos;
 
-  if (events.length === 0) {
+  if (events.length === 0 && memos.length === 0) {
     container.innerHTML = '<div class="section-no-match">'
       + '<span class="material-icons" style="font-size:20px; color:#94a3b8;">event_available</span>'
       + '<span>' + targetDay + '일: 등록된 수술 일정이 없습니다.</span>'
@@ -404,36 +431,55 @@ function renderAssignSection(allRows, container) {
     return;
   }
 
-  var html = '<div class="assign-table-wrap">';
-  html += '<table class="assign-table">';
-  html += '<thead><tr>';
-  html += '<th class="col-time">시간</th>';
-  html += '<th class="col-surgeon">집도의</th>';
-  html += '<th class="col-opname">수술명</th>';
-  html += '<th class="col-anes">마취</th>';
-  html += '<th class="col-nurse">회복간호사</th>';
-  html += '</tr></thead>';
-  html += '<tbody>';
+  var html = '';
 
-  for (var i = 0; i < events.length; i++) {
-    var ev = events[i];
-    /* 간호사: nurse2가 있으면 합침 */
-    var nurseDisplay = ev.nurse1;
-    if (ev.nurse2) {
-      nurseDisplay = nurseDisplay ? nurseDisplay + ', ' + ev.nurse2 : ev.nurse2;
+  /* 수술 테이블 */
+  if (events.length > 0) {
+    html += '<div class="assign-table-wrap">';
+    html += '<table class="assign-table">';
+    html += '<thead><tr>';
+    html += '<th class="col-time">시간</th>';
+    html += '<th class="col-surgeon">집도의</th>';
+    html += '<th class="col-opname">수술명</th>';
+    html += '<th class="col-anes">마취</th>';
+    html += '<th class="col-nurse">회복간호사</th>';
+    html += '</tr></thead>';
+    html += '<tbody>';
+
+    for (var i = 0; i < events.length; i++) {
+      var ev = events[i];
+      var nurseDisplay = ev.nurse1;
+      if (ev.nurse2) {
+        nurseDisplay = nurseDisplay ? nurseDisplay + ', ' + ev.nurse2 : ev.nurse2;
+      }
+
+      html += '<tr>';
+      html += '<td class="col-time">' + escHtml(ev.time) + '</td>';
+      html += '<td class="col-surgeon">' + escHtml(ev.surgeon) + '</td>';
+      html += '<td class="col-opname">' + escHtml(ev.opName) + '</td>';
+      html += '<td class="col-anes">' + escHtml(ev.anesthesiologist) + '</td>';
+      html += '<td class="col-nurse">' + escHtml(nurseDisplay) + '</td>';
+      html += '</tr>';
     }
 
-    html += '<tr>';
-    html += '<td class="col-time">' + escHtml(ev.time) + '</td>';
-    html += '<td class="col-surgeon">' + escHtml(ev.surgeon) + '</td>';
-    html += '<td class="col-opname">' + escHtml(ev.opName) + '</td>';
-    html += '<td class="col-anes">' + escHtml(ev.anesthesiologist) + '</td>';
-    html += '<td class="col-nurse">' + escHtml(nurseDisplay) + '</td>';
-    html += '</tr>';
+    html += '</tbody></table></div>';
+    html += '<p class="text-xs text-gray-400 mt-2" style="padding:0 16px 8px; text-align:right;">' + events.length + '건</p>';
   }
 
-  html += '</tbody></table></div>';
-  html += '<p class="text-xs text-gray-400 mt-2" style="padding:0 16px 8px; text-align:right;">' + events.length + '건</p>';
+  /* 메모 박스 — 메모가 있을 때만 표시 */
+  if (memos.length > 0) {
+    html += '<div class="assign-memo-box">';
+    html += '<div class="assign-memo-header">';
+    html += '<span class="material-icons" style="font-size:18px;">sticky_note_2</span>';
+    html += '<span>메모</span>';
+    html += '</div>';
+    html += '<ul class="assign-memo-list">';
+    for (var m = 0; m < memos.length; m++) {
+      html += '<li>' + escHtml(memos[m]) + '</li>';
+    }
+    html += '</ul>';
+    html += '</div>';
+  }
 
   container.innerHTML = html;
 }
