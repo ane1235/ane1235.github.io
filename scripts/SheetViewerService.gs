@@ -1,51 +1,121 @@
 /**
  * ============================================================
- * SheetViewerService.gs — 외부 시트 데이터 조회 서비스
+ * Sheets Viewer — 독립 Apps Script 웹앱
  * ============================================================
- * 역할: Sheets Viewer 페이지(ane1235.github.io/sheets/)에서
- *       외부 Google Sheets 데이터를 읽어 JSON으로 반환한다.
+ * 용도: ane1235.github.io/sheets/ 페이지의 백엔드 API
  *
- * 설치 방법:
- *   1. 이 파일의 내용을 Apps Script 편집기에 새 .gs 파일로 추가
- *   2. doGet/doPost 라우터에 아래 action 분기를 추가:
+ * ★ 설치 방법 (3단계):
+ *   1. script.google.com → 새 프로젝트 생성 (예: "Sheets Viewer API")
+ *   2. 이 파일 전체를 Code.gs에 붙여넣기
+ *   3. 배포 → 웹 앱 → 실행 계정: 나, 액세스: 모든 사용자 → 배포
+ *   4. 배포된 URL을 sheets/js/config.js의 API_URL에 설정
  *
- *      if (action === 'getSheetList')  → return asJson(getSheetList());
- *      if (action === 'getSheetData')  → return asJson(getSheetData(params.sheetKey, params.gid));
- *
- *   3. 두 스프레드시트를 Apps Script 실행 계정(kayen1978@gmail.com)에게
- *      "뷰어" 이상 권한으로 공유
- *   4. 새 버전으로 배포
- *
- * 데이터 소스:
- *   SHEET_VIEWER_SOURCES 배열에 정의된 스프레드시트에서 데이터를 읽는다.
+ * ★ 로그인 인증:
+ *   기존 KSCTVA 웹앱의 ANE 탭을 참조하여 동일한 이름+사번 인증 사용
  * ============================================================
  */
 
-/* ── 외부 시트 소스 정의 ── */
+/* ═══════════════════════════════════════════
+   설정
+   ═══════════════════════════════════════════ */
+
+/* KSCTVA 시트 (ANE 탭 = 로그인용) */
+var KSCTVA_SHEET_ID = '12KeGjyFvpZ6cSkKsuMrxmCBpBTBRzY3p21xQc5gtOBI';
+
+/* 외부 시트 소스 */
 var SHEET_VIEWER_SOURCES = [
   {
     key: 'sheet1',
     spreadsheetId: '1oetk8kh8SwC5cmlqpO7Kl_RFZqfID3Sm6oF214r8upo',
-    defaultGid: 1181166797,
-    label: '시트 1'
+    defaultGid: 1181166797
   },
   {
     key: 'sheet2',
     spreadsheetId: '1wmNAd3fjIkt0q8ytZFGB7jlw148cW_STdDAh_sosTzw',
-    defaultGid: 568469962,
-    label: '시트 2'
+    defaultGid: 568469962
   }
 ];
 
-/**
- * 시트 목록 반환 — 프론트엔드가 탭 UI를 구성할 때 사용
- *
- * @return {Object}
- *   { success: true, data: [
- *       { key: 'sheet1', label: '시트 1', tabs: [{ name: 'Sheet1', gid: 0 }, ...] },
- *       { key: 'sheet2', label: '시트 2', tabs: [...] }
- *   ]}
- */
+/* ═══════════════════════════════════════════
+   웹앱 진입점
+   ═══════════════════════════════════════════ */
+
+function doGet(e) {
+  var params = e.parameter || {};
+  var action = params.action;
+
+  if (action === 'login') {
+    return asJson(handleLogin(params.name, params.sn2));
+  }
+  if (action === 'getSheetList') {
+    return asJson(getSheetList());
+  }
+  if (action === 'getSheetData') {
+    return asJson(getSheetData(params.sheetKey, params.gid));
+  }
+
+  return asJson({ success: false, error: 'Unknown action: ' + action });
+}
+
+function doPost(e) {
+  /* 현재 POST 필요 없음 (읽기 전용) — 향후 확장 대비 */
+  try {
+    var body = JSON.parse(e.postData.contents);
+    var action = body.action;
+    return asJson({ success: false, error: 'Unknown POST action: ' + action });
+  } catch (err) {
+    return asJson({ success: false, error: 'Invalid request: ' + err.message });
+  }
+}
+
+function asJson(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/* ═══════════════════════════════════════════
+   로그인 (KSCTVA ANE 탭 참조)
+   ═══════════════════════════════════════════ */
+
+function handleLogin(name, sn2) {
+  try {
+    if (!name || !sn2) {
+      return { success: false, error: '이름과 사번을 모두 입력해주세요.' };
+    }
+
+    var trimmedName = name.toString().trim();
+    var trimmedSN2 = sn2.toString().trim();
+
+    var ss = SpreadsheetApp.openById(KSCTVA_SHEET_ID);
+    var aneSheet = ss.getSheetByName('ANE');
+    if (!aneSheet) {
+      return { success: false, error: '시스템 오류: ANE 시트를 찾을 수 없습니다.' };
+    }
+
+    var data = aneSheet.getDataRange().getValues();
+    if (data.length < 2) {
+      return { success: false, error: '시스템 오류: ANE 데이터가 비어있습니다.' };
+    }
+
+    for (var i = 1; i < data.length; i++) {
+      var rowSN2 = data[i][0].toString().trim();
+      var rowName = data[i][1].toString().trim();
+      if (rowSN2 === trimmedSN2 && rowName === trimmedName) {
+        return { success: true, data: { name: rowName, sn2: rowSN2 } };
+      }
+    }
+
+    return { success: false, error: '이름 또는 사번이 일치하지 않습니다.' };
+  } catch (e) {
+    return { success: false, error: '서버 오류: ' + e.message };
+  }
+}
+
+/* ═══════════════════════════════════════════
+   시트 목록 조회
+   ═══════════════════════════════════════════ */
+
 function getSheetList() {
   try {
     var result = [];
@@ -62,7 +132,7 @@ function getSheetList() {
       }
       result.push({
         key: src.key,
-        label: ss.getName(),    // 실제 스프레드시트 이름 사용
+        label: ss.getName(),
         tabs: tabs,
         defaultGid: src.defaultGid
       });
@@ -73,17 +143,12 @@ function getSheetList() {
   }
 }
 
-/**
- * 특정 시트의 특정 탭 데이터를 2D 배열로 반환
- *
- * @param {string} sheetKey - 'sheet1' 또는 'sheet2'
- * @param {number|string} gid - 탭의 gid (생략 시 defaultGid 사용)
- * @return {Object}
- *   { success: true, data: { headers: [...], rows: [[...], ...], tabName: '...' } }
- */
+/* ═══════════════════════════════════════════
+   시트 데이터 조회
+   ═══════════════════════════════════════════ */
+
 function getSheetData(sheetKey, gid) {
   try {
-    /* 소스 찾기 */
     var src = null;
     for (var i = 0; i < SHEET_VIEWER_SOURCES.length; i++) {
       if (SHEET_VIEWER_SOURCES[i].key === sheetKey) {
@@ -96,10 +161,9 @@ function getSheetData(sheetKey, gid) {
     }
 
     var ss = SpreadsheetApp.openById(src.spreadsheetId);
-
-    /* gid로 탭 찾기 */
     var targetGid = (gid !== undefined && gid !== null && gid !== '')
       ? parseInt(gid, 10) : src.defaultGid;
+
     var targetSheet = null;
     var allSheets = ss.getSheets();
     for (var j = 0; j < allSheets.length; j++) {
@@ -108,22 +172,18 @@ function getSheetData(sheetKey, gid) {
         break;
       }
     }
-
     if (!targetSheet) {
       return { success: false, error: '탭을 찾을 수 없습니다 (gid: ' + targetGid + ')' };
     }
 
-    /* 데이터 읽기 */
     var values = targetSheet.getDataRange().getValues();
     if (values.length === 0) {
       return { success: true, data: { headers: [], rows: [], tabName: targetSheet.getName() } };
     }
 
-    /* 1행 = 헤더, 나머지 = 데이터 행 */
     var headers = values[0].map(function(h) { return h.toString(); });
     var rows = values.slice(1).map(function(row) {
       return row.map(function(cell) {
-        /* Date 객체 → 문자열 변환 (JSON 직렬화 안전) */
         if (cell instanceof Date) {
           return Utilities.formatDate(cell, Session.getScriptTimeZone(), 'yyyy-MM-dd HH:mm:ss');
         }
@@ -133,13 +193,8 @@ function getSheetData(sheetKey, gid) {
 
     return {
       success: true,
-      data: {
-        headers: headers,
-        rows: rows,
-        tabName: targetSheet.getName()
-      }
+      data: { headers: headers, rows: rows, tabName: targetSheet.getName() }
     };
-
   } catch (e) {
     return { success: false, error: '시트 데이터 조회 오류: ' + e.message };
   }
