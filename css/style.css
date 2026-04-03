@@ -72,6 +72,23 @@ body {
 }
 .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); }
 
+/* 공사중 메뉴 — 녹색 계열로 차별화 */
+.nav-wip {
+  font-family: "Courier New", monospace;
+  color: #4ade80;
+  border: 1px dashed #4ade80;
+  border-radius: 6px;
+  margin-left: 8px;
+  padding: 0 10px !important;
+  height: 32px !important;
+  animation: wipBlink 2s ease-in-out infinite;
+}
+.nav-wip:hover { background: rgba(74,222,128,0.15); }
+@keyframes wipBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
 .dropdown-menu {
   display: none; position: absolute; top: 48px; left: 0;
   background: white; color: #1e293b;

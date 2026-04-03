@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+  Sheets Viewer — GitHub Pages (ane1235.github.io/sheets/)
+  KSCTVA 학회 페이지의 하위 페이지. 로그인 세션을 공유한다.
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sheets Viewer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: {
+        primary: { DEFAULT: '#0f9d58', dark: '#0b6e3d', light: '#d4edda', lighter: '#f0faf4' },
+        accent: '#f4b400', danger: '#db4437'
+      }}}
+    };
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 로그인 -->
+  <div id="view-login" class="login-bg">
+    <div class="grid-line" style="top:25%"></div>
+    <div class="grid-line" style="top:50%; animation-delay:-1.5s;"></div>
+    <div class="grid-line" style="top:75%; animation-delay:-3s;"></div>
+    <div class="login-card text-center">
+      <span class="material-icons" style="font-size:56px; color:#0f9d58; margin-bottom:12px;">table_chart</span>
+      <h1 class="text-xl font-bold text-primary-dark mb-1">Sheets Viewer</h1>
+      <p class="text-sm text-gray-500 mb-6">Google Sheets 데이터 뷰어</p>
+      <div class="mb-4">
+        <input type="text" id="input-name" placeholder="이름" autocomplete="off" class="mb-3"
+               onkeydown="if(event.key==='Enter') document.getElementById('input-sn2').focus()">
+        <input type="text" id="input-sn2" placeholder="사번 (8자리)" autocomplete="off"
+               maxlength="8" inputmode="numeric" onkeydown="if(event.key==='Enter') handleLoginSubmit()">
+      </div>
+      <p id="login-error" class="text-danger text-sm mb-4 hidden"></p>
+      <button onclick="handleLoginSubmit()" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-colors">로그인</button>
+      <p class="text-xs text-gray-400 mt-4">부천세종병원 마취통증의학과</p>
+    </div>
+  </div>
+
+  <!-- 앱 -->
+  <div id="app-container" class="hidden">
+    <nav class="navbar">
+      <div class="nav-item" onclick="location.href='/'" title="KSCTVA 메인으로">
+        <span class="material-icons mr-1" style="font-size:20px;">arrow_back</span><span class="hidden sm:inline">메인</span>
+      </div>
+      <div class="nav-item active" style="font-weight:700;">
+        <span class="material-icons mr-1" style="font-size:20px;">table_chart</span>Sheets
+      </div>
+      <div class="ml-auto flex items-center text-sm opacity-80">
+        <span id="user-display" class="hidden sm:inline"></span>
+        <span class="material-icons ml-2 cursor-pointer" style="font-size:20px;" onclick="handleLogout()" title="로그아웃">logout</span>
+      </div>
+    </nav>
+    <div class="content-area" id="content-area">
+      <div id="loading-screen" class="text-center py-20">
+        <div class="spinner mb-4"></div>
+        <p class="text-gray-500">데이터를 불러오는 중...</p>
+      </div>
+      <div id="sheet-content" class="hidden">
+        <!-- 시트 데이터가 여기에 렌더링됨 -->
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- JS 로드 순서: config → utils → state → app -->
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

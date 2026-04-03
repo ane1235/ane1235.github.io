@@ -1,0 +1,182 @@
+/* Sheets Viewer — style.css V1.0 */
+/* 녹색 계열 Google Sheets 테마 — KSCTVA style.css 레이아웃 기반 */
+
+/* ── 글로벌 ── */
+html, body { overflow-x: hidden; max-width: 100%; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f0faf4;
+  color: #1e293b;
+}
+.material-icons { vertical-align: middle; font-size: 20px; }
+
+/* ── 로그인 ── */
+.login-bg {
+  background: linear-gradient(135deg, #0b6e3d 0%, #0f9d58 50%, #0b6e3d 100%);
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.login-bg::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    repeating-linear-gradient(90deg, transparent, transparent 60px,
+      rgba(255,255,255,0.04) 60px, rgba(255,255,255,0.04) 61px),
+    repeating-linear-gradient(0deg, transparent, transparent 60px,
+      rgba(255,255,255,0.04) 60px, rgba(255,255,255,0.04) 61px);
+}
+.grid-line {
+  position: absolute; width: 200%; height: 1px;
+  background: rgba(180,230,200,0.15);
+}
+.grid-line::after {
+  content: ''; position: absolute; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent 0%, transparent 45%,
+    rgba(180,230,200,0.5) 50%, transparent 55%, transparent 100%);
+  animation: gridPulse 3s ease-in-out infinite;
+}
+@keyframes gridPulse {
+  0%, 100% { opacity: 0.3; transform: translateX(-30%); }
+  50% { opacity: 1; transform: translateX(30%); }
+}
+
+.login-card {
+  background: rgba(255,255,255,0.95); border-radius: 16px; padding: 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  max-width: 380px; width: 90%;
+  position: relative; z-index: 10; backdrop-filter: blur(10px);
+}
+.login-card input {
+  width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0;
+  border-radius: 8px; font-size: 15px; transition: border-color 0.2s; outline: none;
+}
+.login-card input:focus { border-color: #0f9d58; }
+
+/* ── 네비게이션 ── */
+.navbar {
+  background: #0b6e3d; color: white;
+  padding: 0 16px;
+  display: flex; align-items: center;
+  height: 48px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  max-width: 960px;
+  margin: 0 auto;
+}
+.nav-item {
+  padding: 0 12px; height: 48px;
+  display: flex; align-items: center; cursor: pointer;
+  position: relative; font-size: 13px; font-weight: 500;
+  transition: background 0.2s; white-space: nowrap;
+}
+.nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); }
+
+/* ── 콘텐츠 ── */
+.content-area {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px 12px;
+}
+
+/* ── 시트 테이블 ── */
+.sheet-table {
+  width: 100%; border-collapse: collapse;
+  background: white; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.sheet-table th {
+  background: #0b6e3d; color: white;
+  padding: 10px 12px; text-align: left; font-size: 13px;
+  position: sticky; top: 48px; z-index: 10;
+}
+.sheet-table td {
+  padding: 10px 12px; border-bottom: 1px solid #e2e8f0;
+  font-size: 13px; line-height: 1.4;
+  word-break: keep-all; overflow-wrap: break-word;
+}
+.sheet-table tr:hover { background: #f0faf4; }
+.sheet-table tr:nth-child(even) { background: #f8fdfb; }
+.sheet-table tr:nth-child(even):hover { background: #e8f5ee; }
+
+/* ── 시트 탭 ── */
+.sheet-tabs {
+  display: flex; gap: 4px; margin-bottom: 16px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+.sheet-tab {
+  padding: 8px 16px; cursor: pointer; font-weight: 500; font-size: 13px;
+  border: 1px solid #d4edda; border-radius: 8px 8px 0 0;
+  background: white; color: #64748b; transition: all 0.2s; white-space: nowrap;
+}
+.sheet-tab.active {
+  background: #0f9d58; color: white; border-color: #0f9d58;
+}
+.sheet-tab:hover:not(.active) { background: #d4edda; color: #0b6e3d; }
+
+/* ── 공사중 배너 ── */
+.wip-banner {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 2px dashed #f59e0b;
+  border-radius: 12px; padding: 24px; margin-bottom: 16px;
+  text-align: center;
+}
+.wip-banner .material-icons { font-size: 40px; color: #d97706; }
+
+/* ── 기타 UI ── */
+.spinner {
+  border: 3px solid #d4edda; border-top: 3px solid #0f9d58;
+  border-radius: 50%; width: 32px; height: 32px;
+  animation: spin 0.8s linear infinite; margin: 0 auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: #0b6e3d; color: white;
+  padding: 10px 20px; border-radius: 8px; font-size: 13px;
+  z-index: 999; opacity: 0; transition: opacity 0.3s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  max-width: 90%; text-align: center;
+}
+.toast.show { opacity: 1; }
+
+.view-container { animation: fadeIn 0.25s ease-in; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hidden { display: none !important; }
+
+/* ── 데스크탑 (≥769px) ── */
+@media (min-width: 769px) {
+  .navbar { max-width: 1200px; height: 52px; padding: 0 24px; }
+  .content-area { max-width: 1200px; padding: 24px 24px; }
+  .nav-item { height: 52px; font-size: 14px; padding: 0 16px; }
+  .sheet-table th { padding: 12px 16px; font-size: 14px; top: 52px; }
+  .sheet-table td { padding: 14px 16px; font-size: 14px; line-height: 1.6; }
+  .sheet-tab { padding: 10px 24px; font-size: 14px; }
+}
+
+/* ── 모바일 (≤768px) ── */
+@media (max-width: 768px) {
+  .navbar { padding: 0 6px; height: 44px; max-width: 100%; }
+  .nav-item { padding: 0 8px; height: 44px; font-size: 12px; }
+  .content-area { padding: 10px 6px; max-width: 100%; }
+  .sheet-table th { padding: 8px 6px; font-size: 12px; top: 44px; }
+  .sheet-table td { padding: 8px 6px; font-size: 12px; line-height: 1.35; }
+  .sheet-tab { padding: 6px 12px; font-size: 12px; }
+  .login-card { padding: 28px 24px; }
+  .login-card input { font-size: 14px; padding: 10px 14px; }
+}
+
+/* ── 소형 모바일 (≤375px) ── */
+@media (max-width: 375px) {
+  .navbar { padding: 0 4px; height: 42px; }
+  .nav-item { padding: 0 6px; font-size: 11px; height: 42px; }
+  .content-area { padding: 8px 4px; }
+  .sheet-table th { padding: 6px 4px; font-size: 11px; top: 42px; }
+  .sheet-table td { padding: 6px 4px; font-size: 11px; line-height: 1.3; }
+  .login-card { padding: 24px 20px; max-width: 340px; }
+}
