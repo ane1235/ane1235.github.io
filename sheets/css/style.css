@@ -297,7 +297,7 @@ body {
 
 /* ── Assign 수술 테이블 ── */
 .assign-table-wrap {
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
   padding: 0;
 }
 .assign-table {
@@ -322,11 +322,11 @@ body {
 .assign-table tr:nth-child(even):hover { background: #e8f5ee; }
 
 /* 열 폭 — ch 단위: 6ch ≈ 한글 3자 기준 */
-.col-time    { width: 6ch;  text-align: center; white-space: normal; font-weight: 600; color: #0b6e3d; }
+.col-time    { width: 5ch;  text-align: center; white-space: normal; font-weight: 600; color: #0b6e3d; }
 .col-surgeon { width: 6ch;  text-align: center; white-space: normal; }
 .col-opname  { /* 폭 미지정 — 나머지 공간을 차지 */ }
 .col-anes    { width: 6ch;  text-align: center; font-weight: 600; color: #2563eb; white-space: normal; }
-.col-nurse   { width: 15ch; white-space: normal; }
+.col-nurse   { width: 13ch; white-space: normal; }
 
 /* ── Assign 메모 박스 ── */
 .assign-memo-box {
@@ -434,6 +434,7 @@ body {
   .assign-table { min-width: auto; }
   .assign-table th { padding: 6px 8px; font-size: 11px; }
   .assign-table td { padding: 6px 8px; font-size: 12px; }
+  .col-surgeon { font-size: 11px; white-space: nowrap; }
 }
 
 /* ── 소형 모바일 (≤375px) ── */

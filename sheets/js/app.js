@@ -410,6 +410,18 @@ function cellStr(row, colIdx) {
   return v.toString().trim();
 }
 
+/**
+ * 시간 텍스트 정규화:
+ *   "8A", "10A" → 그대로 (숫자+A)
+ *   "10:30A"    → "10:30" (콜론 포함 시 뒤의 A 제거)
+ *   "1:30"      → "1:30"  (A 없으면 그대로)
+ */
+function normalizeTime(t) {
+  if (!t) return t;
+  if (t.indexOf(':') >= 0) return t.replace(/A$/i, '');
+  return t;
+}
+
 /* ═══════════════════════════════════════════
    Assign Note 렌더링
    ═══════════════════════════════════════════ */
@@ -465,7 +477,7 @@ function renderAssignSection(allRows, container) {
         : ev.opName;
 
       html += '<tr>';
-      html += '<td class="col-time">' + escHtml(ev.time) + '</td>';
+      html += '<td class="col-time">' + escHtml(normalizeTime(ev.time)) + '</td>';
       html += '<td class="col-surgeon">' + escHtml(ev.surgeon) + '</td>';
       html += '<td class="col-opname">' + escHtml(displayOpName) + '</td>';
       html += '<td class="col-anes">' + escHtml(ev.anesthesiologist) + '</td>';
