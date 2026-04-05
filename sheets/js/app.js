@@ -1,10 +1,17 @@
-/* 근무 대시보드 — app.js V4.0 */
+/* 근무 대시보드 — app.js V4.1 */
 /* Assign Note 시트에서 선택 날짜의 수술 일정을 파싱하여 표시 */
 
 /* ── 전역 ── */
 var sheetSources = [];
 var DISPLAY_LABELS = { sheet1: 'ASSIGN', sheet2: '근무표 및 특기사항' };
 var assignDataCache = {};
+var shiftDataCache = {};
+
+/* Off로 분류되는 근무형태 */
+var OFF_SHIFT_TYPES = { '휴가': true, '특휴': true, 'Off': true, 'off': true };
+
+/* 표준 근무형태 순서 (11종) */
+var STANDARD_SHIFT_ORDER = ['D','M','MD','MD2','E','N','낮당','휴낮','휴당','당직','휴가'];
 
 /* CATH 집도의 명단 — 이 집도의들의 수술명 앞에 "[CATH] " 접두사를 붙인다 */
 var CATH_SURGEONS = ['방지석', '김정윤', '박상원', '박하욱', '김성호', '정현', '이의재'];
@@ -91,11 +98,12 @@ function refreshDashboard() {
   var html = '<div class="view-container">';
   html += renderDateCounter();
   html += renderSectionCards();
-  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0006</p>';
+  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0159</p>';
   html += '</div>';
   dashboard.innerHTML = html;
 
   loadAssignData();
+  loadShiftData();
 }
 
 /* ═══════════════════════════════════════════
@@ -186,9 +194,6 @@ function renderSectionCards() {
     html += '</div>';
 
     if (matchedTab) {
-      if (!isAssign) {
-        html += '<div class="section-subtitle">' + escHtml(matchedTab.name) + '</div>';
-      }
       html += '<div class="section-content" id="section-data-' + escHtml(src.key) + '">';
       if (isAssign) {
         if (isWeekend) {
@@ -198,7 +203,7 @@ function renderSectionCards() {
           html += '<div class="text-center" style="padding:20px;"><div class="spinner mb-2"></div><p class="text-gray-400 text-sm">수술 일정을 불러오는 중...</p></div>';
         }
       } else {
-        html += '<p class="text-gray-400 text-sm" style="padding:20px; text-align:center;">데이터 영역 (레이아웃 구상 중)</p>';
+        html += '<div class="text-center" style="padding:20px;"><div class="spinner mb-2"></div><p class="text-gray-400 text-sm">근무표를 불러오는 중...</p></div>';
       }
       html += '</div>';
     } else {
@@ -502,4 +507,200 @@ function renderAssignSection(allRows, container) {
   }
 
   container.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════
+   Shift 데이터 로드
+   ═══════════════════════════════════════════ */
+
+function loadShiftData() {
+  var src = null;
+  for (var i = 0; i < sheetSources.length; i++) {
+    if (sheetSources[i].key === 'sheet2') { src = sheetSources[i]; break; }
+  }
+  if (!src) return;
+
+  var tab = findShiftTab(src);
+  if (!tab) return;
+
+  var container = document.getElementById('section-data-sheet2');
+  if (!container) return;
+
+  var cacheKey = tab.gid;
+  if (shiftDataCache[cacheKey]) {
+    renderDutySection(shiftDataCache[cacheKey].rows, container);
+    return;
+  }
+
+  callApi({ action: 'getSheetData', sheetKey: 'sheet2', gid: tab.gid })
+    .then(function(result) {
+      if (!result.success) {
+        container.innerHTML = '<p class="text-danger text-sm" style="padding:16px;">' + escHtml(result.error) + '</p>';
+        return;
+      }
+      shiftDataCache[cacheKey] = { rows: result.data.rows };
+      renderDutySection(result.data.rows, container);
+    })
+    .catch(function(err) {
+      container.innerHTML = '<p class="text-danger text-sm" style="padding:16px;">로드 오류: ' + escHtml(err.message) + '</p>';
+    });
+}
+
+/* ═══════════════════════════════════════════
+   Duty 섹션 렌더링
+   ═══════════════════════════════════════════ */
+
+function renderDutySection(rows, container) {
+  var targetMonth = selectedDate.getMonth() + 1;
+  var targetDate  = selectedDate.getDate();
+
+  /* 1. 직원 범위 탐색 (A열=인덱스0) */
+  var empStart = null, empEnd = null;
+  for (var i = 0; i < rows.length; i++) {
+    var av = rows[i][0];
+    if (typeof av === 'number' && av > 0) {
+      if (empStart === null) empStart = i;
+      empEnd = i;
+    }
+  }
+  if (empStart === null) {
+    container.innerHTML = '<div class="section-no-match"><span>직원 데이터를 찾을 수 없습니다.</span></div>';
+    return;
+  }
+
+  /* 2. D열(인덱스3)에서 월 텍스트 탐색 */
+  var MONTH_COL = 3;
+  var monthRowIdx = null, firstMonth = null;
+  for (var r = 0; r < rows.length; r++) {
+    var mv = rows[r].length > MONTH_COL ? rows[r][MONTH_COL].toString().trim() : '';
+    if (mv.slice(-1) === '월' && mv.length <= 3) {
+      monthRowIdx = r;
+      firstMonth = parseInt(mv);
+      break;
+    }
+  }
+  if (monthRowIdx === null) {
+    container.innerHTML = '<div class="section-no-match"><span>날짜 데이터를 찾을 수 없습니다.</span></div>';
+    return;
+  }
+
+  var dateRowIdx = monthRowIdx + 1;
+  var dateRow = rows[dateRowIdx];
+
+  /* 3. 날짜 범위: 첫 16 → 첫 15 */
+  var dateStartCol = null, dateEndCol = null;
+  for (var c = 0; c < dateRow.length; c++) {
+    var dv = dateRow[c];
+    if (dateStartCol === null) {
+      if (typeof dv === 'number' && Math.round(dv) === 16) { dateStartCol = c; }
+    } else {
+      if (typeof dv === 'number' && Math.round(dv) === 15) { dateEndCol = c; break; }
+    }
+  }
+  if (dateStartCol === null || dateEndCol === null) {
+    container.innerHTML = '<div class="section-no-match"><span>날짜 범위를 찾을 수 없습니다.</span></div>';
+    return;
+  }
+
+  /* 4. 대상 날짜 열 찾기 */
+  var currentMonth = firstMonth;
+  var targetCol = null;
+  for (var col = dateStartCol; col <= dateEndCol; col++) {
+    var cv = dateRow[col];
+    if (col > dateStartCol) {
+      var prev = dateRow[col - 1];
+      if (typeof cv === 'number' && typeof prev === 'number' && Math.round(cv) < Math.round(prev)) {
+        currentMonth++;
+      }
+    }
+    if (currentMonth === targetMonth && typeof cv === 'number' && Math.round(cv) === targetDate) {
+      targetCol = col;
+      break;
+    }
+  }
+  if (targetCol === null) {
+    container.innerHTML = '<div class="section-no-match">'
+      + '<span class="material-icons" style="font-size:20px; color:#94a3b8;">event_busy</span>'
+      + '<span>' + targetMonth + '/' + targetDate + ' 근무 데이터를 찾을 수 없습니다.</span>'
+      + '</div>';
+    return;
+  }
+
+  /* 5. 근무형태별 직원 수집 */
+  var schedule = {};
+  for (var ei = empStart; ei <= empEnd; ei++) {
+    var name  = rows[ei][2] ? rows[ei][2].toString().trim() : '';
+    var shift = rows[ei].length > targetCol ? rows[ei][targetCol].toString().trim() : '';
+    if (!shift || !name) continue;
+
+    if (OFF_SHIFT_TYPES[shift]) {
+      var label = (shift === 'Off' || shift === 'off') ? name : name + '(' + shift + ')';
+      if (!schedule['Off']) schedule['Off'] = [];
+      schedule['Off'].push(label);
+    } else {
+      if (!schedule[shift]) schedule[shift] = [];
+      schedule[shift].push(name);
+    }
+  }
+
+  /* 6. HTML 렌더링 */
+  var html = '<div class="duty-wrap"><table class="duty-table">';
+
+  /* D행 (있을 때만) */
+  if (schedule['D']) {
+    html += dutyRowFull('D', schedule['D'].join(', '));
+  }
+  /* M행 */
+  if (schedule['M']) {
+    html += dutyRowFull('M', schedule['M'].join(', '));
+  }
+  /* MD | MD2 행 */
+  if (schedule['MD'] || schedule['MD2']) {
+    html += dutyRowPair(
+      'MD',  schedule['MD']  ? schedule['MD'].join(', ')  : '',
+      'MD2', schedule['MD2'] ? schedule['MD2'].join(', ') : ''
+    );
+  }
+  /* E | N 행 */
+  if (schedule['E'] || schedule['N']) {
+    html += dutyRowPair(
+      'E', schedule['E'] ? schedule['E'].join(', ') : '',
+      'N', schedule['N'] ? schedule['N'].join(', ') : ''
+    );
+  }
+  /* 낮당, 휴낮, 휴당, 당직 단독행 */
+  var singleShifts = ['낮당', '휴낮', '휴당', '당직'];
+  for (var si = 0; si < singleShifts.length; si++) {
+    var sk = singleShifts[si];
+    if (schedule[sk]) { html += dutyRowFull(sk, schedule[sk].join(', ')); }
+  }
+  /* Off행 */
+  if (schedule['Off']) {
+    html += dutyRowFull('Off', schedule['Off'].join(', '));
+  }
+  /* 비표준 근무형태 */
+  for (var key in schedule) {
+    if (STANDARD_SHIFT_ORDER.indexOf(key) < 0 && key !== 'Off') {
+      html += dutyRowFull(key, schedule[key].join(', '));
+    }
+  }
+
+  html += '</table></div>';
+  container.innerHTML = html;
+}
+
+function dutyRowFull(shiftLabel, names) {
+  return '<tr>'
+    + '<td class="duty-shift">' + escHtml(shiftLabel) + '</td>'
+    + '<td class="duty-names" colspan="3">' + escHtml(names) + '</td>'
+    + '</tr>';
+}
+
+function dutyRowPair(shift1, names1, shift2, names2) {
+  return '<tr>'
+    + '<td class="duty-shift">' + escHtml(shift1) + '</td>'
+    + '<td class="duty-names">' + escHtml(names1) + '</td>'
+    + '<td class="duty-shift duty-shift-right">' + escHtml(shift2) + '</td>'
+    + '<td class="duty-names">' + escHtml(names2) + '</td>'
+    + '</tr>';
 }

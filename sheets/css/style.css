@@ -335,6 +335,45 @@ body {
 .col-anes    { width: 6ch;  text-align: center; font-weight: 600; color: #2563eb; white-space: normal; }
 .col-nurse   { width: 12ch; white-space: normal; }
 
+/* ── Duty 근무표 ── */
+.duty-wrap {
+  overflow-x: hidden;
+  padding: 0;
+}
+.duty-table {
+  width: 100%; border-collapse: collapse;
+  table-layout: fixed;
+}
+.duty-table tr {
+  border-bottom: 1px solid #e2e8f0;
+}
+.duty-table tr:last-child {
+  border-bottom: none;
+}
+/* 근무형태 코드: Assign 수술시간(.col-time)과 동일 속성 */
+.duty-shift {
+  width: 46px;
+  padding: 7px 8px;
+  font-size: 12px; font-weight: 600; color: #0b6e3d;
+  text-align: center; white-space: nowrap;
+  vertical-align: middle;
+  background: #f8fdfb;
+  border-right: 1px solid #e2e8f0;
+}
+.duty-shift-right {
+  border-left: 1px solid #e2e8f0;
+}
+/* 직원 이름: Assign 마취회복팀(.col-nurse)과 동일 속성 */
+.duty-names {
+  padding: 7px 10px;
+  font-size: 13px;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  vertical-align: middle;
+  line-height: 1.5;
+}
+
 /* ── Assign 메모 박스 ── */
 .assign-memo-box {
   margin: 0 16px 12px;
@@ -408,6 +447,8 @@ body {
   .assign-table th { padding: 10px 14px; font-size: 13px; }
   .assign-table td { padding: 10px 14px; font-size: 14px; }
   .col-opname { width: 40ch; }
+  .duty-shift { width: 54px; font-size: 13px; padding: 8px 10px; }
+  .duty-names { font-size: 14px; padding: 8px 12px; }
 }
 
 /* ── 모바일 (≤768px) ── */
@@ -447,6 +488,8 @@ body {
   .col-anes    { width: 32px; }
   .col-nurse   { width: 80px; letter-spacing: -0.5px; }
   .col-opname  { letter-spacing: -0.5px; }
+  .duty-shift { width: 40px; font-size: 11px; padding: 6px 4px; }
+  .duty-names { font-size: 12px; padding: 6px 6px; letter-spacing: -0.3px; }
 }
 
 /* ── 소형 모바일 (≤375px) ── */
@@ -472,4 +515,6 @@ body {
   .col-opname  { width: 250px; font-size: 18px; letter-spacing: -0.5px; }
   .col-anes    { width: 48px; }
   .col-nurse   { width: 120px; font-size: 20px; letter-spacing: -0.5px; }
+  .duty-shift { width: 54px; font-size: 15px; padding: 6px 6px; }
+  .duty-names { font-size: 16px; padding: 6px 8px; }
 }
