@@ -322,11 +322,11 @@ body {
 .assign-table tr:nth-child(even):hover { background: #e8f5ee; }
 
 /* 열 폭 — ch 단위: 6ch ≈ 한글 3자 기준 */
-.col-time    { width: 5ch;  text-align: center; white-space: normal; font-weight: 600; color: #0b6e3d; }
+.col-time    { width: 6ch;  text-align: center; white-space: normal; font-weight: 600; color: #0b6e3d; }
 .col-surgeon { width: 6ch;  text-align: center; white-space: normal; }
 .col-opname  { /* 폭 미지정 — 나머지 공간을 차지 */ }
 .col-anes    { width: 6ch;  text-align: center; font-weight: 600; color: #2563eb; white-space: normal; }
-.col-nurse   { width: 13ch; white-space: normal; }
+.col-nurse   { width: 12ch; white-space: normal; }
 
 /* ── Assign 메모 박스 ── */
 .assign-memo-box {
