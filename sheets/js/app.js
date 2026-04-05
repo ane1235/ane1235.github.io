@@ -98,7 +98,7 @@ function refreshDashboard() {
   var html = '<div class="view-container">';
   html += renderDateCounter();
   html += renderSectionCards();
-  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0203</p>';
+  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0230</p>';
   html += '</div>';
   dashboard.innerHTML = html;
 
@@ -131,20 +131,26 @@ function findAssignNoteTab(src) {
 function findShiftTab(src) {
   var d = selectedDate;
   var dTime = d.getTime();
+  var yy = (d.getFullYear() % 100).toString(); /* "26" for 2026 */
 
+  /* 1차: 연도 접두사(예: "26.")가 일치하는 탭만 탐색 — 과거 탭 오매칭 방지 */
   for (var i = 0; i < src.tabs.length; i++) {
-    var range = parseShiftPeriod(src.tabs[i].name.trim());
+    var name = src.tabs[i].name.trim();
+    if (name.indexOf(yy + '.') !== 0 && name.indexOf(yy + "'") !== 0) continue;
+    var range = parseShiftPeriod(name);
     if (range && dTime >= range.start.getTime() && dTime <= range.end.getTime()) {
       return src.tabs[i];
     }
   }
 
-  var y = d.getFullYear(), m = d.getMonth(), day = d.getDate();
-  var periodMonth = day < 16 ? (m === 0 ? 12 : m) : m + 1;
+  /* 2차: 연도 접두사 없이 전체 탐색 (fallback) */
   for (var j = 0; j < src.tabs.length; j++) {
-    var n = src.tabs[j].name;
-    if (n.indexOf(periodMonth + '월') >= 0 || n.indexOf(periodMonth + '/') >= 0) return src.tabs[j];
+    var range2 = parseShiftPeriod(src.tabs[j].name.trim());
+    if (range2 && dTime >= range2.start.getTime() && dTime <= range2.end.getTime()) {
+      return src.tabs[j];
+    }
   }
+
   return null;
 }
 
