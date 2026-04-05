@@ -98,7 +98,7 @@ function refreshDashboard() {
   var html = '<div class="view-container">';
   html += renderDateCounter();
   html += renderSectionCards();
-  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0230</p>';
+  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0243</p>';
   html += '</div>';
   dashboard.innerHTML = html;
 
@@ -155,7 +155,8 @@ function findShiftTab(src) {
 }
 
 function parseShiftPeriod(name) {
-  var m = name.match(/(\d{1,2})[\/\.](\d{1,2})\s*[~\-]\s*(\d{1,2})[\/\.](\d{1,2})/);
+  /* 연도 접두사(예: "26.", "22' ")를 건너뛰고 월/일만 캡처 */
+  var m = name.match(/(?:\d{2,4}['.]\s*)?(\d{1,2})[\/.](\d{1,2})\s*[~\-]\s*(?:\d{2,4}['.]\s*)?(\d{1,2})[\/.](\d{1,2})/);
   if (m) {
     var y = selectedDate.getFullYear();
     var start = new Date(y, parseInt(m[1]) - 1, parseInt(m[2]), 0, 0, 0);
@@ -594,7 +595,6 @@ function renderDutySection(rows, fc, container) {
 
   var dateRowIdx = monthRowIdx + 1;
   var dateRow = rows[dateRowIdx];
-
   /* 3. 날짜 범위: 첫 16 → 첫 15 */
   var dateStartCol = null, dateEndCol = null;
   for (var c = 0; c < dateRow.length; c++) {
