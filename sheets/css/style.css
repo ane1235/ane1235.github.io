@@ -432,9 +432,12 @@ body {
   .login-card input { font-size: 14px; padding: 10px 14px; }
   .logo-img { width: calc(90vw * 2 / 3); max-width: 253px; }
   .assign-table { min-width: auto; }
-  .assign-table th { padding: 6px 8px; font-size: 11px; }
-  .assign-table td { padding: 6px 8px; font-size: 12px; }
-  .col-surgeon { font-size: 11px; white-space: nowrap; }
+  .assign-table th { padding: 4px 4px; font-size: 11px; }
+  .assign-table td { padding: 4px 4px; font-size: 12px; }
+  .col-time    { width: 44px; }
+  .col-surgeon { width: 40px; font-size: 11px; white-space: nowrap; }
+  .col-anes    { width: 32px; }
+  .col-nurse   { width: 72px; }
 }
 
 /* ── 소형 모바일 (≤375px) ── */
