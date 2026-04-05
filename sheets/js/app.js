@@ -418,7 +418,7 @@ function cellStr(row, colIdx) {
  */
 function normalizeTime(t) {
   if (!t) return t;
-  if (t.indexOf(':') >= 0) return t.replace(/A$/i, '');
+  if (t.indexOf(':') >= 0) return t.replace(/[AP]$/i, '');
   return t;
 }
 

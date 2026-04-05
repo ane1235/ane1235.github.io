@@ -453,3 +453,14 @@ body {
   .cal-day { font-size: 13px; padding: 6px 0; }
   .login-card { padding: 24px 20px; max-width: 340px; }
 }
+
+/* ── 모바일 가로 모드 ── */
+@media (orientation: landscape) and (max-height: 500px) {
+  .assign-table th { padding: 4px 4px; font-size: 15px; }
+  .assign-table td { padding: 4px 4px; font-size: 16px; }
+  .col-time    { width: 75px; font-size: 15px; letter-spacing: -1px; }
+  .col-surgeon { width: 68px; font-size: 15px; white-space: nowrap; letter-spacing: -0.5px; }
+  .col-opname  { width: 300px; letter-spacing: -0.5px; }
+  .col-anes    { width: 48px; }
+  .col-nurse   { width: 120px; letter-spacing: -0.5px; }
+}
