@@ -91,7 +91,7 @@ function refreshDashboard() {
   var html = '<div class="view-container">';
   html += renderDateCounter();
   html += renderSectionCards();
-  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0003</p>';
+  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0006</p>';
   html += '</div>';
   dashboard.innerHTML = html;
 
