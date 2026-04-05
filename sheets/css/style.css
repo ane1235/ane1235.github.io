@@ -434,10 +434,10 @@ body {
   .assign-table { min-width: auto; }
   .assign-table th { padding: 4px 4px; font-size: 11px; }
   .assign-table td { padding: 4px 4px; font-size: 12px; }
-  .col-time    { width: 44px; }
-  .col-surgeon { width: 40px; font-size: 11px; white-space: nowrap; }
+  .col-time    { width: 50px; }
+  .col-surgeon { width: 45px; font-size: 11px; white-space: nowrap; }
   .col-anes    { width: 32px; }
-  .col-nurse   { width: 72px; }
+  .col-nurse   { width: 80px; }
 }
 
 /* ── 소형 모바일 (≤375px) ── */
