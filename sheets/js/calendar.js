@@ -45,7 +45,7 @@ function renderDateCounter() {
   /* 날짜 카운터 + 달력 패널을 하나의 relative 컨테이너에 배치 */
   html += '<div class="date-counter-wrap">';
   html += '<div class="date-counter" onclick="toggleCalendar()">';
-  html += '<span class="duty-label">DUTY</span>';
+  html += '<span class="duty-label">Duty&amp;Assign</span>';
   html += '<span class="material-icons" style="font-size:24px; color:#0f9d58; margin-right:8px;">calendar_today</span>';
   html += '<span class="date-text">' + formatDateDisplay(selectedDate) + todayLabel + '</span>';
   html += '<span class="material-icons" style="font-size:18px; color:#94a3b8; margin-left:8px;">' + (calendarOpen ? 'expand_less' : 'expand_more') + '</span>';
