@@ -430,7 +430,9 @@ body {
   .date-counter-wrap { margin: 6px auto 14px; }
   .date-counter { padding: 10px 16px; }
   .date-text { font-size: 14px; }
-  .duty-label { font-size: 18px; margin-right: 8px; }
+  .duty-label { font-size: 16px; margin-right: 6px; }
+  .date-counter-wrap { max-width: 100%; }
+  .date-counter { padding: 8px 10px; }
   .calendar-panel { width: calc(100vw - 24px); left: 50%; }
   .section-subtitle { font-size: 15px; padding: 12px 14px 8px; }
   .login-card { padding: 28px 24px; }
