@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <!--
-  근무 대시보드 — GitHub Pages (ane1235.github.io/sheets/)
-  KSCTVA 학회 페이지의 하위 페이지. 로그인 세션을 공유한다.
+  KSCTVA 2026 춘계학술대회 — GitHub Pages V4.0
+  V4.0: 동료 수강자 레이블 표시 기능 + views.js 3분할 리팩토링
 -->
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>오늘 근무 및 할 일들</title>
+  <title>KSCTVA 2026 춘계학술대회</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: { extend: { colors: {
-        primary: { DEFAULT: '#0f9d58', dark: '#0b6e3d', light: '#d4edda', lighter: '#f0faf4' },
-        accent: '#f4b400', danger: '#db4437'
+        primary: { DEFAULT: '#2563eb', dark: '#1a365d', light: '#dbeafe', lighter: '#f0f7ff' },
+        accent: '#f59e0b', danger: '#ef4444'
       }}}
     };
   </script>
@@ -24,13 +24,13 @@
 
   <!-- 로그인 -->
   <div id="view-login" class="login-bg">
-    <div class="grid-line" style="top:25%"></div>
-    <div class="grid-line" style="top:50%; animation-delay:-1.5s;"></div>
-    <div class="grid-line" style="top:75%; animation-delay:-3s;"></div>
+    <div class="ecg-line" style="top:30%"></div>
+    <div class="ecg-line" style="top:50%; animation-delay:-1.5s;"></div>
+    <div class="ecg-line" style="top:70%; animation-delay:-3s;"></div>
     <div class="login-card text-center">
-      <span class="material-icons" style="font-size:56px; color:#0f9d58; margin-bottom:12px;">table_chart</span>
-      <h1 class="text-xl font-bold text-primary-dark mb-1">근무 대시보드</h1>
-      <p class="text-sm text-gray-500 mb-6">오늘 근무 및 할 일들</p>
+      <img src="assets/purmi_heart.png" alt="Logo" class="logo-img mx-auto" onerror="this.style.display='none'">
+      <h1 class="text-xl font-bold text-primary-dark mb-1">KSCTVA 2026</h1>
+      <p class="text-sm text-gray-500 mb-6">춘계 학술대회 프로그램</p>
       <div class="mb-4">
         <input type="text" id="input-name" placeholder="이름" autocomplete="off" class="mb-3"
                onkeydown="if(event.key==='Enter') document.getElementById('input-sn2').focus()">
@@ -38,7 +38,7 @@
                maxlength="8" inputmode="numeric" onkeydown="if(event.key==='Enter') handleLoginSubmit()">
       </div>
       <p id="login-error" class="text-danger text-sm mb-4 hidden"></p>
-      <button onclick="handleLoginSubmit()" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-colors">로그인</button>
+      <button onclick="handleLoginSubmit()" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">로그인</button>
       <p class="text-xs text-gray-400 mt-4">부천세종병원 마취통증의학과</p>
     </div>
   </div>
@@ -46,7 +46,7 @@
   <!-- 앱 -->
   <div id="app-container" class="hidden">
     <nav class="navbar">
-      <div class="nav-item nav-bordered active" style="font-weight:700;">
+      <div class="nav-item nav-bordered" onclick="location.href='/sheets/'" title="홈" style="font-weight:700;">
         <span class="material-icons mr-1" style="font-size:22px;">home</span>홈
       </div>
       <div class="nav-item nav-wip" onclick="location.href='/sheets/'" title="오늘일정">
@@ -55,25 +55,16 @@
       <div class="nav-item nav-bordered" onclick="toggleDropdown('ksctva')" id="nav-ksctva">
         심폐마취학회2026 <span class="material-icons" style="font-size:18px; margin-left:2px;">arrow_drop_down</span>
         <div class="dropdown-menu" id="dropdown-ksctva">
-          <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">전체일정</div>
+          <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); showView('overview');">전체일정</div>
           <div class="dropdown-item has-submenu" id="sub-day1" onclick="event.stopPropagation(); toggleSubmenu('day1');">
             Day 1 <span class="material-icons submenu-arrow" style="font-size:16px;">chevron_right</span>
-            <div class="submenu" id="submenu-day1">
-              <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오전 세션 1,2 (10:30~12:00)</div>
-              <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오후 세션 3 (13:00~14:30)</div>
-              <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오후 세션 4,5 (14:50~16:20)</div>
-              <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오후 세션 6,7 (16:40~18:00)</div>
-            </div>
+            <div class="submenu" id="submenu-day1"></div>
           </div>
           <div class="dropdown-item has-submenu" id="sub-day2" onclick="event.stopPropagation(); toggleSubmenu('day2');">
             Day 2 <span class="material-icons submenu-arrow" style="font-size:16px;">chevron_right</span>
-            <div class="submenu" id="submenu-day2">
-              <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오전 세션 9,10 (10:50~12:20)</div>
-              <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오후 세션 11,12 (13:30~15:00)</div>
-              <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오후 세션 13,14 (15:20~16:50)</div>
-            </div>
+            <div class="submenu" id="submenu-day2"></div>
           </div>
-          <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">
+          <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); showView('mypage');">
             <span class="material-icons mr-1" style="font-size:18px; vertical-align:middle;">person</span>My
           </div>
         </div>
@@ -86,20 +77,22 @@
     <div class="content-area" id="content-area">
       <div id="loading-screen" class="text-center py-20">
         <div class="spinner mb-4"></div>
-        <p class="text-gray-500">데이터를 불러오는 중...</p>
+        <p class="text-gray-500">학술대회 프로그램을 불러오는 중...</p>
       </div>
-      <div id="dashboard" class="hidden"></div>
     </div>
   </div>
 
   <div id="toast" class="toast"></div>
 
-  <!-- JS 로드 순서: config → utils → state → nav → calendar → app -->
+  <!-- JS 로드 순서 중요: config → data → utils → colleagues → state → nav → views (3분할) -->
   <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
   <script src="js/utils.js"></script>
+  <script src="js/colleagues.js"></script>
   <script src="js/state.js"></script>
   <script src="js/nav.js"></script>
-  <script src="js/calendar.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/view-overview.js"></script>
+  <script src="js/view-session.js"></script>
+  <script src="js/view-mypage.js"></script>
 </body>
 </html>
