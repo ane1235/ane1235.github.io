@@ -176,10 +176,13 @@ function getSheetData(sheetKey, gid) {
       return { success: false, error: '탭을 찾을 수 없습니다 (gid: ' + targetGid + ')' };
     }
 
-    var values = targetSheet.getDataRange().getValues();
+    var dataRange = targetSheet.getDataRange();
+    var values = dataRange.getValues();
     if (values.length === 0) {
-      return { success: true, data: { headers: [], rows: [], tabName: targetSheet.getName() } };
+      return { success: true, data: { headers: [], rows: [], fontColors: [], tabName: targetSheet.getName() } };
     }
+
+    var fontColors = dataRange.getFontColors();
 
     var headers = values[0].map(function(h) { return h.toString(); });
     var rows = values.slice(1).map(function(row) {
@@ -191,9 +194,17 @@ function getSheetData(sheetKey, gid) {
       });
     });
 
+    /* fontColors[0] = 1행(headers), fontColors[1~] = rows와 동일 인덱스 */
+    var rowFontColors = fontColors.slice(1);
+
     return {
       success: true,
-      data: { headers: headers, rows: rows, tabName: targetSheet.getName() }
+      data: {
+        headers: headers,
+        rows: rows,
+        fontColors: rowFontColors,
+        tabName: targetSheet.getName()
+      }
     };
   } catch (e) {
     return { success: false, error: '시트 데이터 조회 오류: ' + e.message };

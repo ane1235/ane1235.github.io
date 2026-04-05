@@ -65,6 +65,34 @@ config.js → data.js → utils.js → colleagues.js → state.js → nav.js →
 - 모든 JS는 전역 스코프 함수 — 모듈 시스템 없음
 - Tailwind CSS는 CDN 방식 (`cdn.tailwindcss.com`), 커스텀 스타일은 `css/style.css`
 
+## Google Sheet 데이터 조회 — 절대 규칙 ★치명적 오류 방지★
+
+> ⛔ **Google Sheet 데이터를 읽을 때 WebFetch를 절대 사용하지 않는다.**
+>
+> ### 금지 사유
+> WebFetch는 대형 JSON 응답에서 AI 요약 과정을 거치므로, 셀 값·행/열 인덱스·fontColors 등이
+> 부정확하게 반환되어 **치명적 오류**를 유발한다.
+> 2026-04-06 shift 시트 작업 중 H5=20인데 21로, H6="금"인데 "off"로 잘못 반환하는 등
+> **반복적 오류가 확인**되었다.
+>
+> ### 허용된 방법
+> ```bash
+> # 1단계: curl -L로 raw JSON 수신
+> curl -sL 'APPS_SCRIPT_URL?action=getSheetData&sheetKey=KEY&gid=GID' -o /tmp/data.json
+>
+> # 2단계: python3으로 정확한 인덱스 파싱
+> python3 -c "
+> import json
+> with open('/tmp/data.json') as f:
+>     data = json.load(f)['data']
+> rows = data['rows']
+> fc = data['fontColors']
+> print(rows[ROW_IDX][COL_IDX])
+> print(fc[ROW_IDX][COL_IDX])
+> "
+> ```
+> 이 규칙은 **모든 Google Sheet 관련 작업에 예외 없이** 적용한다.
+
 ## Directory Structure
 
 - `js/` — 프론트엔드 JavaScript (9개 파일)
