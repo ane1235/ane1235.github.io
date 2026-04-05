@@ -13,8 +13,8 @@
   <script>
     tailwind.config = {
       theme: { extend: { colors: {
-        primary: { DEFAULT: '#0f9d58', dark: '#0b6e3d', light: '#d4edda', lighter: '#f0faf4' },
-        accent: '#f4b400', danger: '#db4437'
+        primary: { DEFAULT: '#2563eb', dark: '#1a365d', light: '#dbeafe', lighter: '#f0f7ff' },
+        accent: '#f59e0b', danger: '#ef4444'
       }}}
     };
   </script>
@@ -24,11 +24,11 @@
 
   <!-- 로그인 -->
   <div id="view-login" class="login-bg">
-    <div class="grid-line" style="top:25%"></div>
-    <div class="grid-line" style="top:50%; animation-delay:-1.5s;"></div>
-    <div class="grid-line" style="top:75%; animation-delay:-3s;"></div>
+    <div class="ecg-line" style="top:30%"></div>
+    <div class="ecg-line" style="top:50%; animation-delay:-1.5s;"></div>
+    <div class="ecg-line" style="top:70%; animation-delay:-3s;"></div>
     <div class="login-card text-center">
-      <span class="material-icons" style="font-size:56px; color:#0f9d58; margin-bottom:12px;">table_chart</span>
+      <img src="/ksctva/assets/purmi_heart.png" alt="Logo" class="logo-img mx-auto" onerror="this.style.display='none'">
       <h1 class="text-xl font-bold text-primary-dark mb-1">ane1235</h1>
       <p class="text-sm text-gray-500 mb-1">Assign, 심폐마취학회 2026</p>
       <p class="text-xs text-gray-400 mb-1">공사중. 공지없이 수시 변경 가능</p>
@@ -40,7 +40,7 @@
                maxlength="8" inputmode="numeric" onkeydown="if(event.key==='Enter') handleLoginSubmit()">
       </div>
       <p id="login-error" class="text-danger text-sm mb-4 hidden"></p>
-      <button onclick="handleLoginSubmit()" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-colors">로그인</button>
+      <button onclick="handleLoginSubmit()" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">로그인</button>
       <p class="text-xs text-gray-400 mt-4">부천세종병원 마취통증의학과</p>
     </div>
   </div>
