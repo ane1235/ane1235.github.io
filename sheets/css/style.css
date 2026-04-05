@@ -307,7 +307,7 @@ body {
 .assign-table th {
   background: #0b6e3d; color: white;
   padding: 8px 10px; font-size: 12px; font-weight: 600;
-  text-align: left; white-space: nowrap;
+  text-align: center; white-space: nowrap;
 }
 .assign-table td {
   padding: 8px 10px; font-size: 13px;
@@ -318,12 +318,12 @@ body {
 .assign-table tr:nth-child(even) { background: #f8fdfb; }
 .assign-table tr:nth-child(even):hover { background: #e8f5ee; }
 
-/* 열 폭 */
-.col-time { width: 60px; white-space: nowrap; font-weight: 600; color: #0b6e3d; }
-.col-surgeon { width: 50px; text-align: center; }
-.col-opname { min-width: 180px; }
-.col-anes { width: 40px; text-align: center; font-weight: 600; color: #2563eb; }
-.col-nurse { width: 80px; white-space: nowrap; }
+/* 열 폭 — ch 단위: 6ch ≈ 한글 3자 기준 */
+.col-time    { width: 6ch;  text-align: center; white-space: normal; font-weight: 600; color: #0b6e3d; }
+.col-surgeon { width: 6ch;  text-align: center; white-space: normal; }
+.col-opname  { /* 폭 미지정 — 나머지 공간을 차지 */ }
+.col-anes    { width: 6ch;  text-align: center; font-weight: 600; color: #2563eb; white-space: normal; }
+.col-nurse   { width: 15ch; white-space: normal; }
 
 /* ── Assign 메모 박스 ── */
 .assign-memo-box {
@@ -397,7 +397,7 @@ body {
   .section-source-label { font-size: 14px; }
   .assign-table th { padding: 10px 14px; font-size: 13px; }
   .assign-table td { padding: 10px 14px; font-size: 14px; }
-  .col-opname { min-width: 240px; }
+  .col-opname { width: 40ch; }
 }
 
 /* ── 모바일 (≤768px) ── */
@@ -431,8 +431,6 @@ body {
   .assign-table { min-width: 420px; }
   .assign-table th { padding: 6px 8px; font-size: 11px; }
   .assign-table td { padding: 6px 8px; font-size: 12px; }
-  .col-time { width: 50px; }
-  .col-nurse { width: 70px; }
 }
 
 /* ── 소형 모바일 (≤375px) ── */

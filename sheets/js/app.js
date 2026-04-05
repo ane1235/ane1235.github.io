@@ -6,6 +6,9 @@ var sheetSources = [];
 var DISPLAY_LABELS = { sheet1: 'ASSIGN', sheet2: '근무표 및 특기사항' };
 var assignDataCache = {};
 
+/* CATH 집도의 명단 — 이 집도의들의 수술명 앞에 "[CATH] " 접두사를 붙인다 */
+var CATH_SURGEONS = ['방지석', '김정윤', '박상원', '박하욱', '김성호', '정현', '이의재'];
+
 /*
  * ═══════════════════════════════════════════
  * 열 구조 (0-based index)
@@ -445,8 +448,8 @@ function renderAssignSection(allRows, container) {
     html += '<th class="col-time">시간</th>';
     html += '<th class="col-surgeon">집도의</th>';
     html += '<th class="col-opname">수술명</th>';
-    html += '<th class="col-anes">마취</th>';
-    html += '<th class="col-nurse">회복간호사</th>';
+    html += '<th class="col-anes">마취의</th>';
+    html += '<th class="col-nurse">마취회복팀</th>';
     html += '</tr></thead>';
     html += '<tbody>';
 
@@ -457,10 +460,14 @@ function renderAssignSection(allRows, container) {
         nurseDisplay = nurseDisplay ? nurseDisplay + ', ' + ev.nurse2 : ev.nurse2;
       }
 
+      var displayOpName = (CATH_SURGEONS.indexOf(ev.surgeon) >= 0)
+        ? '[CATH] ' + ev.opName
+        : ev.opName;
+
       html += '<tr>';
       html += '<td class="col-time">' + escHtml(ev.time) + '</td>';
       html += '<td class="col-surgeon">' + escHtml(ev.surgeon) + '</td>';
-      html += '<td class="col-opname">' + escHtml(ev.opName) + '</td>';
+      html += '<td class="col-opname">' + escHtml(displayOpName) + '</td>';
       html += '<td class="col-anes">' + escHtml(ev.anesthesiologist) + '</td>';
       html += '<td class="col-nurse">' + escHtml(nurseDisplay) + '</td>';
       html += '</tr>';
