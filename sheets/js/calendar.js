@@ -46,9 +46,11 @@ function renderDateCounter() {
   html += '<div class="date-counter-wrap">';
   html += '<div class="date-counter" onclick="toggleCalendar()">';
   html += '<span class="duty-label">Duty&amp;Assign</span>';
+  html += '<span class="date-group">';
   html += '<span class="material-icons" style="font-size:24px; color:#0f9d58; margin-right:8px;">calendar_today</span>';
   html += '<span class="date-text">' + formatDateDisplay(selectedDate) + todayLabel + '</span>';
   html += '<span class="material-icons" style="font-size:18px; color:#94a3b8; margin-left:8px;">' + (calendarOpen ? 'expand_less' : 'expand_more') + '</span>';
+  html += '</span>';
   html += '</div>';
 
   /* 달력 패널 — absolute로 오버레이 표시 */
