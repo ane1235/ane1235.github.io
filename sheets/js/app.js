@@ -98,7 +98,7 @@ function refreshDashboard() {
   var html = '<div class="view-container">';
   html += renderDateCounter();
   html += renderSectionCards();
-  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0159</p>';
+  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0203</p>';
   html += '</div>';
   dashboard.innerHTML = html;
 
@@ -528,7 +528,7 @@ function loadShiftData() {
 
   var cacheKey = tab.gid;
   if (shiftDataCache[cacheKey]) {
-    renderDutySection(shiftDataCache[cacheKey].rows, container);
+    renderDutySection(shiftDataCache[cacheKey].rows, shiftDataCache[cacheKey].fc, container);
     return;
   }
 
@@ -538,8 +538,8 @@ function loadShiftData() {
         container.innerHTML = '<p class="text-danger text-sm" style="padding:16px;">' + escHtml(result.error) + '</p>';
         return;
       }
-      shiftDataCache[cacheKey] = { rows: result.data.rows };
-      renderDutySection(result.data.rows, container);
+      shiftDataCache[cacheKey] = { rows: result.data.rows, fc: result.data.fontColors };
+      renderDutySection(result.data.rows, result.data.fontColors, container);
     })
     .catch(function(err) {
       container.innerHTML = '<p class="text-danger text-sm" style="padding:16px;">로드 오류: ' + escHtml(err.message) + '</p>';
@@ -550,7 +550,9 @@ function loadShiftData() {
    Duty 섹션 렌더링
    ═══════════════════════════════════════════ */
 
-function renderDutySection(rows, container) {
+var HOLIDAY_SHIFT_ORDER = ['휴낮', '낮당', '당직', '휴당'];
+
+function renderDutySection(rows, fc, container) {
   var targetMonth = selectedDate.getMonth() + 1;
   var targetDate  = selectedDate.getDate();
 
@@ -626,14 +628,21 @@ function renderDutySection(rows, container) {
     return;
   }
 
-  /* 5. 근무형태별 직원 수집 */
+  /* 5. 휴일 여부 판별 — 요일행 fontColor #ff0000 = 휴일 */
+  var dayRowIdx = monthRowIdx + 2;
+  var isHoliday = false;
+  if (fc && fc[dayRowIdx] && fc[dayRowIdx][targetCol] === '#ff0000') {
+    isHoliday = true;
+  }
+
+  /* 6. 근무형태별 직원 수집 */
   var schedule = {};
   for (var ei = empStart; ei <= empEnd; ei++) {
     var name  = rows[ei][2] ? rows[ei][2].toString().trim() : '';
     var shift = rows[ei].length > targetCol ? rows[ei][targetCol].toString().trim() : '';
     if (!shift || !name) continue;
 
-    if (OFF_SHIFT_TYPES[shift]) {
+    if (!isHoliday && OFF_SHIFT_TYPES[shift]) {
       var label = (shift === 'Off' || shift === 'off') ? name : name + '(' + shift + ')';
       if (!schedule['Off']) schedule['Off'] = [];
       schedule['Off'].push(label);
@@ -643,8 +652,23 @@ function renderDutySection(rows, container) {
     }
   }
 
-  /* 6. HTML 렌더링 */
+  /* 7. HTML 렌더링 */
   var html = '<div class="duty-wrap"><table class="duty-table">';
+
+  if (isHoliday) {
+    /* 휴일 레이아웃: 휴낮 / 낮당 / 당직 / 휴당 순서, 단독행 */
+    for (var hi = 0; hi < HOLIDAY_SHIFT_ORDER.length; hi++) {
+      var hk = HOLIDAY_SHIFT_ORDER[hi];
+      if (schedule[hk]) { html += dutyRowFull(hk, schedule[hk].join(', ')); }
+    }
+    /* 비표준 근무형태 */
+    for (var hkey in schedule) {
+      if (HOLIDAY_SHIFT_ORDER.indexOf(hkey) < 0) {
+        html += dutyRowFull(hkey, schedule[hkey].join(', '));
+      }
+    }
+  } else {
+  /* 평일 레이아웃 */
 
   /* D행 (있을 때만) */
   if (schedule['D']) {
@@ -684,6 +708,8 @@ function renderDutySection(rows, container) {
       html += dutyRowFull(key, schedule[key].join(', '));
     }
   }
+
+  } /* end 평일 레이아웃 */
 
   html += '</table></div>';
   container.innerHTML = html;
