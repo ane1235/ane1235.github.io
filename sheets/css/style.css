@@ -434,10 +434,11 @@ body {
   .assign-table { min-width: auto; }
   .assign-table th { padding: 4px 4px; font-size: 11px; }
   .assign-table td { padding: 4px 4px; font-size: 12px; }
-  .col-time    { width: 50px; font-size: 11px; }
-  .col-surgeon { width: 45px; font-size: 11px; white-space: nowrap; }
+  .col-time    { width: 50px; font-size: 11px; letter-spacing: -1px; }
+  .col-surgeon { width: 45px; font-size: 11px; white-space: nowrap; letter-spacing: -0.5px; }
   .col-anes    { width: 32px; }
-  .col-nurse   { width: 80px; }
+  .col-nurse   { width: 80px; letter-spacing: -0.5px; }
+  .col-opname  { letter-spacing: -0.5px; }
 }
 
 /* ── 소형 모바일 (≤375px) ── */
