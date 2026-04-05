@@ -160,6 +160,10 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 .date-counter:hover { border-color: #0f9d58; box-shadow: 0 4px 16px rgba(15,157,88,0.15); }
+.duty-label {
+  font-size: 20px; font-weight: 700; color: #0b6e3d;
+  margin-right: 12px;
+}
 .date-text {
   font-size: 16px; font-weight: 600; color: #1e293b;
 }
@@ -426,6 +430,7 @@ body {
   .date-counter-wrap { margin: 6px auto 14px; }
   .date-counter { padding: 10px 16px; }
   .date-text { font-size: 14px; }
+  .duty-label { font-size: 18px; margin-right: 8px; }
   .calendar-panel { width: calc(100vw - 24px); left: 50%; }
   .section-subtitle { font-size: 15px; padding: 12px 14px 8px; }
   .login-card { padding: 28px 24px; }

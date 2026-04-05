@@ -89,10 +89,6 @@ function refreshDashboard() {
   if (!dashboard) return;
 
   var html = '<div class="view-container">';
-  html += '<div class="page-title">';
-  html += '<span class="material-icons" style="font-size:28px; margin-right:8px;">assignment</span>';
-  html += '오늘 근무 및 할 일들';
-  html += '</div>';
   html += renderDateCounter();
   html += renderSectionCards();
   html += '</div>';
