@@ -46,22 +46,28 @@
   <!-- 앱 -->
   <div id="app-container" class="hidden">
     <nav class="navbar">
-      <div class="nav-item" onclick="showView('overview')" style="font-weight:700; font-size:15px;">
-        <span class="material-icons mr-1" style="font-size:22px;">home</span><span class="hidden sm:inline">Home</span>
+      <div class="nav-item nav-bordered" onclick="location.href='/sheets/'" title="홈" style="font-weight:700;">
+        <span class="material-icons mr-1" style="font-size:22px;">home</span>홈
       </div>
-      <div class="nav-item" onclick="toggleDropdown('day1')" id="nav-day1">
-        Day 1 <span class="material-icons" style="font-size:18px; margin-left:2px;">arrow_drop_down</span>
-        <div class="dropdown-menu" id="dropdown-day1"></div>
+      <div class="nav-item nav-wip" onclick="location.href='/sheets/'" title="오늘일정">
+        <span class="material-icons mr-1" style="font-size:18px;">construction</span><span style="font-size:12px;">오늘일정(공사중)</span>
       </div>
-      <div class="nav-item" onclick="toggleDropdown('day2')" id="nav-day2">
-        Day 2 <span class="material-icons" style="font-size:18px; margin-left:2px;">arrow_drop_down</span>
-        <div class="dropdown-menu" id="dropdown-day2"></div>
-      </div>
-      <div class="nav-item" onclick="showView('mypage')" id="nav-mypage">
-        <span class="material-icons mr-1" style="font-size:20px;">person</span>My
-      </div>
-      <div class="nav-item nav-wip" onclick="location.href='/sheets/'" title="Sheets Viewer (공사중)">
-        <span class="material-icons mr-1" style="font-size:18px;">construction</span><span style="font-size:12px;">공사중</span>
+      <div class="nav-item nav-bordered" onclick="toggleDropdown('ksctva')" id="nav-ksctva">
+        심폐마취학회2026 <span class="material-icons" style="font-size:18px; margin-left:2px;">arrow_drop_down</span>
+        <div class="dropdown-menu" id="dropdown-ksctva">
+          <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); showView('overview');">전체일정</div>
+          <div class="dropdown-item has-submenu" id="sub-day1" onclick="event.stopPropagation(); toggleSubmenu('day1');">
+            Day 1 <span class="material-icons submenu-arrow" style="font-size:16px;">chevron_right</span>
+            <div class="submenu" id="submenu-day1"></div>
+          </div>
+          <div class="dropdown-item has-submenu" id="sub-day2" onclick="event.stopPropagation(); toggleSubmenu('day2');">
+            Day 2 <span class="material-icons submenu-arrow" style="font-size:16px;">chevron_right</span>
+            <div class="submenu" id="submenu-day2"></div>
+          </div>
+          <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); showView('mypage');">
+            <span class="material-icons mr-1" style="font-size:18px; vertical-align:middle;">person</span>My
+          </div>
+        </div>
       </div>
       <div class="ml-auto flex items-center text-sm opacity-80">
         <span id="user-display" class="hidden sm:inline"></span>
