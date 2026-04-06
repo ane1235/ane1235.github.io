@@ -460,8 +460,8 @@ body {
 
 /* ── 데스크탑 (≥769px) ── */
 @media (min-width: 769px) {
-  .navbar { max-width: 1200px; height: 52px; padding: 0 24px; }
-  .content-area { max-width: 1200px; padding: 24px 24px; }
+  .navbar { max-width: 700px; height: 52px; padding: 0 24px; }
+  .content-area { max-width: 700px; width: 700px; padding: 24px 20px; }
   .nav-item { height: 52px; font-size: 14px; padding: 0 16px; }
   .dropdown-menu { top: calc(100% + 10px); min-width: 240px; }
   .dropdown-item { padding: 12px 20px; font-size: 14px; }
@@ -474,9 +474,15 @@ body {
   .section-subtitle { font-size: 18px; padding: 16px 20px 12px; }
   .section-card-header { padding: 14px 20px; }
   .section-source-label { font-size: 14px; }
-  .assign-table th { padding: 10px 14px; font-size: 13px; }
-  .assign-table td { padding: 10px 14px; font-size: 14px; }
-  .col-opname { width: 40ch; }
+  /* Assign 테이블 — 유효폭 660px 기준 고정 열 */
+  .assign-table th { padding: 10px 8px; font-size: 13px; }
+  .assign-table td { padding: 10px 8px; font-size: 14px; }
+  .col-time    { width: 60px; }
+  .col-surgeon { width: 55px; }
+  .col-opname  { /* 나머지 공간 */ }
+  .col-anes    { width: 55px; }
+  .col-nurse   { width: 145px; }
+  /* Duty 테이블 */
   .duty-shift { width: 54px; font-size: 13px; padding: 8px 10px; }
   .duty-names { font-size: 14px; padding: 8px 12px; }
 }
