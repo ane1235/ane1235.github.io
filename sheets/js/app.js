@@ -13,6 +13,47 @@ var OFF_SHIFT_TYPES = { '휴가': true, '특휴': true, 'Off': true, 'off': true
 /* 표준 근무형태 순서 (11종) */
 var STANDARD_SHIFT_ORDER = ['D','M','MD','MD2','E','N','낮당','휴낮','휴당','당직','휴가'];
 
+/* ═══════════════════════════════════════════
+   직원 명단
+   fullName  : 근무표/연장근무합계 시트 표기
+   shortName : Assign노트 시트 표기 (간호사=이름2글자, 의사=알파벳이니셜)
+   title     : 직책 (없으면 빈 문자열)
+   type      : 'nurse' | 'doctor'
+   ═══════════════════════════════════════════ */
+var STAFF_LIST = [
+  /* 마취통증의학과 전문의 */
+  { fullName: '이종현', shortName: 'L', title: '실장', type: 'doctor' },
+  { fullName: '윤태균', shortName: 'Y', title: '과장', type: 'doctor' },
+  { fullName: '민경범', shortName: 'M', title: '과장', type: 'doctor' },
+  { fullName: '박종광', shortName: 'P', title: '과장', type: 'doctor' },
+  /* 마취회복팀 간호사 */
+  { fullName: '추성은', shortName: '성은', title: '팀장', type: 'nurse' },
+  { fullName: '정사랑', shortName: '사랑', title: 'HN',   type: 'nurse' },
+  { fullName: '한새봄', shortName: '새봄', title: 'HN',   type: 'nurse' },
+  { fullName: '김동비', shortName: '동비', title: 'HN',   type: 'nurse' },
+  { fullName: '이한얼', shortName: '한얼', title: 'HN',   type: 'nurse' },
+  { fullName: '김주희', shortName: '주희', title: 'CN',   type: 'nurse' },
+  { fullName: '전효진', shortName: '효진', title: 'CN',   type: 'nurse' },
+  { fullName: '손진희', shortName: '진희', title: 'CN',   type: 'nurse' },
+  { fullName: '정혜린', shortName: '혜린', title: 'CN',   type: 'nurse' },
+  { fullName: '음소린', shortName: '소린', title: '',     type: 'nurse' },
+  { fullName: '안효정', shortName: '효정', title: '',     type: 'nurse' },
+  { fullName: '차현주', shortName: '현주', title: '',     type: 'nurse' },
+  { fullName: '김성현', shortName: '성현', title: '',     type: 'nurse' },
+  { fullName: '이수아', shortName: '수아', title: '',     type: 'nurse' },
+  { fullName: '최유나', shortName: '유나', title: '',     type: 'nurse' }
+];
+
+/* 빠른 조회용 맵 */
+var STAFF_BY_FULL  = {};  /* fullName  → staff 객체 */
+var STAFF_BY_SHORT = {};  /* shortName → staff 객체 */
+(function() {
+  for (var i = 0; i < STAFF_LIST.length; i++) {
+    STAFF_BY_FULL[STAFF_LIST[i].fullName]   = STAFF_LIST[i];
+    STAFF_BY_SHORT[STAFF_LIST[i].shortName] = STAFF_LIST[i];
+  }
+})();
+
 /* CATH 집도의 명단 — 이 집도의들의 수술명 앞에 "[CATH] " 접두사를 붙인다 */
 var CATH_SURGEONS = ['방지석', '김정윤', '박상원', '박하욱', '김성호', '정현', '이의재'];
 
@@ -98,7 +139,7 @@ function refreshDashboard() {
   var html = '<div class="view-container">';
   html += renderDateCounter();
   html += renderSectionCards();
-  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0243</p>';
+  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0300</p>';
   html += '</div>';
   dashboard.innerHTML = html;
 
@@ -521,32 +562,51 @@ function renderAssignSection(allRows, container) {
    ═══════════════════════════════════════════ */
 
 function loadShiftData() {
-  var src = null;
+  var src2 = null, src1 = null;
   for (var i = 0; i < sheetSources.length; i++) {
-    if (sheetSources[i].key === 'sheet2') { src = sheetSources[i]; break; }
+    if (sheetSources[i].key === 'sheet2') src2 = sheetSources[i];
+    if (sheetSources[i].key === 'sheet1') src1 = sheetSources[i];
   }
-  if (!src) return;
+  if (!src2) return;
 
-  var tab = findShiftTab(src);
-  if (!tab) return;
+  var shiftTab = findShiftTab(src2);
+  if (!shiftTab) return;
+
+  var assignTab = src1 ? findAssignNoteTab(src1) : null;
 
   var container = document.getElementById('section-data-sheet2');
   if (!container) return;
 
-  var cacheKey = tab.gid;
-  if (shiftDataCache[cacheKey]) {
-    renderDutySection(shiftDataCache[cacheKey].rows, shiftDataCache[cacheKey].fc, container);
-    return;
-  }
+  /* sheet2(근무표) 로드 */
+  var shiftCacheKey = shiftTab.gid;
+  var shiftPromise = shiftDataCache[shiftCacheKey]
+    ? Promise.resolve(shiftDataCache[shiftCacheKey])
+    : callApi({ action: 'getSheetData', sheetKey: 'sheet2', gid: shiftTab.gid })
+        .then(function(result) {
+          if (!result.success) throw new Error(result.error);
+          var cached = { rows: result.data.rows, fc: result.data.fontColors };
+          shiftDataCache[shiftCacheKey] = cached;
+          return cached;
+        });
 
-  callApi({ action: 'getSheetData', sheetKey: 'sheet2', gid: tab.gid })
-    .then(function(result) {
-      if (!result.success) {
-        container.innerHTML = '<p class="text-danger text-sm" style="padding:16px;">' + escHtml(result.error) + '</p>';
-        return;
-      }
-      shiftDataCache[cacheKey] = { rows: result.data.rows, fc: result.data.fontColors };
-      renderDutySection(result.data.rows, result.data.fontColors, container);
+  /* sheet1(Assign노트) 로드 — 없으면 null */
+  var assignPromise = assignTab
+    ? (assignDataCache[assignTab.gid]
+        ? Promise.resolve(assignDataCache[assignTab.gid])
+        : callApi({ action: 'getSheetData', sheetKey: 'sheet1', gid: assignTab.gid })
+            .then(function(result) {
+              if (!result.success) return null;
+              var allRows = [result.data.headers].concat(result.data.rows);
+              assignDataCache[assignTab.gid] = allRows;
+              return allRows;
+            }).catch(function() { return null; }))
+    : Promise.resolve(null);
+
+  Promise.all([shiftPromise, assignPromise])
+    .then(function(results) {
+      var shiftData  = results[0];
+      var assignRows = results[1];
+      renderDutySection(shiftData.rows, shiftData.fc, assignRows, container);
     })
     .catch(function(err) {
       container.innerHTML = '<p class="text-danger text-sm" style="padding:16px;">로드 오류: ' + escHtml(err.message) + '</p>';
@@ -559,7 +619,57 @@ function loadShiftData() {
 
 var HOLIDAY_SHIFT_ORDER = ['휴낮', '낮당', '당직', '휴당'];
 
-function renderDutySection(rows, fc, container) {
+/* ═══════════════════════════════════════════
+   Assign노트에서 당일 날짜 블록 추출
+   반환: { note: string, staff: { shortName: { shift, time } } }
+         찾지 못하면 null
+   ═══════════════════════════════════════════ */
+function extractAssignDayBlock(assignRows) {
+  if (!assignRows) return null;
+
+  var dow = selectedDate.getDay();       /* 1=월 ~ 5=금 */
+  if (dow < 1 || dow > 5) return null;
+
+  var colStart = WEEKDAY_COL_START[dow];
+  var targetDay = selectedDate.getDate();
+
+  /* 날짜 셀 찾기: colStart 열에서 숫자로 시작하고 targetDay와 일치하는 행 */
+  var dateRowIdx = -1;
+  for (var r = 0; r < assignRows.length; r++) {
+    var cell = assignRows[r][colStart];
+    if (cell === undefined || cell === null) continue;
+    var s = cell.toString().trim();
+    var m = s.match(/^(\d{1,2})\b/);
+    if (!m) continue;
+    var num = parseInt(m[1]);
+    if (num === targetDay) { dateRowIdx = r; break; }
+  }
+  if (dateRowIdx < 0) return null;
+
+  /* 날짜 병합셀에서 특기사항 추출 (숫자+공백+문자열) */
+  var dateCell = assignRows[dateRowIdx][colStart].toString().trim();
+  var noteMatch = dateCell.match(/^\d{1,2}\s+(.+)$/);
+  var dayNote = noteMatch ? noteMatch[1].trim() : '';
+
+  /* 3개 행: 이름(+1), 근무형태(+2), 퇴근시간(+3) */
+  var nameRow  = assignRows[dateRowIdx + 1] || [];
+  var shiftRow = assignRows[dateRowIdx + 2] || [];
+  var timeRow  = assignRows[dateRowIdx + 3] || [];
+
+  var staffMap = {};
+  for (var c = colStart; c < colStart + 11; c++) {
+    var name = nameRow[c] ? nameRow[c].toString().trim() : '';
+    if (!name) continue;
+    staffMap[name] = {
+      shift: shiftRow[c] ? shiftRow[c].toString().trim() : '',
+      time:  timeRow[c]  ? timeRow[c].toString().trim()  : ''
+    };
+  }
+
+  return { note: dayNote, staff: staffMap };
+}
+
+function renderDutySection(rows, fc, assignRows, container) {
   var targetMonth = selectedDate.getMonth() + 1;
   var targetDate  = selectedDate.getDate();
 
@@ -641,77 +751,93 @@ function renderDutySection(rows, fc, container) {
     isHoliday = true;
   }
 
-  /* 6. 근무형태별 직원 수집 */
-  var schedule = {};
+  /* 6. Assign노트 블록 추출 */
+  var assignBlock = extractAssignDayBlock(assignRows);
+  var assignStaff = assignBlock ? assignBlock.staff : {};
+  var dayNote     = assignBlock ? assignBlock.note  : '';
+
+  /* 7. 근무형태별 직원 수집 (Assign노트 override 적용) */
+  var schedule = {};      /* shift → [{ fullName, time }] */
   for (var ei = empStart; ei <= empEnd; ei++) {
-    var name  = rows[ei][2] ? rows[ei][2].toString().trim() : '';
+    var fullName = rows[ei][2] ? rows[ei][2].toString().trim() : '';
+    if (!fullName) continue;
+    /* 근무표 시트 근무형태 */
     var shift = rows[ei].length > targetCol ? rows[ei][targetCol].toString().trim() : '';
-    if (!shift || !name) continue;
+    if (!shift) continue;
+
+    /* Assign노트 override */
+    var staffObj = STAFF_BY_FULL[fullName];
+    var shortName = staffObj ? staffObj.shortName : '';
+    var aData = shortName && assignStaff[shortName] ? assignStaff[shortName] : null;
+    if (aData && aData.shift) shift = aData.shift;
+    var time = aData ? aData.time : '';
+
+    var entry = { fullName: fullName, time: time };
 
     if (!isHoliday && OFF_SHIFT_TYPES[shift]) {
-      var label = (shift === 'Off' || shift === 'off') ? name : name + '(' + shift + ')';
+      var label = (shift === 'Off' || shift === 'off') ? fullName : fullName + '(' + shift + ')';
+      entry.fullName = label;
       if (!schedule['Off']) schedule['Off'] = [];
-      schedule['Off'].push(label);
+      schedule['Off'].push(entry);
     } else {
       if (!schedule[shift]) schedule[shift] = [];
-      schedule[shift].push(name);
+      schedule[shift].push(entry);
     }
   }
 
-  /* 7. HTML 렌더링 */
-  var html = '<div class="duty-wrap"><table class="duty-table">';
+  /* 8. HTML 렌더링 */
+  /* 특기사항 */
+  var html = '';
+  if (dayNote) {
+    html += '<div class="duty-note">' + escHtml(dayNote) + '</div>';
+  }
+  html += '<div class="duty-wrap"><table class="duty-table">';
 
   if (isHoliday) {
     /* 휴일 레이아웃: 휴낮 / 낮당 / 당직 / 휴당 순서, 단독행 */
     for (var hi = 0; hi < HOLIDAY_SHIFT_ORDER.length; hi++) {
       var hk = HOLIDAY_SHIFT_ORDER[hi];
-      if (schedule[hk]) { html += dutyRowFull(hk, schedule[hk].join(', ')); }
+      if (schedule[hk]) { html += dutyRowFull(hk, schedule[hk]); }
     }
     /* 비표준 근무형태 */
     for (var hkey in schedule) {
       if (HOLIDAY_SHIFT_ORDER.indexOf(hkey) < 0) {
-        html += dutyRowFull(hkey, schedule[hkey].join(', '));
+        html += dutyRowFull(hkey, schedule[hkey]);
       }
     }
   } else {
   /* 평일 레이아웃 */
 
   /* D행 (있을 때만) */
-  if (schedule['D']) {
-    html += dutyRowFull('D', schedule['D'].join(', '));
-  }
+  if (schedule['D']) { html += dutyRowFull('D', schedule['D']); }
   /* M행 */
-  if (schedule['M']) {
-    html += dutyRowFull('M', schedule['M'].join(', '));
-  }
+  if (schedule['M']) { html += dutyRowFull('M', schedule['M']); }
   /* MD | MD2 행 */
   if (schedule['MD'] || schedule['MD2']) {
     html += dutyRowPair(
-      'MD',  schedule['MD']  ? schedule['MD'].join(', ')  : '',
-      'MD2', schedule['MD2'] ? schedule['MD2'].join(', ') : ''
+      'MD',  schedule['MD']  || [],
+      'MD2', schedule['MD2'] || []
     );
   }
   /* E | N 행 */
   if (schedule['E'] || schedule['N']) {
     html += dutyRowPair(
-      'E', schedule['E'] ? schedule['E'].join(', ') : '',
-      'N', schedule['N'] ? schedule['N'].join(', ') : ''
+      'E', schedule['E'] || [],
+      'N', schedule['N'] || []
     );
   }
   /* 낮당, 휴낮, 휴당, 당직 단독행 */
   var singleShifts = ['낮당', '휴낮', '휴당', '당직'];
   for (var si = 0; si < singleShifts.length; si++) {
     var sk = singleShifts[si];
-    if (schedule[sk]) { html += dutyRowFull(sk, schedule[sk].join(', ')); }
+    if (schedule[sk]) { html += dutyRowFull(sk, schedule[sk]); }
   }
   /* Off행 */
-  if (schedule['Off']) {
-    html += dutyRowFull('Off', schedule['Off'].join(', '));
-  }
+  if (schedule['Off']) { html += dutyRowFull('Off', schedule['Off']); }
   /* 비표준 근무형태 */
   for (var key in schedule) {
     if (STANDARD_SHIFT_ORDER.indexOf(key) < 0 && key !== 'Off') {
-      html += dutyRowFull(key, schedule[key].join(', '));
+      html += dutyRowFull(key, schedule[key]);
     }
   }
 
@@ -721,18 +847,27 @@ function renderDutySection(rows, fc, container) {
   container.innerHTML = html;
 }
 
-function dutyRowFull(shiftLabel, names) {
+/* entries: [{ fullName, time }] 배열을 받아 "이름(시간)" 형태로 표시
+   퇴근시간이 없으면 이름만 표시 */
+function formatEntries(entries) {
+  return entries.map(function(e) {
+    return e.time ? escHtml(e.fullName) + '<span class="duty-time">(' + escHtml(e.time) + ')</span>'
+                  : escHtml(e.fullName);
+  }).join(', ');
+}
+
+function dutyRowFull(shiftLabel, entries) {
   return '<tr>'
     + '<td class="duty-shift">' + escHtml(shiftLabel) + '</td>'
-    + '<td class="duty-names" colspan="3">' + escHtml(names) + '</td>'
+    + '<td class="duty-names" colspan="3">' + formatEntries(entries) + '</td>'
     + '</tr>';
 }
 
-function dutyRowPair(shift1, names1, shift2, names2) {
+function dutyRowPair(shift1, entries1, shift2, entries2) {
   return '<tr>'
     + '<td class="duty-shift">' + escHtml(shift1) + '</td>'
-    + '<td class="duty-names">' + escHtml(names1) + '</td>'
+    + '<td class="duty-names">' + formatEntries(entries1) + '</td>'
     + '<td class="duty-shift duty-shift-right">' + escHtml(shift2) + '</td>'
-    + '<td class="duty-names">' + escHtml(names2) + '</td>'
+    + '<td class="duty-names">' + formatEntries(entries2) + '</td>'
     + '</tr>';
 }

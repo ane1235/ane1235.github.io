@@ -363,6 +363,21 @@ body {
 .duty-shift-right {
   border-left: 1px solid #e2e8f0;
 }
+/* 특기사항 박스 */
+.duty-note {
+  padding: 6px 12px;
+  font-size: 12px;
+  color: #b45309;
+  background: #fefce8;
+  border-left: 3px solid #fbbf24;
+  margin-bottom: 4px;
+}
+/* 퇴근시간 */
+.duty-time {
+  font-size: 11px;
+  color: #64748b;
+  margin-left: 2px;
+}
 /* 직원 이름: Assign 마취회복팀(.col-nurse)과 동일 속성 */
 .duty-names {
   padding: 7px 10px;

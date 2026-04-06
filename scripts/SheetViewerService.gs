@@ -177,22 +177,15 @@ function getSheetData(sheetKey, gid) {
     }
 
     var dataRange = targetSheet.getDataRange();
-    var values = dataRange.getValues();
-    if (values.length === 0) {
+    var displayValues = dataRange.getDisplayValues();
+    if (displayValues.length === 0) {
       return { success: true, data: { headers: [], rows: [], fontColors: [], tabName: targetSheet.getName() } };
     }
 
     var fontColors = dataRange.getFontColors();
 
-    var headers = values[0].map(function(h) { return h.toString(); });
-    var rows = values.slice(1).map(function(row) {
-      return row.map(function(cell) {
-        if (cell instanceof Date) {
-          return Utilities.formatDate(cell, Session.getScriptTimeZone(), 'yyyy-MM-dd HH:mm:ss');
-        }
-        return cell;
-      });
-    });
+    var headers = displayValues[0];
+    var rows = displayValues.slice(1);
 
     /* fontColors[0] = 1행(headers), fontColors[1~] = rows와 동일 인덱스 */
     var rowFontColors = fontColors.slice(1);
