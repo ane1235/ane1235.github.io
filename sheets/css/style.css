@@ -378,6 +378,19 @@ body {
   color: #64748b;
   margin-left: 2px;
 }
+/* M행 퇴근시간 레이블 셀 — .duty-time과 동일 스타일(소형 회색), 고정폭 */
+.duty-time-label {
+  padding: 4px 6px;
+  font-size: 11px;
+  color: #64748b;
+  white-space: nowrap;
+  width: 34px;
+  min-width: 34px;
+  max-width: 34px;
+  text-align: center;
+  border-right: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
 /* 직원 이름: Assign 마취회복팀(.col-nurse)과 동일 속성 */
 .duty-names {
   padding: 7px 10px;

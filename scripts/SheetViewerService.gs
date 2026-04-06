@@ -177,15 +177,29 @@ function getSheetData(sheetKey, gid) {
     }
 
     var dataRange = targetSheet.getDataRange();
-    var displayValues = dataRange.getDisplayValues();
-    if (displayValues.length === 0) {
+    var values = dataRange.getValues();
+    if (values.length === 0) {
       return { success: true, data: { headers: [], rows: [], fontColors: [], tabName: targetSheet.getName() } };
     }
 
     var fontColors = dataRange.getFontColors();
+    /* 표시값(displayValues)은 퇴근시간 등 시간 포맷 셀을 그대로 가져오기 위해 별도 보존 */
+    var displayValues = dataRange.getDisplayValues();
 
-    var headers = displayValues[0];
-    var rows = displayValues.slice(1);
+    var headers = values[0].map(function(h) { return h.toString(); });
+    var rows = values.slice(1).map(function(row, ri) {
+      return row.map(function(cell, ci) {
+        if (cell instanceof Date) {
+          /* 시간만 있는 셀(1899-12-30)은 표시값(예: "4:30") 그대로 반환 */
+          var d = cell;
+          if (d.getFullYear() === 1899 && d.getMonth() === 11 && d.getDate() === 30) {
+            return displayValues[ri + 1][ci];
+          }
+          return Utilities.formatDate(d, Session.getScriptTimeZone(), 'yyyy-MM-dd HH:mm:ss');
+        }
+        return cell;
+      });
+    });
 
     /* fontColors[0] = 1행(headers), fontColors[1~] = rows와 동일 인덱스 */
     var rowFontColors = fontColors.slice(1);

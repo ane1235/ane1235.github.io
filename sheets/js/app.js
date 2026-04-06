@@ -139,7 +139,7 @@ function refreshDashboard() {
   var html = '<div class="view-container">';
   html += renderDateCounter();
   html += renderSectionCards();
-  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.0300</p>';
+  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.1711</p>';
   html += '</div>';
   dashboard.innerHTML = html;
 
@@ -810,8 +810,8 @@ function renderDutySection(rows, fc, assignRows, container) {
 
   /* D행 (있을 때만) */
   if (schedule['D']) { html += dutyRowFull('D', schedule['D']); }
-  /* M행 */
-  if (schedule['M']) { html += dutyRowFull('M', schedule['M']); }
+  /* M행 — 퇴근시간 없는 직원(1줄) + 퇴근시간별 그룹(각 1줄씩) */
+  if (schedule['M']) { html += dutyRowM(schedule['M']); }
   /* MD | MD2 행 */
   if (schedule['MD'] || schedule['MD2']) {
     html += dutyRowPair(
@@ -854,6 +854,58 @@ function formatEntries(entries) {
     return e.time ? escHtml(e.fullName) + '<span class="duty-time">(' + escHtml(e.time) + ')</span>'
                   : escHtml(e.fullName);
   }).join(', ');
+}
+
+/*
+ * M 근무 전용 렌더링
+ * 1줄: 퇴근시간 없는 직원 이름 (전체 너비)
+ * 이후: 퇴근시간별 그룹 — 시간 | 직원 이름들 (2열)
+ * 첫 번째 행에만 'M' 레이블 표시
+ */
+function dutyRowM(entries) {
+  /* 퇴근시간 없는 직원 */
+  var noTime = entries.filter(function(e) { return !e.time; });
+  /* 퇴근시간별 그룹 (시간 오름차순) */
+  var timeMap = {};
+  entries.forEach(function(e) {
+    if (e.time) {
+      if (!timeMap[e.time]) timeMap[e.time] = [];
+      timeMap[e.time].push(e.fullName);
+    }
+  });
+  var timeKeys = Object.keys(timeMap).sort();
+
+  /* 전체 행 수 계산 (M 셀 rowspan용) */
+  var totalRows = (noTime.length > 0 ? 1 : 0) + timeKeys.length;
+  if (totalRows === 0) return '';
+  var rowspan = totalRows > 1 ? ' rowspan="' + totalRows + '"' : '';
+
+  var html = '';
+  var mCellRendered = false;
+
+  /* 1줄: 퇴근시간 없는 직원 */
+  if (noTime.length > 0) {
+    html += '<tr>'
+      + '<td class="duty-shift"' + rowspan + '>M</td>'
+      + '<td class="duty-names" colspan="3">'
+      + noTime.map(function(e) { return escHtml(e.fullName); }).join(', ')
+      + '</td></tr>';
+    mCellRendered = true;
+  }
+
+  /* 퇴근시간별 그룹 행 */
+  for (var ti = 0; ti < timeKeys.length; ti++) {
+    var t = timeKeys[ti];
+    html += '<tr>'
+      + (!mCellRendered ? '<td class="duty-shift"' + rowspan + '>M</td>' : '')
+      + '<td class="duty-time-label">' + escHtml(t) + '</td>'
+      + '<td class="duty-names" colspan="2">'
+      + timeMap[t].map(function(n) { return escHtml(n); }).join(', ')
+      + '</td></tr>';
+    mCellRendered = true;
+  }
+
+  return html;
 }
 
 function dutyRowFull(shiftLabel, entries) {
