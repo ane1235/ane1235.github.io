@@ -152,6 +152,7 @@ body {
   margin: 8px auto 20px;
   z-index: 50;
 }
+/* 데스크탑: 날짜 카운터 박스 고정 폭 480px */
 .date-counter {
   display: flex; align-items: center; justify-content: space-between;
   background: white; border: 2px solid #d4edda;
@@ -380,13 +381,13 @@ body {
 }
 /* M행 퇴근시간 레이블 셀 — .duty-time과 동일 스타일(소형 회색), 고정폭 */
 .duty-time-label {
-  padding: 4px 6px;
+  padding: 4px 3px;
   font-size: 11px;
   color: #64748b;
   white-space: nowrap;
-  width: 34px;
-  min-width: 34px;
-  max-width: 34px;
+  width: 24px;
+  min-width: 24px;
+  max-width: 24px;
   text-align: center;
   border-right: 1px solid #e2e8f0;
   vertical-align: middle;
@@ -467,6 +468,7 @@ body {
   /* 데스크탑: hover로 submenu 표시 */
   .has-submenu:hover > .submenu { display: block; }
   .page-title { font-size: 24px; padding: 20px 0 10px; }
+  .date-counter-wrap { max-width: 480px; width: 480px; }
   .date-counter { padding: 14px 28px; }
   .date-text { font-size: 18px; }
   .section-subtitle { font-size: 18px; padding: 16px 20px 12px; }

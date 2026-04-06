@@ -139,7 +139,7 @@ function refreshDashboard() {
   var html = '<div class="view-container">';
   html += renderDateCounter();
   html += renderSectionCards();
-  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.1711</p>';
+  html += '<p class="text-gray-400 text-sm" style="text-align:center; padding:20px 0;">created by Dr.Min Build 260406.2336</p>';
   html += '</div>';
   dashboard.innerHTML = html;
 
@@ -617,7 +617,7 @@ function loadShiftData() {
    Duty 섹션 렌더링
    ═══════════════════════════════════════════ */
 
-var HOLIDAY_SHIFT_ORDER = ['휴낮', '낮당', '당직', '휴당'];
+var HOLIDAY_SHIFT_ORDER = ['휴낮', '낮당', '휴당', '당직'];
 
 /* ═══════════════════════════════════════════
    Assign노트에서 당일 날짜 블록 추출
@@ -794,16 +794,11 @@ function renderDutySection(rows, fc, assignRows, container) {
   html += '<div class="duty-wrap"><table class="duty-table">';
 
   if (isHoliday) {
-    /* 휴일 레이아웃: 휴낮 / 낮당 / 당직 / 휴당 순서, 단독행 */
+    /* 휴일 레이아웃: 휴낮 / 낮당 / 휴당 / 당직 순서, 있는 항목만 표시 */
+    /* 휴일 기본값은 Off — 출근자(휴낮/낮당/휴당/당직)만 표시, Off 명단 생략 */
     for (var hi = 0; hi < HOLIDAY_SHIFT_ORDER.length; hi++) {
       var hk = HOLIDAY_SHIFT_ORDER[hi];
       if (schedule[hk]) { html += dutyRowFull(hk, schedule[hk]); }
-    }
-    /* 비표준 근무형태 */
-    for (var hkey in schedule) {
-      if (HOLIDAY_SHIFT_ORDER.indexOf(hkey) < 0) {
-        html += dutyRowFull(hkey, schedule[hkey]);
-      }
     }
   } else {
   /* 평일 레이아웃 */
