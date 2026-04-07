@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<!--
+  의료 계산기 (CALC) — ane1235.github.io/calc/
+  v1.0: 혈액가스 분석 + BMI/BSA 계산기 구현, 마취/수액 WIP
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CALC — 의료 계산기</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: {
+        primary: { DEFAULT: '#2563eb', dark: '#1a365d', light: '#dbeafe', lighter: '#f0f7ff' },
+        accent: '#f59e0b', danger: '#ef4444'
+      }}}
+    };
+  </script>
+  <style>
+    /* ── 기본 ── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f7ff;
+      color: #1e293b;
+    }
+    html, body { overflow-x: hidden; max-width: 100%; }
+    .material-icons { vertical-align: middle; font-size: 20px; }
+    .hidden { display: none !important; }
+
+    /* ── 네비게이션 ── */
+    .navbar {
+      background: #1a365d; color: white;
+      padding: 0 16px;
+      display: flex; align-items: center;
+      height: 48px;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .nav-item {
+      padding: 0 12px; height: 48px;
+      display: flex; align-items: center; cursor: pointer;
+      position: relative; font-size: 13px; font-weight: 500;
+      transition: background 0.2s; white-space: nowrap;
+      text-decoration: none; color: white;
+    }
+    .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); }
+    .nav-bordered {
+      border: 1px solid rgba(255,255,255,0.45);
+      border-radius: 6px;
+      margin-left: 4px;
+      padding: 0 10px !important;
+      height: 32px !important;
+    }
+    .nav-bordered:hover { background: rgba(255,255,255,0.15); }
+    .nav-bordered.active {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.8);
+    }
+    .dropdown-menu {
+      display: none; position: absolute; top: calc(100% + 8px); left: 0;
+      background: white; color: #1e293b;
+      border-radius: 0 0 8px 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      min-width: 200px; z-index: 200; overflow: visible;
+    }
+    .dropdown-menu.show { display: block; }
+    .dropdown-item {
+      padding: 10px 16px; cursor: pointer; font-size: 13px;
+      transition: background 0.15s; border-bottom: 1px solid #f1f5f9;
+      color: #1e293b;
+    }
+    .dropdown-item:hover { background: #dbeafe; }
+    .dropdown-item:last-child { border-bottom: none; }
+    .has-submenu { position: relative; display: flex; justify-content: space-between; align-items: center; }
+    .submenu {
+      display: none; position: absolute; left: 100%; top: 0;
+      background: white; color: #1e293b;
+      border-radius: 0 8px 8px 0; box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      min-width: 200px; z-index: 210; overflow: hidden;
+    }
+    .submenu .dropdown-item { border-bottom: 1px solid #f1f5f9; }
+    .submenu .dropdown-item:last-child { border-bottom: none; }
+    .submenu.show { display: block; }
+
+    /* ── 콘텐츠 ── */
+    .content-area {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 16px 12px;
+    }
+
+    /* ── 계산기 탭 ── */
+    .calc-tabs {
+      display: flex; border-bottom: 2px solid #e2e8f0; margin-bottom: 16px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+    }
+    .calc-tab {
+      padding: 10px 20px; cursor: pointer; font-weight: 500; font-size: 13px;
+      border-bottom: 3px solid transparent; transition: all 0.2s; color: #94a3b8;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .calc-tab.active { color: #2563eb; border-bottom-color: #2563eb; }
+    .calc-tab:hover { color: #475569; }
+    .calc-tab.wip { color: #94a3b8; }
+    .wip-badge {
+      display: inline-block; font-size: 9px; font-weight: 700;
+      background: #fef3c7; color: #92400e; border-radius: 4px;
+      padding: 1px 4px; margin-left: 4px; vertical-align: middle;
+    }
+
+    /* ── 카드 ── */
+    .calc-card {
+      background: white; border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden; margin-bottom: 16px;
+    }
+    .calc-card-header {
+      background: #1a365d; color: white;
+      padding: 12px 16px; font-size: 14px; font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .calc-card-body { padding: 16px; }
+
+    /* ── 폼 요소 ── */
+    .form-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      margin-bottom: 16px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group label {
+      font-size: 12px; font-weight: 600; color: #475569;
+    }
+    .form-group .form-hint {
+      font-size: 11px; color: #94a3b8; margin-top: 1px;
+    }
+    .form-input {
+      padding: 8px 12px; border: 2px solid #e2e8f0;
+      border-radius: 8px; font-size: 14px; transition: border-color 0.2s;
+      outline: none; width: 100%;
+    }
+    .form-input:focus { border-color: #2563eb; }
+    .form-input.error { border-color: #ef4444; }
+    .input-with-unit {
+      display: flex; align-items: center;
+    }
+    .input-with-unit .form-input {
+      border-radius: 8px 0 0 8px; border-right: none;
+    }
+    .input-unit {
+      padding: 8px 10px; background: #f1f5f9; border: 2px solid #e2e8f0;
+      border-radius: 0 8px 8px 0; font-size: 12px; color: #64748b;
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* ── 버튼 ── */
+    .btn-primary {
+      background: #2563eb; color: white;
+      padding: 10px 24px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      border: none; transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-reset {
+      background: #f1f5f9; color: #64748b;
+      padding: 10px 16px; border-radius: 8px;
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      border: none; transition: background 0.2s; margin-left: 8px;
+    }
+    .btn-reset:hover { background: #e2e8f0; }
+
+    /* ── 결과 패널 ── */
+    .result-panel {
+      background: #f0f7ff; border-radius: 10px; padding: 16px;
+      border: 1px solid #dbeafe;
+    }
+    .result-title {
+      font-size: 12px; font-weight: 700; color: #64748b;
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;
+    }
+    .result-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; border-bottom: 1px solid #dbeafe; font-size: 13px;
+    }
+    .result-row:last-child { border-bottom: none; }
+    .result-label { color: #475569; font-weight: 500; }
+    .result-value { font-weight: 700; color: #1a365d; }
+    .result-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;
+    }
+    .badge-normal { background: #dcfce7; color: #166534; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-danger  { background: #fee2e2; color: #991b1b; }
+    .badge-info    { background: #dbeafe; color: #1e40af; }
+
+    /* ── 경고 배너 ── */
+    .alert-list { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+    .alert-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 10px 12px; border-radius: 8px; font-size: 12px;
+    }
+    .alert-critical { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+    .alert-warning  { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .alert-info     { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+    .alert-item .material-icons { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── 권고사항 ── */
+    .rec-list { margin-top: 12px; }
+    .rec-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 6px 0; font-size: 13px; color: #1e293b;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .rec-item:last-child { border-bottom: none; }
+    .rec-item .material-icons { font-size: 16px; color: #2563eb; flex-shrink: 0; margin-top: 2px; }
+
+    /* ── WIP 패널 ── */
+    .wip-panel {
+      text-align: center; padding: 48px 24px; color: #94a3b8;
+    }
+    .wip-panel .material-icons { font-size: 48px; color: #cbd5e1; margin-bottom: 12px; display: block; }
+    .wip-panel h3 { font-size: 16px; color: #475569; margin-bottom: 8px; }
+    .wip-panel p { font-size: 13px; line-height: 1.6; }
+
+    /* ── 참고범위 표 ── */
+    .ref-table {
+      width: 100%; border-collapse: collapse; font-size: 12px;
+      margin-top: 12px;
+    }
+    .ref-table th {
+      background: #1a365d; color: white; padding: 8px 10px; text-align: left;
+    }
+    .ref-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; }
+    .ref-table tr:last-child td { border-bottom: none; }
+    .ref-table tr:nth-child(even) td { background: #f8fafc; }
+
+    /* ── BMI 분류 바 ── */
+    .bmi-bar-container {
+      margin: 12px 0; position: relative; height: 20px;
+      border-radius: 10px; overflow: hidden;
+      background: linear-gradient(90deg, #bfdbfe 0%, #86efac 25%, #fde68a 50%, #fca5a5 75%, #f87171 100%);
+    }
+    .bmi-marker {
+      position: absolute; top: 0; width: 3px; height: 100%;
+      background: #1a365d; transform: translateX(-50%);
+      transition: left 0.4s ease;
+    }
+    .bmi-labels {
+      display: flex; justify-content: space-between;
+      font-size: 10px; color: #64748b; margin-top: 4px;
+    }
+
+    /* ── 토스트 ── */
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: #1a365d; color: white;
+      padding: 10px 20px; border-radius: 8px; font-size: 13px;
+      z-index: 999; opacity: 0; transition: opacity 0.3s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2); max-width: 90%; text-align: center;
+    }
+    .toast.show { opacity: 1; }
+
+    /* ── 반응형 ── */
+    @media (min-width: 769px) {
+      .navbar { max-width: 1200px; height: 52px; padding: 0 24px; }
+      .content-area { max-width: 1200px; padding: 24px 24px; }
+      .nav-item { height: 52px; font-size: 14px; padding: 0 16px; }
+      .has-submenu:hover > .submenu { display: block; }
+      .dropdown-menu { top: calc(100% + 10px); min-width: 240px; }
+      .dropdown-item { padding: 12px 20px; font-size: 14px; }
+      .form-grid { grid-template-columns: repeat(3, 1fr); }
+      .calc-card-header { padding: 14px 24px; font-size: 15px; }
+      .calc-card-body { padding: 20px 24px; }
+    }
+    @media (max-width: 768px) {
+      .navbar { padding: 0 6px; height: 44px; max-width: 100%; }
+      .nav-item { padding: 0 8px; height: 44px; font-size: 12px; }
+      .nav-bordered { height: 28px !important; padding: 0 6px !important; }
+      .content-area { padding: 10px 6px; max-width: 100%; }
+      .form-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .calc-tab { padding: 8px 14px; font-size: 12px; }
+      .has-submenu { flex-wrap: wrap; }
+      .submenu {
+        position: static; left: auto; border-radius: 0;
+        box-shadow: none; border-left: 3px solid #dbeafe;
+        margin-left: 12px; min-width: auto; width: 100%;
+      }
+      .dropdown-menu { top: calc(100% + 8px); min-width: 180px; right: 0; left: auto; max-width: calc(100vw - 12px); }
+    }
+    @media (max-width: 375px) {
+      .navbar { padding: 0 4px; height: 42px; }
+      .nav-item { padding: 0 6px; font-size: 11px; height: 42px; }
+      .nav-bordered { height: 26px !important; padding: 0 4px !important; font-size: 10px !important; }
+      .content-area { padding: 8px 4px; }
+      .form-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-item nav-bordered" onclick="location.href='/sheets/'" title="홈" style="font-weight:700;">
+      <span class="material-icons mr-1" style="font-size:22px;">home</span>홈
+    </div>
+    <div class="nav-item nav-wip" onclick="location.href='/sheets/'" title="오늘일정">
+      <span class="material-icons mr-1" style="font-size:18px;">construction</span><span style="font-size:12px;">오늘일정(공사중)</span>
+    </div>
+    <div class="nav-item nav-bordered active" style="font-size:11px; letter-spacing:0.08em; font-weight:700;">
+      <span class="material-icons mr-1" style="font-size:14px;">calculate</span>CALC
+    </div>
+    <div class="nav-item nav-bordered" onclick="toggleDropdown('ksctva')" id="nav-ksctva" style="font-size:12px;">
+      심폐마취학회2026 <span class="material-icons" style="font-size:16px; margin-left:2px;">arrow_drop_down</span>
+      <div class="dropdown-menu" id="dropdown-ksctva">
+        <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">전체일정</div>
+        <div class="dropdown-item has-submenu" onclick="event.stopPropagation(); toggleSubmenu('day1');">
+          Day 1 <span class="material-icons submenu-arrow" style="font-size:16px;">chevron_right</span>
+          <div class="submenu" id="submenu-day1">
+            <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오전 세션 1,2 (10:30~12:00)</div>
+            <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오후 세션 3 (13:00~14:30)</div>
+            <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오후 세션 4,5 (14:50~16:20)</div>
+            <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오후 세션 6,7 (16:40~18:00)</div>
+          </div>
+        </div>
+        <div class="dropdown-item has-submenu" onclick="event.stopPropagation(); toggleSubmenu('day2');">
+          Day 2 <span class="material-icons submenu-arrow" style="font-size:16px;">chevron_right</span>
+          <div class="submenu" id="submenu-day2">
+            <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오전 세션 9,10 (10:50~12:20)</div>
+            <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오후 세션 11,12 (13:30~15:00)</div>
+            <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">오후 세션 13,14 (15:20~16:50)</div>
+          </div>
+        </div>
+        <div class="dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); location.href='/ksctva/';">
+          <span class="material-icons mr-1" style="font-size:18px; vertical-align:middle;">person</span>My
+        </div>
+      </div>
+    </div>
+    <div class="ml-auto flex items-center text-sm opacity-80">
+      <span id="user-display" class="hidden sm:inline"></span>
+      <span class="material-icons ml-2 cursor-pointer" style="font-size:20px;" onclick="handleLogout()" title="로그아웃">logout</span>
+    </div>
+  </nav>
+
+  <div class="content-area">
+    <!-- 페이지 헤더 -->
+    <div style="margin-bottom:16px;">
+      <h2 style="font-size:18px; font-weight:700; color:#1a365d; margin-bottom:4px;">
+        <span class="material-icons" style="font-size:20px; vertical-align:middle; margin-right:6px;">calculate</span>의료 계산기
+      </h2>
+      <p style="font-size:12px; color:#94a3b8;">부천세종병원 마취통증의학과 · 공사중. 공지없이 수시 변경 가능</p>
+    </div>
+
+    <!-- 탭 -->
+    <div class="calc-tabs">
+      <div class="calc-tab active" id="tab-bloodgas" onclick="switchTab('bloodgas')">
+        <span class="material-icons" style="font-size:15px; vertical-align:middle; margin-right:4px;">bloodtype</span>혈액가스 분석
+      </div>
+      <div class="calc-tab" id="tab-bmi" onclick="switchTab('bmi')">
+        <span class="material-icons" style="font-size:15px; vertical-align:middle; margin-right:4px;">monitor_weight</span>BMI / BSA
+      </div>
+      <div class="calc-tab wip" id="tab-anesthesia" onclick="switchTab('anesthesia')">
+        <span class="material-icons" style="font-size:15px; vertical-align:middle; margin-right:4px;">medication</span>마취 용량<span class="wip-badge">WIP</span>
+      </div>
+      <div class="calc-tab wip" id="tab-fluid" onclick="switchTab('fluid')">
+        <span class="material-icons" style="font-size:15px; vertical-align:middle; margin-right:4px;">water_drop</span>수액/전해질<span class="wip-badge">WIP</span>
+      </div>
+    </div>
+
+    <!-- ══ 혈액가스 분석 패널 ══ -->
+    <div id="panel-bloodgas">
+      <div class="calc-card">
+        <div class="calc-card-header">
+          <span class="material-icons" style="font-size:18px;">bloodtype</span>
+          혈액가스 분석 (ABG Analysis)
+        </div>
+        <div class="calc-card-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>pH</label>
+              <div class="input-with-unit">
+                <input type="number" id="bg-ph" class="form-input" placeholder="7.40" step="0.01" min="6.5" max="8.0">
+                <span class="input-unit">—</span>
+              </div>
+              <span class="form-hint">정상: 7.35 – 7.45</span>
+            </div>
+            <div class="form-group">
+              <label>PaO₂</label>
+              <div class="input-with-unit">
+                <input type="number" id="bg-pao2" class="form-input" placeholder="95" step="1" min="0" max="700">
+                <span class="input-unit">mmHg</span>
+              </div>
+              <span class="form-hint">정상: 80 – 100</span>
+            </div>
+            <div class="form-group">
+              <label>PaCO₂</label>
+              <div class="input-with-unit">
+                <input type="number" id="bg-paco2" class="form-input" placeholder="40" step="1" min="0" max="200">
+                <span class="input-unit">mmHg</span>
+              </div>
+              <span class="form-hint">정상: 35 – 45</span>
+            </div>
+            <div class="form-group">
+              <label>HCO₃⁻</label>
+              <div class="input-with-unit">
+                <input type="number" id="bg-hco3" class="form-input" placeholder="24" step="0.1" min="0" max="60">
+                <span class="input-unit">mEq/L</span>
+              </div>
+              <span class="form-hint">정상: 22 – 26</span>
+            </div>
+            <div class="form-group">
+              <label>SaO₂</label>
+              <div class="input-with-unit">
+                <input type="number" id="bg-sao2" class="form-input" placeholder="98" step="0.1" min="0" max="100">
+                <span class="input-unit">%</span>
+              </div>
+              <span class="form-hint">정상: 95 – 100</span>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+            <button class="btn-primary" onclick="calculateBloodGas()">
+              <span class="material-icons" style="font-size:16px; vertical-align:middle; margin-right:4px;">analytics</span>분석
+            </button>
+            <button class="btn-reset" onclick="resetBloodGas()">초기화</button>
+          </div>
+
+          <!-- 결과 영역 -->
+          <div id="bg-result" class="hidden">
+            <div id="bg-alerts" class="alert-list" style="margin-bottom:16px;"></div>
+
+            <div class="result-panel">
+              <div class="result-title">분석 결과</div>
+              <div class="result-row">
+                <span class="result-label">산-염기 상태</span>
+                <span id="bg-res-acidbase" class="result-badge badge-info">—</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">유형</span>
+                <span id="bg-res-type" class="result-badge badge-info">—</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">산소화 상태</span>
+                <span id="bg-res-oxy" class="result-badge badge-info">—</span>
+              </div>
+              <div class="result-row" style="border-bottom:none; display:block; padding-top:10px;">
+                <div class="result-label" style="margin-bottom:6px;">해석</div>
+                <div id="bg-res-interp" style="font-size:13px; color:#1e293b; line-height:1.6;"></div>
+              </div>
+            </div>
+
+            <div id="bg-recs" class="rec-list" style="margin-top:12px;"></div>
+          </div>
+
+          <div id="bg-error" class="hidden" style="padding:10px; background:#fee2e2; border-radius:8px; color:#991b1b; font-size:13px; margin-top:8px;"></div>
+        </div>
+      </div>
+
+      <!-- 참고범위 표 -->
+      <div class="calc-card">
+        <div class="calc-card-header">
+          <span class="material-icons" style="font-size:18px;">table_chart</span>
+          혈액가스 참고범위
+        </div>
+        <div class="calc-card-body" style="padding:0;">
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>항목</th>
+                <th>정상범위</th>
+                <th>단위</th>
+                <th>위험경고</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>pH</td><td>7.35 – 7.45</td><td>—</td><td>&lt;7.2 또는 &gt;7.6</td></tr>
+              <tr><td>PaO₂</td><td>80 – 100</td><td>mmHg</td><td>&lt;60</td></tr>
+              <tr><td>PaCO₂</td><td>35 – 45</td><td>mmHg</td><td>&lt;20 또는 &gt;60</td></tr>
+              <tr><td>HCO₃⁻</td><td>22 – 26</td><td>mEq/L</td><td>&lt;15 또는 &gt;35</td></tr>
+              <tr><td>SaO₂</td><td>95 – 100</td><td>%</td><td>&lt;90</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ BMI / BSA 패널 ══ -->
+    <div id="panel-bmi" class="hidden">
+      <div class="calc-card">
+        <div class="calc-card-header">
+          <span class="material-icons" style="font-size:18px;">monitor_weight</span>
+          BMI / BSA 계산기
+        </div>
+        <div class="calc-card-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>신장</label>
+              <div class="input-with-unit">
+                <input type="number" id="bmi-height" class="form-input" placeholder="170" step="0.1" min="50" max="250">
+                <span class="input-unit">cm</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>체중</label>
+              <div class="input-with-unit">
+                <input type="number" id="bmi-weight" class="form-input" placeholder="65" step="0.1" min="1" max="500">
+                <span class="input-unit">kg</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>성별</label>
+              <select id="bmi-sex" class="form-input" style="cursor:pointer;">
+                <option value="M">남성</option>
+                <option value="F">여성</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+            <button class="btn-primary" onclick="calculateBMI()">
+              <span class="material-icons" style="font-size:16px; vertical-align:middle; margin-right:4px;">calculate</span>계산
+            </button>
+            <button class="btn-reset" onclick="resetBMI()">초기화</button>
+          </div>
+
+          <!-- 결과 -->
+          <div id="bmi-result" class="hidden">
+            <div class="result-panel">
+              <div class="result-title">계산 결과</div>
+              <div class="result-row">
+                <span class="result-label">BMI</span>
+                <span style="display:flex; align-items:center; gap:8px;">
+                  <span id="bmi-res-value" class="result-value">—</span>
+                  <span id="bmi-res-badge" class="result-badge badge-info">—</span>
+                </span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">BSA (Mosteller)</span>
+                <span>
+                  <span id="bmi-res-bsa" class="result-value">—</span>
+                  <span style="font-size:12px; color:#64748b; margin-left:4px;">m²</span>
+                </span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">이상체중 (IBW)</span>
+                <span>
+                  <span id="bmi-res-ibw" class="result-value">—</span>
+                  <span style="font-size:12px; color:#64748b; margin-left:4px;">kg</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- BMI 시각화 바 -->
+            <div style="margin-top:16px; padding:12px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0;">
+              <div style="font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">BMI 분포</div>
+              <div class="bmi-bar-container">
+                <div class="bmi-marker" id="bmi-marker" style="left:0%;"></div>
+              </div>
+              <div class="bmi-labels">
+                <span>저체중<br/>&lt;18.5</span>
+                <span>정상<br/>18.5–23</span>
+                <span>과체중<br/>23–25</span>
+                <span>비만<br/>25–30</span>
+                <span>고도비만<br/>&gt;30</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="bmi-error" class="hidden" style="padding:10px; background:#fee2e2; border-radius:8px; color:#991b1b; font-size:13px; margin-top:8px;"></div>
+        </div>
+      </div>
+
+      <!-- BMI 분류 기준 표 -->
+      <div class="calc-card">
+        <div class="calc-card-header">
+          <span class="material-icons" style="font-size:18px;">table_chart</span>
+          BMI 분류 기준 (아시아 기준, WHO 아시아태평양)
+        </div>
+        <div class="calc-card-body" style="padding:0;">
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>분류</th>
+                <th>BMI 범위</th>
+                <th>위험도</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>저체중</td><td>&lt; 18.5</td><td>낮음 (다른 위험 증가)</td></tr>
+              <tr><td>정상</td><td>18.5 – 22.9</td><td>평균</td></tr>
+              <tr><td>과체중</td><td>23.0 – 24.9</td><td>증가</td></tr>
+              <tr><td>비만 1단계</td><td>25.0 – 29.9</td><td>중간</td></tr>
+              <tr><td>비만 2단계</td><td>≥ 30.0</td><td>높음</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 마취 용량 WIP ══ -->
+    <div id="panel-anesthesia" class="hidden">
+      <div class="calc-card">
+        <div class="calc-card-header">
+          <span class="material-icons" style="font-size:18px;">medication</span>
+          마취 용량 계산기
+        </div>
+        <div class="calc-card-body">
+          <div class="wip-panel">
+            <span class="material-icons">construction</span>
+            <h3>공사중 (WIP)</h3>
+            <p>IV 마취제, 진통제, 근이완제 권장 용량 계산기를 개발 중입니다.<br>
+               체중 기반 용량 계산, 마취 유도/유지 프로토콜을 제공할 예정입니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 수액/전해질 WIP ══ -->
+    <div id="panel-fluid" class="hidden">
+      <div class="calc-card">
+        <div class="calc-card-header">
+          <span class="material-icons" style="font-size:18px;">water_drop</span>
+          수액/전해질 계산기
+        </div>
+        <div class="calc-card-body">
+          <div class="wip-panel">
+            <span class="material-icons">construction</span>
+            <h3>공사중 (WIP)</h3>
+            <p>최적 수액량, 전해질 교정 계산기를 개발 중입니다.<br>
+               4-2-1 법칙, Na/K/Cl 교정식을 제공할 예정입니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content-area -->
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+  // ── 세션 공유 (ksctva_user) ──────────────────────────
+  var STORAGE_KEY_USER = 'ksctva_user';
+  (function initUserDisplay() {
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY_USER);
+      if (saved) {
+        var u = JSON.parse(saved);
+        if (u && u.name) {
+          var el = document.getElementById('user-display');
+          if (el) { el.textContent = u.name; el.classList.remove('hidden'); }
+        }
+      }
+    } catch(e) {}
+  })();
+  function handleLogout() {
+    localStorage.removeItem(STORAGE_KEY_USER);
+    location.href = '/sheets/';
+  }
+
+  // ── 드롭다운 / 서브메뉴 ──────────────────────────────
+  function closeAllDropdowns() {
+    document.querySelectorAll('.dropdown-menu.show').forEach(el => el.classList.remove('show'));
+    document.querySelectorAll('.submenu.show').forEach(el => el.classList.remove('show'));
+  }
+  function toggleDropdown(id) {
+    const menu = document.getElementById('dropdown-' + id);
+    if (!menu) return;
+    const isOpen = menu.classList.contains('show');
+    closeAllDropdowns();
+    if (!isOpen) menu.classList.add('show');
+  }
+  function toggleSubmenu(id) {
+    const sub = document.getElementById('submenu-' + id);
+    if (!sub) return;
+    sub.classList.toggle('show');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-item')) closeAllDropdowns();
+  });
+
+  // ── 탭 전환 ─────────────────────────────────────────
+  const TABS = ['bloodgas', 'bmi', 'anesthesia', 'fluid'];
+  function switchTab(tab) {
+    TABS.forEach(t => {
+      document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+      document.getElementById('panel-' + t).classList.toggle('hidden', t !== tab);
+    });
+  }
+
+  // ── 토스트 ──────────────────────────────────────────
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2500);
+  }
+
+  // ── 혈액가스 계산기 ──────────────────────────────────
+  const BG_REF = {
+    ph:    { min: 7.35, max: 7.45 },
+    pao2:  { min: 80,   max: 100  },
+    paco2: { min: 35,   max: 45   },
+    hco3:  { min: 22,   max: 26   },
+    sao2:  { min: 95,   max: 100  }
+  };
+
+  function calculateBloodGas() {
+    const ph    = parseFloat(document.getElementById('bg-ph').value);
+    const pao2  = parseFloat(document.getElementById('bg-pao2').value);
+    const paco2 = parseFloat(document.getElementById('bg-paco2').value);
+    const hco3  = parseFloat(document.getElementById('bg-hco3').value);
+    const sao2  = parseFloat(document.getElementById('bg-sao2').value);
+
+    // 입력 검증
+    const errEl = document.getElementById('bg-error');
+    const missing = [];
+    if (isNaN(ph))    missing.push('pH');
+    if (isNaN(pao2))  missing.push('PaO₂');
+    if (isNaN(paco2)) missing.push('PaCO₂');
+    if (isNaN(hco3))  missing.push('HCO₃⁻');
+    if (isNaN(sao2))  missing.push('SaO₂');
+    if (missing.length > 0) {
+      errEl.textContent = '필수 입력값이 없습니다: ' + missing.join(', ');
+      errEl.classList.remove('hidden');
+      document.getElementById('bg-result').classList.add('hidden');
+      return;
+    }
+    if (ph < 6.5 || ph > 8.0) {
+      errEl.textContent = 'pH 범위를 확인하세요 (6.5 – 8.0).';
+      errEl.classList.remove('hidden');
+      document.getElementById('bg-result').classList.add('hidden');
+      return;
+    }
+    errEl.classList.add('hidden');
+
+    // 산-염기 상태
+    let acidBaseStatus, acidBaseType;
+    if (ph < BG_REF.ph.min)      acidBaseStatus = 'acidosis';
+    else if (ph > BG_REF.ph.max) acidBaseStatus = 'alkalosis';
+    else                          acidBaseStatus = 'normal';
+
+    const phLow   = ph    < BG_REF.ph.min;
+    const phHigh  = ph    > BG_REF.ph.max;
+    const co2High = paco2 > BG_REF.paco2.max;
+    const co2Low  = paco2 < BG_REF.paco2.min;
+    const hcoHigh = hco3  > BG_REF.hco3.max;
+    const hcoLow  = hco3  < BG_REF.hco3.min;
+
+    if (!phLow && !phHigh) {
+      acidBaseType = 'normal';
+    } else if (phLow) {
+      if (co2High && hcoLow) acidBaseType = 'mixed';
+      else if (co2High)      acidBaseType = 'respiratory';
+      else if (hcoLow)       acidBaseType = 'metabolic';
+      else                   acidBaseType = 'respiratory';
+    } else {
+      if (co2Low && hcoHigh) acidBaseType = 'mixed';
+      else if (co2Low)       acidBaseType = 'respiratory';
+      else if (hcoHigh)      acidBaseType = 'metabolic';
+      else                   acidBaseType = 'respiratory';
+    }
+
+    // 산소화
+    let oxygenationStatus;
+    if (pao2 < 60 || sao2 < 90)                                         oxygenationStatus = 'severe_hypoxemia';
+    else if (pao2 < BG_REF.pao2.min || sao2 < BG_REF.sao2.min)         oxygenationStatus = 'hypoxemia';
+    else                                                                  oxygenationStatus = 'normal';
+
+    // 경고 생성
+    const warnings = [];
+    const addWarn = (type, param, msg, val, range) => warnings.push({type, param, msg, val, range});
+
+    if (ph < 7.2 || ph > 7.6)           addWarn('critical', 'pH',     'pH가 위험 범위를 벗어났습니다. 즉시 의사에게 알려주세요.', ph, '7.35–7.45');
+    else if (phLow || phHigh)            addWarn('warning',  'pH',     'pH가 정상 범위를 벗어났습니다.', ph, '7.35–7.45');
+
+    if (pao2 < 60)                       addWarn('critical', 'PaO₂',   'PaO₂가 위험 수준입니다. 산소 공급을 확인하세요.', pao2, '80–100 mmHg');
+    else if (pao2 < BG_REF.pao2.min)    addWarn('warning',  'PaO₂',   'PaO₂가 정상 범위보다 낮습니다.', pao2, '80–100 mmHg');
+
+    if (paco2 < 20 || paco2 > 60)       addWarn('critical', 'PaCO₂',  'PaCO₂가 위험 범위입니다. 호흡 상태를 확인하세요.', paco2, '35–45 mmHg');
+    else if (co2Low || co2High)          addWarn('warning',  'PaCO₂',  'PaCO₂가 정상 범위를 벗어났습니다.', paco2, '35–45 mmHg');
+
+    if (hco3 < 15 || hco3 > 35)         addWarn('critical', 'HCO₃⁻',  'HCO₃⁻이 위험 범위입니다. 전해질 균형을 확인하세요.', hco3, '22–26 mEq/L');
+    else if (hcoLow || hcoHigh)          addWarn('warning',  'HCO₃⁻',  'HCO₃⁻이 정상 범위를 벗어났습니다.', hco3, '22–26 mEq/L');
+
+    if (sao2 < 90)                       addWarn('critical', 'SaO₂',   'SaO₂가 위험 수준입니다. 산소 포화도를 확인하세요.', sao2, '95–100%');
+    else if (sao2 < BG_REF.sao2.min)    addWarn('warning',  'SaO₂',   'SaO₂가 정상 범위보다 낮습니다.', sao2, '95–100%');
+
+    // 해석
+    const interp = [];
+    if (acidBaseStatus === 'normal') interp.push('산-염기 균형이 정상입니다.');
+    else if (acidBaseStatus === 'acidosis') {
+      if (acidBaseType === 'respiratory') interp.push('호흡성 산증이 관찰됩니다.');
+      else if (acidBaseType === 'metabolic') interp.push('대사성 산증이 관찰됩니다.');
+      else if (acidBaseType === 'mixed')   interp.push('혼합성 산증이 관찰됩니다.');
+    } else {
+      if (acidBaseType === 'respiratory') interp.push('호흡성 알칼리증이 관찰됩니다.');
+      else if (acidBaseType === 'metabolic') interp.push('대사성 알칼리증이 관찰됩니다.');
+      else if (acidBaseType === 'mixed')   interp.push('혼합성 알칼리증이 관찰됩니다.');
+    }
+    if (oxygenationStatus === 'normal')          interp.push('산소화 상태가 양호합니다.');
+    else if (oxygenationStatus === 'hypoxemia')  interp.push('경도 저산소혈증이 관찰됩니다.');
+    else                                          interp.push('중증 저산소혈증이 관찰됩니다.');
+
+    // 권고사항
+    const recs = [];
+    if (acidBaseStatus === 'acidosis') {
+      if (acidBaseType === 'respiratory') { recs.push('호흡 기능 개선을 위한 처치를 고려하세요.'); recs.push('기관내 삽관이나 인공호흡을 검토하세요.'); }
+      else if (acidBaseType === 'metabolic') { recs.push('대사성 산증의 원인을 파악하세요.'); recs.push('수액 및 전해질 균형을 확인하세요.'); }
+    } else if (acidBaseStatus === 'alkalosis') {
+      if (acidBaseType === 'respiratory') { recs.push('과호흡의 원인을 파악하세요.'); recs.push('진정제 사용을 고려하세요.'); }
+      else if (acidBaseType === 'metabolic') { recs.push('대사성 알칼리증의 원인을 파악하세요.'); recs.push('전해질 보정을 고려하세요.'); }
+    }
+    if (oxygenationStatus === 'hypoxemia') { recs.push('산소 공급을 증가시키세요.'); recs.push('호흡 상태를 지속적으로 모니터링하세요.'); }
+    else if (oxygenationStatus === 'severe_hypoxemia') { recs.push('즉시 고농도 산소를 공급하세요.'); recs.push('호흡기 지원을 고려하세요.'); recs.push('의사에게 즉시 보고하세요.'); }
+    if (recs.length === 0) { recs.push('혈액 가스 수치가 정상 범위 내에 있습니다.'); recs.push('지속적인 모니터링을 유지하세요.'); }
+
+    // 결과 렌더링
+    const statusMap = { normal: ['정상', 'badge-normal'], acidosis: ['산증', 'badge-danger'], alkalosis: ['알칼리증', 'badge-warning'] };
+    const typeMap   = { normal: ['정상', 'badge-normal'], respiratory: ['호흡성', 'badge-warning'], metabolic: ['대사성', 'badge-warning'], mixed: ['혼합성', 'badge-danger'] };
+    const oxyMap    = { normal: ['정상', 'badge-normal'], hypoxemia: ['저산소혈증', 'badge-warning'], severe_hypoxemia: ['중증 저산소혈증', 'badge-danger'] };
+
+    function setBadge(id, map, key) {
+      const el = document.getElementById(id);
+      const [label, cls] = map[key] || ['—', 'badge-info'];
+      el.textContent = label;
+      el.className = 'result-badge ' + cls;
+    }
+    setBadge('bg-res-acidbase', statusMap, acidBaseStatus);
+    setBadge('bg-res-type',     typeMap,   acidBaseType);
+    setBadge('bg-res-oxy',      oxyMap,    oxygenationStatus);
+    document.getElementById('bg-res-interp').textContent = interp.join(' ');
+
+    // 경고 렌더
+    const alertsEl = document.getElementById('bg-alerts');
+    if (warnings.length > 0) {
+      alertsEl.innerHTML = warnings.map(w => {
+        const cls   = w.type === 'critical' ? 'alert-critical' : 'alert-warning';
+        const icon  = w.type === 'critical' ? 'error' : 'warning';
+        return `<div class="alert-item ${cls}"><span class="material-icons">${icon}</span><div><strong>${w.param}</strong> ${w.val} — ${w.msg} <span style="opacity:0.7;">(정상: ${w.range})</span></div></div>`;
+      }).join('');
+    } else {
+      alertsEl.innerHTML = '<div class="alert-item alert-info"><span class="material-icons">check_circle</span><div>모든 수치가 정상 범위 내에 있습니다.</div></div>';
+    }
+
+    // 권고사항 렌더
+    document.getElementById('bg-recs').innerHTML =
+      '<div style="font-size:12px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; padding-bottom:6px; border-bottom:1px solid #e2e8f0;">권고사항</div>' +
+      recs.map(r => `<div class="rec-item"><span class="material-icons">arrow_right</span>${r}</div>`).join('');
+
+    document.getElementById('bg-result').classList.remove('hidden');
+  }
+
+  function resetBloodGas() {
+    ['bg-ph','bg-pao2','bg-paco2','bg-hco3','bg-sao2'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('bg-result').classList.add('hidden');
+    document.getElementById('bg-error').classList.add('hidden');
+  }
+
+  // ── BMI / BSA 계산기 ─────────────────────────────────
+  function calculateBMI() {
+    const height = parseFloat(document.getElementById('bmi-height').value);
+    const weight = parseFloat(document.getElementById('bmi-weight').value);
+    const sex    = document.getElementById('bmi-sex').value;
+    const errEl  = document.getElementById('bmi-error');
+
+    if (isNaN(height) || isNaN(weight)) {
+      errEl.textContent = '신장과 체중을 모두 입력하세요.';
+      errEl.classList.remove('hidden');
+      document.getElementById('bmi-result').classList.add('hidden');
+      return;
+    }
+    if (height < 50 || height > 250) {
+      errEl.textContent = '신장 범위를 확인하세요 (50 – 250 cm).';
+      errEl.classList.remove('hidden');
+      document.getElementById('bmi-result').classList.add('hidden');
+      return;
+    }
+    if (weight < 1 || weight > 500) {
+      errEl.textContent = '체중 범위를 확인하세요 (1 – 500 kg).';
+      errEl.classList.remove('hidden');
+      document.getElementById('bmi-result').classList.add('hidden');
+      return;
+    }
+    errEl.classList.add('hidden');
+
+    const h_m = height / 100;
+    const bmi = weight / (h_m * h_m);
+    // BSA: Mosteller 공식
+    const bsa = Math.sqrt((height * weight) / 3600);
+    // IBW: Devine 공식
+    const ibw = sex === 'M'
+      ? 50 + 2.3 * ((height - 152.4) / 2.54)
+      : 45.5 + 2.3 * ((height - 152.4) / 2.54);
+    const ibwClamped = Math.max(ibw, 30);
+
+    // BMI 분류 (아시아 기준)
+    let bmiClass, badgeCls;
+    if      (bmi < 18.5) { bmiClass = '저체중';    badgeCls = 'badge-info'; }
+    else if (bmi < 23.0) { bmiClass = '정상';       badgeCls = 'badge-normal'; }
+    else if (bmi < 25.0) { bmiClass = '과체중';     badgeCls = 'badge-warning'; }
+    else if (bmi < 30.0) { bmiClass = '비만 1단계'; badgeCls = 'badge-danger'; }
+    else                  { bmiClass = '비만 2단계'; badgeCls = 'badge-danger'; }
+
+    document.getElementById('bmi-res-value').textContent = bmi.toFixed(1);
+    const badgeEl = document.getElementById('bmi-res-badge');
+    badgeEl.textContent = bmiClass;
+    badgeEl.className = 'result-badge ' + badgeCls;
+    document.getElementById('bmi-res-bsa').textContent = bsa.toFixed(2);
+    document.getElementById('bmi-res-ibw').textContent = ibwClamped.toFixed(1);
+
+    // BMI 마커 위치 계산 (10–40 범위를 0–100%로)
+    const pct = Math.min(Math.max(((bmi - 10) / 30) * 100, 0), 100);
+    document.getElementById('bmi-marker').style.left = pct + '%';
+
+    document.getElementById('bmi-result').classList.remove('hidden');
+  }
+
+  function resetBMI() {
+    ['bmi-height','bmi-weight'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('bmi-result').classList.add('hidden');
+    document.getElementById('bmi-error').classList.add('hidden');
+  }
+
+  // ── 엔터 키 지원 ─────────────────────────────────────
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter') return;
+    const active = document.querySelector('.calc-tab.active');
+    if (!active) return;
+    const tabId = active.id.replace('tab-', '');
+    if (tabId === 'bloodgas') calculateBloodGas();
+    else if (tabId === 'bmi') calculateBMI();
+  });
+  </script>
+</body>
+</html>
