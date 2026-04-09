@@ -13,10 +13,10 @@
   <div class="nav-item nav-bordered" onclick="location.href='/sheets/'" style="font-weight:700;">
     <span class="material-icons mr-1" style="font-size:22px;">home</span>홈
   </div>
-  <!-- 2. 오늘일정(공사중) -->
+  <!-- 2. ASSIGN -->
   <div class="nav-item nav-wip" onclick="location.href='/sheets/'">
-    <span class="material-icons mr-1" style="font-size:18px;">construction</span>
-    <span style="font-size:12px;">오늘일정(공사중)</span>
+    <span class="material-icons mr-1" style="font-size:18px;">assignment</span>
+    <span style="font-size:12px;">ASSIGN</span>
   </div>
   <!-- 3. CALC -->
   <div class="nav-item nav-bordered" onclick="location.href='/calc/'" style="font-size:11px; letter-spacing:0.08em; font-weight:700;">
