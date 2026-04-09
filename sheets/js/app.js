@@ -54,8 +54,8 @@ var STAFF_BY_SHORT = {};  /* shortName → staff 객체 */
   }
 })();
 
-/* CATH 집도의 명단 — 이 집도의들의 수술명 앞에 "[CATH] " 접두사를 붙인다 */
-var CATH_SURGEONS = ['방지석', '김정윤', '박상원', '박하욱', '김성호', '정현', '이의재'];
+/* CATH 시술의 명단 — 이 시술의들의 수술명 앞에 "[CATH] " 접두사를 붙인다 */
+var CATH_PHYSICIANS = ['방지석', '김정윤', '박상원', '박하욱', '김성호', '정현', '이의재', '장소익'];
 
 /*
  * ═══════════════════════════════════════════
@@ -522,7 +522,7 @@ function renderAssignSection(allRows, container) {
         nurseDisplay = nurseDisplay ? nurseDisplay + ', ' + ev.nurse2 : ev.nurse2;
       }
 
-      var displayOpName = (CATH_SURGEONS.indexOf(ev.surgeon) >= 0)
+      var displayOpName = (CATH_PHYSICIANS.indexOf(ev.surgeon) >= 0)
         ? '[CATH] ' + ev.opName
         : ev.opName;
 
