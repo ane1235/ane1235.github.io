@@ -789,7 +789,7 @@ function renderDutySection(rows, fc, assignRows, container) {
   /* 특기사항 */
   var html = '';
   if (dayNote) {
-    html += '<div class="duty-note">' + escHtml(dayNote) + '</div>';
+    html += '<div class="duty-note"><span class="material-icons" style="font-size:16px; color:#f59e0b;">campaign</span>' + escHtml(dayNote) + '</div>';
   }
   html += '<div class="duty-wrap"><table class="duty-table">';
 
