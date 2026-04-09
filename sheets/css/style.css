@@ -341,6 +341,12 @@ body {
   overflow-x: hidden;
   padding: 0;
 }
+.duty-card {
+  margin: 10px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
 .duty-table {
   width: 100%; border-collapse: collapse;
   table-layout: fixed;
@@ -367,7 +373,7 @@ body {
 /* 특기사항 박스 */
 .duty-note {
   display: flex; align-items: center; gap: 6px;
-  margin: 0 16px 8px;
+  margin: 10px 16px;
   padding: 8px 12px;
   font-size: 13px;
   color: #92400e;

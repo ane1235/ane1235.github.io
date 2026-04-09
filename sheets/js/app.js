@@ -791,54 +791,62 @@ function renderDutySection(rows, fc, assignRows, container) {
   if (dayNote) {
     html += '<div class="duty-note"><span class="material-icons" style="font-size:16px; color:#f59e0b;">campaign</span>' + escHtml(dayNote) + '</div>';
   }
-  html += '<div class="duty-wrap"><table class="duty-table">';
+
+  /* 테이블을 감싸는 헬퍼 */
+  function wrapTable(innerHtml) {
+    return '<div class="duty-wrap duty-card"><table class="duty-table">' + innerHtml + '</table></div>';
+  }
 
   if (isHoliday) {
     /* 휴일 레이아웃: 휴낮 / 낮당 / 휴당 / 당직 순서, 있는 항목만 표시 */
-    /* 휴일 기본값은 Off — 출근자(휴낮/낮당/휴당/당직)만 표시, Off 명단 생략 */
+    var holidayRows = '';
     for (var hi = 0; hi < HOLIDAY_SHIFT_ORDER.length; hi++) {
       var hk = HOLIDAY_SHIFT_ORDER[hi];
-      if (schedule[hk]) { html += dutyRowFull(hk, schedule[hk]); }
+      if (schedule[hk]) { holidayRows += dutyRowFull(hk, schedule[hk]); }
     }
+    if (holidayRows) html += wrapTable(holidayRows);
   } else {
-  /* 평일 레이아웃 */
+  /* 평일 레이아웃 — 3개 테이블 분리 */
 
-  /* D행 (있을 때만) */
-  if (schedule['D']) { html += dutyRowFull('D', schedule['D']); }
-  /* M행 — 퇴근시간 없는 직원(1줄) + 퇴근시간별 그룹(각 1줄씩) */
-  if (schedule['M']) { html += dutyRowM(schedule['M']); }
-  /* MD | MD2 행 */
+  /* 표1: D, M */
+  var table1 = '';
+  if (schedule['D']) { table1 += dutyRowFull('D', schedule['D']); }
+  if (schedule['M']) { table1 += dutyRowM(schedule['M']); }
+  if (table1) html += wrapTable(table1);
+
+  /* 표2: MD, MD2, E, N, 낮당, 휴낮, 휴당, 당직, 비표준 */
+  var table2 = '';
   if (schedule['MD'] || schedule['MD2']) {
-    html += dutyRowPair(
+    table2 += dutyRowPair(
       'MD',  schedule['MD']  || [],
       'MD2', schedule['MD2'] || []
     );
   }
-  /* E | N 행 */
   if (schedule['E'] || schedule['N']) {
-    html += dutyRowPair(
+    table2 += dutyRowPair(
       'E', schedule['E'] || [],
       'N', schedule['N'] || []
     );
   }
-  /* 낮당, 휴낮, 휴당, 당직 단독행 */
   var singleShifts = ['낮당', '휴낮', '휴당', '당직'];
   for (var si = 0; si < singleShifts.length; si++) {
     var sk = singleShifts[si];
-    if (schedule[sk]) { html += dutyRowFull(sk, schedule[sk]); }
+    if (schedule[sk]) { table2 += dutyRowFull(sk, schedule[sk]); }
   }
-  /* Off행 */
-  if (schedule['Off']) { html += dutyRowFull('Off', schedule['Off']); }
-  /* 비표준 근무형태 */
   for (var key in schedule) {
     if (STANDARD_SHIFT_ORDER.indexOf(key) < 0 && key !== 'Off') {
-      html += dutyRowFull(key, schedule[key]);
+      table2 += dutyRowFull(key, schedule[key]);
     }
+  }
+  if (table2) html += wrapTable(table2);
+
+  /* 표3: Off (있을 때만) */
+  if (schedule['Off']) {
+    html += wrapTable(dutyRowFull('Off', schedule['Off']));
   }
 
   } /* end 평일 레이아웃 */
 
-  html += '</table></div>';
   container.innerHTML = html;
 }
 
