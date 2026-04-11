@@ -8,7 +8,7 @@ var assignDataCache = {};
 var shiftDataCache = {};
 
 /* Off로 분류되는 근무형태 */
-var OFF_SHIFT_TYPES = { '휴가': true, '특휴': true, 'Off': true, 'off': true };
+var OFF_SHIFT_TYPES = { '휴가': true, '특휴': true, 'Off': true, 'off': true, 'H휴가': true };
 
 /* 표준 근무형태 순서 (11종) */
 var STANDARD_SHIFT_ORDER = ['D','M','MD','MD2','E','N','낮당','휴낮','휴당','당직','휴가'];
