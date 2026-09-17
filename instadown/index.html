@@ -186,7 +186,7 @@
       const errorNode = el('p','download-error'); errorNode.hidden = true; errorNode.setAttribute('role','alert');
       const actions = el('div','job-actions');
       if (files.length >= 2 && status !== 'expired' && terminal) { const zip = el('button','button primary','전체 ZIP 다운로드'); zip.type = 'button'; const zipBusy = state.activeDownloads.has(job.id + ':zip'); zip.disabled = zipBusy; if (zipBusy) zip.textContent = '받는 중…'; zip.addEventListener('click', () => downloadFile(job, 'zip', 'instagram_' + String(job.id).replace(/[^a-zA-Z0-9_-]/g,'').slice(0,50) + '.zip', zip, errorNode)); actions.append(zip); }
-      if (result.error_code === 'instagram_login_required') { const setup = el('a','button secondary','Instagram 세션 연결'); setup.href = state.endpoint + '/instagram-session'; setup.target = '_blank'; setup.rel = 'noopener noreferrer'; actions.append(setup); }
+      if (['instagram_login_required', 'instagram_access_unconfirmed'].includes(result.error_code)) { const setup = el('a','button secondary','Instagram 세션 연결'); setup.href = state.endpoint + '/instagram-session'; setup.target = '_blank'; setup.rel = 'noopener noreferrer'; actions.append(setup); }
       if (['partial','failed','expired'].includes(status)) { const retry = el('button','button secondary', status === 'expired' ? '다시 준비하기' : '같은 링크로 재시도'); retry.type = 'button'; retry.addEventListener('click', () => submitLinks([job.url], retry)); actions.append(retry); }
       if (actions.children.length) card.append(actions);
       if (files.length && status !== 'expired' && terminal) {
