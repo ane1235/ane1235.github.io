@@ -22,7 +22,7 @@
 <main>
 <section class="hero"><p>인스타그램 공유 링크를 붙여넣으세요.<br>게시물의 사진과 영상, 릴스를 한곳에서 준비하고 저장합니다.</p></section>
 <div class="top-grid">
-<div><section class="panel" aria-labelledby="linksTitle"><form id="downloadForm"><div class="form-heading"><h2 id="linksTitle"><label for="urls">공유 링크</label></h2><span class="counter" id="linkCount">0 / 25</span></div><textarea id="urls" name="urls" rows="5" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="linksHint" placeholder="https://www.instagram.com/p/…&#10;https://www.instagram.com/reel/…"></textarea><p class="hint" id="linksHint">한 줄에 링크 하나씩, 최대 25개. 여러 장의 사진과 영상도 함께 준비합니다.</p><div class="submit-row"><span class="submit-note">파일 준비 후 <strong>내 기기에 저장</strong>을 눌러주세요.</span><button class="button primary" id="submitButton" type="submit" disabled><span>파일 준비하기</span><span class="button-icon" aria-hidden="true">↗</span></button></div><p class="inline-error" id="submitError" role="alert" hidden></p></form></section><div class="how-it-works"><span class="how-icon" aria-hidden="true">↳</span><p><strong>서버에서 준비 → 내 기기에 저장</strong><br>파일은 브라우저의 다운로드 위치에 저장됩니다. iPhone·iPad에서는 다운로드한 파일의 공유 메뉴에서 ‘파일에 저장’을 선택할 수 있습니다.</p></div></div>
+<div><section class="panel" aria-labelledby="linksTitle"><form id="downloadForm"><div class="form-heading"><h2 id="linksTitle"><label for="urls">공유 링크</label></h2><span class="counter" id="linkCount">0 / 25</span></div><textarea id="urls" name="urls" rows="5" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="linksHint" placeholder="https://www.instagram.com/p/…&#10;https://www.instagram.com/reel/…"></textarea><p class="hint" id="linksHint">한 줄에 링크 하나씩, 최대 25개. 여러 장의 사진과 영상도 함께 준비합니다.</p><p class="hint">같은 Chrome의 Instagram 로그인으로 스토리 저장: <a href="https://kayenpc.tail730e13.ts.net:10000/browser-helper" target="_blank" rel="noopener noreferrer">Chrome 도우미 설치</a></p><div class="submit-row"><span class="submit-note">파일 준비 후 <strong>내 기기에 저장</strong>을 눌러주세요.</span><button class="button primary" id="submitButton" type="submit" disabled><span>파일 준비하기</span><span class="button-icon" aria-hidden="true">↗</span></button></div><p class="inline-error" id="submitError" role="alert" hidden></p></form></section><div class="how-it-works"><span class="how-icon" aria-hidden="true">↳</span><p><strong>서버에서 준비 → 내 기기에 저장</strong><br>파일은 브라우저의 다운로드 위치에 저장됩니다. iPhone·iPad에서는 다운로드한 파일의 공유 메뉴에서 ‘파일에 저장’을 선택할 수 있습니다.</p></div></div>
 </div>
 <div id="pageNotice" class="notice info" role="status" aria-live="polite" hidden></div>
 <section class="history" aria-labelledby="historyTitle"><div class="history-header"><div class="history-heading"><h2 id="historyTitle">최근 작업</h2><span class="history-count" id="jobCount">0개</span></div><button class="button quiet refresh" type="button" id="refreshButton" disabled><span aria-hidden="true">↻</span> 새로고침</button></div><p class="hint">이 브라우저에서 요청한 최근 작업을 최대 3개 표시합니다.</p><div class="empty" id="emptyState"><div class="empty-symbol" aria-hidden="true">▧</div><h3 id="emptyTitle">아직 준비한 파일이 없어요</h3><p id="emptyMessage">첫 번째 링크를 추가해 보세요.<br>준비가 끝나면 이곳에서 파일을 받을 수 있습니다.</p></div><div class="jobs" id="jobs"></div><p class="sr-only" id="jobLive" role="status" aria-live="polite"></p></section>
@@ -104,7 +104,7 @@
     if (state.connecting) return;
     notice(''); stopPoll(); state.connecting = true; state.connected = false; connectionDisplay();
     try {
-      await api('/api/info');
+      const info = await api('/api/info'); state.browserStories = info.browser_story_supported === true;
       await loadRecentJobs();
       state.connected = true; renderJobs(); schedulePoll();
     } catch (error) { notice(error.message + ' 새로고침을 눌러 다시 연결하세요.', 'error'); }
@@ -123,22 +123,54 @@
     if (lines.length > 25) throw new Error('한 번에 최대 25개의 링크를 준비할 수 있습니다.');
     return [...new Set(lines.map((value, index) => { let url; try { url = new URL(value); } catch (_) { throw new Error((index + 1) + '번째 줄의 링크를 확인해 주세요. 한 줄에 링크 하나씩 입력합니다.'); } if (!['https:','http:'].includes(url.protocol) || url.username || url.password) throw new Error((index + 1) + '번째 줄에 올바른 공유 링크를 입력해 주세요.'); return url.href; }))];
   }
+  function browserRequest(type, url) {
+    return new Promise((resolve, reject) => {
+      const id = crypto.randomUUID();
+      const finish = (error, value) => { clearTimeout(timer); window.removeEventListener('message', listener); error ? reject(error) : resolve(value); };
+      const listener = event => {
+        const data = event.data;
+        if (event.source !== window || event.origin !== location.origin || !data || data.source !== 'nyangsta-extension' || data.version !== 1 || data.id !== id) return;
+        if (data.ok === true) finish(null, data);
+        else finish(new Error(cleanMessage(data.message) || 'Chrome에서 스토리를 확인하지 못했습니다.'));
+      };
+      const timer = setTimeout(() => finish(new Error(type === 'ping' ? 'Chrome 도우미가 연결되지 않았습니다.' : 'Chrome의 Instagram 응답을 기다리는 시간이 초과됐습니다.')), type === 'ping' ? 2500 : 45000);
+      window.addEventListener('message', listener);
+      window.postMessage({ source: 'nyangsta-web', version: 1, id, type, ...(url ? { url } : {}) }, location.origin);
+    });
+  }
+  function isStoryLink(value) {
+    const url = new URL(value);
+    return url.protocol === 'https:' && ['instagram.com','www.instagram.com','m.instagram.com'].includes(url.hostname) && /^\/stories\/[A-Za-z0-9_.]{1,30}\/[0-9]{5,30}\/?$/.test(url.pathname);
+  }
   async function submitLinks(lines, sourceButton) {
     if (!state.connected || state.submitting) return;
     fieldError('submitError', ''); let urls; try { urls = validateLinks(lines); } catch (error) { fieldError('submitError', error.message); return; }
     const generation = state.generation; state.submitting = true; updateSubmit(); const previousText = sourceButton ? sourceButton.textContent : '';
     if (sourceButton) { sourceButton.disabled = true; sourceButton.textContent = '요청 중…'; } else $('submitButton').firstElementChild.textContent = '요청 중…';
+    let accepted = 0, browserCount = 0;
     try {
-      const data = await api('/api/jobs', { method: 'POST', body: { urls } }); if (generation !== state.generation) return;
-      const incoming = Array.isArray(data.jobs) ? data.jobs : []; rememberJobs(incoming); const known = new Map([...state.jobs, ...incoming].map(job => [job.id, job])); state.jobs = recentIds().map(id => known.get(id)).filter(Boolean);
-      renderJobs(); notice(urls.length + '개 링크를 접수했습니다. 준비가 끝나면 아래에서 내 기기에 저장하세요.', 'success'); if (!sourceButton) { $('urls').value = ''; updateSubmit(); }
+      let helper = false;
+      if (state.browserStories && urls.some(isStoryLink)) { try { helper = (await browserRequest('ping')).ok === true; } catch (_) {} }
+      for (const url of urls) {
+        let data;
+        if (helper && isStoryLink(url)) {
+          notice('이 Chrome에 로그인된 Instagram에서 스토리를 확인하고 있습니다.');
+          const result = await browserRequest('resolveStory', url);
+          if (!result.story || typeof result.story !== 'object') throw new Error('Chrome에서 올바른 스토리 정보를 받지 못했습니다.');
+          data = await api('/api/browser-story/jobs', { method: 'POST', body: { url, story: result.story } }); browserCount++;
+        } else data = await api('/api/jobs', { method: 'POST', body: { urls: [url] } });
+        if (generation !== state.generation) return;
+        const incoming = Array.isArray(data.jobs) ? data.jobs : []; rememberJobs(incoming); const known = new Map([...state.jobs, ...incoming].map(job => [job.id, job])); state.jobs = recentIds().map(id => known.get(id)).filter(Boolean);
+        accepted++; renderJobs(); schedulePoll();
+      }
+      notice(accepted + '개 링크를 접수했습니다.' + (browserCount ? ' 스토리는 이 Chrome의 Instagram 로그인으로 확인했습니다.' : '') + ' 준비가 끝나면 아래에서 내 기기에 저장하세요.', 'success'); if (!sourceButton) { $('urls').value = ''; updateSubmit(); }
       schedulePoll(); await refreshJobs(false);
-    } catch (error) { if (generation === state.generation) fieldError('submitError', error.message); }
+    } catch (error) { if (generation === state.generation) { fieldError('submitError', error.message + (accepted ? ' 앞서 접수한 ' + accepted + '개 링크는 최근 작업에서 확인하세요.' : '')); notice(''); } }
     finally { state.submitting = false; $('submitButton').firstElementChild.textContent = '파일 준비하기'; if (sourceButton) { sourceButton.disabled = false; sourceButton.textContent = previousText; } updateSubmit(); }
   }
   function formatSize(size) { const n = Number(size); if (!Number.isFinite(n) || n < 0) return ''; if (n < 1024) return n + ' B'; if (n < 1048576) return (n / 1024).toFixed(1) + ' KB'; if (n < 1073741824) return (n / 1048576).toFixed(1) + ' MB'; return (n / 1073741824).toFixed(2) + ' GB'; }
   function formatTime(value) { let date; if (typeof value === 'number') date = new Date(value < 1e12 ? value * 1000 : value); else date = new Date(value); return Number.isNaN(date.getTime()) ? '' : date.toLocaleString('ko-KR', { month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' }); }
-  function sourceLabel(value) { try { const url = new URL(value); const parts = url.pathname.split('/').filter(Boolean); return ['reel','reels'].includes(parts[0]) ? '릴스 · ' + (parts[1] || '') : parts[0] === 'p' ? '게시물 · ' + (parts[1] || '') : '공유 링크'; } catch (_) { return '공유 링크'; } }
+  function sourceLabel(value) { try { const url = new URL(value); const parts = url.pathname.split('/').filter(Boolean); return ['reel','reels'].includes(parts[0]) ? '릴스 · ' + (parts[1] || '') : parts[0] === 'p' ? '게시물 · ' + (parts[1] || '') : parts[0] === 'stories' ? '스토리 · ' + (parts[1] || '') : '공유 링크'; } catch (_) { return '공유 링크'; } }
   function safeDownloadName(name, fallback) { return String(name || fallback).replace(/[\x00-\x1f\x7f/\\]/g, '_').slice(0, 230) || fallback; }
   async function downloadFile(job, index, name, button, errorNode) {
     const generation = state.generation;
