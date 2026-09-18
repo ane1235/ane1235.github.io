@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "name": "sample.jpg",
+      "size": 5831,
+      "sha256": "3100185cd274c68f9e98f811cf42200890e8c977886689728c14e321f9448ae9",
+      "content_type": "image/jpeg"
+    },
+    {
+      "name": "sample.mp4",
+      "size": 1519,
+      "sha256": "5f839e34d71a73ecd17c037b9a289523ae283d31f55cb358d6c949487cc00021",
+      "content_type": "video/mp4"
+    },
+    {
+      "name": "sample.bin",
+      "size": 5831,
+      "sha256": "3100185cd274c68f9e98f811cf42200890e8c977886689728c14e321f9448ae9",
+      "content_type": "application/octet-stream"
+    }
+  ]
+}

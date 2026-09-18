@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "algorithm": "sha256",
+  "files": [
+    {
+      "path": "instadown/shortcuts/probe/index.html",
+      "size": 2165,
+      "sha256": "c6bfa50e9cd46da97d14842e0fcf13d7fa9d9d0b8ec5b63a162fe2c9ffd2d340"
+    },
+    {
+      "path": "instadown/shortcuts/probe/sample.jpg",
+      "size": 5831,
+      "sha256": "3100185cd274c68f9e98f811cf42200890e8c977886689728c14e321f9448ae9"
+    },
+    {
+      "path": "instadown/shortcuts/probe/sample.mp4",
+      "size": 1519,
+      "sha256": "5f839e34d71a73ecd17c037b9a289523ae283d31f55cb358d6c949487cc00021"
+    },
+    {
+      "path": "instadown/shortcuts/probe/sample.bin",
+      "size": 5831,
+      "sha256": "3100185cd274c68f9e98f811cf42200890e8c977886689728c14e321f9448ae9"
+    },
+    {
+      "path": "instadown/shortcuts/probe/manifest.json",
+      "size": 596,
+      "sha256": "e213568c3b325772c8b9fdce87dfe2b0e85d99eab7c8caa2c3f78f4618251826"
+    },
+    {
+      "path": "instadown/shortcuts/probe/Nyangsta-Shortcut-Probe.zip",
+      "size": 7259,
+      "sha256": "4cda7377faa576296e34938f1133b4156e9adcc6f970adb019daf7c65523947b"
+    }
+  ]
+}
