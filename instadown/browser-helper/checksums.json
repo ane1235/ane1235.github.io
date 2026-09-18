@@ -9,8 +9,8 @@
     },
     {
       "path": "instadown/browser-helper/index.html",
-      "size": 8505,
-      "sha256": "d4b1cc3a66b7ed1dfcde2fe3bc993d4f36bd6a885253b411a3eb784e1e7d7eda"
+      "size": 8501,
+      "sha256": "337ac53f76fc71b81ae711a6f50fb9163935ea37879f0a7b0327946674afe9a4"
     },
     {
       "path": "instadown/browser-helper/Nyangsta-Chrome.zip",
@@ -29,8 +29,8 @@
     },
     {
       "path": "instadown/browser-helper/Repair-Safari.command",
-      "size": 16093,
-      "sha256": "1f1c1410ab25c5740d756431eb2d65bdc8ecbeec32c94c488d12a48ae7e55938"
+      "size": 27227,
+      "sha256": "e2107635b68b543e9b6dcc466de521ac99fa3de1e53627bfd8f5d9c8467820e8"
     }
   ]
 }

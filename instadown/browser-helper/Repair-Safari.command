@@ -292,11 +292,212 @@ def diagnose(arguments):
     report('진단 완료', '표시된 요약만 전달하세요. 앱 실행·서명 성공을 뜻하지 않습니다.')
 
 
+def pbx_spans(text):
+    """Locate OpenStep values without reserializing comments or unrelated settings."""
+    tokens = []
+    lexer = re.compile(r'\s+|/\*[\s\S]*?\*/|//[^\r\n]*|"(?:[^"\\]|\\[\s\S])*"|[{}()=;,]|[^\s{}()=;,"]+')
+    position = 0
+    while position < len(text):
+        match = lexer.match(text, position)
+        if match is None:
+            raise RepairError('프로젝트 원문의 구문을 안전하게 확인하지 못했습니다.')
+        raw = match.group()
+        if not (raw.isspace() or raw.startswith(('/*', '//'))):
+            tokens.append((raw, match.start(), match.end()))
+        position = match.end()
+    position = 0
+
+    def take(expected=None):
+        nonlocal position
+        if position >= len(tokens) or (expected is not None and tokens[position][0] != expected):
+            raise RepairError('프로젝트 원문의 항목 경계를 확인하지 못했습니다.')
+        token = tokens[position]
+        position += 1
+        return token
+
+    def value(depth=0):
+        if depth > 64:
+            raise RepairError('프로젝트 원문의 중첩 범위가 예상보다 큽니다.')
+        first = take()
+        node = {'start': first[1], 'end': first[2], 'kind': first[0], 'entries': {}}
+        if first[0] == '{':
+            while position < len(tokens) and tokens[position][0] != '}':
+                key = take()[0]
+                if key.startswith('"'):
+                    key = key[1:-1]
+                if '\\' in key or key in '{}()=;,' or key in node['entries']:
+                    raise RepairError('중복되거나 예상하지 않은 프로젝트 키가 있습니다.')
+                take('=')
+                node['entries'][key] = value(depth + 1)
+                take(';')
+            last = take('}')
+            node.update(end=last[2], close=last[1])
+        elif first[0] == '(':
+            while position < len(tokens) and tokens[position][0] != ')':
+                value(depth + 1)
+                if position < len(tokens) and tokens[position][0] == ',':
+                    take(',')
+                elif position < len(tokens) and tokens[position][0] != ')':
+                    raise RepairError('프로젝트 배열 구문을 확인하지 못했습니다.')
+            node['end'] = take(')')[2]
+        elif first[0] in '}=;,':
+            raise RepairError('프로젝트 값 구문을 확인하지 못했습니다.')
+        return node
+
+    root = value()
+    if root['kind'] != '{' or position != len(tokens):
+        raise RepairError('프로젝트 전체 원문 구조를 확인하지 못했습니다.')
+    return root
+
+
+def plist_json(path):
+    output = read_tool(['/usr/bin/plutil', '-convert', 'json', '-o', '-', str(path)])
+    if output is None:
+        raise RepairError('plutil로 프로젝트 설정을 확인하지 못했습니다. 파일을 교체하지 않습니다.')
+    data = json.loads(output)
+    if not isinstance(data, dict) or not isinstance(data.get('objects'), dict):
+        raise RepairError('프로젝트 설정 구조가 예상과 다릅니다.')
+    return data
+
+
+def file_state(path):
+    safe_path(path)
+    info = path.stat()
+    return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns,
+            stat.S_IMODE(info.st_mode))
+
+
+def module_configurations(data):
+    objects = data['objects']
+    project = objects.get(data.get('rootObject'), {})
+    apps = [(key, obj) for key, obj in objects.items() if obj.get('isa') == 'PBXNativeTarget'
+            and obj.get('productType') == 'com.apple.product-type.application']
+    if (project.get('isa') != 'PBXProject' or len(apps) != 1
+            or project.get('targets', []).count(apps[0][0]) != 1):
+        raise RepairError('프로젝트에 속한 앱 타깃을 하나로 확인하지 못했습니다.')
+    _, app = apps[0]
+    list_id = app.get('buildConfigurationList')
+    configuration_list = objects.get(list_id, {})
+    ids = configuration_list.get('buildConfigurations', [])
+    if (configuration_list.get('isa') != 'XCConfigurationList' or len(ids) != 2
+            or len(set(ids)) != 2
+            or sum(obj.get('buildConfigurationList') == list_id for obj in objects.values()) != 1):
+        raise RepairError('앱 전용 Debug·Release 설정을 확인하지 못했습니다.')
+    for key, obj in objects.items():
+        if key != list_id and obj.get('isa') == 'XCConfigurationList' and set(ids).intersection(obj.get('buildConfigurations', [])):
+            raise RepairError('앱 설정을 다른 타깃과 공유하고 있어 중단합니다.')
+    configurations = [(key, objects.get(key, {})) for key in ids]
+    if {config.get('name') for _, config in configurations} != {'Debug', 'Release'}:
+        raise RepairError('앱 설정 이름이 Debug·Release와 다릅니다.')
+    project_list = objects.get(project.get('buildConfigurationList'), {})
+    relevant = [config for _, config in configurations] + [objects.get(key, {}) for key in project_list.get('buildConfigurations', [])]
+    for config in relevant:
+        settings = config.get('buildSettings')
+        if (config.get('isa') != 'XCBuildConfiguration' or not isinstance(settings, dict)
+                or config.get('baseConfigurationReference')
+                or any(key.startswith('PRODUCT_MODULE_NAME[') for key in settings)):
+            raise RepairError('조건부 설정 또는 외부 설정 파일이 있어 자동 수정하지 않습니다.')
+    for _, config in configurations:
+        if ('PRODUCT_MODULE_NAME' in config['buildSettings']
+                and config['buildSettings']['PRODUCT_MODULE_NAME'] != 'NyangstaSave'):
+            raise RepairError('앱에 다른 모듈 이름이 명시되어 있어 자동 수정하지 않습니다.')
+    return configurations
+
+
+def fix_module(arguments):
+    if len(arguments) > 1 or (arguments and arguments[0].startswith('--')):
+        raise RepairError('--fix-module 뒤에는 프로젝트 루트 경로 하나만 지정하세요.')
+    print('모듈 수정 시작: Xcode를 종료한 상태에서 실행하세요.', flush=True)
+    root = safe_path(arguments[0] if arguments else Path.home() / 'Downloads/Nyangsta-Safari-Project-20260918-102433', directory=True)
+    project = safe_path(root / 'Project', directory=True)
+    storyboards, projects = [], []
+    for folder, directories, names in os.walk(project, followlinks=False, onerror=walk_error):
+        if any((Path(folder) / name).is_symlink() for name in directories):
+            raise RepairError('Project 안에 연결된 폴더가 있어 중단합니다.')
+        if 'Main.storyboard' in names:
+            storyboards.append(Path(folder) / 'Main.storyboard')
+        if 'project.pbxproj' in names and Path(folder).suffix == '.xcodeproj':
+            projects.append(Path(folder) / 'project.pbxproj')
+    if len(storyboards) != 1 or len(projects) != 1:
+        raise RepairError('프로젝트 파일과 Main.storyboard가 각각 하나여야 합니다.')
+    storyboard, path = safe_path(storyboards[0]), safe_path(projects[0])
+    storyboard_state, original_state = file_state(storyboard), file_state(path)
+    storyboard_bytes, original = storyboard.read_bytes(), path.read_bytes()
+    tree = ET.fromstring(storyboard_bytes)
+    for name in ('AppDelegate', 'ViewController'):
+        nodes = [node for node in tree.iter() if node.get('customClass') == name]
+        if (len(nodes) != 1 or nodes[0].get('customModule') != 'NyangstaSave'
+                or 'customModuleProvider' in nodes[0].attrib):
+            raise RepairError('스토리보드의 두 클래스 참조가 NyangstaSave여야 합니다.')
+    data = plist_json(path)
+    configurations = module_configurations(data)
+    text = original.decode('utf-8')
+    spans = pbx_spans(text)['entries']['objects']['entries']
+    expected = json.loads(json.dumps(data))
+    edits = []
+    newline = '\r\n' if '\r\n' in text else '\n'
+    for config_id, config in configurations:
+        settings = spans[config_id]['entries']['buildSettings']
+        if settings['kind'] != '{' or set(settings['entries']) != set(config['buildSettings']):
+            raise RepairError('원문과 해석된 앱 설정이 다릅니다.')
+        if config['buildSettings'].get('PRODUCT_MODULE_NAME') == 'NyangstaSave':
+            continue
+        closing = settings['close']
+        line_start = text.rfind('\n', 0, closing) + 1
+        indent = text[line_start:closing]
+        if indent.strip():
+            raise RepairError('앱 설정의 줄 구조가 예상과 달라 자동 수정하지 않습니다.')
+        edits.append((line_start, indent + '\tPRODUCT_MODULE_NAME = NyangstaSave;' + newline))
+        expected['objects'][config_id]['buildSettings']['PRODUCT_MODULE_NAME'] = 'NyangstaSave'
+    def unchanged():
+        if (file_state(path) != original_state or path.read_bytes() != original
+                or file_state(storyboard) != storyboard_state or storyboard.read_bytes() != storyboard_bytes):
+            raise RepairError('작업 중 프로젝트가 변경되어 교체하지 않았습니다. Xcode를 종료한 뒤 다시 실행하세요.')
+    unchanged()
+    if not edits:
+        print('이미 수정됨: 앱 Debug·Release 모듈은 NyangstaSave입니다. 파일을 변경하지 않았습니다.')
+        return
+    for position, addition in sorted(edits, reverse=True):
+        text = text[:position] + addition + text[position:]
+    updated = text.encode('utf-8')
+    temporary = None
+    try:
+        descriptor, temporary = tempfile.mkstemp(prefix='.project-module-repair-', dir=path.parent)
+        with os.fdopen(descriptor, 'wb') as pending:
+            pending.write(updated)
+            pending.flush()
+            os.fsync(pending.fileno())
+        os.chmod(temporary, original_state[-1])
+        if plist_json(temporary) != expected:
+            raise RepairError('앱 모듈 외의 설정 변경이 감지되어 교체하지 않았습니다.')
+        unchanged()
+        backup = root / ('project.pbxproj-backup-' + datetime.now().strftime('%Y%m%d-%H%M%S-%f') + '.txt')
+        backup_descriptor = os.open(backup, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(backup_descriptor, 'wb') as saved:
+            saved.write(original)
+            saved.flush()
+            os.fsync(saved.fileno())
+        unchanged()
+        if safe_path(temporary).read_bytes() != updated:
+            raise RepairError('임시 파일이 변경되어 교체하지 않았습니다.')
+        os.replace(temporary, path)
+        temporary = None
+    finally:
+        if temporary is not None:
+            Path(temporary).unlink(missing_ok=True)
+    print('모듈 수정 완료: 앱 Debug·Release의 PRODUCT_MODULE_NAME을 NyangstaSave로 맞췄습니다.')
+    print('원본 백업:', backup)
+
+
 def main():
     diagnostic = len(sys.argv) > 1 and sys.argv[1] == '--diagnose'
     try:
         if diagnostic:
             diagnose(sys.argv[2:])
+        elif len(sys.argv) > 1 and sys.argv[1] == '--fix-module':
+            fix_module(sys.argv[2:])
+            print('다음: 기존 Xcode 프로젝트를 다시 열고 Product → Clean Build Folder → Run을 실행하세요.')
+            print('앱 실행·서명·Safari 재시작 유지 여부는 아직 확인하지 않았습니다.')
         else:
             repair()
             print('다음: Xcode에서 Product → Clean Build Folder를 선택한 뒤 Run을 누르세요.')
