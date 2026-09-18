@@ -13,7 +13,25 @@
 <li>오른쪽 위 <strong>개발자 모드</strong>를 켜고 <strong>압축해제된 확장 프로그램을 로드합니다</strong>를 선택합니다. 압축을 푼 폴더 안에서 <code>manifest.json</code>이 있는 폴더를 선택합니다.</li>
 <li>같은 프로필에서 <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>을 열어 로그인 상태를 확인합니다. 냥스타저장 페이지를 새로고침한 뒤 개별 스토리 링크를 입력하고 <strong>파일 준비하기</strong>를 누릅니다.</li>
 </ol>
-<h2 id="safari">macOS Safari · 저장 기능 검증</h2>
+<h2 id="safari">macOS Safari</h2>
+<h3 id="safari-app">Safari 앱 프로젝트 준비</h3>
+<p>Mac에 Xcode를 설치하고 첫 실행 설정을 마쳤다면 다음 단계로 진행하세요. 이 파일은 <strong>Xcode 프로젝트를 만드는 준비 도구</strong>입니다. 앱 서명·설치와 Safari 재시작 확인은 프로젝트를 만든 뒤 진행합니다. 현재 Mac에서는 서명 검사·도우미 연결·Safari 재실행 후 사진과 영상 저장을 확인했습니다. v3는 새 Mac용 프로젝트의 설정을 자동으로 맞춥니다. 정상 작동하는 기존 프로젝트에서 다시 실행할 필요는 없습니다. 다른 Mac에서 바로 설치할 수 있는 서명·공증 완료 앱은 아직 제공하지 않습니다.</p>
+<ol>
+<li><a href="https://ane1235.github.io/instadown/browser-helper/Nyangsta-Safari-App.zip" download>Safari 앱 프로젝트 준비 파일 v3 다운로드</a> 후 압축을 풉니다. 다운로드 폴더에 <code>Nyangsta-Safari-App</code> 폴더가 생깁니다.</li>
+<li>Mac의 터미널을 열고 아래 명령을 실행합니다. 압축을 다른 곳에 풀었다면 그 폴더 안의 <code>Prepare-Safari.command</code> 경로를 사용하세요.
+<pre><code>/bin/zsh "$HOME/Downloads/Nyangsta-Safari-App/Prepare-Safari.command"</code></pre></li>
+<li>터미널의 <strong>프로젝트 생성 완료</strong> 경로와 Xcode 왼쪽의 <strong>냥스타저장</strong> 프로젝트 표시를 확인하세요. Open / Clone / New Project만 보이는 시작 화면이라면 터미널 결과부터 확인합니다. 오류가 나오면 해당 문구를 알려주세요. 생성한 프로젝트와 기록은 표시된 새 폴더에 보관됩니다. 내부 모듈과 Bundle Identifier는 자동 설정되며, 계정의 서명 설정은 다음 단계에서 진행합니다.</li>
+</ol>
+<details><summary>프로젝트 생성 뒤 서명·설치 순서</summary>
+<p>Xcode의 <strong>Settings → Apple Accounts</strong>에서 본인 Apple 계정을 확인합니다. 프로젝트의 앱과 확장 대상 각각에서 <strong>Signing &amp; Capabilities → Automatically manage signing → Team</strong>을 설정합니다. 화면에 <strong>Set Up Signing</strong>이 보이면 해당 안내를 따라가세요.</p>
+<p>Mac 앱을 선택하고 실행 대상을 <strong>My Mac</strong>으로 정한 뒤 실행합니다. 서명 오류가 나면 정확한 문구를 확인하고, 성공하면 Safari에서 앱에 포함된 도우미를 활성화합니다. 마지막으로 Safari를 종료·재실행한 뒤 도우미 연결과 저장을 확인합니다. 계정의 서명 조건과 재시작 후 유지 여부는 각 Mac에서 확인해야 합니다. 이 준비 ZIP의 새 프로젝트 생성은 다른 Mac의 실제 실행 결과를 별도로 확인해야 합니다.</p>
+<p>빌드한 앱을 계속 사용하려면 서명·실행 확인 후 응용 프로그램 폴더에 복사하고 그 복사본을 실행하세요. 같은 이름의 앱이 있으면 합쳐 덮어쓰지 말고 먼저 기존 버전을 확인하세요. 현재 Xcode 빌드 폴더만 사용하는 상태와 구분합니다.</p>
+<p><small><a href="https://developer.apple.com/documentation/xcode/running-your-app-on-simulated-or-physical-devices" target="_blank" rel="noopener noreferrer">Apple 서명·실행 안내</a></small></p>
+</details>
+<p>설치 후 <a href="/instadown/?check_helper=1">도우미 연결 확인</a>을 먼저 열어 주세요. 이 확인은 Instagram을 조회하거나 다운로드 작업을 만들지 않습니다.</p>
+<p>같은 Safari 프로필에서 Instagram에 로그인하고 사이트 접근을 허용한 뒤, 스토리 링크를 입력해 <strong>파일 준비하기 → 내 기기에 저장</strong>을 실행하세요.</p>
+<details><summary>임시 확장으로 기능만 확인하기</summary>
+<h3 id="safari-temporary">Safari 임시 검증용 도우미</h3>
 <p>Safari 18.4 이상에서 설치할 수 있는 검증용 도우미입니다. Chrome 도우미와 별도로 설치하고, Safari에서도 Instagram에 로그인해 주세요.</p>
 <ol>
 <li><a href="https://ane1235.github.io/instadown/browser-helper/Nyangsta-Safari.zip" download>Safari 임시 검증용 도우미 다운로드</a> 후 압축을 풉니다.</li>
@@ -22,21 +40,8 @@
 <li>웹사이트 접근 권한에서 <code>instagram.com</code>과 사용하는 냥스타저장 사이트(<code>ane1235.github.io</code> 또는 <code>kayenpc.tail730e13.ts.net</code>)를 허용합니다.</li>
 <li>같은 Safari 프로필에서 <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>에 로그인하고 냥스타저장 페이지를 새로고침합니다. 개별 사진·영상 스토리 링크를 입력해 <strong>파일 준비하기 → 내 기기에 저장</strong>을 실행합니다.</li>
 </ol>
-<p>설치 후 <a href="/instadown/?check_helper=1">도우미 연결 확인</a>을 먼저 열어 주세요. 이 확인은 Instagram을 조회하거나 다운로드 작업을 만들지 않습니다.</p>
-<p><strong>임시 설치는 Safari를 종료하거나 24시간이 지나면 삭제됩니다.</strong> 사진·영상 스토리 저장은 확인했으며, 재실행 후에도 유지되는 앱 설치 방식은 아래 순서로 준비합니다.</p>
+<p><strong>임시 설치는 Safari를 종료하거나 24시간이 지나면 삭제됩니다.</strong> 현재 Mac의 앱 포함 도우미는 서명 검사와 Safari 재실행 후 사진·영상 저장까지 확인했습니다. 다른 Mac에서 사용할 앱은 위 준비 도구로 만듭니다.</p>
 <p><small>설정 이름은 Safari 언어·버전에 따라 다를 수 있습니다. <a href="https://developer.apple.com/documentation/safariservices/running-your-safari-web-extension" target="_blank" rel="noopener noreferrer">Apple 공식 설치 안내</a></small></p>
-<h2 id="safari-app">Safari 앱 프로젝트 준비</h2>
-<p>Mac에 Xcode를 설치하고 첫 실행 설정을 마쳤다면 다음 단계로 진행하세요. 이 파일은 <strong>Xcode 프로젝트를 만드는 준비 도구</strong>입니다. 앱 서명·설치와 Safari 재시작 확인은 프로젝트를 만든 뒤 진행합니다. 현재 앱 창 표시는 확인했으며 Safari 도우미 연결을 점검 중입니다. 다른 Mac에서 바로 설치할 수 있는 서명·공증 완료 앱은 아직 제공하지 않습니다.</p>
-<ol>
-<li><a href="https://ane1235.github.io/instadown/browser-helper/Nyangsta-Safari-App.zip" download>Safari 앱 프로젝트 준비 파일 다운로드</a> 후 압축을 풉니다. 다운로드 폴더에 <code>Nyangsta-Safari-App</code> 폴더가 생깁니다.</li>
-<li>Mac의 터미널을 열고 아래 명령을 실행합니다. 압축을 다른 곳에 풀었다면 그 폴더 안의 <code>Prepare-Safari.command</code> 경로를 사용하세요.
-<pre><code>/bin/zsh "$HOME/Downloads/Nyangsta-Safari-App/Prepare-Safari.command"</code></pre></li>
-<li>터미널의 <strong>프로젝트 생성 완료</strong> 경로와 Xcode 왼쪽의 <strong>냥스타저장</strong> 프로젝트 표시를 확인하세요. Open / Clone / New Project만 보이는 시작 화면이라면 터미널 결과부터 확인합니다. 오류가 나오면 해당 문구를 알려주세요. 생성한 프로젝트와 기록은 표시된 새 폴더에 보관됩니다.</li>
-</ol>
-<details><summary>프로젝트 생성 뒤 서명·설치 순서</summary>
-<p>Xcode의 <strong>Settings → Apple Accounts</strong>에서 본인 Apple 계정을 확인합니다. 프로젝트의 앱과 확장 대상 각각에서 <strong>Signing &amp; Capabilities → Automatically manage signing → Team</strong>을 설정합니다. 화면에 <strong>Set Up Signing</strong>이 보이면 해당 안내를 따라가세요.</p>
-<p>Mac 앱을 선택하고 실행 대상을 <strong>My Mac</strong>으로 정한 뒤 실행합니다. 서명 오류가 나면 정확한 문구를 확인하고, 성공하면 Safari에서 앱에 포함된 도우미를 활성화합니다. 마지막으로 Safari를 종료·재실행한 뒤 도우미 연결과 저장을 확인합니다. 계정의 서명 조건과 재시작 후 유지 여부는 실제 Mac에서 확인해야 합니다.</p>
-<p><small><a href="https://developer.apple.com/documentation/xcode/running-your-app-on-simulated-or-physical-devices" target="_blank" rel="noopener noreferrer">Apple 서명·실행 안내</a></small></p>
 </details>
 <h2 id="safari-diagnose-extension">앱은 열리지만 Safari 도우미가 연결되지 않을 때</h2>
 <p>진단에서 앱과 확장의 <code>debug_dylib</code> 항목만 <code>rejected</code>로 확인됐다면 아래 수정 절차를 사용하세요.</p>

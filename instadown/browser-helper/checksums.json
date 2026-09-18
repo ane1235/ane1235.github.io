@@ -9,8 +9,8 @@
     },
     {
       "path": "instadown/browser-helper/index.html",
-      "size": 10810,
-      "sha256": "dcd207edd855140d0e036ffedaaff18c7ccd052ae90786abbc66aa0cd84ad8a9"
+      "size": 11950,
+      "sha256": "9b1af3d92f9af17d77b489657b6acf0144e5ce081463dc89a37276efc2c30c88"
     },
     {
       "path": "instadown/browser-helper/Nyangsta-Chrome.zip",
@@ -24,8 +24,8 @@
     },
     {
       "path": "instadown/browser-helper/Nyangsta-Safari-App.zip",
-      "size": 23416,
-      "sha256": "0a8c44a94574862b3e82b1a9ad60831531ac8109a8a0ef0eb6d47ec17660e4e0"
+      "size": 29364,
+      "sha256": "f5eb9241607d90e6f91c8b064d1187b6398ffc0d613682a466be770d610f9aae"
     },
     {
       "path": "instadown/browser-helper/Repair-Safari.command",
