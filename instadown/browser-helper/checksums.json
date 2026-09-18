@@ -4,28 +4,28 @@
   "files": [
     {
       "path": "instadown/index.html",
-      "size": 39203,
-      "sha256": "b50c63e01ef452d7aae881d257729bd14963560520200c740fe0e08038dfeada"
+      "size": 39761,
+      "sha256": "53ab4b7d11e4f1bac14521220b6bb8f51463afe752f2097ce264aec4e5d87c1b"
     },
     {
       "path": "instadown/browser-helper/index.html",
-      "size": 11950,
-      "sha256": "9b1af3d92f9af17d77b489657b6acf0144e5ce081463dc89a37276efc2c30c88"
+      "size": 15544,
+      "sha256": "46c1bffc327b023ce8ebb1f364bdbf4781bbad8b32bb77c5485650900c66ca91"
     },
     {
       "path": "instadown/browser-helper/Nyangsta-Chrome.zip",
-      "size": 13508,
-      "sha256": "a4e5e9fae9a109941043e0e81b6fa293bb725388b17fe49e75162091ec680ea9"
+      "size": 14610,
+      "sha256": "59cbb6c501349de1c52dc78d4a73a71ba901479afd96f3e3088b4a80aeb8b6c0"
     },
     {
       "path": "instadown/browser-helper/Nyangsta-Safari.zip",
-      "size": 10971,
-      "sha256": "e11c2ce8bf72e5a4d2d6716512300215d55414d8ad2a1b60cd9a6a7c1b6fbc26"
+      "size": 11419,
+      "sha256": "c34f9fe320b6bda356d5dcff8d8f7f2d0fd6a87cfe40cec0bbc77d8b62644af2"
     },
     {
       "path": "instadown/browser-helper/Nyangsta-Safari-App.zip",
-      "size": 29364,
-      "sha256": "f5eb9241607d90e6f91c8b064d1187b6398ffc0d613682a466be770d610f9aae"
+      "size": 30702,
+      "sha256": "42851c9a97567b20858193d547040c8b3e22d1e53c09f43a05a747933ac4c0e9"
     },
     {
       "path": "instadown/browser-helper/Repair-Safari.command",

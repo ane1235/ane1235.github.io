@@ -124,9 +124,18 @@
     if (lines.length > 25) throw new Error('한 번에 최대 25개의 링크를 준비할 수 있습니다.');
     return [...new Set(lines.map((value, index) => { let url; try { url = new URL(value); } catch (_) { throw new Error((index + 1) + '번째 줄의 링크를 확인해 주세요. 한 줄에 링크 하나씩 입력합니다.'); } if (!['https:','http:'].includes(url.protocol) || url.username || url.password) throw new Error((index + 1) + '번째 줄에 올바른 공유 링크를 입력해 주세요.'); return url.href; }))];
   }
+  function browserRequestId() {
+    // randomUUID requires a secure context; getRandomValues also works on LAN HTTP.
+    if (typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = Array.from(bytes, value => value.toString(16).padStart(2, '0')).join('');
+    return hex.slice(0, 8) + '-' + hex.slice(8, 12) + '-' + hex.slice(12, 16) + '-' + hex.slice(16, 20) + '-' + hex.slice(20);
+  }
   function browserRequest(type, url) {
     return new Promise((resolve, reject) => {
-      const id = crypto.randomUUID();
+      const id = browserRequestId();
       const finish = (error, value) => { clearTimeout(timer); window.removeEventListener('message', listener); error ? reject(error) : resolve(value); };
       const listener = event => {
         const data = event.data;
