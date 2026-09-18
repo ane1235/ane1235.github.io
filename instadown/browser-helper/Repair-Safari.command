@@ -26,6 +26,7 @@ import sys
 import tempfile
 import unicodedata
 import xml.etree.ElementTree as ET
+from xml.parsers.expat import ExpatError
 
 
 class RepairError(Exception):
@@ -501,6 +502,142 @@ def diagnose_extension(arguments):
     report('확장 진단 완료', '등록 조회는 버전별 보고 항목만 셉니다. 활성화·웹사이트 권한·주입·저장 성공은 별도 확인이 필요합니다. 원문 로그는 출력하지 않았습니다.')
 
 
+def seal_value(value, present=True):
+    result = {'present': present, 'type': type(value).__name__ if present else None}
+    if isinstance(value, (dict, list, str, bytes)):
+        result['length'] = len(value)
+    return result
+
+
+def requirement_has_no_file_input(expression):
+    # Certificate-digest operands can load files during compilation. Only allow
+    # Apple/trusted anchors and certificate field tests, outside strings/comments.
+    tokens = []
+    for match in re.finditer(r'"(?:\\"|[^"\\])*"|/\*[\s\S]*?\*/|//[^\r\n]*|\#[^\r\n]*|'
+                             r'[A-Za-z_][A-Za-z_0-9.]*|-?[0-9]+|[^\s]', expression):
+        token = match.group()
+        if token.startswith(('/*', '//', '#')):
+            continue
+        if token == '"':
+            return False
+        tokens.append('STRING' if token.startswith('"') and len(token) > 1 else token)
+    for index, token in enumerate(tokens):
+        tail = tokens[index + 1: index + 3]
+        if token == 'anchor' and (not tail or tail[0] not in ('apple', 'trusted')):
+            return False
+        if token in ('certificate', 'cert') and (len(tail) != 2 or tail[1] != '['
+                or not (tail[0] in ('leaf', 'root') or re.fullmatch(r'-?[0-9]+', tail[0]))):
+            return False
+    return True
+
+
+def seal_requirement_parser():
+    baseline = None
+    cache = {}
+
+    def run(expression):
+        try:
+            result = subprocess.run(['/usr/bin/csreq', '-r', '-', '-t'],
+                                    input=expression.encode('utf-8'), stdout=subprocess.DEVNULL,
+                                    stderr=subprocess.DEVNULL, timeout=15, check=False, shell=False)
+            return result.returncode
+        except (OSError, subprocess.TimeoutExpired):
+            return None
+
+    def parse(expression):
+        nonlocal baseline
+        if not isinstance(expression, str) or not expression or len(expression) > 16384:
+            return {'state': 'unknown', 'reason': 'type_or_size'}
+        if not requirement_has_no_file_input(expression):
+            return {'state': 'skipped', 'reason': 'possible_file_input'}
+        if expression in cache:
+            return cache[expression]
+        if baseline is None:
+            baseline = run('identifier "io.github.ane1235.nyangstasave"') == 0
+        if not baseline:
+            return {'state': 'unknown', 'reason': 'baseline_unavailable'}
+        code = run(expression)
+        if code is None or code < 0:
+            baseline = False  # Do not repeat tool timeouts for subsequent seals.
+        cache[expression] = {'state': 'unknown' if code is None or code < 0 else 'parsed' if code == 0 else 'rejected',
+                             'exit': code}
+        return cache[expression]
+    return parse
+
+
+def diagnose_code_resources(bundle, label, parse):
+    path = bundle / 'Contents/_CodeSignature/CodeResources'
+    if not path.exists() and not path.is_symlink():
+        report(label + ' CodeResources', {'present': False})
+        return
+    content = safe_path(path).read_bytes()
+    try:
+        data = plistlib.loads(content)
+    except (ValueError, TypeError, OverflowError, ExpatError):
+        report(label + ' CodeResources', {'present': True, 'plist': 'invalid'})
+        return
+    report(label + ' CodeResources', seal_value(data))
+    if not isinstance(data, dict):
+        return
+    for name in ('files', 'files2', 'rules', 'rules2'):
+        section = data.get(name)
+        report(label + ' ' + name, seal_value(section, name in data))
+        if name not in ('files', 'files2') or not isinstance(section, dict):
+            continue
+        nested = []
+        for key, value in section.items():
+            if not isinstance(key, str):
+                continue
+            category = ('preview_dylib' if key == 'MacOS/__preview.dylib' else
+                        'debug_dylib' if key.startswith('MacOS/') and key.endswith('.debug.dylib') else
+                        'embedded_extension' if key.startswith('PlugIns/') and key.endswith('.appex') else
+                        'other_nested_code')
+            if category != 'other_nested_code' or isinstance(value, dict) and ('cdhash' in value or 'requirement' in value):
+                nested.append((category, value))
+        report(label + ' ' + name + ' nested', {'count': len(nested), 'shown': min(len(nested), 16)})
+        for index, (category, value) in enumerate(nested[:16], 1):
+            summary = {'category': category, 'seal': seal_value(value)}
+            if isinstance(value, dict):
+                summary['hash_fields'] = {key: seal_value(value.get(key), key in value)
+                                          for key in ('hash', 'hash2', 'cdhash')}
+                requirement = value.get('requirement')
+                summary['requirement'] = seal_value(requirement, 'requirement' in value)
+                if isinstance(requirement, str):
+                    summary['requirement']['non_ascii'] = not requirement.isascii()
+                    summary['requirement']['parse'] = parse(requirement)
+            report(label + ' ' + name + ' nested ' + str(index), summary)
+
+
+def diagnose_seal(arguments):
+    if arguments:
+        raise RepairError('--diagnose-seal은 추가 경로 인수를 받지 않습니다.')
+    report('서명 봉인 진단 시작', '읽기 전용: 지정 앱과 확장의 CodeResources 구조만 읽습니다. 원문 요구식·Team·파일 내용을 출력하거나 서명·설정을 변경하지 않습니다.')
+    app = find_built_app()
+    if app is None:
+        report('서명 봉인 진단', '지정 Debug 앱 없음; 다른 설치 위치는 탐색하지 않습니다.')
+        return
+    app = safe_path(app, directory=True)
+    info = plistlib.loads(safe_path(app / 'Contents/Info.plist').read_bytes())
+    if info.get('CFBundleIdentifier') != 'io.github.ane1235.nyangstasave':
+        raise RepairError('지정 앱 ID가 다릅니다.')
+    parse = seal_requirement_parser()
+    diagnose_code_resources(app, '앱', parse)
+    plugins = app / 'Contents/PlugIns'
+    if not plugins.exists() and not plugins.is_symlink():
+        report('확장 봉인 진단', '앱 내 PlugIns 없음')
+    else:
+        candidates = list(safe_path(plugins, directory=True).glob('*.appex'))
+        if len(candidates) != 1:
+            report('확장 봉인 진단', {'embedded_count': len(candidates), 'state': 'unknown'})
+        else:
+            appex = safe_path(candidates[0], directory=True)
+            info = plistlib.loads(safe_path(appex / 'Contents/Info.plist').read_bytes())
+            if info.get('CFBundleIdentifier') != EXTENSION_ID:
+                raise RepairError('지정 확장 ID가 다릅니다.')
+            diagnose_code_resources(appex, '확장', parse)
+    report('서명 봉인 진단 완료', '구조·요구식 파싱만 확인했습니다. 해시 일치·인증서 신뢰·서명 유효성·Safari 실행 성공을 판정하지 않습니다.')
+
+
 def pbx_spans(text):
     """Locate OpenStep values without reserializing comments or unrelated settings."""
     tokens = []
@@ -885,9 +1022,11 @@ def fix_collision(arguments):
 
 
 def main():
-    diagnostic = len(sys.argv) > 1 and sys.argv[1] in ('--diagnose', '--diagnose-extension')
+    diagnostic = len(sys.argv) > 1 and sys.argv[1] in ('--diagnose', '--diagnose-extension', '--diagnose-seal')
     try:
-        if len(sys.argv) > 1 and sys.argv[1] == '--diagnose-extension':
+        if len(sys.argv) > 1 and sys.argv[1] == '--diagnose-seal':
+            diagnose_seal(sys.argv[2:])
+        elif len(sys.argv) > 1 and sys.argv[1] == '--diagnose-extension':
             diagnose_extension(sys.argv[2:])
         elif diagnostic:
             diagnose(sys.argv[2:])
@@ -903,7 +1042,7 @@ def main():
             repair()
             print('다음: Xcode에서 Product → Clean Build Folder를 선택한 뒤 Run을 누르세요.')
             print('앱 빌드·서명·Safari 재시작 유지 여부는 아직 확인하지 않았습니다.')
-    except (RepairError, OSError, ET.ParseError, ValueError, KeyError, TypeError, AttributeError) as error:
+    except (RepairError, OSError, ET.ParseError, ExpatError, ValueError, KeyError, TypeError, AttributeError) as error:
         if diagnostic:
             print('진단 중단: 필요한 파일 구조 또는 도구 응답을 안전하게 확인하지 못했습니다.', file=sys.stderr)
         else:

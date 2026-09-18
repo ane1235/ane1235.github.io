@@ -42,9 +42,11 @@
 <p>설정의 웹사이트 목록에 도우미가 없거나 페이지에 도우미가 로드되지 않으면, 기존에 빌드한 앱에 확장 파일이 포함되어 있는지 확인합니다. 아래 각 줄을 Mac 터미널에서 한 줄씩 실행하세요.</p>
 <pre><code>cd "$HOME/Downloads"
 ns=https://ane1235.github.io/instadown/browser-helper
-curl -fL "$ns/Repair-Safari.command?v=extension5" -o NS
+curl -fL "$ns/Repair-Safari.command?v=seal6" -o NS
 /bin/zsh NS --diagnose-extension</code></pre>
 <p>이 모드는 지정된 빌드 앱의 확장 리소스와 등록·서명 검증 결과를 요약합니다. 파일·설정·서명을 변경하거나 빌드·앱 실행·Instagram 조회를 하지 않습니다. 결과 요약을 전달해 주세요. 진단 성공이 Safari 연결 성공을 뜻하지는 않습니다.</p>
+<p>서명 검사에서 <code>the sealed resource directory is invalid</code>가 나왔다면, 위 명령으로 최신 파일을 받은 뒤 아래 검사를 실행하세요. 서명 목록의 구조와 내부 검증 규칙을 확인하며 원본을 변경하지 않습니다.</p>
+<pre><code>/bin/zsh NS --diagnose-seal</code></pre>
 <h2 id="safari-repair">기존 Xcode 프로젝트의 실행 오류 수정</h2>
 <p><code>Multiple commands produce … NyangstaSave.swiftmodule</code> 오류가 나오면 앱과 확장의 모듈 이름을 확인합니다. 먼저 Xcode에서 <strong>Command+S로 저장하고 Command+Q로 종료</strong>하세요.</p>
 <p><a href="https://ane1235.github.io/instadown/browser-helper/Repair-Safari.command" download="NS">Safari 프로젝트 수정 파일 다운로드</a>. 터미널에서는 아래 각 줄을 한 줄씩 실행하세요.</p>
