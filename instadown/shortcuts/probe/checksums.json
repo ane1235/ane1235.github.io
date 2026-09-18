@@ -4,8 +4,8 @@
   "files": [
     {
       "path": "instadown/shortcuts/probe/index.html",
-      "size": 2165,
-      "sha256": "c6bfa50e9cd46da97d14842e0fcf13d7fa9d9d0b8ec5b63a162fe2c9ffd2d340"
+      "size": 3039,
+      "sha256": "7597a620c51ebe4f58ab0d5cd5e8342bbcad912d4029da2fcbb823d9b90a22f2"
     },
     {
       "path": "instadown/shortcuts/probe/sample.jpg",
@@ -29,8 +29,8 @@
     },
     {
       "path": "instadown/shortcuts/probe/Nyangsta-Shortcut-Probe.zip",
-      "size": 7259,
-      "sha256": "4cda7377faa576296e34938f1133b4156e9adcc6f970adb019daf7c65523947b"
+      "size": 9891,
+      "sha256": "72e2540c797f7e4629ce5069dc3bc27531b7d4b08c040d8f68e22c8d1548a9f8"
     }
   ]
 }
