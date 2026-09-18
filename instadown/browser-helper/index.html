@@ -43,6 +43,8 @@
 <p><a href="https://ane1235.github.io/instadown/browser-helper/Repair-Safari.command" download>Safari 프로젝트 수정 파일 다운로드</a> 후 Mac 터미널에서 다음 한 줄을 실행합니다.</p>
 <pre><code>/bin/zsh "$HOME/Downloads/Repair-Safari.command"</code></pre>
 <p>이 도구는 <code>Downloads/Nyangsta-Safari-Project-20260918-102433</code>의 원본을 백업하고 두 클래스의 모듈 참조를 수정합니다. 이미 수정됐으면 상태만 표시합니다. 완료 후 Xcode의 <strong>Product → Clean Build Folder → Run</strong>으로 앱 실행을 확인하세요. 이 도구의 완료 메시지만으로 앱 설치나 Safari 재시작 유지가 확인되는 것은 아닙니다.</p>
+<p><code>NyangstaSave.AppDelegate</code> 또는 <code>NyangstaSave.ViewController</code>의 오류가 계속되면 최신 수정 파일의 <strong>진단 모드</strong>를 실행하세요. 소스·앱 타깃·기존 빌드의 클래스 이름을 읽어 보여줍니다. 프로젝트 수정이나 새 빌드는 실행하지 않습니다.</p>
+<pre><code>/bin/zsh "$HOME/Downloads/Repair-Safari.command" --diagnose</code></pre>
 <p>스토리의 계정·항목 ID·사진 또는 영상·게시 시각을 확인한 뒤 파일을 준비합니다. 요청 제한이나 추가 인증이 나오면 자동 반복하지 않습니다.</p>
 <p><small>도우미는 비밀번호나 로그인 쿠키를 읽어 전송하지 않습니다. 준비된 파일은 웹앱에서 내려받습니다. iPhone·iPad 단축어 개선은 Chrome과 Safari 웹앱 검증 뒤에 진행합니다.</small></p>
 <p><a href="/instadown/">냥스타저장으로 돌아가기</a></p>
