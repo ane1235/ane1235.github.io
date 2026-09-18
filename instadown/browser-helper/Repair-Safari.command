@@ -15,6 +15,7 @@ fi
 "$python_path" - "$@" <<'PY'
 from datetime import datetime
 from pathlib import Path
+import hashlib
 import json
 import os
 import plistlib
@@ -291,6 +292,213 @@ def diagnose(arguments):
     diagnose_project(project)
     diagnose_app(Path(app) if app else find_built_app())
     report('진단 완료', '표시된 요약만 전달하세요. 앱 실행·서명 성공을 뜻하지 않습니다.')
+
+
+EXTENSION_ID = 'io.github.ane1235.nyangstasave.Extension'
+EXTENSION_POINT = 'com.apple.Safari.web-extension'
+EXTENSION_FILES = ('protocol.js', 'web-bridge.js', 'service-worker.js', 'instagram-collector.js')
+
+
+def diagnostic_text(value, limit=160):
+    return value if isinstance(value, str) and len(value) <= limit and not any(ord(c) < 32 for c in value) else None
+
+
+def signature_status(bundle):
+    # Verification only. Never print certificate names, teams, or tool stderr.
+    try:
+        result = subprocess.run(['/usr/bin/codesign', '--verify', str(bundle)],
+                                stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                                stderr=subprocess.DEVNULL, timeout=15, check=False, shell=False)
+    except (OSError, subprocess.TimeoutExpired):
+        return '확인 불가'
+    return '검증 통과' if result.returncode == 0 else '검증 실패 (원인 미확정)'
+
+
+def registration_summary(appex):
+    output = read_tool(['/usr/bin/pluginkit', '-mAvvv', '-p', EXTENSION_POINT, '-i', EXTENSION_ID])
+    unknown = {'records': None, 'known_build_path': None, 'other_reported_paths': None}
+    if output is None:
+        return unknown
+    if not output.strip():
+        return {'records': 0, 'known_build_path': False, 'other_reported_paths': 0}
+    # Accept only exact-id record headers, and complete absolute .appex paths.
+    # Different OS output formats remain unknown rather than "not registered".
+    header = re.compile(r'^\s*[+\-=!]?[ \t]*' + re.escape(EXTENSION_ID) + r'(?:\([^()\n]{0,80}\))?(?=\s|$)')
+    blocks = []
+    for line in output.splitlines():
+        match = header.match(line)
+        if match:
+            blocks.append([line[match.end():]])
+        elif blocks:
+            blocks[-1].append(line)
+    if not blocks or len(blocks) > 32:
+        return unknown
+    paths = []
+    for block in blocks:
+        found = set()
+        for line in block:
+            match = re.search(r'(?:^\s*(?:[Pp]ath\s*=\s*)?|\s)(/[^\r\n]*\.appex)\s*$', line)
+            if match:
+                found.add(match.group(1))
+        if len(found) != 1:
+            return {**unknown, 'records': len(blocks)}
+        paths.extend(unicodedata.normalize('NFC', path) for path in found)
+    # -A lists the last registration per version; this is not every installation.
+    known = unicodedata.normalize('NFC', str(appex)) if appex is not None else None
+    return {'records': len(blocks), 'known_build_path': known in paths if known else None,
+            'other_reported_paths': len(set(paths) - {known}) if known else None}
+
+
+def extension_project_summary(project):
+    if not project.is_dir():
+        report('프로젝트 모듈', '지정 프로젝트 없음; 다른 프로젝트를 찾지 않습니다.')
+        return
+    safe_path(project, directory=True)
+    projects = list(project.rglob('*.xcodeproj/project.pbxproj'))
+    if len(projects) != 1:
+        report('프로젝트 모듈', '지정 프로젝트를 하나로 확인하지 못했습니다.')
+        return
+    output = read_tool(['/usr/bin/plutil', '-convert', 'json', '-o', '-', str(safe_path(projects[0]))])
+    if output is None:
+        report('프로젝트 모듈', 'plutil 결과 확인 불가')
+        return
+    data = json.loads(output)
+    objects = data['objects']
+    for label, kind in (('앱', 'application'), ('확장', 'app-extension')):
+        matches = [obj for obj in objects.values() if obj.get('isa') == 'PBXNativeTarget'
+                   and obj.get('productType') == 'com.apple.product-type.' + kind]
+        if len(matches) != 1:
+            report(label + ' 저장된 모듈', '타깃을 하나로 확인하지 못했습니다.')
+            continue
+        configuration = objects.get(matches[0].get('buildConfigurationList'), {})
+        for key in configuration.get('buildConfigurations', [])[:8]:
+            config = objects.get(key, {})
+            if config.get('name') in ('Debug', 'Release'):
+                settings = config.get('buildSettings', {})
+                report(label + ' 저장된 모듈 ' + config['name'], {
+                    'module': diagnostic_text(settings.get('PRODUCT_MODULE_NAME')),
+                    'xcconfig_reference': bool(config.get('baseConfigurationReference'))})
+    report('모듈 해석', '저장된 값이며 상속을 적용한 빌드 유효값은 아닙니다.')
+
+
+def extension_symbols(appex, executable):
+    if (not isinstance(executable, str) or Path(executable).name != executable
+            or executable in ('', '.', '..')):
+        report('확장 바이너리', '실행 파일 이름 확인 불가')
+        return
+    folder = appex / 'Contents/MacOS'
+    if not folder.exists():
+        report('확장 바이너리', 'MacOS 폴더 없음')
+        return
+    safe_path(folder, directory=True)
+    candidates = [folder / executable, *sorted(folder.glob('*.debug.dylib'))]
+    if len(candidates) > 5:
+        raise RepairError('확장 Debug 라이브러리 수가 예상과 다릅니다.')
+    for index, path in enumerate(candidates):
+        label = '확장 실행 파일' if index == 0 else '확장 Debug 라이브러리 ' + str(index)
+        if not path.exists() and not path.is_symlink():
+            report(label, '없음')
+            continue
+        output = read_tool(['/usr/bin/nm', '-g', '-U', str(safe_path(path))])
+        if output is None:
+            report(label, '심볼 확인 불가')
+            continue
+        symbols = set()
+        for line in output.splitlines():
+            symbol = line.split()[-1] if line.split() else ''
+            if (len(symbol) <= 240 and 'SafariWebExtensionHandler' in symbol
+                    and (re.fullmatch(r'_?OBJC_CLASS_\$_[\w$]+', symbol)
+                         or re.fullmatch(r'_?\$s[\w$]*SafariWebExtensionHandlerC(?:N|Ma|Mn)', symbol))):
+                symbols.add(symbol)
+        report(label, {'handler_symbols': sorted(symbols)[:6]})
+    report('확장 심볼 해석', '미검출만으로 런타임 클래스 부재를 확정하지 않습니다.')
+
+
+def extension_resources(appex):
+    folder = appex / 'Contents/Resources'
+    if not folder.exists() and not folder.is_symlink():
+        report('확장 리소스', 'Resources 폴더 없음')
+        return
+    safe_path(folder, directory=True)
+    payloads = {}
+    for name in ('manifest.json', *EXTENSION_FILES):
+        path = folder / name
+        if not path.exists() and not path.is_symlink():
+            report('리소스 ' + name, {'present': False})
+            continue
+        content = safe_path(path).read_bytes()
+        payloads[name] = content
+        report('리소스 ' + name, {'present': True, 'bytes': len(content),
+                               'sha256': hashlib.sha256(content).hexdigest()})
+    if 'manifest.json' not in payloads:
+        return
+    manifest = json.loads(payloads['manifest.json'])
+    if not isinstance(manifest, dict) or type(manifest.get('manifest_version')) is not int:
+        raise RepairError('manifest 버전 구조가 예상과 다릅니다.')
+    background = manifest.get('background', {})
+    scripts = manifest.get('content_scripts', [])
+    if not isinstance(background, dict) or not isinstance(scripts, list) or len(scripts) > 16:
+        raise RepairError('manifest 구조가 예상과 다릅니다.')
+    report('manifest', {'manifest_version': manifest.get('manifest_version'),
+                       'version': diagnostic_text(manifest.get('version'), 40),
+                       'background_service_worker_expected': background.get('service_worker') == 'service-worker.js',
+                       'background_type_module': background.get('type') == 'module',
+                       'content_script_entries': len(scripts)})
+    for index, script in enumerate(scripts):
+        names, matches = script.get('js', []), script.get('matches', [])
+        if not isinstance(names, list) or not isinstance(matches, list):
+            raise RepairError('content_scripts 구조가 예상과 다릅니다.')
+        report('content_scripts ' + str(index + 1), {
+            'github_expected_match': 'https://ane1235.github.io/instadown/*' in matches,
+            'expected_js_order': names == ['protocol.js', 'web-bridge.js'],
+            'expected_js_present': [name for name in EXTENSION_FILES if name in names],
+            'run_at_document_start': script.get('run_at') == 'document_start',
+            'all_frames_false': script.get('all_frames') is False,
+            'has_exclusions': bool(script.get('exclude_matches') or script.get('exclude_globs'))})
+    report('리소스 해석', '이 결과는 파일 포함 여부이며 Safari 주입·권한 허용을 증명하지 않습니다.')
+
+
+def diagnose_extension(arguments):
+    if arguments:
+        raise RepairError('--diagnose-extension은 추가 경로 인수를 받지 않습니다.')
+    report('확장 진단 시작', '읽기 전용: 설정·파일·등록·서명을 바꾸거나 빌드·실행·네트워크 요청을 하지 않습니다.')
+    project = Path.home() / 'Downloads/Nyangsta-Safari-Project-20260918-102433/Project'
+    extension_project_summary(project)
+    app = find_built_app()
+    appex = None
+    if app is None:
+        report('빌드 앱', '지정 Debug 앱 없음; 다른 설치 위치는 탐색하지 않습니다.')
+    else:
+        app = safe_path(app, directory=True)
+        info = plistlib.loads(safe_path(app / 'Contents/Info.plist').read_bytes())
+        expected = info.get('CFBundleIdentifier') == 'io.github.ane1235.nyangstasave'
+        report('앱 ID', {'expected_match': expected})
+        if not expected:
+            raise RepairError('지정 앱의 ID가 다릅니다.')
+        plugins = app / 'Contents/PlugIns'
+        candidates = []
+        if plugins.exists() or plugins.is_symlink():
+            safe_path(plugins, directory=True)
+            candidates = list(plugins.glob('*.appex'))
+        report('앱 내 확장', {'count': len(candidates)})
+        if len(candidates) == 1:
+            appex = safe_path(candidates[0], directory=True)
+            info = plistlib.loads(safe_path(appex / 'Contents/Info.plist').read_bytes())
+            extension = info.get('NSExtension', {})
+            expected = info.get('CFBundleIdentifier') == EXTENSION_ID
+            report('확장 Info', {'expected_id_match': expected,
+                'extension_point': diagnostic_text(extension.get('NSExtensionPointIdentifier')),
+                'principal_class': diagnostic_text(extension.get('NSExtensionPrincipalClass'))})
+            if not expected:
+                raise RepairError('앱 내 확장 ID가 다릅니다.')
+            extension_resources(appex)
+            extension_symbols(appex, info.get('CFBundleExecutable'))
+            report('확장 codesign --verify', signature_status(appex))
+        elif len(candidates) > 1:
+            report('확장 분석', '확장이 여러 개라 개별 내용은 읽지 않았습니다.')
+        report('앱 codesign --verify', signature_status(app))
+    report('등록 조회', registration_summary(appex))
+    report('확장 진단 완료', '등록 조회는 버전별 보고 항목만 셉니다. 활성화·웹사이트 권한·주입·저장 성공은 별도 확인이 필요합니다. 원문 로그는 출력하지 않았습니다.')
 
 
 def pbx_spans(text):
@@ -677,9 +885,11 @@ def fix_collision(arguments):
 
 
 def main():
-    diagnostic = len(sys.argv) > 1 and sys.argv[1] == '--diagnose'
+    diagnostic = len(sys.argv) > 1 and sys.argv[1] in ('--diagnose', '--diagnose-extension')
     try:
-        if diagnostic:
+        if len(sys.argv) > 1 and sys.argv[1] == '--diagnose-extension':
+            diagnose_extension(sys.argv[2:])
+        elif diagnostic:
             diagnose(sys.argv[2:])
         elif len(sys.argv) > 1 and sys.argv[1] == '--fix-collision':
             fix_collision(sys.argv[2:])
