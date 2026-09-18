@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "algorithm": "sha256",
+  "files": [
+    {
+      "path": "instadown/index.html",
+      "size": 39203,
+      "sha256": "b50c63e01ef452d7aae881d257729bd14963560520200c740fe0e08038dfeada"
+    },
+    {
+      "path": "instadown/browser-helper/index.html",
+      "size": 6974,
+      "sha256": "617700614e2e1700d9c8d2f786f2229248eaf94281b1a695d4a6e8f1e27d2f2b"
+    },
+    {
+      "path": "instadown/browser-helper/Nyangsta-Chrome.zip",
+      "size": 13508,
+      "sha256": "a4e5e9fae9a109941043e0e81b6fa293bb725388b17fe49e75162091ec680ea9"
+    },
+    {
+      "path": "instadown/browser-helper/Nyangsta-Safari.zip",
+      "size": 10971,
+      "sha256": "e11c2ce8bf72e5a4d2d6716512300215d55414d8ad2a1b60cd9a6a7c1b6fbc26"
+    },
+    {
+      "path": "instadown/browser-helper/Nyangsta-Safari-App.zip",
+      "size": 23416,
+      "sha256": "0a8c44a94574862b3e82b1a9ad60831531ac8109a8a0ef0eb6d47ec17660e4e0"
+    }
+  ]
+}

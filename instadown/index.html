@@ -22,8 +22,9 @@
 <main>
 <section class="hero"><p>인스타그램 공유 링크를 붙여넣으세요.<br>게시물의 사진과 영상, 릴스를 한곳에서 준비하고 저장합니다.</p></section>
 <div class="top-grid">
-<div><section class="panel" aria-labelledby="linksTitle"><form id="downloadForm"><div class="form-heading"><h2 id="linksTitle"><label for="urls">공유 링크</label></h2><span class="counter" id="linkCount">0 / 25</span></div><textarea id="urls" name="urls" rows="5" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="linksHint" placeholder="https://www.instagram.com/p/…&#10;https://www.instagram.com/reel/…"></textarea><p class="hint" id="linksHint">한 줄에 링크 하나씩, 최대 25개. 여러 장의 사진과 영상도 함께 준비합니다.</p><p class="hint">같은 Chrome의 Instagram 로그인으로 스토리 저장: <a href="https://kayenpc.tail730e13.ts.net:10000/browser-helper" target="_blank" rel="noopener noreferrer">Chrome 도우미 설치</a></p><div class="submit-row"><span class="submit-note">파일 준비 후 <strong>내 기기에 저장</strong>을 눌러주세요.</span><button class="button primary" id="submitButton" type="submit" disabled><span>파일 준비하기</span><span class="button-icon" aria-hidden="true">↗</span></button></div><p class="inline-error" id="submitError" role="alert" hidden></p></form></section><div class="how-it-works"><span class="how-icon" aria-hidden="true">↳</span><p><strong>서버에서 준비 → 내 기기에 저장</strong><br>파일은 브라우저의 다운로드 위치에 저장됩니다. iPhone·iPad에서는 다운로드한 파일의 공유 메뉴에서 ‘파일에 저장’을 선택할 수 있습니다.</p></div></div>
+<div><section class="panel" aria-labelledby="linksTitle"><form id="downloadForm"><div class="form-heading"><h2 id="linksTitle"><label for="urls">공유 링크</label></h2><span class="counter" id="linkCount">0 / 25</span></div><textarea id="urls" name="urls" rows="5" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="linksHint" placeholder="https://www.instagram.com/p/…&#10;https://www.instagram.com/reel/…"></textarea><p class="hint" id="linksHint">한 줄에 링크 하나씩, 최대 25개. 여러 장의 사진과 영상도 함께 준비합니다.</p><p class="hint">Instagram 로그인으로 스토리 저장: <a href="./browser-helper/" target="_blank" rel="noopener noreferrer">Chrome · Safari 도우미</a></p><div class="submit-row"><span class="submit-note">파일 준비 후 <strong>내 기기에 저장</strong>을 눌러주세요.</span><button class="button primary" id="submitButton" type="submit" disabled><span>파일 준비하기</span><span class="button-icon" aria-hidden="true">↗</span></button></div><p class="inline-error" id="submitError" role="alert" hidden></p></form></section><div class="how-it-works"><span class="how-icon" aria-hidden="true">↳</span><p><strong>서버에서 준비 → 내 기기에 저장</strong><br>파일은 브라우저의 다운로드 위치에 저장됩니다. iPhone·iPad에서는 다운로드한 파일의 공유 메뉴에서 ‘파일에 저장’을 선택할 수 있습니다.</p></div></div>
 </div>
+<p id="helperCheckStatus" class="notice info" role="status" aria-live="polite" hidden></p>
 <div id="pageNotice" class="notice info" role="status" aria-live="polite" hidden></div>
 <section class="history" aria-labelledby="historyTitle"><div class="history-header"><div class="history-heading"><h2 id="historyTitle">최근 작업</h2><span class="history-count" id="jobCount">0개</span></div><button class="button quiet refresh" type="button" id="refreshButton" disabled><span aria-hidden="true">↻</span> 새로고침</button></div><p class="hint">이 브라우저에서 요청한 최근 작업을 최대 3개 표시합니다.</p><div class="empty" id="emptyState"><div class="empty-symbol" aria-hidden="true">▧</div><h3 id="emptyTitle">아직 준비한 파일이 없어요</h3><p id="emptyMessage">첫 번째 링크를 추가해 보세요.<br>준비가 끝나면 이곳에서 파일을 받을 수 있습니다.</p></div><div class="jobs" id="jobs"></div><p class="sr-only" id="jobLive" role="status" aria-live="polite"></p></section>
 </main>
@@ -131,12 +132,25 @@
         const data = event.data;
         if (event.source !== window || event.origin !== location.origin || !data || data.source !== 'nyangsta-extension' || data.version !== 1 || data.id !== id) return;
         if (data.ok === true) finish(null, data);
-        else finish(new Error(cleanMessage(data.message) || 'Chrome에서 스토리를 확인하지 못했습니다.'));
+        else { const error = new Error(cleanMessage(data.message) || '브라우저에서 스토리를 확인하지 못했습니다.'); error.extensionResponded = true; finish(error); }
       };
-      const timer = setTimeout(() => finish(new Error(type === 'ping' ? 'Chrome 도우미가 연결되지 않았습니다.' : 'Chrome의 Instagram 응답을 기다리는 시간이 초과됐습니다.')), type === 'ping' ? 2500 : 45000);
+      const timer = setTimeout(() => finish(new Error(type === 'ping' ? '브라우저 도우미가 연결되지 않았습니다.' : '브라우저의 Instagram 응답을 기다리는 시간이 초과됐습니다.')), type === 'ping' ? 2500 : 45000);
       window.addEventListener('message', listener);
       window.postMessage({ source: 'nyangsta-web', version: 1, id, type, ...(url ? { url } : {}) }, location.origin);
     });
+  }
+  async function checkBrowserHelper() {
+    const output = $('helperCheckStatus');
+    output.hidden = false; output.dataset.result = 'checking';
+    output.textContent = '도우미 연결 확인 중…';
+    try {
+      await browserRequest('ping');
+      output.dataset.result = 'connected'; output.className = 'notice success';
+      output.textContent = '도우미 연결됨. Instagram 로그인과 스토리 접근은 아직 확인하지 않았습니다. 같은 브라우저 프로필에 Instagram 탭을 열어 두세요.';
+    } catch (error) {
+      output.dataset.result = 'unavailable'; output.className = 'notice error';
+      output.textContent = error.message + ' Safari 설정에서 이 웹사이트에 대한 도우미 접근을 허용하고 페이지를 새로고침하세요. Instagram 조회는 실행하지 않았습니다.';
+    }
   }
   function isStoryLink(value) {
     const url = new URL(value);
@@ -150,20 +164,21 @@
     let accepted = 0, browserCount = 0;
     try {
       let helper = false;
-      if (state.browserStories && urls.some(isStoryLink)) { try { helper = (await browserRequest('ping')).ok === true; } catch (_) {} }
+      if (state.browserStories && urls.some(isStoryLink)) { try { helper = (await browserRequest('ping')).ok === true; } catch (error) { if (error.extensionResponded) throw error; } }
+      if (query.get('check_helper') === '1' && urls.some(isStoryLink) && !helper) throw new Error('도우미 연결을 먼저 확인해 주세요. 이 확인 화면에서는 서버 스토리 조회를 실행하지 않습니다.');
       for (const url of urls) {
         let data;
         if (helper && isStoryLink(url)) {
-          notice('이 Chrome에 로그인된 Instagram에서 스토리를 확인하고 있습니다.');
+          notice('이 브라우저에 로그인된 Instagram에서 스토리를 확인하고 있습니다.');
           const result = await browserRequest('resolveStory', url);
-          if (!result.story || typeof result.story !== 'object') throw new Error('Chrome에서 올바른 스토리 정보를 받지 못했습니다.');
+          if (!result.story || typeof result.story !== 'object') throw new Error('브라우저에서 올바른 스토리 정보를 받지 못했습니다.');
           data = await api('/api/browser-story/jobs', { method: 'POST', body: { url, story: result.story } }); browserCount++;
         } else data = await api('/api/jobs', { method: 'POST', body: { urls: [url] } });
         if (generation !== state.generation) return;
         const incoming = Array.isArray(data.jobs) ? data.jobs : []; rememberJobs(incoming); const known = new Map([...state.jobs, ...incoming].map(job => [job.id, job])); state.jobs = recentIds().map(id => known.get(id)).filter(Boolean);
         accepted++; renderJobs(); schedulePoll();
       }
-      notice(accepted + '개 링크를 접수했습니다.' + (browserCount ? ' 스토리는 이 Chrome의 Instagram 로그인으로 확인했습니다.' : '') + ' 준비가 끝나면 아래에서 내 기기에 저장하세요.', 'success'); if (!sourceButton) { $('urls').value = ''; updateSubmit(); }
+      notice(accepted + '개 링크를 접수했습니다.' + (browserCount ? ' 스토리는 이 브라우저의 Instagram 로그인으로 확인했습니다.' : '') + ' 준비가 끝나면 아래에서 내 기기에 저장하세요.', 'success'); if (!sourceButton) { $('urls').value = ''; updateSubmit(); }
       schedulePoll(); await refreshJobs(false);
     } catch (error) { if (generation === state.generation) { fieldError('submitError', error.message + (accepted ? ' 앞서 접수한 ' + accepted + '개 링크는 최근 작업에서 확인하세요.' : '')); notice(''); } }
     finally { state.submitting = false; $('submitButton').firstElementChild.textContent = '파일 준비하기'; if (sourceButton) { sourceButton.disabled = false; sourceButton.textContent = previousText; } updateSubmit(); }
@@ -259,6 +274,7 @@
   const fragment = new URLSearchParams(location.hash.slice(1));
   if (fragment.has('token')) { fragment.delete('token'); const remaining = fragment.toString(); history.replaceState(null,'',location.pathname + location.search + (remaining ? '#' + remaining : '')); }
   updateSubmit(); renderJobs(); connect();
+  if (query.get('check_helper') === '1') checkBrowserHelper();
 })();
 </script>
 </body>
