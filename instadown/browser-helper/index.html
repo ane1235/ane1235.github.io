@@ -39,6 +39,15 @@
 <p><small><a href="https://developer.apple.com/documentation/xcode/running-your-app-on-simulated-or-physical-devices" target="_blank" rel="noopener noreferrer">Apple 서명·실행 안내</a></small></p>
 </details>
 <h2 id="safari-diagnose-extension">앱은 열리지만 Safari 도우미가 연결되지 않을 때</h2>
+<p>진단에서 앱과 확장의 <code>debug_dylib</code> 항목만 <code>rejected</code>로 확인됐다면 아래 수정 절차를 사용하세요.</p>
+<details><summary>확인된 Debug 라이브러리 서명 오류 수정</summary>
+<p>Xcode에서 <strong>Command+S로 저장하고 Command+Q로 종료</strong>한 뒤 Mac 터미널에서 아래 각 줄을 한 줄씩 실행하세요.</p>
+<pre><code>cd "$HOME/Downloads"
+ns=https://ane1235.github.io/instadown/browser-helper
+curl -fL "$ns/Repair-Safari.command?v=dylib7" -o NS
+/bin/zsh NS --fix-debug-dylib</code></pre>
+<p>원본 프로젝트를 백업하고 앱·확장의 Debug 설정에서 별도 디버그 라이브러리를 끕니다. 수정 완료 후 기존 프로젝트를 열어 <strong>Product → Clean Build Folder → Run</strong>을 실행하세요. 이 변경으로 해당 타깃의 Xcode Previews는 사용할 수 없으며, 새 앱의 서명과 Safari 연결 결과는 별도로 확인해야 합니다.</p>
+</details>
 <p>설정의 웹사이트 목록에 도우미가 없거나 페이지에 도우미가 로드되지 않으면, 기존에 빌드한 앱에 확장 파일이 포함되어 있는지 확인합니다. 아래 각 줄을 Mac 터미널에서 한 줄씩 실행하세요.</p>
 <pre><code>cd "$HOME/Downloads"
 ns=https://ane1235.github.io/instadown/browser-helper

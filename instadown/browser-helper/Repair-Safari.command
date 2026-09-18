@@ -1021,6 +1021,103 @@ def fix_collision(arguments):
     print('원본 백업:', backup)
 
 
+def fix_debug_dylib(arguments):
+    if len(arguments) > 1 or (arguments and arguments[0].startswith('--')):
+        raise RepairError('--fix-debug-dylib 뒤에는 프로젝트 루트 경로 하나만 지정하세요.')
+    print('Debug 빌드 설정 수정 시작: Xcode에서 저장한 뒤 종료한 상태로 실행하세요.', flush=True)
+    root = safe_path(arguments[0] if arguments else Path.home() / 'Downloads/Nyangsta-Safari-Project-20260918-102433', directory=True)
+    project = safe_path(root / 'Project', directory=True)
+    projects, storyboards = [], []
+    for folder, directories, names in os.walk(project, followlinks=False, onerror=walk_error):
+        if any((Path(folder) / name).is_symlink() for name in directories):
+            raise RepairError('Project 안에 연결된 폴더가 있어 중단합니다.')
+        if 'project.pbxproj' in names and Path(folder).suffix == '.xcodeproj':
+            projects.append(Path(folder) / 'project.pbxproj')
+        if 'Main.storyboard' in names:
+            storyboards.append(Path(folder) / 'Main.storyboard')
+    if len(projects) != 1 or len(storyboards) != 1:
+        raise RepairError('프로젝트 파일과 Main.storyboard가 각각 하나여야 합니다.')
+    path, storyboard = safe_path(projects[0]), safe_path(storyboards[0])
+    original_state, original = file_state(path), path.read_bytes()
+    storyboard_state, storyboard_bytes = file_state(storyboard), storyboard.read_bytes()
+    tree = ET.fromstring(storyboard_bytes)
+    for name in ('AppDelegate', 'ViewController'):
+        nodes = [node for node in tree.iter() if node.get('customClass') == name]
+        if (len(nodes) != 1 or nodes[0].get('customModule') != 'NyangstaSave'
+                or 'customModuleProvider' in nodes[0].attrib):
+            raise RepairError('스토리보드의 두 클래스 참조가 NyangstaSave여야 합니다.')
+    data = plist_json(path)
+    objects = data['objects']
+    app_id, app = native_target(data, 'com.apple.product-type.application', '앱')
+    extension_id, extension = native_target(data, 'com.apple.product-type.app-extension', '확장')
+    known_ids = {app_id, extension_id}
+    owner = objects[data['rootObject']]
+    if (set(owner.get('targets', [])) != known_ids
+            or {key for key, obj in objects.items() if obj.get('isa') == 'PBXNativeTarget'} != known_ids):
+        raise RepairError('확인된 앱과 Safari 확장 외의 타깃이 있어 변경하지 않았습니다.')
+    app_configs = target_configurations(data, app, '앱')
+    extension_configs = target_configurations(data, extension, '확장')
+    for configurations, module, bundle_id in (
+            (app_configs, 'NyangstaSave', 'io.github.ane1235.nyangstasave'),
+            (extension_configs, 'NyangstaSaveExtension', EXTENSION_ID)):
+        for _, config in configurations:
+            settings = config['buildSettings']
+            if (settings.get('PRODUCT_MODULE_NAME') != module
+                    or settings.get('PRODUCT_BUNDLE_IDENTIFIER') != bundle_id):
+                raise RepairError('확인된 앱·확장의 모듈 또는 Bundle Identifier와 다릅니다.')
+    project_configs = objects.get(owner.get('buildConfigurationList'), {}).get('buildConfigurations', [])
+    relevant = [config for _, config in app_configs + extension_configs] + [objects.get(key, {}) for key in project_configs]
+    for config in relevant:
+        settings = config.get('buildSettings', {})
+        if (config.get('baseConfigurationReference')
+                or any(key.startswith(('ENABLE_DEBUG_DYLIB[', 'PRODUCT_BUNDLE_IDENTIFIER[')) for key in settings)
+                or 'ENABLE_DEBUG_DYLIB' in settings and settings['ENABLE_DEBUG_DYLIB'] not in ('YES', 'NO')):
+            raise RepairError('Debug dylib 설정이 조건부·외부 설정·예상 외 값이라 변경하지 않았습니다.')
+    text = original.decode('utf-8')
+    spans = pbx_spans(text)['entries']['objects']['entries']
+    expected = json.loads(json.dumps(data))
+    newline = '\r\n' if '\r\n' in text else '\n'
+    edits = []
+    for config_id, config in app_configs + extension_configs:
+        if config['name'] != 'Debug':
+            continue
+        settings = spans[config_id]['entries']['buildSettings']
+        if settings['kind'] != '{' or set(settings['entries']) != set(config['buildSettings']):
+            raise RepairError('원문과 해석된 Debug 설정이 다릅니다.')
+        if 'ENABLE_DEBUG_DYLIB' in settings['entries']:
+            value = settings['entries']['ENABLE_DEBUG_DYLIB']
+            raw = text[value['start']:value['end']]
+            current = config['buildSettings']['ENABLE_DEBUG_DYLIB']
+            if raw not in (current, '"' + current + '"'):
+                raise RepairError('Debug dylib 설정 원문이 예상과 달라 변경하지 않았습니다.')
+            if current == 'NO':
+                continue
+            edits.append((value['start'], value['end'], '"NO"' if raw.startswith('"') else 'NO'))
+        else:
+            closing = settings['close']
+            line_start = text.rfind('\n', 0, closing) + 1
+            indent = text[line_start:closing]
+            if indent.strip():
+                edits.append((closing, closing, 'ENABLE_DEBUG_DYLIB = NO; '))
+            else:
+                edits.append((line_start, line_start, indent + '\tENABLE_DEBUG_DYLIB = NO;' + newline))
+        expected['objects'][config_id]['buildSettings']['ENABLE_DEBUG_DYLIB'] = 'NO'
+    def unchanged():
+        if (file_state(path) != original_state or path.read_bytes() != original
+                or file_state(storyboard) != storyboard_state or storyboard.read_bytes() != storyboard_bytes):
+            raise RepairError('작업 중 프로젝트가 변경되어 교체하지 않았습니다. Xcode를 종료한 뒤 다시 실행하세요.')
+    unchanged()
+    if not edits:
+        print('이미 적용됨: 앱과 확장의 Debug ENABLE_DEBUG_DYLIB는 모두 NO입니다. 파일을 변경하지 않았습니다.')
+        return
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    backup = replace_project(root, path, original, original_state, text.encode('utf-8'), expected, unchanged)
+    print('설정 수정 완료: 앱·확장의 Debug ENABLE_DEBUG_DYLIB만 NO로 설정했습니다.')
+    print('이 Debug 구성에서는 Xcode Previews 지원을 사용할 수 없습니다.')
+    print('원본 백업:', backup)
+
+
 def main():
     diagnostic = len(sys.argv) > 1 and sys.argv[1] in ('--diagnose', '--diagnose-extension', '--diagnose-seal')
     try:
@@ -1030,6 +1127,10 @@ def main():
             diagnose_extension(sys.argv[2:])
         elif diagnostic:
             diagnose(sys.argv[2:])
+        elif len(sys.argv) > 1 and sys.argv[1] == '--fix-debug-dylib':
+            fix_debug_dylib(sys.argv[2:])
+            print('다음: 기존 Xcode 프로젝트를 열고 Product → Clean Build Folder → Run을 실행하세요.')
+            print('이 도구는 빌드·실행·재서명하지 않았습니다. 새 빌드의 서명·Safari 연결은 별도 확인이 필요합니다.')
         elif len(sys.argv) > 1 and sys.argv[1] == '--fix-collision':
             fix_collision(sys.argv[2:])
             print('다음: 기존 Xcode 프로젝트를 다시 열고 Product → Clean Build Folder → Run을 실행하세요.')
