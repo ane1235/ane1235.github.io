@@ -183,6 +183,7 @@ def diagnose_project(project):
         return
     data = json.loads(output)
     objects = data['objects']
+    report_target_modules(data)
     native = [(key, value) for key, value in objects.items() if value.get('isa') == 'PBXNativeTarget'
               and value.get('productType') == 'com.apple.product-type.application']
     if len(native) != 1:
@@ -367,28 +368,48 @@ def file_state(path):
             stat.S_IMODE(info.st_mode))
 
 
-def module_configurations(data):
+def report_target_modules(data):
+    objects = data['objects']
+    for target in [obj for obj in objects.values() if obj.get('isa') == 'PBXNativeTarget'][:16]:
+        configuration_list = objects.get(target.get('buildConfigurationList'), {})
+        for config_id in configuration_list.get('buildConfigurations', [])[:8]:
+            config = objects.get(config_id, {})
+            settings = config.get('buildSettings', {})
+            report('타깃 모듈', {'target': str(target.get('name', '(이름 없음)'))[:100],
+                   'product_type': target.get('productType'), 'configuration': config.get('name'),
+                   'module': settings.get('PRODUCT_MODULE_NAME'),
+                   'product_name': settings.get('PRODUCT_NAME'),
+                   'xcconfig_reference': bool(config.get('baseConfigurationReference')),
+                   'conditional_module': any(key.startswith('PRODUCT_MODULE_NAME[') for key in settings)})
+
+
+def native_target(data, product_type, label):
     objects = data['objects']
     project = objects.get(data.get('rootObject'), {})
-    apps = [(key, obj) for key, obj in objects.items() if obj.get('isa') == 'PBXNativeTarget'
-            and obj.get('productType') == 'com.apple.product-type.application']
-    if (project.get('isa') != 'PBXProject' or len(apps) != 1
-            or project.get('targets', []).count(apps[0][0]) != 1):
-        raise RepairError('프로젝트에 속한 앱 타깃을 하나로 확인하지 못했습니다.')
-    _, app = apps[0]
-    list_id = app.get('buildConfigurationList')
+    matches = [(key, obj) for key, obj in objects.items() if obj.get('isa') == 'PBXNativeTarget'
+               and obj.get('productType') == product_type]
+    if (project.get('isa') != 'PBXProject' or len(matches) != 1
+            or project.get('targets', []).count(matches[0][0]) != 1):
+        raise RepairError('프로젝트에 속한 ' + label + ' 타깃을 하나로 확인하지 못했습니다.')
+    return matches[0]
+
+
+def target_configurations(data, target, label):
+    objects = data['objects']
+    project = objects.get(data.get('rootObject'), {})
+    list_id = target.get('buildConfigurationList')
     configuration_list = objects.get(list_id, {})
     ids = configuration_list.get('buildConfigurations', [])
     if (configuration_list.get('isa') != 'XCConfigurationList' or len(ids) != 2
             or len(set(ids)) != 2
             or sum(obj.get('buildConfigurationList') == list_id for obj in objects.values()) != 1):
-        raise RepairError('앱 전용 Debug·Release 설정을 확인하지 못했습니다.')
+        raise RepairError(label + ' 전용 Debug·Release 설정을 확인하지 못했습니다.')
     for key, obj in objects.items():
         if key != list_id and obj.get('isa') == 'XCConfigurationList' and set(ids).intersection(obj.get('buildConfigurations', [])):
-            raise RepairError('앱 설정을 다른 타깃과 공유하고 있어 중단합니다.')
+            raise RepairError(label + ' 설정을 다른 타깃과 공유하고 있어 중단합니다.')
     configurations = [(key, objects.get(key, {})) for key in ids]
     if {config.get('name') for _, config in configurations} != {'Debug', 'Release'}:
-        raise RepairError('앱 설정 이름이 Debug·Release와 다릅니다.')
+        raise RepairError(label + ' 설정 이름이 Debug·Release와 다릅니다.')
     project_list = objects.get(project.get('buildConfigurationList'), {})
     relevant = [config for _, config in configurations] + [objects.get(key, {}) for key in project_list.get('buildConfigurations', [])]
     for config in relevant:
@@ -397,11 +418,56 @@ def module_configurations(data):
                 or config.get('baseConfigurationReference')
                 or any(key.startswith('PRODUCT_MODULE_NAME[') for key in settings)):
             raise RepairError('조건부 설정 또는 외부 설정 파일이 있어 자동 수정하지 않습니다.')
+    return configurations
+
+
+def module_configurations(data):
+    app_id, app = native_target(data, 'com.apple.product-type.application', '앱')
+    configurations = target_configurations(data, app, '앱')
     for _, config in configurations:
         if ('PRODUCT_MODULE_NAME' in config['buildSettings']
                 and config['buildSettings']['PRODUCT_MODULE_NAME'] != 'NyangstaSave'):
             raise RepairError('앱에 다른 모듈 이름이 명시되어 있어 자동 수정하지 않습니다.')
+    for key, target in data['objects'].items():
+        if key == app_id or target.get('isa') != 'PBXNativeTarget':
+            continue
+        configuration_list = data['objects'].get(target.get('buildConfigurationList'), {})
+        for config_id in configuration_list.get('buildConfigurations', []):
+            settings = data['objects'].get(config_id, {}).get('buildSettings', {})
+            if any(value == 'NyangstaSave' for name, value in settings.items()
+                   if name == 'PRODUCT_MODULE_NAME' or name.startswith('PRODUCT_MODULE_NAME[')):
+                report_target_modules(data)
+                raise RepairError('다른 타깃도 NyangstaSave를 사용합니다. 모듈 충돌 진단이 필요해 변경하지 않았습니다.')
     return configurations
+
+
+def replace_project(root, path, original, original_state, updated, expected, unchanged):
+    temporary = None
+    try:
+        descriptor, temporary = tempfile.mkstemp(prefix='.project-module-repair-', dir=path.parent)
+        with os.fdopen(descriptor, 'wb') as pending:
+            pending.write(updated)
+            pending.flush()
+            os.fsync(pending.fileno())
+        os.chmod(temporary, original_state[-1])
+        if plist_json(temporary) != expected:
+            raise RepairError('허용한 모듈 설정 외의 변경이 감지되어 교체하지 않았습니다.')
+        unchanged()
+        backup = root / ('project.pbxproj-backup-' + datetime.now().strftime('%Y%m%d-%H%M%S-%f') + '.txt')
+        backup_descriptor = os.open(backup, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(backup_descriptor, 'wb') as saved:
+            saved.write(original)
+            saved.flush()
+            os.fsync(saved.fileno())
+        unchanged()
+        if safe_path(temporary).read_bytes() != updated:
+            raise RepairError('임시 파일이 변경되어 교체하지 않았습니다.')
+        os.replace(temporary, path)
+        temporary = None
+    finally:
+        if temporary is not None:
+            Path(temporary).unlink(missing_ok=True)
+    return backup
 
 
 def fix_module(arguments):
@@ -460,32 +526,153 @@ def fix_module(arguments):
     for position, addition in sorted(edits, reverse=True):
         text = text[:position] + addition + text[position:]
     updated = text.encode('utf-8')
-    temporary = None
-    try:
-        descriptor, temporary = tempfile.mkstemp(prefix='.project-module-repair-', dir=path.parent)
-        with os.fdopen(descriptor, 'wb') as pending:
-            pending.write(updated)
-            pending.flush()
-            os.fsync(pending.fileno())
-        os.chmod(temporary, original_state[-1])
-        if plist_json(temporary) != expected:
-            raise RepairError('앱 모듈 외의 설정 변경이 감지되어 교체하지 않았습니다.')
-        unchanged()
-        backup = root / ('project.pbxproj-backup-' + datetime.now().strftime('%Y%m%d-%H%M%S-%f') + '.txt')
-        backup_descriptor = os.open(backup, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-        with os.fdopen(backup_descriptor, 'wb') as saved:
-            saved.write(original)
-            saved.flush()
-            os.fsync(saved.fileno())
-        unchanged()
-        if safe_path(temporary).read_bytes() != updated:
-            raise RepairError('임시 파일이 변경되어 교체하지 않았습니다.')
-        os.replace(temporary, path)
-        temporary = None
-    finally:
-        if temporary is not None:
-            Path(temporary).unlink(missing_ok=True)
+    backup = replace_project(root, path, original, original_state, updated, expected, unchanged)
     print('모듈 수정 완료: 앱 Debug·Release의 PRODUCT_MODULE_NAME을 NyangstaSave로 맞췄습니다.')
+    print('원본 백업:', backup)
+
+
+def extension_info_path(value, source_root, project):
+    if not isinstance(value, str) or not value:
+        raise RepairError('확장 INFOPLIST_FILE 경로가 명시되어 있지 않습니다.')
+    for prefix in ('$(SRCROOT)/', '$(PROJECT_DIR)/'):
+        if value.startswith(prefix):
+            value = str(source_root / value[len(prefix):])
+            break
+    if '$' in value or '~' in value or '..' in Path(value).parts:
+        raise RepairError('확장 Info.plist 경로에 해석할 수 없는 변수 또는 상위 경로가 있습니다.')
+    path = Path(value)
+    if not path.is_absolute():
+        path = source_root / path
+    if not path.is_relative_to(project):
+        raise RepairError('확장 Info.plist가 Project 폴더 밖에 있어 중단합니다.')
+    return safe_path(path)
+
+
+def extension_dependencies(data, extension, configurations, pbx, project):
+    objects = data['objects']
+    project_object = objects[data['rootObject']]
+    project_list = objects.get(project_object.get('buildConfigurationList'), {})
+    relevant = [config for _, config in configurations] + [objects.get(key, {}) for key in project_list.get('buildConfigurations', [])]
+    for config in relevant:
+        settings = config.get('buildSettings', {})
+        if (settings.get('INFOPLIST_EXPAND_BUILD_SETTINGS', 'YES') != 'YES'
+                or settings.get('INFOPLIST_PREPROCESS', 'NO') != 'NO'
+                or settings.get('INFOPLIST_PREFIX_HEADER') or settings.get('INFOPLIST_OTHER_PREPROCESSOR_FLAGS')
+                or any(key.startswith(('INFOPLIST_FILE[', 'INFOPLIST_EXPAND_BUILD_SETTINGS[',
+                                       'INFOPLIST_PREPROCESS[', 'INFOPLIST_PREFIX_HEADER[',
+                                       'INFOPLIST_OTHER_PREPROCESSOR_FLAGS[', 'INFOPLIST_KEY_NSExtension'))
+                       for key in settings)):
+            raise RepairError('확장 Info.plist의 변수 확장·전처리·덮어쓰기 설정이 모호해 중단합니다.')
+    paths = [extension_info_path(config['buildSettings'].get('INFOPLIST_FILE'), pbx.parent.parent, project)
+             for _, config in configurations]
+    if paths[0] != paths[1]:
+        raise RepairError('확장 Debug·Release의 Info.plist 경로가 서로 다릅니다.')
+    info_path = paths[0]
+    info_state, info_bytes = file_state(info_path), info_path.read_bytes()
+    info = plistlib.loads(info_bytes).get('NSExtension', {})
+    if (not isinstance(info, dict) or info.get('NSExtensionPointIdentifier') != 'com.apple.Safari.web-extension'
+            or info.get('NSExtensionPrincipalClass') != '$(PRODUCT_MODULE_NAME).SafariWebExtensionHandler'
+            or 'NSExtensionMainStoryboard' in info):
+        raise RepairError('Safari 확장 식별자 또는 모듈 변수 기반 진입 클래스가 예상과 다릅니다.')
+    sources = list(project.rglob('SafariWebExtensionHandler.swift'))
+    if len(sources) != 1:
+        raise RepairError('SafariWebExtensionHandler.swift가 정확히 하나여야 합니다.')
+    handler = safe_path(sources[0])
+    handler_state, handler_bytes = file_state(handler), handler.read_bytes()
+    text = handler_bytes.decode('utf-8')
+    declarations = re.findall(r'(?m)^\s*(?:(?:final|public|internal|private|fileprivate|open)\s+)*'
+                              r'class\s+SafariWebExtensionHandler\s*:\s*([^\{\n]+)', text)
+    if (len(declarations) != 1 or 'NSExtensionRequestHandling' not in [base.strip() for base in declarations[0].split(',')]
+            or re.search(r'@objc\s*\(', text)):
+        raise RepairError('확장 핸들러 클래스 또는 Objective-C 별칭이 예상과 다릅니다.')
+    if extension.get('fileSystemSynchronizedGroups'):
+        raise RepairError('확장 소스가 자동 동기화 그룹이므로 멤버십 추가 진단이 필요합니다.')
+    membership = []
+    for phase_id in extension.get('buildPhases', []):
+        phase = objects.get(phase_id, {})
+        if phase.get('isa') != 'PBXSourcesBuildPhase':
+            continue
+        for file_id in phase.get('files', []):
+            entry = objects.get(file_id, {})
+            file = objects.get(entry.get('fileRef'), {})
+            if Path(file.get('path', file.get('name', ''))).name == 'SafariWebExtensionHandler.swift':
+                membership.append(entry)
+    if len(membership) != 1 or any(key in membership[0] for key in ('platformFilter', 'platformFilters')):
+        raise RepairError('확장 Compile Sources에서 핸들러를 하나로 확인하지 못했습니다.')
+    return [(info_path, info_state, info_bytes), (handler, handler_state, handler_bytes)]
+
+
+def fix_collision(arguments):
+    if len(arguments) > 1 or (arguments and arguments[0].startswith('--')):
+        raise RepairError('--fix-collision 뒤에는 프로젝트 루트 경로 하나만 지정하세요.')
+    print('충돌 확인 시작: Xcode를 종료한 상태에서 실행하세요.', flush=True)
+    root = safe_path(arguments[0] if arguments else Path.home() / 'Downloads/Nyangsta-Safari-Project-20260918-102433', directory=True)
+    project = safe_path(root / 'Project', directory=True)
+    for folder, directories, _ in os.walk(project, followlinks=False, onerror=walk_error):
+        if any((Path(folder) / name).is_symlink() for name in directories):
+            raise RepairError('Project 안에 연결된 폴더가 있어 중단합니다.')
+    projects = list(project.rglob('*.xcodeproj/project.pbxproj'))
+    storyboards = list(project.rglob('Main.storyboard'))
+    if len(projects) != 1 or len(storyboards) != 1:
+        raise RepairError('프로젝트 파일과 Main.storyboard가 각각 하나여야 합니다.')
+    path, storyboard = safe_path(projects[0]), safe_path(storyboards[0])
+    original_state, original = file_state(path), path.read_bytes()
+    dependencies = [(storyboard, file_state(storyboard), storyboard.read_bytes())]
+    data = plist_json(path)
+    report_target_modules(data)
+    storyboard_tree = ET.fromstring(dependencies[0][2])
+    for name in ('AppDelegate', 'ViewController'):
+        nodes = [node for node in storyboard_tree.iter() if node.get('customClass') == name]
+        if (len(nodes) != 1 or nodes[0].get('customModule') != 'NyangstaSave'
+                or 'customModuleProvider' in nodes[0].attrib):
+            raise RepairError('스토리보드의 두 클래스 참조가 NyangstaSave여야 합니다.')
+    app_id, app = native_target(data, 'com.apple.product-type.application', '앱')
+    extension_id, extension = native_target(data, 'com.apple.product-type.app-extension', '확장')
+    app_configs = target_configurations(data, app, '앱')
+    extension_configs = target_configurations(data, extension, '확장')
+    if any(config['buildSettings'].get('PRODUCT_MODULE_NAME') != 'NyangstaSave' for _, config in app_configs):
+        raise RepairError('앱 Debug·Release 모듈이 모두 NyangstaSave인 상태가 아니므로 변경하지 않았습니다.')
+    extension_modules = {config['buildSettings'].get('PRODUCT_MODULE_NAME') for _, config in extension_configs}
+    if extension_modules not in ({'NyangstaSave'}, {'NyangstaSaveExtension'}):
+        raise RepairError('확장의 동일 모듈 충돌을 확인하지 못했습니다. 표시된 타깃 모듈 진단이 필요합니다.')
+    for key, target in data['objects'].items():
+        if target.get('isa') != 'PBXNativeTarget' or key in (app_id, extension_id):
+            continue
+        configuration_list = data['objects'].get(target.get('buildConfigurationList'), {})
+        for config_id in configuration_list.get('buildConfigurations', []):
+            settings = data['objects'].get(config_id, {}).get('buildSettings', {})
+            if ('NyangstaSaveExtension' in settings.values()
+                    or target.get('name') == 'NyangstaSaveExtension'):
+                raise RepairError('다른 타깃이 NyangstaSaveExtension을 사용하므로 변경하지 않았습니다.')
+        raise RepairError('앱과 Safari 확장 외의 타깃이 있어 추가 진단이 필요합니다.')
+    dependencies.extend(extension_dependencies(data, extension, extension_configs, path, project))
+    def unchanged():
+        if (file_state(path) != original_state or path.read_bytes() != original
+                or any(file_state(file) != state or file.read_bytes() != content
+                       for file, state, content in dependencies)):
+            raise RepairError('작업 중 프로젝트 또는 확장 소스가 변경되어 교체하지 않았습니다.')
+    unchanged()
+    if extension_modules == {'NyangstaSaveExtension'}:
+        print('이미 분리됨: 앱 NyangstaSave, 확장 NyangstaSaveExtension. 파일을 변경하지 않았습니다.')
+        return
+    text = original.decode('utf-8')
+    spans = pbx_spans(text)['entries']['objects']['entries']
+    expected = json.loads(json.dumps(data))
+    edits = []
+    for config_id, config in extension_configs:
+        settings = spans[config_id]['entries']['buildSettings']
+        if settings['kind'] != '{' or set(settings['entries']) != set(config['buildSettings']):
+            raise RepairError('원문과 해석된 확장 설정이 다릅니다.')
+        value = settings['entries']['PRODUCT_MODULE_NAME']
+        if text[value['start']:value['end']] not in ('NyangstaSave', '"NyangstaSave"'):
+            raise RepairError('확장 모듈 원문이 예상과 달라 변경하지 않았습니다.')
+        replacement = '"NyangstaSaveExtension"' if text[value['start']] == '"' else 'NyangstaSaveExtension'
+        edits.append((value['start'], value['end'], replacement))
+        expected['objects'][config_id]['buildSettings']['PRODUCT_MODULE_NAME'] = 'NyangstaSaveExtension'
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    backup = replace_project(root, path, original, original_state, text.encode('utf-8'), expected, unchanged)
+    print('충돌 수정 완료: 확장 Debug·Release 모듈만 NyangstaSaveExtension으로 분리했습니다.')
     print('원본 백업:', backup)
 
 
@@ -494,6 +681,10 @@ def main():
     try:
         if diagnostic:
             diagnose(sys.argv[2:])
+        elif len(sys.argv) > 1 and sys.argv[1] == '--fix-collision':
+            fix_collision(sys.argv[2:])
+            print('다음: 기존 Xcode 프로젝트를 다시 열고 Product → Clean Build Folder → Run을 실행하세요.')
+            print('앱 실행·서명·Safari 재시작 유지 여부는 아직 확인하지 않았습니다.')
         elif len(sys.argv) > 1 and sys.argv[1] == '--fix-module':
             fix_module(sys.argv[2:])
             print('다음: 기존 Xcode 프로젝트를 다시 열고 Product → Clean Build Folder → Run을 실행하세요.')
