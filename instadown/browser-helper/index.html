@@ -6,6 +6,7 @@
 <title>냥스타저장</title>
 <style>
 :root{color-scheme:light;--ink:#242e2b;--muted:#64716b;--green:#295b50;--line:#dbe2dc;--paper:#faf9f6}
+.os-update{margin:18px 0;padding:18px 20px;border:1px solid #dfb14f;border-left:5px solid #946000;border-radius:12px;background:#fff2cf;color:#5c3d00}.os-update h2{margin:0;font-size:1.15rem;line-height:1.5}.os-update p{margin:8px 0 0;font-size:.95rem;line-height:1.7}
 *{box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;max-width:760px;margin:48px auto;padding:0 24px 36px;line-height:1.75;color:var(--ink);background:var(--paper)}h1{font-size:1.8rem;margin:0 0 8px}h2,legend{font-size:1.15rem;font-weight:700}h3{font-size:1.05rem;margin:0 0 10px}p{margin:12px 0}a{color:var(--green);text-underline-offset:3px}a:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid #568c7d;outline-offset:4px}.intro,.hint,small{color:var(--muted)}.version{font-size:.8rem;color:var(--green);margin-bottom:12px}.step{margin-top:28px;padding:24px;border:1px solid var(--line);border-radius:16px;background:#fff}.step h2{margin:0 0 12px}fieldset{border:0;margin:0;padding:0}legend{margin-bottom:12px;padding:0}.choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.choice{display:block;padding:14px 10px;border:1px solid var(--line);border-radius:10px;cursor:pointer}.choice:has(input:checked){border-color:var(--green);background:#f0f6f2}.choice input{accent-color:var(--green);margin:0 5px 0 0}.choice small{display:block;margin:4px 0 0 22px;font-size:.8rem}li{margin:12px 0}ol{padding-left:23px}.download,.primary,.secondary{display:inline-block;padding:11px 18px;border-radius:10px;text-decoration:none;font-weight:600}.download,.primary{color:#fff;background:var(--green)}.secondary{color:var(--green);background:#edf3ef}.actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:14px;background:#f0f2ed;border-radius:10px;font-size:.85rem;line-height:1.65}code{font-size:.9em;background:#f0f2ed;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}pre code{padding:0}.platform-panel{margin-top:24px}.note{border-left:3px solid #9db9ab;padding-left:14px}.selected-address{display:block;font-size:.88rem;margin:8px 0}details{margin-top:20px;border-top:1px solid var(--line);padding-top:16px}summary{cursor:pointer;font-weight:600}footer{margin-top:28px;font-size:.85rem}[hidden]{display:none!important}@media(max-width:620px){body{margin-top:28px;padding:0 16px 28px}.step{padding:18px}.choices{grid-template-columns:1fr}.actions a{width:100%;text-align:center}}
 </style>
 </head>
@@ -13,6 +14,10 @@
 <header>
 <p class="version">Mac Chrome · Safari · iPhone / iPad</p>
 <h1>냥스타저장</h1>
+<aside id="os-update-notice" class="os-update" aria-labelledby="os-update-title">
+<h2 id="os-update-title">설치 전 OS 27로 업데이트해 주세요.</h2>
+<p>Mac은 <strong>macOS 27</strong>, iPhone은 <strong>iOS 27</strong>, iPad는 <strong>iPadOS 27</strong>로 업데이트한 뒤 설치하세요.</p>
+</aside>
 <p class="intro">사용할 기기를 선택하고 냥스타저장을 설치하세요. Mac에서는 웹앱으로, iPhone과 iPad에서는 공유 메뉴의 단축어로 사진·영상을 저장합니다.</p>
 <p class="note">공개 웹주소로 연결하므로 <strong>Tailscale을 설치하거나 켤 필요가 없습니다.</strong></p>
 </header>
@@ -109,6 +114,7 @@
 <details>
 <summary>확인된 버전과 스토리 안내</summary>
 <p>수정본 5로 iPhone의 여러 사진 게시물·릴스·혼합 게시물·사진 스토리·영상 스토리 저장과 영상 재생을 확인했습니다. iPad와 모바일 Safari 공유에서의 실제 저장 확인은 진행 중입니다.</p>
+<p>iOS 27.0으로 업데이트한 iPhone에서 원본 수정본 5의 사진·영상 스토리 저장과 완료 안내의 정상 종료를 확인했습니다.</p>
 <p>스토리 접근에 Instagram 로그인이 필요하면 서버의 로그인 세션 연결이 필요할 수 있습니다. 요청 제한 안내가 표시되면 연속 실행을 멈추세요.</p>
 <p>ZIP에 포함된 README는 제작 당시 기록입니다. 현재 확인 범위와 사용법은 이 페이지를 따르세요.</p>
 </details>
