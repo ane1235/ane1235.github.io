@@ -29,3 +29,7 @@ figure{margin:18px 0 0;break-inside:avoid}.photos{display:grid;grid-template-col
  #sec7 td li{margin:4px 0}
  #sec7 .subsection-body{font-size:10pt;line-height:1.55}
 }
+
+/* Revised disposable product blocks and official lookup. */
+.disposable-product h4{font-size:1.05em;margin:0 0 8px;color:var(--navy)}.disposable-product ul{margin:5px 0}.mfds-search a{overflow-wrap:anywhere}
+@media print{.disposable-product{break-inside:avoid;margin:8px 0;padding:8px 12px}.disposable-product h4{font-size:11pt;margin:0 0 5px}.disposable-product li{margin:3px 0}}
