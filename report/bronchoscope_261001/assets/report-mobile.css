@@ -1,0 +1,72 @@
+/* Dedicated mobile reading edition, including when selected on a wide display. */
+@media screen {
+  html[data-report-view="mobile"] { scroll-padding-top: 16px; }
+  body.report-mobile { font-size: var(--base, 20px); line-height: 1.8; overflow-wrap: anywhere; }
+  .report-mobile .topbar { position: relative; background: #fff; }
+  .report-mobile .bar-inner { max-width: 760px; padding: 10px 16px 8px; min-height: 0; gap: 8px; }
+  .report-mobile .brand { width: 100%; font-size: 14px; white-space: normal; }
+  .report-mobile .bar-links { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; gap: 5px; margin: 0; }
+  .report-mobile .bar-links a, .report-mobile .bar-links button { display: inline-flex; min-height: 44px; min-width: 0; padding: 7px 3px; font-size: 12px; line-height: 1.4; }
+  .report-mobile .topbar > .view-switch { max-width: 760px; padding: 6px 16px 8px; font-size: 12px; }
+  .report-mobile .view-switch a { padding: 8px; }
+  .report-mobile .sidebar { display: none; }
+  .report-mobile .mobile-toc { display: block; max-width: 760px; margin: auto; padding: 4px 16px; border-top: 1px solid var(--line); background: #fff; }
+  .report-mobile .mobile-toc summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding: 6px 0; color: var(--navy); font-size: 15px; font-weight: 800; line-height: 1.4; }
+  .report-mobile .mobile-toc summary::-webkit-details-marker { display: none; }
+  .report-mobile .mobile-toc summary::after { content: "목차 열기 ＋"; flex-shrink: 0; font-size: 12px; color: var(--teal); }
+  .report-mobile .mobile-toc[open] summary::after { content: "목차 닫기 −"; }
+  .report-mobile .mobile-toc ol { columns: 1; max-height: 50vh; max-height: 50dvh; overflow-y: auto; overscroll-behavior: contain; margin: 0; padding: 0 0 8px; list-style: none; }
+  .report-mobile .mobile-toc li { margin: 0; padding: 0; }
+  .report-mobile .mobile-toc a { display: flex; align-items: center; min-height: 44px; padding: 8px 6px; font-size: 16px; text-decoration: none; border-top: 1px solid #edf2f5; }
+  .report-mobile .layout { display: block; max-width: 760px; margin: 0 auto; padding: 0; }
+  .report-mobile main { min-width: 0; padding: 22px 16px calc(76px + env(safe-area-inset-bottom)); border: 0; border-radius: 0; }
+  .report-mobile .eyebrow { display: block; font-size: 12px; padding: 12px 0; }
+  .report-mobile .eyebrow span { display: block; }
+  .report-mobile .titlebox { padding: 24px 8px; }
+  .report-mobile h1 { font-size: 29px; line-height: 1.45; }
+  .report-mobile .subtitle { font-size: 17px; }
+  .report-mobile .docmeta { grid-template-columns: 74px minmax(0, 1fr); font-size: 16px; }
+  .report-mobile .docmeta dt, .report-mobile .docmeta dd { padding: 12px 8px; }
+  .report-mobile .decision { padding: 16px; border-left-width: 4px; }
+  .report-mobile section { margin-top: 40px; }
+  .report-mobile h2 { font-size: 23px; padding: 12px; border-left-width: 5px; margin-bottom: 22px; }
+  .report-mobile h3 { font-size: 21px; }
+  .report-mobile .section-body, .report-mobile .subsection-body { margin-left: 0; min-width: 0; }
+  .report-mobile ul, .report-mobile ol { padding-left: 1.25em; }
+  .report-mobile li ul, .report-mobile li ol { padding-left: 1.1em; }
+  .report-mobile .cite { flex-wrap: wrap; max-width: 100%; gap: 4px; }
+  .report-mobile .cite a { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 44px; }
+  .report-mobile .model-shortcuts { grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 24px; }
+  .report-mobile .model-shortcuts a { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; border-top-width: 1px; border-left: 4px solid var(--teal); padding: 14px; }
+  .report-mobile .model-shortcuts b, .report-mobile .model-shortcuts span { grid-column: 1 / -1; }
+  .report-mobile .model-shortcuts a small:last-child { grid-column: 2; grid-row: 1; }
+  .report-mobile .intro-tools { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .report-mobile .button, .report-mobile .detail-link { min-height: 48px; font-size: 16px; }
+  .report-mobile .table-wrap { min-width: 0; max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; margin: 20px 0; }
+  .report-mobile table { font-size: 17px; }
+  .report-mobile table.numeric { min-width: 610px; table-layout: auto; }
+  .report-mobile .numeric th, .report-mobile .numeric td { padding: 12px; }
+  .report-mobile table:not(.numeric), .report-mobile table:not(.numeric) tbody,
+  .report-mobile table:not(.numeric) tr, .report-mobile table:not(.numeric) td { display: block; width: 100%; min-width: 0; }
+  .report-mobile table:not(.numeric) thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .report-mobile table:not(.numeric) tr { border: 1px solid var(--line); border-radius: 10px; margin: 0 0 24px; overflow: hidden; background: #fff; }
+  .report-mobile table:not(.numeric) td { border: 0; border-bottom: 1px solid #e0e9ee; padding: 18px 14px; }
+  .report-mobile table:not(.numeric) td:last-child { border-bottom: 0; }
+  .report-mobile table:not(.numeric) td:first-child { background: #f0f6f9; font-weight: 700; }
+  .report-mobile table:not(.numeric) td::before { content: attr(data-label); display: block; color: var(--teal); font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+  .report-mobile .candidates td:first-child::before { display: none; }
+  .report-mobile .candidates td:first-child { font-weight: 400; }
+  .report-mobile .candidates .product { font-size: 23px; }
+  .report-mobile .candidates figure { max-width: none; }
+  .report-mobile .photos { gap: 6px; }
+  .report-mobile .photos img { height: 160px; }
+  .report-mobile .photos img:only-child { height: 250px; }
+  .report-mobile .extra-figure { display: block; }
+  .report-mobile .refs { font-size: 16px; padding-left: 1.65em; }
+  .report-mobile .refs li { margin: 22px 0; }
+  .report-mobile .refs span { font-size: 14px; }
+  .report-mobile .lightbox { width: calc(100% - 20px); max-width: 740px; max-height: 92dvh; padding: 14px; overflow-y: auto; }
+  .report-mobile .lightbox img { max-height: 60dvh; }
+  .report-mobile .lightbox p { font-size: 15px; }
+  .report-mobile .back-top { right: max(12px, env(safe-area-inset-right)); bottom: calc(12px + env(safe-area-inset-bottom)); }
+}

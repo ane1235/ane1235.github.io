@@ -1,0 +1,102 @@
+/* Touch-oriented briefing edition. Screen rules leave the existing print layout intact. */
+@media screen {
+  html[data-report-view="mobile"] { scroll-padding-top: 126px; scroll-padding-bottom: 140px; }
+  body.interactive-mobile { font-size: 18px; padding-bottom: calc(132px + env(safe-area-inset-bottom)); }
+  .interactive-mobile .sitebar { max-width: 760px; margin: auto; padding: 12px 16px 8px; gap: 10px; }
+  .interactive-mobile .brand { font-size: 19px; gap: 10px; }
+  .interactive-mobile .brand-mark { width: 36px; height: 40px; font-size: 24px; }
+  .interactive-mobile .brand-sub { font-size: 10px; letter-spacing: .4px; }
+  .interactive-mobile .header-actions { display: flex; width: 100%; gap: 8px; justify-content: space-between; font-size: 14px; }
+  .interactive-mobile .header-actions a, .interactive-mobile .header-actions button { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
+  .interactive-mobile .header-actions button { padding: 8px 12px; }
+  .interactive-mobile .header-actions kbd { display: none; }
+  .interactive-mobile .view-switch { width: 100%; padding-top: 8px; gap: 6px; font-size: 12px; }
+  .interactive-mobile .view-switch a { padding: 8px; }
+  .interactive-mobile .stepnav, .interactive-mobile.static .stepnav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; max-width: 760px; padding: 9px 12px; overflow: visible; background: #f2f6f8f5; box-shadow: 0 3px 10px #184f6b10; }
+  .interactive-mobile .stepnav button { min-width: 0; min-height: 44px; padding: 7px 3px; font-size: 13px; text-align: center; white-space: normal; line-height: 1.35; border-color: #dce6eb; }
+  .interactive-mobile .stepnav button span { font-size: 11px; margin-right: 4px; }
+  .interactive-mobile main { max-width: 760px; padding: 0 12px; }
+  .interactive-mobile .slide { min-width: 0; padding: 24px 18px; margin-bottom: 18px; border-radius: 12px; scroll-margin-top: 120px; }
+  .interactive-mobile h1, .interactive-mobile .slide-title { font-size: 29px; line-height: 1.42; letter-spacing: -.7px; }
+  .interactive-mobile .lead { font-size: 18px; }
+  .interactive-mobile .section-label { font-size: 14px; }
+  .interactive-mobile .hero-grid, .interactive-mobile .comparison-grid,
+  .interactive-mobile .product-view, .interactive-mobile .contact-layout { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .interactive-mobile .hero-main { padding: 6px 0; }
+  .interactive-mobile .big-number { font-size: 68px; }
+  .interactive-mobile .big-number span { font-size: 23px; margin-left: 8px; }
+  .interactive-mobile .hero-caption { font-size: 21px; }
+  .interactive-mobile .large-list { font-size: 19px; }
+  .interactive-mobile .benchmark, .interactive-mobile .numeric-panel,
+  .interactive-mobile .use-content, .interactive-mobile .contact-card { min-width: 0; padding: 20px 16px; }
+  .interactive-mobile .benchmark h2 { font-size: 25px; }
+  .interactive-mobile .keyvals > div { gap: 12px; }
+  .interactive-mobile .keyvals dt { font-size: 16px; }
+  .interactive-mobile .keyvals dd { font-size: 17px; }
+  .interactive-mobile .route-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .interactive-mobile .route-grid button { padding: 14px 16px; }
+  .interactive-mobile .route-grid b { font-size: 19px; }
+  .interactive-mobile .route-grid span { font-size: 15px; }
+  .interactive-mobile button { min-height: 44px; }
+  .interactive-mobile button, .interactive-mobile a { scroll-margin-bottom: 140px; }
+  .interactive-mobile .primary-action { width: 100%; padding: 13px 16px; gap: 12px; }
+  .interactive-mobile .slide-footer { flex-direction: column; align-items: stretch; gap: 14px; font-size: 14px; }
+  .interactive-mobile .evidence-button { width: 100%; white-space: normal; font-size: 16px; }
+  .interactive-mobile .selector { gap: 8px; margin-bottom: 22px; }
+  .interactive-mobile .selector button { flex: 1; min-width: 0; padding: 10px 8px; font-size: 16px; }
+  .interactive-mobile .product-selector { flex-direction: column; }
+  .interactive-mobile .product-selector button { text-align: left; padding: 12px 14px; }
+  .interactive-mobile .product-image { height: 270px; padding: 14px; }
+  .interactive-mobile .product-figure figcaption { padding: 12px 14px; }
+  .interactive-mobile .product-summary h3 { font-size: 25px; }
+  .interactive-mobile .spec-strip { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .interactive-mobile .spec-strip > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 13px; }
+  .interactive-mobile .spec-strip dt { font-size: 14px; }
+  .interactive-mobile .spec-strip dd { margin: 0; font-size: 23px; white-space: normal; text-align: right; }
+  .interactive-mobile .spec-strip dd small { font-size: 14px; }
+  .interactive-mobile .product-summary .text-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 17px; }
+  .interactive-mobile .dlt-chart { min-width: 0; padding: 0; }
+  .interactive-mobile .dlt-chart h3 { font-size: 22px; }
+  .interactive-mobile .formula { font-size: 17px; padding: 13px; }
+  .interactive-mobile .numeric-panel > p { font-size: 18px; }
+  .interactive-mobile .panel-heading { font-size: 29px; }
+  .interactive-mobile .use-content h3, .interactive-mobile .contact-card h3 { font-size: 25px; }
+  .interactive-mobile .contact-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .interactive-mobile .contact-list button { font-size: 17px; padding: 12px 14px; }
+  .interactive-mobile .contact-list small { font-size: 14px; }
+  .interactive-mobile .contact-card ul { font-size: 18px; }
+  .interactive-mobile .callout { padding: 16px; font-size: 17px; }
+  .interactive-mobile .controls, .interactive-mobile.static .controls { position: fixed; z-index: 5; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: 1fr auto 1fr; gap: 6px 12px; width: 100%; max-width: 760px; margin: auto; padding: 8px 14px calc(8px + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -4px 18px #184f6b12; }
+  .interactive-mobile .controls > button { min-width: 0; min-height: 44px; font-size: 16px; padding: 8px; }
+  .interactive-mobile .controls #prev { grid-column: 1; grid-row: 1; }
+  .interactive-mobile .controls #page-status { grid-column: 2; grid-row: 1; font-size: 14px; text-align: center; }
+  .interactive-mobile .controls #next { grid-column: 3; grid-row: 1; }
+  .interactive-mobile .control-links { grid-column: 1 / -1; grid-row: 2; margin: 0; justify-content: center; }
+  .interactive-mobile .control-links button { width: 100%; min-height: 44px; font-size: 14px; padding: 7px; }
+  .interactive-mobile .keyboard-hint { display: none; }
+  .interactive-mobile .credits { max-width: 760px; padding: 0 20px 20px; }
+  .interactive-mobile.static .selector, .interactive-mobile.static .contact-list { display: none; }
+  .interactive-mobile.static .controls { grid-template-columns: auto 1fr; }
+  .interactive-mobile.static .controls #page-status { grid-column: 1; }
+  .interactive-mobile.static .control-links { grid-column: 2; grid-row: 1; }
+  .interactive-mobile dialog { padding: 20px 16px; width: calc(100% - 20px); max-width: 720px; max-height: 92vh; max-height: 92dvh; }
+  .interactive-mobile .drawer { width: min(720px, 100%); max-width: 100%; height: 100vh; height: 100dvh; max-height: 100dvh; margin: 0 0 0 auto; border-radius: 0; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+  .interactive-mobile .dialog-heading { gap: 12px; }
+  .interactive-mobile .dialog-heading h2 { font-size: 25px; }
+  .interactive-mobile .close { min-width: 44px; min-height: 44px; }
+  .interactive-mobile .overview-grid { grid-template-columns: minmax(0, 1fr); }
+  .interactive-mobile .overview-grid button { padding: 14px; }
+  .interactive-mobile .overview-grid span { font-size: 19px; margin-bottom: 4px; }
+  .interactive-mobile .overview-grid b { font-size: 20px; }
+  .interactive-mobile .overview-grid p { font-size: 15px; }
+  .interactive-mobile .drawer p, .interactive-mobile .drawer li { font-size: 17px; }
+  .interactive-mobile .drawer .source-list li { font-size: 15px; }
+  .interactive-mobile .drawer .table-scroll { width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+  .interactive-mobile .drawer table { min-width: 420px; font-size: 15px; }
+  .interactive-mobile .drawer th, .interactive-mobile .drawer td { padding: 9px; }
+}
+@media screen and (max-height: 500px) {
+  .interactive-mobile .stepnav, .interactive-mobile.static .stepnav { position: relative; }
+  .interactive-mobile .controls, .interactive-mobile.static .controls { position: relative; }
+  body.interactive-mobile { padding-bottom: env(safe-area-inset-bottom); }
+}

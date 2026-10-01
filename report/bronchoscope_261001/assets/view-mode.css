@@ -1,0 +1,52 @@
+/* Shared edition controls; no dependency on script-generated markup. */
+.view-switch {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.view-switch .view-label { color: #526b7a; margin-right: auto; font-weight: 700; }
+.view-switch a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid #b9ced9;
+  border-radius: 8px;
+  background: #fff;
+  color: #184f6b;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+}
+.view-switch a[data-view="auto"] { background: #eaf3f8; }
+.view-switch a:hover { background: #e0eff2; border-color: #147c88; }
+.view-switch a:focus-visible { outline: 3px solid #b67516; outline-offset: 3px; }
+.topbar > .view-switch {
+  max-width: 1660px;
+  margin: 0 auto;
+  padding: 6px 28px 9px;
+  border-top: 1px solid #e4ecef;
+}
+.sitebar { flex-wrap: wrap; }
+.sitebar > .view-switch { flex-basis: 100%; padding-top: 9px; border-top: 1px solid #e4ecef; }
+.bar-inner, .bar-links, .header-actions { flex-wrap: wrap; }
+.header-actions { white-space: normal; }
+@media screen {
+  html[data-report-view="desktop"] { scroll-padding-top: 180px; }
+  html[data-report-view="desktop"] .sidebar { top: 172px; max-height: calc(100vh - 192px); }
+}
+@media screen and (max-width: 820px) {
+  .topbar > .view-switch { padding: 6px 16px 9px; }
+  html[data-report-view="desktop"] { scroll-padding-top: 240px; }
+}
+@media screen and (max-width: 380px) {
+  .view-switch { font-size: 12px; gap: 6px; }
+  .view-switch a { padding: 8px; }
+}
+@media print { .view-switch { display: none !important; } }
