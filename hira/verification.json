@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-04",
+  "repository": "ane1235/ane1235.github.io",
+  "workspace": "hira",
+  "overall": "PARTIAL_BLOCKED",
+  "migration": {
+    "previous_repository": "ane1235/blog",
+    "task_files_found": 0,
+    "files_moved": 0
+  },
+  "linux": {
+    "hospital_fee": "PASS",
+    "korea_health": "PASS"
+  },
+  "chatgpt_cloud": {
+    "hospital_fee": {
+      "status": "PASS",
+      "returned_rows": 1
+    },
+    "korea_health": {
+      "status": "PASS",
+      "total_count": 4,
+      "returned_rows": 2
+    }
+  },
+  "legacy_codex_cloud": {
+    "tested_commit": "a5deb464ec0f1ac93f6861b9d511b04bc21bbde5",
+    "cwd": "/workspace/ane1235.github.io/hira",
+    "setup": "PASS",
+    "model_execution": "PASS",
+    "config_present": true,
+    "diagnostic_stdio": "PASS",
+    "native_mcp_exposure": "BLOCKED",
+    "medical_queries": "NOT_EXECUTED",
+    "reason": "Tools absent from model tool inventory despite valid MCP config and working subprocess"
+  },
+  "security": {
+    "public_files_secret_scan": "PASS"
+  },
+  "patches_match_installed_commits": true,
+  "work_cloud": {
+    "status": "PASS",
+    "execution_host": "durable",
+    "hospital_fee": {
+      "status": "completed",
+      "returned_rows": 1,
+      "duration_ms": 74965
+    },
+    "korea_health": {
+      "status": "completed",
+      "total_count": 4,
+      "returned_rows": 2,
+      "duration_ms": 2953
+    },
+    "final_response": "completed",
+    "file_changes": 0
+  }
+}

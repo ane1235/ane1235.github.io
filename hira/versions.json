@@ -1,0 +1,19 @@
+{
+  "verified_date": "2026-10-04",
+  "servers": [
+    {
+      "name": "hospital-fee",
+      "repository": "hospital-fee-mcp",
+      "upstream_commit": "069dae33892920f7c47e4db55a1fafdbadbc2c89",
+      "installed_commit": "96c416d196dd6ebb83bcfe939d7f2aff1d311ad1",
+      "patch": "patches/hospital-fee.patch"
+    },
+    {
+      "name": "korea-health",
+      "repository": "dk-korea-health-mcp",
+      "upstream_commit": "b0d2940c99f70f118a5638509445ebcc4c76bfb5",
+      "installed_commit": "1e75913297a3775a87d4c9ced794907f7f95897d",
+      "patch": "patches/korea-health.patch"
+    }
+  ]
+}

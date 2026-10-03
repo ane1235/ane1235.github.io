@@ -1,0 +1,41 @@
+diff --git a/apps/mcp_server/server.py b/apps/mcp_server/server.py
+index 193b593..be1e058 100644
+--- a/apps/mcp_server/server.py
++++ b/apps/mcp_server/server.py
+@@ -1,4 +1,5 @@
+ from mcp.server.fastmcp import FastMCP
++from mcp.types import ToolAnnotations
+ from core.hospital_fee.services import HospitalFeeService
+ from common.logging_config import get_logger, setup_logging
+ 
+@@ -24,19 +25,19 @@ def initialize_service(service: HospitalFeeService):
+     logger.info("서비스 초기화 완료")
+ 
+ 
+-@mcp.tool()
++@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=True))
+ async def search_hospital(hospital_name: str) -> str:
+     service = get_service()
+     return await service.search_hospitals(hospital_name)
+ 
+ 
+-@mcp.tool()
++@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=True))
+ async def get_hospital_fee(hospital_name: str, hospital_index: int) -> str:
+     service = get_service()
+     return await service.get_hospital_fee(hospital_name, hospital_index)
+ 
+ 
+-@mcp.tool()
++@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=True))
+ async def search_item_by_name(
+     item_name: str,
+     sido_name: str = "",
+diff --git a/constraints.txt b/constraints.txt
+new file mode 100644
+index 0000000..9f4e9d1
+--- /dev/null
++++ b/constraints.txt
+@@ -0,0 +1,2 @@
++mcp==1.30.0
++fastmcp==2.14.7
