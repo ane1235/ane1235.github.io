@@ -3,7 +3,10 @@
 - 기준 위치: `ane1235/ane1235.github.io/hira`
 - `ane1235/blog` 사용 중단. 이전할 이번 작업 파일은 0개로 확인.
 - Ubuntu Codex, ChatGPT 클라우드 대화, 별도 Work Cloud 작업의 실조회 성공.
-- HIRA 전용 Legacy Codex Cloud 준비·모델 실행 성공. **네이티브 MCP 도구 미노출은 미해결.**
+- **현재 클라우드 ChatGPT·Codex Work Cloud 및 Ubuntu Codex 설치·실조회 검증 완료.**
+- 구형 `/codex/cloud`는 필수 사용 경로에서 제외. 해당 경로의 MCP 미노출 기록은 참고용으로 보존.
+
+- 2026-10-04 업데이트 후 재검증: Work Cloud 2개 조회 성공, 최신 커밋의 Legacy 새 작업도 미노출 유지. 서버 빌드 변경 여부 미확인.
 
 [통합 설치·검증 보고서](report.md) · [검증 요약](verification.json) · [고정 버전](versions.json)
 

@@ -2,7 +2,7 @@
   "date": "2026-10-04",
   "repository": "ane1235/ane1235.github.io",
   "workspace": "hira",
-  "overall": "PARTIAL_BLOCKED",
+  "overall": "PASS_CURRENT_CLOUD_AND_LINUX",
   "migration": {
     "previous_repository": "ane1235/blog",
     "task_files_found": 0,
@@ -32,7 +32,8 @@
     "diagnostic_stdio": "PASS",
     "native_mcp_exposure": "BLOCKED",
     "medical_queries": "NOT_EXECUTED",
-    "reason": "Tools absent from model tool inventory despite valid MCP config and working subprocess"
+    "reason": "Tools absent from model tool inventory despite valid MCP config and working subprocess",
+    "scope": "REFERENCE_ONLY_NOT_REQUIRED"
   },
   "security": {
     "public_files_secret_scan": "PASS"
@@ -54,5 +55,53 @@
     },
     "final_response": "completed",
     "file_changes": 0
-  }
+  },
+  "post_update_recheck": {
+    "date": "2026-10-04",
+    "timezone": "Asia/Seoul",
+    "version_change": "UNVERIFIED_BUILD_ID_NOT_EXPOSED",
+    "work_cloud": {
+      "status": "PASS",
+      "new_tool_calls": 2,
+      "hospital_fee_returned_rows": 1,
+      "korea_health_total_count": 4,
+      "korea_health_returned_rows": 2,
+      "ui_model_selection": "GPT-6 Astra High"
+    },
+    "legacy_existing_task": {
+      "status": "BLOCKED",
+      "checked_at_utc": "2026-10-03T16:19:07Z",
+      "native_mcp_exposure": false,
+      "diagnostic_stdio": "PASS",
+      "medical_query": false,
+      "change_from_before": "NONE",
+      "scope": "REFERENCE_ONLY_NOT_REQUIRED"
+    },
+    "legacy_new_task": {
+      "status": "BLOCKED",
+      "checked_at_utc": "2026-10-03T16:21:53Z",
+      "tested_commit": "4c1f8dfb8fa5fbef3b62dc3cbb169372a1cb30db",
+      "cwd": "/workspace/ane1235.github.io/hira",
+      "config_present": true,
+      "diagnostic_stdio": "PASS",
+      "native_mcp_exposure": false,
+      "medical_query": false,
+      "reported_model": "GPT-5.6 Sol",
+      "executor_version": null,
+      "change_from_before": "NONE",
+      "scope": "REFERENCE_ONLY_NOT_REQUIRED"
+    },
+    "linux_services": {
+      "hospital_fee": "active",
+      "korea_health": "active",
+      "health_and_ready_http": 200,
+      "codex_cli_version": "0.149.0"
+    },
+    "behavior_change": "NONE_IN_TESTED_MCP_PATHS"
+  },
+  "required_paths": [
+    "ChatGPT cloud",
+    "Codex Work Cloud",
+    "Ubuntu Codex"
+  ]
 }
