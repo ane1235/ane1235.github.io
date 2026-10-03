@@ -1,12 +1,3 @@
----
-title: 한국 심장수술·MICS 2040 통합 전망 — 국내 수요·해외 확산·집도 공급
-type: review-overview
-date: 2026-10-04
-skill-used: research
-status: 국내 전망·해외 MICS 심층근거 통합 완료
-media: interactive-html
----
-
 # 한국 심장수술·MICS 2040 통합 전망
 
 **국내 최신 기준선·대사위험·해외 MICS 확산·치료 전환·집도 공급의 최종 통합 분석**
