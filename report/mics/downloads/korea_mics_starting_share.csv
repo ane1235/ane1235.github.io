@@ -1,0 +1,433 @@
+﻿category,year,volume_scenario,adoption_scenario,start_assumption,p0_assumed,assumed_share,mics_equivalent,unit,empirical_status
+Valve,2025,base,low,lower_start,0.05,0.05,248.5,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2026,base,low,lower_start,0.05,0.05738862,287.81308356087453,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2027,base,low,lower_start,0.05,0.06455887,324.74501103443674,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2028,base,low,lower_start,0.05,0.0715172,361.4941016402401,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2029,base,low,lower_start,0.05,0.07826989,395.38857013573835,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2030,base,low,lower_start,0.05,0.08482301,429.1562040896682,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2031,base,low,lower_start,0.05,0.09118245,461.5376468510978,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2032,base,low,lower_start,0.05,0.09735394,492.4405936211766,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2033,base,low,lower_start,0.05,0.10334303,522.4681749503246,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2034,base,low,lower_start,0.05,0.10915513,552.8973026163394,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2035,base,low,lower_start,0.05,0.11479544,581.1714875563086,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2036,base,low,lower_start,0.05,0.12026907,608.8244645368368,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2037,base,low,lower_start,0.05,0.12558092,634.3994969577479,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2038,base,low,lower_start,0.05,0.13073578,658.517221708174,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2039,base,low,lower_start,0.05,0.1357383,680.8100511004444,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2040,base,low,lower_start,0.05,0.14059296,700.0924547306747,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2025,base,low,reference_start,0.15,0.15,745.5,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2026,base,low,reference_start,0.15,0.15443317,774.5069817287947,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2027,base,low,reference_start,0.15,0.15873532,798.4728240279741,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2028,base,low,reference_start,0.15,0.16291032,823.4539352257084,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2029,base,low,reference_start,0.15,0.16696193,843.4257256500966,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2030,base,low,reference_start,0.15,0.1708938,864.6254655483099,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2031,base,low,reference_start,0.15,0.17470947,884.3258507136238,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2032,base,low,reference_start,0.15,0.17841236,902.4543687472234,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2033,base,low,reference_start,0.15,0.18200582,920.1612204106779,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2034,base,low,reference_start,0.15,0.18549308,939.5676005882348,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2035,base,low,reference_start,0.15,0.18887727,956.223382840595,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2036,base,low,reference_start,0.15,0.19216144,972.7570506085021,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2037,base,low,reference_start,0.15,0.19534855,986.8459464337851,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2038,base,low,reference_start,0.15,0.19844147,999.5513507938375,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2039,base,low,reference_start,0.15,0.20144298,1010.3589444366534,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2040,base,low,reference_start,0.15,0.20435578,1017.6038662149351,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2025,base,low,higher_start,0.3,0.3,1491.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2026,base,low,higher_start,0.3,0.3,1504.5478540564725,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2027,base,low,higher_start,0.3,0.3,1509.0645686693558,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2028,base,low,higher_start,0.3,0.3,1516.3936856039109,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2029,base,low,higher_start,0.3,0.3,1515.4815094376843,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2030,base,low,higher_start,0.3,0.3,1517.8294336277438,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2031,base,low,higher_start,0.3,0.3,1518.5081565074129,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2032,base,low,higher_start,0.3,0.3,1517.4750820187965,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2033,base,low,higher_start,0.3,0.3,1516.7007633228616,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2034,base,low,higher_start,0.3,0.3,1519.5730222198608,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2035,base,low,higher_start,0.3,0.3,1518.8011498269668,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2036,base,low,higher_start,0.3,0.3,1518.6559550269328,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2037,base,low,higher_start,0.3,0.3,1515.515645906435,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2038,base,low,higher_start,0.3,0.3,1511.1025192372906,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2039,base,low,higher_start,0.3,0.3,1504.682284440967,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2040,base,low,higher_start,0.3,0.3,1493.870933645628,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2025,base,base,lower_start,0.05,0.05,248.5,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2026,base,base,lower_start,0.05,0.08042278,403.3330702208526,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2027,base,base,lower_start,0.05,0.10878879,547.2310281913705,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2028,base,base,lower_start,0.05,0.13523709,683.5755644514927,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2029,base,base,lower_start,0.05,0.15989732,807.7381062288015,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2030,base,base,lower_start,0.05,0.18289036,925.3212384492473,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2031,base,base,lower_start,0.05,0.20432893,1034.250489384774,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2032,base,base,lower_start,0.05,0.22431812,1134.6571918176742,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2033,base,base,lower_start,0.05,0.24295592,1228.3047643926936,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2034,base,base,lower_start,0.05,0.26033369,1318.6535069964946,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2035,base,base,lower_start,0.05,0.27653661,1400.0137374575052,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2036,base,base,lower_start,0.05,0.29164412,1476.356931955298,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2037,base,base,lower_start,0.05,0.30573026,1544.463308190141,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2038,base,base,lower_start,0.05,0.3188641,1606.121149347771,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2039,base,base,lower_start,0.05,0.33111001,1660.7178874935714,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2040,base,base,lower_start,0.05,0.34252801,1705.6421269949299,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2025,base,base,reference_start,0.15,0.15,745.5,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2026,base,base,reference_start,0.15,0.17366216,870.9434338627059,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2027,base,base,reference_start,0.15,0.19572462,984.5369641942452,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2028,base,base,reference_start,0.15,0.21629551,1093.297151961592,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2029,base,base,reference_start,0.15,0.23547569,1189.5301803902673,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2030,base,base,reference_start,0.15,0.25335917,1281.8533516849843,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2031,base,base,reference_start,0.15,0.27003361,1366.827464387139,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2032,base,base,reference_start,0.15,0.28558076,1444.538957346634,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2033,base,base,reference_start,0.15,0.30007683,1517.0891903883487,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2034,base,base,reference_start,0.15,0.31359287,1588.424217375,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2035,base,base,reference_start,0.15,0.32619514,1651.4185123332281,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2036,base,base,reference_start,0.15,0.33794543,1710.7427991454583,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2037,base,base,reference_start,0.15,0.34890132,1762.551364458026,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2038,base,base,reference_start,0.15,0.35911652,1808.8729269057628,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2039,base,base,reference_start,0.15,0.36864112,1848.959208601589,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2040,base,base,reference_start,0.15,0.37752179,1879.8960963295624,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2025,base,base,higher_start,0.3,0.3,1491.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2026,base,base,higher_start,0.3,0.31352124,1572.3590294770809,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2027,base,base,higher_start,0.3,0.32612835,1640.4957927453293,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2028,base,base,higher_start,0.3,0.33788315,1707.879583773197,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2029,base,base,higher_start,0.3,0.34884325,1762.2183168904915,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2030,base,base,higher_start,0.3,0.35906238,1816.6514962414326,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2031,base,base,higher_start,0.3,0.36859064,1865.692977507625,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2032,base,base,higher_start,0.3,0.37747472,1909.361605640074,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2033,base,base,higher_start,0.3,0.38575819,1950.265804103485,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2034,base,base,higher_start,0.3,0.39348164,1993.0802829427578,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2035,base,base,higher_start,0.3,0.40068294,2028.5256999601654,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2036,base,base,higher_start,0.3,0.40739739,2062.321574619766,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2037,base,base,higher_start,0.3,0.4136579,2089.6833983426654,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2038,base,base,higher_start,0.3,0.41949516,2113.000643612834,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2039,base,base,higher_start,0.3,0.42493778,2131.321165185577,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2040,base,base,higher_start,0.3,0.43001245,2141.277000535813,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2025,base,high,lower_start,0.05,0.05,248.5,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2026,base,high,lower_start,0.05,0.11770781,590.3234431372899,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2027,base,high,lower_start,0.05,0.17836278,897.2031722245574,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2028,base,high,lower_start,0.05,0.23269957,1176.213861969151,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2029,base,high,lower_start,0.05,0.28137633,1421.4020843614533,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2030,base,high,lower_start,0.05,0.32498262,1644.2272868448676,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2031,base,high,lower_start,0.05,0.36404663,1842.692590013454,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2032,base,high,lower_start,0.05,0.39904151,2018.4518270538479,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2033,base,high,lower_start,0.05,0.43039111,2175.915083547912,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2034,base,high,lower_start,0.05,0.45847515,2322.2882309940137,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2035,base,high,lower_start,0.05,0.4836338,2448.4785717839513,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2036,base,high,lower_start,0.05,0.50617177,2562.3359092567434,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2037,base,high,lower_start,0.05,0.52636205,2659.033073954618,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2038,base,high,lower_start,0.05,0.5444492,2742.3951923890913,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2039,base,high,lower_start,0.05,0.56065228,2812.011844824789,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2040,base,high,lower_start,0.05,0.57516756,2864.086999532926,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2025,base,high,reference_start,0.15,0.15,745.5,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2026,base,high,reference_start,0.15,0.20729123,1039.5985842040889,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2027,base,high,reference_start,0.15,0.25861466,1300.8874011482405,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2028,base,high,reference_start,0.15,0.30459195,1539.6043655526073,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2029,base,high,reference_start,0.15,0.34577997,1746.743836229724,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2030,base,high,reference_start,0.15,0.3826776,1936.131082900081,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2031,base,high,reference_start,0.15,0.41573177,2104.306945547546,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2032,base,high,reference_start,0.15,0.44534281,2252.6553904374373,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2033,base,high,reference_start,0.15,0.4718694,2385.615597229002,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2034,base,high,reference_start,0.15,0.49563282,2510.500873995841,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2035,base,high,reference_start,0.15,0.5169209,2617.000190965302,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2036,base,high,reference_start,0.15,0.5359915,2713.2889443960607,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2037,base,high,reference_start,0.15,0.55307558,2793.9823161959207,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2038,base,high,reference_start,0.15,0.56838009,2862.935286277727,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2039,base,high,reference_start,0.15,0.58209039,2919.536992587778,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2040,base,high,reference_start,0.15,0.59437255,2959.719587339442,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2025,base,high,higher_start,0.3,0.3,1491.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2026,base,high,higher_start,0.3,0.34166635,1713.5112456526922,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2027,base,high,higher_start,0.3,0.37899248,1906.413744533765,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2028,base,high,higher_start,0.3,0.41243051,2084.6900703813353,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2029,base,high,higher_start,0.3,0.44238543,2234.75646403213,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2030,base,high,higher_start,0.3,0.46922008,2373.9868275772155,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2031,base,high,higher_start,0.3,0.49325947,2496.728428231745,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2032,base,high,higher_start,0.3,0.51479477,2603.9607860953247,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2033,base,high,higher_start,0.3,0.53408684,2700.1663930289833,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2034,base,high,higher_start,0.3,0.55136932,2792.8198131723657,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2035,base,high,higher_start,0.3,0.56685157,2869.782720990738,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2036,base,high,higher_start,0.3,0.58072109,2939.718471794105,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2037,base,high,higher_start,0.3,0.59314588,2996.4062048164697,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2038,base,high,higher_start,0.3,0.60427643,3043.745452295721,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2039,base,high,higher_start,0.3,0.61424756,3080.8247393103,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Valve,2040,base,high,higher_start,0.3,0.62318004,3103.168493947066,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+CABG,2025,base,low,lower_start,0.005,0.005,22.985,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2026,base,low,lower_start,0.005,0.00688113,33.36019983481149,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2027,base,low,lower_start,0.005,0.008725,44.23202443673266,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2028,base,low,lower_start,0.005,0.01053237,55.920753225434,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2029,base,low,lower_start,0.005,0.01230395,66.42828794550681,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2030,base,low,lower_start,0.005,0.01404045,77.36095693166656,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2031,base,low,lower_start,0.005,0.01574256,88.52287504258693,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2032,base,low,lower_start,0.005,0.01741097,99.40603937748513,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2033,base,low,lower_start,0.005,0.01904634,110.29407006953682,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2034,base,low,lower_start,0.005,0.02064933,121.41189114523145,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2035,base,low,lower_start,0.005,0.02222058,132.23945656970827,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2036,base,low,lower_start,0.005,0.02376071,143.38955822906422,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2037,base,low,lower_start,0.005,0.02527035,153.8186274770936,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2038,base,low,lower_start,0.005,0.0267501,164.09782921301615,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2039,base,low,lower_start,0.005,0.02820054,174.06189652036838,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2040,base,low,lower_start,0.005,0.02962227,182.98808667677056,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2025,base,low,reference_start,0.02,0.02,91.94,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2026,base,low,reference_start,0.02,0.02158411,104.64127590331138,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2027,base,low,reference_start,0.02,0.02313684,117.29389940043251,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2028,base,low,reference_start,0.02,0.02465884,130.9240851266582,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2029,base,low,reference_start,0.02,0.02615069,141.18600655022863,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2030,base,low,reference_start,0.02,0.02761301,152.14390403182793,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2031,base,low,reference_start,0.02,0.02904637,163.33227772044356,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2032,base,low,reference_start,0.02,0.03045134,173.85861345675673,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2033,base,low,reference_start,0.02,0.0318285,184.3133541251628,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2034,base,low,reference_start,0.02,0.03317838,195.07896192927927,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2035,base,low,reference_start,0.02,0.03450154,205.3260941171676,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2036,base,low,reference_start,0.02,0.0357985,216.03441564932845,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2037,base,low,reference_start,0.02,0.03706977,225.64076644334327,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2038,base,low,reference_start,0.02,0.03831587,235.04776024792918,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2039,base,low,reference_start,0.02,0.0395373,244.03566106516968,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2040,base,low,reference_start,0.02,0.04073454,251.63282679748642,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2025,base,low,higher_start,0.06,0.06,275.82,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2026,base,low,higher_start,0.06,0.06079205,294.7241130988445,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2027,base,low,higher_start,0.06,0.06156842,312.1255997674521,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2028,base,low,higher_start,0.06,0.06232942,330.93293480047043,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2029,base,low,higher_start,0.06,0.06307535,340.54003080828704,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2030,base,low,higher_start,0.06,0.0638065,351.56507793271464,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2031,base,low,higher_start,0.06,0.06452318,362.82392447545664,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2032,base,low,higher_start,0.06,0.06522567,372.39886809539325,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2033,base,low,higher_start,0.06,0.06591425,381.6980536985566,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2034,base,low,higher_start,0.06,0.06658919,391.5245428170859,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2035,base,low,higher_start,0.06,0.06725077,400.22381408111033,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2036,base,low,higher_start,0.06,0.06789925,409.7538946262459,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2037,base,low,higher_start,0.06,0.06853489,417.16647035334245,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2038,base,low,higher_start,0.06,0.06915794,424.24767858228637,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2039,base,low,higher_start,0.06,0.06976865,430.63230479507837,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2040,base,low,higher_start,0.06,0.07036727,434.6855288932184,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2025,base,base,lower_start,0.005,0.005,22.985,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2026,base,base,lower_start,0.005,0.01451026,70.34675602046056,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2027,base,base,lower_start,0.005,0.0235567,119.4224103207771,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2028,base,base,lower_start,0.005,0.03216194,170.7611781575481,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2029,base,base,lower_start,0.005,0.0403475,217.8337320845205,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2030,base,base,lower_start,0.005,0.04813385,265.2109224993002,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2031,base,base,lower_start,0.005,0.05554045,312.3126299127364,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2032,base,base,lower_start,0.005,0.06258582,357.326931663899,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2033,base,base,lower_start,0.005,0.06928759,401.23248384778066,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2034,base,base,lower_start,0.005,0.07566251,444.8729536452266,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2035,base,base,lower_start,0.005,0.08172652,486.3721195456371,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2036,base,base,lower_start,0.005,0.08749479,528.0077609400033,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2037,base,base,lower_start,0.005,0.09298173,565.972457407424,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2038,base,base,lower_start,0.005,0.09820107,602.4120438202267,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2039,base,base,lower_start,0.005,0.10316587,636.7696146376551,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2040,base,base,lower_start,0.005,0.10788852,666.4686348881601,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2025,base,base,reference_start,0.02,0.02,91.94,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2026,base,base,reference_start,0.02,0.0287787,139.52115175648322,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2027,base,base,reference_start,0.02,0.03712926,188.22949405590833,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2028,base,base,reference_start,0.02,0.04507256,239.30905437224172,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2029,base,base,reference_start,0.02,0.05262846,284.13789839917973,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2030,base,base,reference_start,0.02,0.05981586,329.5771979737542,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2031,base,base,reference_start,0.02,0.06665272,374.7986606885116,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2032,base,base,reference_start,0.02,0.07315614,417.6770239420787,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2033,base,base,reference_start,0.02,0.07934239,459.45809652376875,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2034,base,base,reference_start,0.02,0.08522693,501.10888575088205,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2035,base,base,reference_start,0.02,0.09082448,540.5160386644424,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2036,base,base,reference_start,0.02,0.09614903,580.2337950277176,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2037,base,base,reference_start,0.02,0.10121391,616.0810878278329,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2038,base,base,reference_start,0.02,0.10603176,650.4492186435011,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2039,base,base,reference_start,0.02,0.11061465,682.7456411095945,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2040,base,base,reference_start,0.02,0.11497402,710.2384772448821,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2025,base,base,higher_start,0.06,0.06,275.82,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2026,base,base,higher_start,0.06,0.06682788,323.9862393730103,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2027,base,base,higher_start,0.06,0.07332276,371.7150844800784,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2028,base,base,higher_start,0.06,0.07950088,422.1033909447581,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2029,base,base,higher_start,0.06,0.08537769,460.949026568071,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2030,base,base,higher_start,0.06,0.09096789,501.22061760517516,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2031,base,base,higher_start,0.06,0.09628545,541.4281323221414,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2032,base,base,higher_start,0.06,0.10134367,578.6106604444701,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2033,base,base,higher_start,0.06,0.10615519,614.7263969930702,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2034,base,base,higher_start,0.06,0.11073206,651.0714301629756,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2035,base,base,higher_start,0.06,0.11508571,684.899842818641,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2036,base,base,higher_start,0.06,0.11922703,719.5033801878557,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2037,base,base,higher_start,0.06,0.12316637,749.703980543834,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2038,base,base,higher_start,0.06,0.12691359,778.5482901608127,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2039,base,base,higher_start,0.06,0.13047806,805.3483577938017,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2040,base,base,higher_start,0.06,0.13386868,826.9580156802589,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2025,base,high,lower_start,0.005,0.005,22.985,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2026,base,high,lower_start,0.005,0.03469374,168.19767965682857,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2027,base,high,lower_start,0.005,0.06183178,313.4607225130863,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2028,base,high,lower_start,0.005,0.08663407,459.97647722069917,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2029,base,high,lower_start,0.005,0.10930167,590.1131594069192,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2030,base,high,lower_start,0.005,0.13001829,716.3829744074396,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2031,base,high,lower_start,0.005,0.14895185,837.5795299438054,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2032,base,high,lower_start,0.005,0.16625583,949.21957729618,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2033,base,high,lower_start,0.005,0.18207047,1054.3386905711807,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2034,base,high,lower_start,0.005,0.19652397,1155.5022295187655,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2035,base,high,lower_start,0.005,0.20973347,1248.1690440699213,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2036,base,high,lower_start,0.005,0.22180604,1338.540392443582,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2037,base,high,lower_start,0.005,0.23283954,1417.2759168431712,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2038,base,high,lower_start,0.005,0.24292341,1490.2076719721983,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2039,base,high,lower_start,0.005,0.25213936,1556.2771205456315,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2040,base,high,lower_start,0.005,0.26056211,1609.5917689414832,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2025,base,high,reference_start,0.02,0.02,91.94,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2026,base,high,reference_start,0.02,0.04840271,234.65972567680433,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2027,base,high,reference_start,0.02,0.07436083,376.9776561255843,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2028,base,high,reference_start,0.02,0.09808477,520.7730281354959,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2029,base,high,reference_start,0.02,0.11976681,646.613822471223,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2030,base,high,reference_start,0.02,0.13958271,769.0816189449273,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2031,base,high,reference_start,0.02,0.15769308,886.7328322662048,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2032,base,high,reference_start,0.02,0.17424471,994.8312186844544,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2033,base,high,reference_start,0.02,0.18937176,1096.6192017275503,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2034,base,high,reference_start,0.02,0.20319684,1194.736711512432,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2035,base,high,reference_start,0.02,0.21583201,1284.4627688722724,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2036,base,high,reference_start,0.02,0.22737969,1372.1758861314147,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2037,base,high,reference_start,0.02,0.23793348,1448.2823278842002,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2038,base,high,reference_start,0.02,0.24757891,1518.7667219907478,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2039,base,high,reference_start,0.02,0.25639417,1582.5390395703675,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2040,base,high,reference_start,0.02,0.26445071,1633.6131377917193,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2025,base,high,higher_start,0.06,0.06,275.82,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2026,base,high,higher_start,0.06,0.08495996,411.89183223650633,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2027,base,high,higher_start,0.06,0.10777164,546.3561964546424,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2028,base,high,higher_start,0.06,0.12861995,682.8970577199302,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2029,base,high,higher_start,0.06,0.14767387,797.2823652881668,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2030,base,high,higher_start,0.06,0.16508784,909.6113928101922,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2031,base,high,higher_start,0.06,0.18100301,1017.8082114066652,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2032,base,high,higher_start,0.06,0.19554838,1116.462205292607,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2033,base,high,higher_start,0.06,0.20884185,1209.367134964077,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2034,base,high,higher_start,0.06,0.22099116,1299.3619968288765,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2035,base,high,higher_start,0.06,0.2320948,1381.2461341987978,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2036,base,high,higher_start,0.06,0.24224276,1461.8705560814144,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2037,base,high,higher_start,0.06,0.2515173,1530.9659689218547,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2038,base,high,higher_start,0.06,0.25999359,1594.924270499884,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2039,base,high,higher_start,0.06,0.26774033,1652.5708236363305,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+CABG,2040,base,high,higher_start,0.06,0.27482032,1697.6701831661728,NHIS within-category reported claim cases,synthetic_assumptions_not_observed
+Aorta,2025,base,low,lower_start,0.0,0.0,0.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2026,base,low,lower_start,0.0,0.0007444,2.4367515871834806,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2027,base,low,lower_start,0.0,0.00147772,4.916486839216057,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2028,base,low,lower_start,0.0,0.00220013,7.454303927824926,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2029,base,low,lower_start,0.0,0.00291177,9.988575762766123,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2030,base,low,lower_start,0.0,0.00361283,12.576533746507513,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2031,base,low,lower_start,0.0,0.00430344,15.18400552772029,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2032,base,low,lower_start,0.0,0.00498377,17.801855235969,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2033,base,low,lower_start,0.0,0.00565398,20.449013642163628,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2034,base,low,lower_start,0.0,0.0063142,23.181485789033736,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2035,base,low,lower_start,0.0,0.0069646,25.88961433921277,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2036,base,low,lower_start,0.0,0.00760531,28.637756716117682,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2037,base,low,lower_start,0.0,0.00823649,31.351303336284793,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2038,base,low,lower_start,0.0,0.00885827,34.054146722909444,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2039,base,low,lower_start,0.0,0.00947079,36.72044901070175,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2040,base,low,lower_start,0.0,0.01007419,39.27306019609352,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2025,base,low,reference_start,0.01,0.01,32.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2026,base,low,reference_start,0.01,0.01059552,34.68383957151305,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2027,base,low,reference_start,0.01,0.01118218,37.20396340561473,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2028,base,low,reference_start,0.01,0.0117601,39.84462719094504,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2029,base,low,reference_start,0.01,0.01232942,42.295011550007004,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2030,base,low,reference_start,0.01,0.01289026,44.871967374954245,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2031,base,low,reference_start,0.01,0.01344275,47.4306113964089,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2032,base,low,reference_start,0.01,0.01398702,49.96115495349968,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2033,base,low,reference_start,0.01,0.01452318,52.526663686040266,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2034,base,low,reference_start,0.01,0.01505136,55.25844730062887,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2035,base,low,reference_start,0.01,0.01557168,57.88484475973246,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2036,base,low,reference_start,0.01,0.01608425,60.56516282192519,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2037,base,low,reference_start,0.01,0.01658919,63.144947397891855,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2038,base,low,reference_start,0.01,0.01708661,65.686632258571,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2039,base,low,reference_start,0.01,0.01757663,68.14867035326205,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2040,base,low,reference_start,0.01,0.01805935,70.40227945396319,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2025,base,low,higher_start,0.03,0.03,96.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2026,base,low,higher_start,0.03,0.03029776,99.17801554017218,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2027,base,low,higher_start,0.03,0.03059109,101.77888326765147,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2028,base,low,higher_start,0.03,0.03088005,104.62530759838286,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2029,base,low,higher_start,0.03,0.03116471,106.90784882035155,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2030,base,low,higher_start,0.03,0.03144513,109.46286944260201,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2031,base,low,higher_start,0.03,0.03172138,111.92385841720015,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2032,base,low,higher_start,0.03,0.03199351,114.27971866890458,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2033,base,low,higher_start,0.03,0.03226159,116.68199994126078,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2034,base,low,higher_start,0.03,0.03252568,119.41237032381915,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2035,base,low,higher_start,0.03,0.03278584,121.87530560077184,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2036,base,low,higher_start,0.03,0.03304213,124.41997503354021,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2037,base,low,higher_start,0.03,0.0332946,126.73227358501833,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2038,base,low,higher_start,0.03,0.03354331,128.95168021657,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2039,base,low,higher_start,0.03,0.03378832,131.00515181070153,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2040,base,low,higher_start,0.03,0.03402968,132.66075695354164,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2025,base,base,lower_start,0.0,0.0,0.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2026,base,base,lower_start,0.0,0.00470527,15.402437050815175,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2027,base,base,lower_start,0.0,0.00922604,30.695736836532568,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2028,base,base,lower_start,0.0,0.01356955,45.975260490887685,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2029,base,base,lower_start,0.0,0.01774275,60.864973062713965,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2030,base,base,lower_start,0.0,0.02175231,75.72143189120243,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2031,base,base,lower_start,0.0,0.02560466,90.34198199008202,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2032,base,base,lower_start,0.0,0.02930595,104.67984667280908,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2033,base,base,lower_start,0.0,0.03286212,118.85396485138224,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2034,base,base,lower_start,0.0,0.03627884,133.19144371458438,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2035,base,base,lower_start,0.0,0.03956159,147.0629049401339,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2036,base,base,lower_start,0.0,0.04271563,160.8454908367572,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2037,base,base,lower_start,0.0,0.04574599,174.1271353341837,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2038,base,base,lower_start,0.0,0.04865753,187.05578694196132,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2039,base,base,lower_start,0.0,0.05145491,199.50261794478047,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2040,base,base,lower_start,0.0,0.0541426,211.06864065230187,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2025,base,base,reference_start,0.01,0.01,32.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2026,base,base,reference_start,0.01,0.01431316,46.85332529233088,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2027,base,base,reference_start,0.01,0.0184572,61.408508302505616,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2028,base,base,reference_start,0.01,0.02243875,76.02517226731219,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2029,base,base,reference_start,0.01,0.02626418,90.09700346419078,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2030,base,base,reference_start,0.01,0.02993962,104.22207557167408,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2031,base,base,reference_start,0.01,0.03347094,118.09690340239298,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2032,base,base,reference_start,0.01,0.03686379,131.67619152351767,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2033,base,base,reference_start,0.01,0.04012361,145.11693501972997,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2034,base,base,reference_start,0.01,0.0432556,158.805403170018,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2035,base,base,reference_start,0.01,0.04626479,171.98081305238887,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2036,base,base,reference_start,0.01,0.04915599,185.09663416217268,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2037,base,base,reference_start,0.01,0.05193383,197.6804752685971,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2038,base,base,reference_start,0.01,0.05460274,209.91115866110158,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2039,base,base,reference_start,0.01,0.057167,221.6497154508533,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2040,base,base,reference_start,0.01,0.05963072,232.46343935307928,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2025,base,base,higher_start,0.03,0.03,96.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2026,base,base,higher_start,0.03,0.03352895,109.7551345098006,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2027,base,base,higher_start,0.03,0.03691953,122.83408450521233,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2028,base,base,higher_start,0.03,0.04017716,136.12502970135878,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2029,base,base,higher_start,0.03,0.04330706,148.56113287541882,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2030,base,base,higher_start,0.03,0.04631423,161.2233281218631,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2031,base,base,higher_start,0.03,0.04920349,173.60671094360092,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2032,base,base,higher_start,0.03,0.05197946,185.66884550527837,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2033,base,base,higher_start,0.03,0.05464659,197.64287535642546,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2034,base,base,higher_start,0.03,0.05720913,210.03335879414394,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2035,base,base,higher_start,0.03,0.0596712,221.81666645005214,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2036,base,base,higher_start,0.03,0.06203672,233.5989584679536,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2037,base,base,higher_start,0.03,0.06430949,244.78707900959915,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2038,base,base,higher_start,0.03,0.06649315,255.62186365604413,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2039,base,base,higher_start,0.03,0.06859118,265.94391046299893,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2040,base,base,higher_start,0.03,0.07060695,275.252997770795,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2025,base,high,lower_start,0.0,0.0,0.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2026,base,high,lower_start,0.0,0.01690155,55.326274567921764,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2027,base,high,lower_start,0.0,0.03266044,108.66376811777987,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2028,base,high,lower_start,0.0,0.04735394,160.44081983336704,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2029,base,high,lower_start,0.0,0.06105406,209.4406851964505,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2030,base,high,lower_start,0.0,0.07382798,257.0007672396658,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2031,base,high,lower_start,0.0,0.0857383,302.513993720684,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2032,base,high,lower_start,0.0,0.0968434,345.92129800513266,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2033,base,high,lower_start,0.0,0.10719773,387.7070387901926,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2034,base,high,lower_start,0.0,0.11685205,429.00195376998823,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2035,base,high,lower_start,0.0,0.12585367,467.8377766812957,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2036,base,high,lower_start,0.0,0.13424673,505.505389481078,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2037,base,high,lower_start,0.0,0.14207237,540.7830237849967,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2038,base,high,lower_start,0.0,0.14936894,574.2240639092573,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2039,base,high,lower_start,0.0,0.15617223,605.5159504753653,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2040,base,high,lower_start,0.0,0.16251556,633.5480441287933,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2025,base,high,reference_start,0.01,0.01,32.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2026,base,high,reference_start,0.01,0.02622548,85.84763569942051,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2027,base,high,reference_start,0.01,0.04135402,137.58797003402375,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2028,base,high,reference_start,0.01,0.05545978,187.9043765097091,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2029,base,high,reference_start,0.01,0.0686119,235.36720323972463,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2030,base,high,reference_start,0.01,0.08087486,281.5314880672688,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2031,base,high,reference_start,0.01,0.09230876,325.6968197760409,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2032,base,high,reference_start,0.01,0.10296967,367.8041239935832,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2033,base,high,reference_start,0.01,0.11290982,408.36622158448375,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2034,base,high,reference_start,0.01,0.12217797,448.55514163124235,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2035,base,high,reference_start,0.01,0.13081953,486.2974441801503,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2036,base,high,reference_start,0.01,0.13887686,522.9401208074798,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2037,base,high,reference_start,0.01,0.14638947,557.2155953820088,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2038,base,high,reference_start,0.01,0.15339419,589.6984685160702,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2039,base,high,reference_start,0.01,0.15992534,620.0676282537297,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2040,base,high,reference_start,0.01,0.16601494,647.1899708136191,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2025,base,high,higher_start,0.03,0.03,96.0,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2026,base,high,higher_start,0.03,0.04487336,146.8904234312946,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2027,base,high,higher_start,0.03,0.05874119,195.43640713727217,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2028,base,high,higher_start,0.03,0.07167147,242.83152374359076,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2029,base,high,higher_start,0.03,0.08372758,287.22023932627286,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2030,base,high,higher_start,0.03,0.09496862,330.59292972247476,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2031,base,high,higher_start,0.03,0.1054497,372.0625424535827,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2032,base,high,higher_start,0.03,0.11522219,411.56970453117117,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2033,base,high,higher_start,0.03,0.12433401,449.68462334053334,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2034,base,high,higher_start,0.03,0.1328298,487.66148064049185,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2035,base,high,higher_start,0.03,0.14075123,523.2167048315531,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2036,base,high,higher_start,0.03,0.14813712,557.8095834602839,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2037,base,high,higher_start,0.03,0.15502368,590.0807766399456,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2038,base,high,higher_start,0.03,0.16144467,620.6472008430197,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2039,base,high,higher_start,0.03,0.16743156,649.1709838104583,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
+Aorta,2040,base,high,higher_start,0.03,0.1730137,674.4738241832708,KHF survey-scope-equivalent reported units,synthetic_assumptions_not_observed
