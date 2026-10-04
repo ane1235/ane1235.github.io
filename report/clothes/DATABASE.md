@@ -25,6 +25,7 @@
 | helikon-trooper-mk2 | 헬리콘텍스 HELIKON-TEX | 트루퍼 MK2 자켓 | 2026-10-05 | [메이커](https://www.netpx.co.kr/app/contents/brandshoplist/HEK) | [모델](https://www.gayamy.co.kr/m/product.html?branduid=1003846) | [조견표](https://gayamy.jpg2.kr/html/main/data/helikon%2Dtex/2025/0329/1003846.jpg) |
 | hyperops-pano-gen1 | 하이퍼옵스 | 파노 소프트쉘 자켓 (GEN.1) | 2026-10-05 | [메이커](https://hyper-ops.com/) | [모델](https://hyper-ops.com/product/gen1-pano-softshell-jacket/303/) | [조견표](https://hyper-ops.com/product/gen1-pano-softshell-jacket/303/) |
 | helikon-cougar | 헬리콘텍스 HELIKON-TEX | 쿠거 자켓 (샤크스킨 소프트쉘) | 2026-10-05 | [메이커](https://www.netpx.co.kr/app/contents/brandshoplist/HEK) | [모델](https://www.netpx.co.kr/app/product/detail/118702/0) | [조견표](https://static.netpx.co.kr/images/prd_img/img/helikon-tex/118702_1.jpg) |
+| hyperops-neptune-3l | 하이퍼옵스 | 넵튠 자켓 (3레이어) | 2026-10-05 | [메이커](https://hyper-ops.com/) | [모델](https://www.hyper-ops.com/product/detail.html?cate_no=329&product_no=391) | [조견표](https://static.netpx.co.kr/images/goods_cont/img_37406fa3bb9c82f3d95c1c5240d5951a.jpg) |
 
 ## 하이퍼옵스 · 크러쉬 자켓
 
@@ -135,3 +136,17 @@
 - M 별칭 근거: 원본 조견표의 국내 사이즈 범위
 - L 별칭 근거: 원본 조견표의 국내 사이즈 범위
 - XL 별칭 근거: 원본 조견표의 국내 사이즈 범위
+
+## 하이퍼옵스 · 넵튠 자켓 (3레이어)
+
+| 사이즈 | 별칭 | 어깨 | 가슴단면 | 소매길이 | 총기장 | 밑단단면 |
+|---|---|---|---|---|---|---|
+| 95 |  | 45 | 56 | 65 | 75 | 52 |
+| 100 |  | 47 | 58.5 | 66 | 77 | 54.5 |
+| 105 |  | 49 | 61 | 67 | 79 | 57 |
+| 110 |  | 51 | 63.5 | 68 | 81 | 59.5 |
+
+- 출처: 넷피엑스 게재 제조사 조견표 · 공식 웹표 대조
+- 측정 안내: 110 가슴단면은 넷피엑스 게재 제조사 조견표 이미지의 63.5cm를 채택했습니다. 공식 웹표에는 53.5cm로 기재되어 출처 간 불일치가 있으며, 오기 여부는 미확인입니다.
+- 교차검증 링크: https://www.netpx.co.kr/app/product/detail/123350/0
+- 교차검증 이미지: https://www.hyper-ops.com/product/detail.html?cate_no=329&amp;product_no=391

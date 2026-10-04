@@ -523,5 +523,79 @@
         "length": 75
       }
     ]
+  },
+  {
+    "id": "hyperops-neptune-3l",
+    "brandId": "hyperops",
+    "name": "하이퍼옵스",
+    "model": "넵튠 자켓 (3레이어)",
+    "checked": "2026-10-05",
+    "website": "https://hyper-ops.com/",
+    "modelUrl": "https://www.hyper-ops.com/product/detail.html?cate_no=329&product_no=391",
+    "source": "https://static.netpx.co.kr/images/goods_cont/img_37406fa3bb9c82f3d95c1c5240d5951a.jpg",
+    "sourceLabel": "사이즈 조견표",
+    "sourceNote": "넷피엑스 게재 제조사 조견표 · 공식 웹표 대조",
+    "measurementNote": "110 가슴단면은 넷피엑스 게재 제조사 조견표 이미지의 63.5cm를 채택했습니다. 공식 웹표에는 53.5cm로 기재되어 출처 간 불일치가 있으며, 오기 여부는 미확인입니다.",
+    "chartImage": null,
+    "requestedSource": "",
+    "requestedSourceStatus": "",
+    "crossCheckSource": "https://www.netpx.co.kr/app/product/detail/123350/0",
+    "crossCheckChart": "https://www.hyper-ops.com/product/detail.html?cate_no=329&product_no=391",
+    "fields": [
+      {
+        "key": "shoulder",
+        "label": "어깨"
+      },
+      {
+        "key": "chest",
+        "label": "가슴단면"
+      },
+      {
+        "key": "sleeve",
+        "label": "소매길이"
+      },
+      {
+        "key": "length",
+        "label": "총기장"
+      },
+      {
+        "key": "hem",
+        "label": "밑단단면"
+      }
+    ],
+    "sizes": [
+      {
+        "size": "95",
+        "shoulder": 45,
+        "chest": 56,
+        "sleeve": 65,
+        "length": 75,
+        "hem": 52
+      },
+      {
+        "size": "100",
+        "shoulder": 47,
+        "chest": 58.5,
+        "sleeve": 66,
+        "length": 77,
+        "hem": 54.5
+      },
+      {
+        "size": "105",
+        "shoulder": 49,
+        "chest": 61,
+        "sleeve": 67,
+        "length": 79,
+        "hem": 57
+      },
+      {
+        "size": "110",
+        "shoulder": 51,
+        "chest": 63.5,
+        "sleeve": 68,
+        "length": 81,
+        "hem": 59.5
+      }
+    ]
   }
 ]
