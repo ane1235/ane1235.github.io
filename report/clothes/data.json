@@ -144,5 +144,88 @@
         "length": 75
       }
     ]
+  },
+  {
+    "id": "kidon-light-wind-breaker",
+    "brandId": "kidon",
+    "name": "키돈 Kidon",
+    "model": "경량 윈드 브레이커",
+    "checked": "2026-10-05",
+    "website": "https://www.netpx.co.kr/app/contents/brandshoplist/KDN",
+    "modelUrl": "https://smartstore.naver.com/papaland/products/5531863221",
+    "source": "https://img.netpx.co.kr/images/prd_img/pd_150450/150734/06.jpg",
+    "sourceLabel": "사이즈 조견표",
+    "sourceNote": "넷피엑스 라이트 윈드 브레이커 · 원본 조견표",
+    "measurementNote": "넷피엑스 표기: 라이트 윈드 브레이커 (KKU-LWB-NL). 네이버 요청 페이지는 접속 제한으로 직접 대조하지 못했습니다. 측정 방식·위치에 따라 1~3cm 차이 가능.",
+    "chartImage": null,
+    "requestedSource": "https://smartstore.naver.com/papaland/products/5531863221",
+    "requestedSourceStatus": "HTTP 429 접속 제한으로 원문 직접 대조 불가. 사용자가 제공한 메이커·제품명 및 S(90)~XXL(110) 표기와 일치하는 넷피엑스 조견표 참조.",
+    "crossCheckSource": "https://www.netpx.co.kr/app/product/detail/150734/0/",
+    "crossCheckChart": "https://img.netpx.co.kr/images/prd_img/pd_150450/150734/06.jpg",
+    "fields": [
+      {
+        "key": "shoulder",
+        "label": "어깨"
+      },
+      {
+        "key": "chest",
+        "label": "가슴단면"
+      },
+      {
+        "key": "sleeve",
+        "label": "소매길이"
+      },
+      {
+        "key": "length",
+        "label": "총기장"
+      }
+    ],
+    "sizes": [
+      {
+        "size": "S",
+        "alias": "90",
+        "aliasNote": "사용자 제공 표기 및 넷피엑스 조견표 일치",
+        "shoulder": 46,
+        "chest": 57,
+        "sleeve": 64,
+        "length": 73
+      },
+      {
+        "size": "M",
+        "alias": "95",
+        "aliasNote": "사용자 제공 표기 및 넷피엑스 조견표 일치",
+        "shoulder": 48,
+        "chest": 59,
+        "sleeve": 65,
+        "length": 75
+      },
+      {
+        "size": "L",
+        "alias": "100",
+        "aliasNote": "사용자 제공 표기 및 넷피엑스 조견표 일치",
+        "shoulder": 49,
+        "chest": 61,
+        "sleeve": 66,
+        "length": 77
+      },
+      {
+        "size": "XL",
+        "alias": "105",
+        "aliasNote": "사용자 제공 표기 및 넷피엑스 조견표 일치",
+        "shoulder": 51,
+        "chest": 63,
+        "sleeve": 67,
+        "length": 79
+      },
+      {
+        "size": "XXL",
+        "alias": "110",
+        "aliasNote": "사용자 제공 표기 및 넷피엑스 조견표 일치",
+        "shoulder": 52,
+        "chest": 65,
+        "sleeve": 68,
+        "length": 81
+      }
+    ]
   }
 ]
