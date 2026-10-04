@@ -9,10 +9,97 @@
     "checked": "2026-10-05",
     "chartImage": null,
     "sizes": [
-      {"size": "95", "shoulder": 45, "chest": 54, "sleeve": 62, "length": 67, "hem": 51.5},
-      {"size": "100", "shoulder": 47, "chest": 56.5, "sleeve": 63, "length": 69, "hem": 54},
-      {"size": "105", "shoulder": 49, "chest": 59, "sleeve": 64, "length": 71, "hem": 56.5},
-      {"size": "110", "shoulder": 51, "chest": 61.5, "sleeve": 65, "length": 73, "hem": 59}
+      {
+        "size": "95",
+        "shoulder": 45,
+        "chest": 54,
+        "sleeve": 62,
+        "length": 67,
+        "hem": 51.5
+      },
+      {
+        "size": "100",
+        "shoulder": 47,
+        "chest": 56.5,
+        "sleeve": 63,
+        "length": 69,
+        "hem": 54
+      },
+      {
+        "size": "105",
+        "shoulder": 49,
+        "chest": 59,
+        "sleeve": 64,
+        "length": 71,
+        "hem": 56.5
+      },
+      {
+        "size": "110",
+        "shoulder": 51,
+        "chest": 61.5,
+        "sleeve": 65,
+        "length": 73,
+        "hem": 59
+      }
+    ]
+  },
+  {
+    "id": "spaver",
+    "name": "스페이버 SPAVER",
+    "website": "https://www.netpx.co.kr/app/contents/brandshoplist/SPV",
+    "model": "어반 소프트쉘 자켓",
+    "source": "https://www.netpx.co.kr/app/product/detail/114754/0",
+    "sourceNote": "넷피엑스 실측표 · XS~XL 하이피엑스 대조 일치",
+    "checked": "2026-10-05",
+    "chartImage": null,
+    "measurementNote": "XS~XXL은 메이커 원표기이며, 국내 95·100·105·110과의 대응은 미확인입니다. 밑단단면은 미제공(—). 실측 오차 2~3cm.",
+    "requestedSource": "https://smartstore.naver.com/hi-px/products/5432093054",
+    "requestedSourceStatus": "접속 오류로 직접 확인 불가. 사용자가 확인한 제품명을 기준으로 공식 브랜드관 및 동일 판매처 자체몰 대조.",
+    "crossCheckSource": "https://m.hipx.co.kr/product/detail.html?product_no=4207",
+    "crossCheckChart": "https://gi.esmplus.com/hipxhi/spaver/114754_s.jpg",
+    "sizes": [
+      {
+        "size": "XS",
+        "shoulder": 45,
+        "chest": 53,
+        "sleeve": 60,
+        "length": 66
+      },
+      {
+        "size": "S",
+        "shoulder": 47,
+        "chest": 55,
+        "sleeve": 61,
+        "length": 69
+      },
+      {
+        "size": "M",
+        "shoulder": 50,
+        "chest": 57,
+        "sleeve": 63.5,
+        "length": 70
+      },
+      {
+        "size": "L",
+        "shoulder": 53,
+        "chest": 59,
+        "sleeve": 67,
+        "length": 73
+      },
+      {
+        "size": "XL",
+        "shoulder": 56,
+        "chest": 61,
+        "sleeve": 67,
+        "length": 73
+      },
+      {
+        "size": "XXL",
+        "shoulder": 60,
+        "chest": 63,
+        "sleeve": 68,
+        "length": 75
+      }
     ]
   }
 ]
