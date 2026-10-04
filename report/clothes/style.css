@@ -3,7 +3,7 @@
 /* PC headings share one layout across static and interactive pages. */
 .desktop .brand-head{align-items:flex-start;gap:24px;margin-bottom:22px}
 .desktop .brand-head>div:first-child{flex:1;min-width:0;overflow-wrap:anywhere}
-.desktop .brand-head h2{font-size:32px;line-height:1.2}
+.desktop .brand-head h1,.desktop .brand-head h2{font-size:32px;line-height:1.2}
 .desktop .model{margin:0}
 .desktop .brand-info{max-width:55%;text-align:right;overflow-wrap:anywhere}
 .desktop .brand-info .links{justify-content:flex-end;align-items:baseline;gap:6px;margin:0 0 6px;line-height:1.65}
@@ -13,3 +13,41 @@
   .desktop .brand-info{max-width:100%;text-align:left}
   .desktop .brand-info .links{justify-content:flex-start}
 }
+
+.brand-head h1{font-size:23px;letter-spacing:normal;margin:0 0 7px}
+.item-page .nav{margin-top:22px}
+.item-title-link{color:inherit;text-decoration:none}
+.item-title-link:hover{text-decoration:underline}
+
+/* Selected model and size comparison. */
+.compare-picker{padding:22px;border:1px solid #dbe3e7;border-radius:14px;background:white;min-width:0;margin:0}
+.compare-picker legend{font-weight:700;padding:0 8px}
+.compare-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px}
+.compare-option{border:1px solid #dbe3e7;border-radius:10px;padding:16px;min-width:0}
+.compare-check{display:flex;align-items:flex-start;gap:10px;cursor:pointer}
+.compare-check input{margin-top:5px;width:18px;height:18px;flex-shrink:0;accent-color:#174d5a}
+.compare-check small,.compare-model,.compare-note{display:block;font-weight:400;line-height:1.6;color:#5e707b}
+.compare-size-label{display:grid;gap:7px;margin-top:16px;font-size:14px}
+.compare-size-label select{width:100%;min-width:0}
+.compare-size-label select:disabled{opacity:.5}
+#comparison-status{color:#5e707b;font-size:14px}
+#comparison-result{margin-top:28px}
+.comparison-scroll{overflow-x:auto;background:white;border:1px solid #dbe3e7;border-radius:12px}
+#comparison-table{min-width:100%;width:100%;table-layout:auto}
+#comparison-table caption{text-align:left;padding:16px;font-size:14px;color:#526773}
+#comparison-table th,#comparison-table td{min-width:140px;text-align:center}
+#comparison-table th:first-child{min-width:110px;text-align:left;position:sticky;left:0;background:#f1f5f6}
+#comparison-table thead th{white-space:normal;max-width:250px;vertical-align:top}
+.compare-size{display:block;font-size:22px;margin-top:10px;color:#126576}
+#comparison-notes{margin-top:16px}
+#comparison-notes p{margin-bottom:12px}
+.compare-check input:focus-visible,.comparison-scroll:focus-visible{outline:3px solid #e3aa35;outline-offset:4px}
+@media print{.compare-picker,#comparison-status{display:none}.comparison-scroll{overflow:visible;border:0}#comparison-table{width:100%;table-layout:fixed}#comparison-table th,#comparison-table td{min-width:0;overflow-wrap:anywhere;padding:10px 6px}#comparison-table th:first-child{position:static}#comparison-notes{break-inside:avoid}}
+
+@media(max-width:600px){#comparison-table th,#comparison-table td{min-width:110px;padding:12px 8px;font-size:13px}#comparison-table th:first-child{min-width:90px}}
+.compare-reference{display:flex;align-items:end;gap:16px;flex-wrap:wrap;margin-top:20px}
+.compare-reference label{display:grid;gap:7px;font-size:14px;flex:1;min-width:0}
+.compare-reference select{width:100%;min-width:0}
+.compare-reference button{font:inherit;padding:11px 16px;border:1px solid #174d5a;border-radius:7px;background:#174d5a;color:white;cursor:pointer}
+.compare-reference button:disabled{opacity:.5;cursor:default}
+.cell-delta{display:block;color:#5e707b;font-size:12px;margin-top:5px}

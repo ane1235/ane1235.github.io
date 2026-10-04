@@ -41,7 +41,8 @@
         "length": 73,
         "hem": 59
       }
-    ]
+    ],
+    "brandId": "hyperops"
   },
   {
     "id": "spaver",
@@ -86,6 +87,7 @@
         "sleeve": 68,
         "length": 75
       }
-    ]
+    ],
+    "brandId": "spaver"
   }
 ]

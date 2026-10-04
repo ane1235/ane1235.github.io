@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>메이커별 사이즈 비교 · 의류 사이즈 노트</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="comparison-page">
+<main>
+  <a class="back" href="./">← 의류 목록</a>
+  <header><h1>메이커별 사이즈 비교</h1><p class="intro">메이커·모델을 고른 뒤 기준 사이즈를 선택하면 가까운 대응 후보를 찾을 수 있습니다.</p></header>
+  <fieldset class="compare-picker">
+    <legend>메이커·모델 선택</legend>
+    <div class="compare-options"><div class="compare-option"><label class="compare-check" for="compare-hyperops"><input type="checkbox" id="compare-hyperops"><span><strong>하이퍼옵스</strong><small>크러쉬 자켓</small></span></label><label class="compare-size-label" for="size-hyperops">비교할 사이즈<select id="size-hyperops" disabled aria-label="하이퍼옵스 크러쉬 자켓 사이즈"><option value="">사이즈 선택</option><option value="95">95</option><option value="100">100</option><option value="105">105</option><option value="110">110</option></select></label></div><div class="compare-option"><label class="compare-check" for="compare-spaver"><input type="checkbox" id="compare-spaver"><span><strong>스페이버 SPAVER</strong><small>어반 소프트쉘 자켓</small></span></label><label class="compare-size-label" for="size-spaver">비교할 사이즈<select id="size-spaver" disabled aria-label="스페이버 SPAVER 어반 소프트쉘 자켓 사이즈"><option value="">사이즈 선택</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option><option value="XXL">XXL</option></select></label></div></div>
+    <div class="compare-reference">
+      <label>기준 메이커·모델<select id="reference-item" disabled><option value="">메이커·모델 선택 필요</option></select></label>
+      <button type="button" id="suggest-sizes" disabled>가까운 대응 사이즈 찾기</button>
+    </div>
+    <p class="meta">기준 메이커의 사이즈를 먼저 선택하세요. 찾은 후보는 각 선택창에서 직접 바꿀 수 있습니다.</p>
+  </fieldset>
+  <p id="comparison-status" role="status">비교할 메이커·모델을 2개 이상 선택하세요.</p>
+  <section id="comparison-result" hidden aria-labelledby="comparison-title">
+    <h2 id="comparison-title">기준 사이즈와 대응 후보</h2>
+    <p class="meta">어깨·가슴단면·소매길이 비교 · 단위 cm · 실측상 가까운 후보이며, 같은 착용감을 보장하지 않습니다. 미제공 치수는 —로 표시합니다.</p>
+    <div class="comparison-scroll" tabindex="0" role="region" aria-label="선택한 사이즈 비교표, 좁은 화면에서는 가로로 스크롤">
+      <table id="comparison-table"><caption>메이커·모델별 선택 사이즈 치수</caption><thead></thead><tbody></tbody></table>
+    </div>
+    <p class="meta">치수 차이 합계 = |어깨 차이| + |가슴단면 차이| + |소매길이 차이|. 작을수록 기준에 가까우며, 어깨+가슴 합계는 보조 지표입니다.</p>
+    <div id="comparison-notes"></div>
+  </section>
+  <noscript><p>사이즈 비교에는 JavaScript가 필요합니다. <a href="static-desktop.html">정적 치수표 보기</a></p></noscript>
+</main>
+<script id="clothes-data" type="application/json">[{"id": "hyperops", "name": "하이퍼옵스", "website": "https://hyper-ops.com/", "model": "크러쉬 자켓", "source": "https://hyper-ops.com/product/detail.html?product_no=390", "sourceNote": "상품 페이지의 ‘사이즈’ 탭 · 원본은 표 형태", "checked": "2026-10-05", "chartImage": null, "sizes": [{"size": "95", "shoulder": 45, "chest": 54, "sleeve": 62, "length": 67, "hem": 51.5}, {"size": "100", "shoulder": 47, "chest": 56.5, "sleeve": 63, "length": 69, "hem": 54}, {"size": "105", "shoulder": 49, "chest": 59, "sleeve": 64, "length": 71, "hem": 56.5}, {"size": "110", "shoulder": 51, "chest": 61.5, "sleeve": 65, "length": 73, "hem": 59}], "brandId": "hyperops", "fields": [{"key": "shoulder", "label": "어깨"}, {"key": "chest", "label": "가슴단면"}, {"key": "sleeve", "label": "소매길이"}, {"key": "length", "label": "총기장"}, {"key": "hem", "label": "밑단단면"}]}, {"id": "spaver", "name": "스페이버 SPAVER", "website": "https://www.netpx.co.kr/app/contents/brandshoplist/SPV", "model": "어반 소프트쉘 자켓", "source": "https://www.netpx.co.kr/app/product/detail/114754/0", "sourceNote": "넷피엑스 실측표 · M~XL 하이피엑스 대조 일치", "checked": "2026-10-05", "chartImage": null, "measurementNote": "M~XXL은 메이커 원표기이며, 국내 95·100·105·110과의 대응은 미확인입니다. 밑단단면은 미제공(—). 실측 오차 2~3cm.", "requestedSource": "https://smartstore.naver.com/hi-px/products/5432093054", "requestedSourceStatus": "접속 오류로 직접 확인 불가. 사용자가 확인한 제품명을 기준으로 공식 브랜드관 및 동일 판매처 자체몰 대조.", "crossCheckSource": "https://m.hipx.co.kr/product/detail.html?product_no=4207", "crossCheckChart": "https://gi.esmplus.com/hipxhi/spaver/114754_s.jpg", "sizes": [{"size": "M", "shoulder": 50, "chest": 57, "sleeve": 63.5, "length": 70}, {"size": "L", "shoulder": 53, "chest": 59, "sleeve": 67, "length": 73}, {"size": "XL", "shoulder": 56, "chest": 61, "sleeve": 67, "length": 73}, {"size": "XXL", "shoulder": 60, "chest": 63, "sleeve": 68, "length": 75}], "brandId": "spaver", "fields": [{"key": "shoulder", "label": "어깨"}, {"key": "chest", "label": "가슴단면"}, {"key": "sleeve", "label": "소매길이"}, {"key": "length", "label": "총기장"}, {"key": "hem", "label": "밑단단면"}]}]</script>
+<script src="compare.js"></script>
+</body>
+</html>
