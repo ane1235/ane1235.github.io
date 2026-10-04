@@ -1,0 +1,18 @@
+[
+  {
+    "id": "hyperops",
+    "name": "하이퍼옵스",
+    "website": "https://hyper-ops.com/",
+    "model": "크러쉬 자켓",
+    "source": "https://hyper-ops.com/product/detail.html?product_no=390",
+    "sourceNote": "상품 페이지의 ‘사이즈’ 탭 · 원본은 표 형태",
+    "checked": "2026-10-05",
+    "chartImage": null,
+    "sizes": [
+      {"size": "95", "shoulder": 45, "chest": 54, "sleeve": 62, "length": 67, "hem": 51.5},
+      {"size": "100", "shoulder": 47, "chest": 56.5, "sleeve": 63, "length": 69, "hem": 54},
+      {"size": "105", "shoulder": 49, "chest": 59, "sleeve": 64, "length": 71, "hem": 56.5},
+      {"size": "110", "shoulder": 51, "chest": 61.5, "sleeve": 65, "length": 73, "hem": 59}
+    ]
+  }
+]
