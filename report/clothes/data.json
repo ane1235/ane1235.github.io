@@ -597,5 +597,71 @@
         "hem": 59.5
       }
     ]
+  },
+  {
+    "id": "511-responder-parka-2",
+    "brandId": "511-tactical",
+    "name": "5.11 택티컬",
+    "model": "리스폰더 파카 2.0",
+    "checked": "2026-10-05",
+    "website": "https://www.netpx.co.kr/app/contents/brandshoplist/OLL",
+    "modelUrl": "https://www.netpx.co.kr/app/product/detail/138211/0",
+    "source": "https://www.netpx.co.kr/app/product/detail/138211/0",
+    "sourceLabel": "실측 사이즈 조견표",
+    "sourceNote": "넷피엑스 블랙 상품 상세 · size 실측표",
+    "measurementNote": "소매길이는 어깨선부터 소매 끝, 가슴단면은 겨드랑이 바로 아래 수평 측정. 숫자 사이즈 병기는 원표 미제공. 실측 오차 1~3cm, 재입고 시기에 따라 차이 가능.",
+    "chartImage": null,
+    "requestedSource": "",
+    "requestedSourceStatus": "",
+    "crossCheckSource": "",
+    "crossCheckChart": "",
+    "fields": [
+      {
+        "key": "shoulder",
+        "label": "어깨"
+      },
+      {
+        "key": "chest",
+        "label": "가슴단면"
+      },
+      {
+        "key": "sleeve",
+        "label": "소매길이"
+      },
+      {
+        "key": "length",
+        "label": "총기장"
+      }
+    ],
+    "sizes": [
+      {
+        "size": "S",
+        "shoulder": 44,
+        "chest": 55,
+        "sleeve": 72,
+        "length": 74
+      },
+      {
+        "size": "M",
+        "shoulder": 46,
+        "chest": 59,
+        "sleeve": 73,
+        "length": 76
+      },
+      {
+        "size": "L",
+        "shoulder": 48,
+        "chest": 63,
+        "sleeve": 74,
+        "length": 79
+      },
+      {
+        "size": "XL",
+        "shoulder": 49.5,
+        "chest": 67,
+        "sleeve": 75,
+        "length": 81
+      }
+    ]
   }
 ]

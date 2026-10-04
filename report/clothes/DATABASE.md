@@ -26,6 +26,7 @@
 | hyperops-pano-gen1 | 하이퍼옵스 | 파노 소프트쉘 자켓 (GEN.1) | 2026-10-05 | [메이커](https://hyper-ops.com/) | [모델](https://hyper-ops.com/product/gen1-pano-softshell-jacket/303/) | [조견표](https://hyper-ops.com/product/gen1-pano-softshell-jacket/303/) |
 | helikon-cougar | 헬리콘텍스 HELIKON-TEX | 쿠거 자켓 (샤크스킨 소프트쉘) | 2026-10-05 | [메이커](https://www.netpx.co.kr/app/contents/brandshoplist/HEK) | [모델](https://www.netpx.co.kr/app/product/detail/118702/0) | [조견표](https://static.netpx.co.kr/images/prd_img/img/helikon-tex/118702_1.jpg) |
 | hyperops-neptune-3l | 하이퍼옵스 | 넵튠 자켓 (3레이어) | 2026-10-05 | [메이커](https://hyper-ops.com/) | [모델](https://www.hyper-ops.com/product/detail.html?cate_no=329&product_no=391) | [조견표](https://static.netpx.co.kr/images/goods_cont/img_37406fa3bb9c82f3d95c1c5240d5951a.jpg) |
+| 511-responder-parka-2 | 5.11 택티컬 | 리스폰더 파카 2.0 | 2026-10-05 | [메이커](https://www.netpx.co.kr/app/contents/brandshoplist/OLL) | [모델](https://www.netpx.co.kr/app/product/detail/138211/0) | [조견표](https://www.netpx.co.kr/app/product/detail/138211/0) |
 
 ## 하이퍼옵스 · 크러쉬 자켓
 
@@ -150,3 +151,15 @@
 - 측정 안내: 110 가슴단면은 넷피엑스 게재 제조사 조견표 이미지의 63.5cm를 채택했습니다. 공식 웹표에는 53.5cm로 기재되어 출처 간 불일치가 있으며, 오기 여부는 미확인입니다.
 - 교차검증 링크: https://www.netpx.co.kr/app/product/detail/123350/0
 - 교차검증 이미지: https://www.hyper-ops.com/product/detail.html?cate_no=329&amp;product_no=391
+
+## 5.11 택티컬 · 리스폰더 파카 2.0
+
+| 사이즈 | 별칭 | 어깨 | 가슴단면 | 소매길이 | 총기장 |
+|---|---|---|---|---|---|
+| S |  | 44 | 55 | 72 | 74 |
+| M |  | 46 | 59 | 73 | 76 |
+| L |  | 48 | 63 | 74 | 79 |
+| XL |  | 49.5 | 67 | 75 | 81 |
+
+- 출처: 넷피엑스 블랙 상품 상세 · size 실측표
+- 측정 안내: 소매길이는 어깨선부터 소매 끝, 가슴단면은 겨드랑이 바로 아래 수평 측정. 숫자 사이즈 병기는 원표 미제공. 실측 오차 1~3cm, 재입고 시기에 따라 차이 가능.
