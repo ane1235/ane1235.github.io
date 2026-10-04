@@ -1,4 +1,5 @@
-const items = JSON.parse(document.querySelector('#clothes-data').textContent);
+import {loadData, sizeLabel} from './data-loader.js';
+let items = [];
 const picker = document.querySelector('.compare-picker');
 const referenceSelect = document.querySelector('#reference-item');
 const suggestButton = document.querySelector('#suggest-sizes');
@@ -80,7 +81,7 @@ function updateComparison() {
     const cell = element('th'); cell.scope = 'col';
     const isReference = item.id === reference.item.id;
     const mode = isReference ? '기준' : suggested.has(item.id) ? '대응 후보' : '직접 선택';
-    cell.append(element('strong', item.name), element('span', item.model, 'compare-model'), element('span', `${mode} ${size.size}`, 'compare-size'));
+    cell.append(element('strong', item.name), element('span', item.model, 'compare-model'), element('span', `${mode} ${sizeLabel(size)}`, 'compare-size'));
     headingRow.append(cell);
     const note = element('p', undefined, 'meta');
     const link = element('a', `${item.name} · ${item.model} 원본 치수표 ↗`);
@@ -140,4 +141,35 @@ suggestButton.addEventListener('click', () => {
   updateComparison();
   if (unavailable.length) status.textContent = `${unavailable.join(', ')}: 세 치수 중 미제공 항목이 있어 자동 대응 후보를 계산할 수 없습니다.`;
 });
-updateComparison();
+async function initialize() {
+  const retry = document.querySelector('#retry-load');
+  retry.hidden = true;
+  status.textContent = '치수 데이터를 불러오는 중입니다.';
+  try {
+    items = await loadData();
+    const options = document.querySelector('.compare-options');
+    options.replaceChildren();
+    for (const item of items) {
+      const card = element('div', undefined, 'compare-option');
+      const label = element('label', undefined, 'compare-check');
+      label.htmlFor = `compare-${item.id}`;
+      const check = element('input'); check.type = 'checkbox'; check.id = label.htmlFor;
+      const name = element('span'); name.append(element('strong', item.name), element('small', item.model));
+      label.append(check, name);
+      const sizeLabelNode = element('label', '비교할 사이즈', 'compare-size-label');
+      sizeLabelNode.htmlFor = `size-${item.id}`;
+      const select = element('select'); select.id = sizeLabelNode.htmlFor; select.disabled = true;
+      select.setAttribute('aria-label', `${item.name} ${item.model} 사이즈`);
+      select.add(new Option('사이즈 선택', ''));
+      for (const row of item.sizes) select.add(new Option(sizeLabel(row), row.size));
+      sizeLabelNode.append(select); card.append(label, sizeLabelNode); options.append(card);
+    }
+    picker.disabled = false;
+    updateComparison();
+  } catch (error) {
+    status.textContent = '치수 데이터를 불러오지 못했습니다. 다시 시도하거나 정적 전체표를 이용하세요.';
+    retry.hidden = false;
+  }
+}
+document.querySelector('#retry-load').addEventListener('click', initialize);
+initialize();

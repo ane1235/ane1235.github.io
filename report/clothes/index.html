@@ -5,7 +5,24 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>의류 사이즈 노트</title>
   <link rel="stylesheet" href="style.css">
-  <script>location.replace('static-'+(matchMedia('(max-width: 767px)').matches?'mobile':'desktop')+'.html'+location.hash);</script>
 </head>
-<body><main><h1>의류 사이즈 노트</h1><p>화면에 맞는 보기로 이동합니다. 직접 선택할 수도 있습니다.</p><p><a href="static-desktop.html">정적 · PC</a></p><p><a href="static-mobile.html">정적 · 모바일</a></p><p><a href="interactive-desktop.html">인터랙티브 · PC</a></p><p><a href="interactive-mobile.html">인터랙티브 · 모바일</a></p></main></body>
+<body class="desktop viewer-page">
+<main>
+  <a class="back" href="../">← 목록</a>
+  <header id="collection-heading"><h1>의류 사이즈 노트</h1><p class="intro">메이커·모델별 사이즈 원표기와 세부 치수</p></header>
+  <nav class="nav" aria-label="보기 방식"><a href="index.html" aria-current="page">치수 조회</a><a href="compare.html">사이즈 비교</a><a href="static.html">정적 전체표</a></nav>
+  <fieldset class="filters viewer-filters" disabled>
+    <legend class="visually-hidden">의류 선택</legend>
+    <label>메이커<select id="brand"><option value="all">전체 메이커</option></select></label>
+    <label>모델<select id="model"><option value="all">전체 모델</option></select></label>
+    <label>사이즈<select id="size"><option value="all">전체 사이즈</option></select></label>
+  </fieldset>
+  <p id="load-status" class="meta" role="status">치수 데이터를 불러오는 중입니다.</p>
+  <button id="retry-load" type="button" hidden>다시 불러오기</button>
+  <section id="items" aria-label="의류 치수표" aria-busy="true"></section>
+  <noscript><p>JavaScript 없이도 <a href="static.html">정적 전체표</a>에서 모든 치수를 확인할 수 있습니다.</p></noscript>
+  <footer>치수는 cm 기준이며 메이커·모델에 따라 다릅니다. 단면과 둘레는 항목 표기를 확인하세요. 미제공 치수는 —로 표시합니다.</footer>
+</main>
+<script type="module" src="viewer.js"></script>
+</body>
 </html>

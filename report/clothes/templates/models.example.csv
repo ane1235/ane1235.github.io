@@ -1,0 +1,2 @@
+model_id,brand_id,brand_name,model_name,checked_at,brand_url,model_url,chart_url,source_label,source_note,measurement_note,chart_image_url,measurements,requested_url,requested_status,crosscheck_url,crosscheck_chart_url
+new-model,brand,브랜드명,모델명,YYYY-MM-DD,https://example.com/,https://example.com/product,https://example.com/size,공식 사이즈 조견표,확인한 출처 설명,,,shoulder|chest|sleeve|length|hem,,,,
