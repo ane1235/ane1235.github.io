@@ -64,6 +64,9 @@ python3 report/clothes/build.py
 | hem | 밑단단면 | waist | 허리단면 |
 | hip | 엉덩이단면 | thigh | 허벅지단면 |
 | rise | 밑위 | inseam | 안쪽기장 |
+| back_neck_sleeve | 화장(뒷목 중심~소매 끝) | | |
+
+화장은 일반 소매길이와 구분하여 저장. 어깨·소매길이 미제공 모델은 자동 대응 계산에서 제외.
 
 바지 모델은 `waist|hip|thigh|rise|inseam|length` 등 필요한 항목 지정. 단면 열에 둘레값 입력 금지. 새 측정 정의는 `build.py`의 `FIELD_LABELS`에 추가하고 CSV 열도 추가한 뒤 검증.
 

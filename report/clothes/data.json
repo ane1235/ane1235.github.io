@@ -301,5 +301,227 @@
         "length": 75
       }
     ]
+  },
+  {
+    "id": "helikon-trooper-mk2",
+    "brandId": "helikon-tex",
+    "name": "헬리콘텍스 HELIKON-TEX",
+    "model": "트루퍼 MK2 자켓",
+    "checked": "2026-10-05",
+    "website": "https://www.netpx.co.kr/app/contents/brandshoplist/HEK",
+    "modelUrl": "https://www.gayamy.co.kr/m/product.html?branduid=1003846",
+    "source": "https://gayamy.jpg2.kr/html/main/data/helikon%2Dtex/2025/0329/1003846.jpg",
+    "sourceLabel": "사이즈 조견표",
+    "sourceNote": "가야미 상품 상세 · 원본 조견표",
+    "measurementNote": "StormStretch, 품번 KU-TRM-NL. 화장은 뒷목 중심부터 소매 끝까지의 길이로 일반 소매길이와 다릅니다. 어깨·소매길이는 원표 미제공(—), 자동 대응 계산 제외. 숫자 범위는 조견표의 국내표기. 실측 오차 1~3cm.",
+    "chartImage": null,
+    "requestedSource": "",
+    "requestedSourceStatus": "",
+    "crossCheckSource": "",
+    "crossCheckChart": "",
+    "fields": [
+      {
+        "key": "shoulder",
+        "label": "어깨"
+      },
+      {
+        "key": "chest",
+        "label": "가슴단면"
+      },
+      {
+        "key": "sleeve",
+        "label": "소매길이"
+      },
+      {
+        "key": "back_neck_sleeve",
+        "label": "화장(뒷목~소매 끝)"
+      },
+      {
+        "key": "length",
+        "label": "총기장"
+      }
+    ],
+    "sizes": [
+      {
+        "size": "S",
+        "alias": "95~100",
+        "aliasNote": "원본 조견표의 국내 사이즈 범위",
+        "chest": 57,
+        "length": 69.5,
+        "back_neck_sleeve": 78.5
+      },
+      {
+        "size": "M",
+        "alias": "100~105",
+        "aliasNote": "원본 조견표의 국내 사이즈 범위",
+        "chest": 60,
+        "length": 72,
+        "back_neck_sleeve": 80
+      },
+      {
+        "size": "L",
+        "alias": "105~110",
+        "aliasNote": "원본 조견표의 국내 사이즈 범위",
+        "chest": 63,
+        "length": 74.5,
+        "back_neck_sleeve": 81.5
+      },
+      {
+        "size": "XL",
+        "alias": "110~115",
+        "aliasNote": "원본 조견표의 국내 사이즈 범위",
+        "chest": 66,
+        "length": 77,
+        "back_neck_sleeve": 83
+      }
+    ]
+  },
+  {
+    "id": "hyperops-pano-gen1",
+    "brandId": "hyperops",
+    "name": "하이퍼옵스",
+    "model": "파노 소프트쉘 자켓 (GEN.1)",
+    "checked": "2026-10-05",
+    "website": "https://hyper-ops.com/",
+    "modelUrl": "https://hyper-ops.com/product/gen1-pano-softshell-jacket/303/",
+    "source": "https://hyper-ops.com/product/gen1-pano-softshell-jacket/303/",
+    "sourceLabel": "공식 사이즈 조견표",
+    "sourceNote": "상품 페이지의 ‘사이즈’ 탭 · 원본은 표 형태",
+    "measurementNote": "GEN.1 기본형 기준. 110 어깨는 공식 원문 54cm를 그대로 기록했습니다. 인접 사이즈 증가 흐름과 달라 오기 여부 미확인이며, 대응 비교 시 유의하세요. 플레인(노 벨크로)·2.0과 구분.",
+    "chartImage": null,
+    "requestedSource": "",
+    "requestedSourceStatus": "",
+    "crossCheckSource": "",
+    "crossCheckChart": "",
+    "fields": [
+      {
+        "key": "shoulder",
+        "label": "어깨"
+      },
+      {
+        "key": "chest",
+        "label": "가슴단면"
+      },
+      {
+        "key": "sleeve",
+        "label": "소매길이"
+      },
+      {
+        "key": "length",
+        "label": "총기장"
+      },
+      {
+        "key": "hem",
+        "label": "밑단단면"
+      }
+    ],
+    "sizes": [
+      {
+        "size": "95",
+        "shoulder": 45,
+        "chest": 53.5,
+        "sleeve": 63,
+        "length": 70,
+        "hem": 52.5
+      },
+      {
+        "size": "100",
+        "shoulder": 47,
+        "chest": 56,
+        "sleeve": 64,
+        "length": 72,
+        "hem": 55
+      },
+      {
+        "size": "105",
+        "shoulder": 49,
+        "chest": 58.5,
+        "sleeve": 65,
+        "length": 74,
+        "hem": 57.5
+      },
+      {
+        "size": "110",
+        "shoulder": 54,
+        "chest": 61,
+        "sleeve": 66,
+        "length": 76,
+        "hem": 60
+      }
+    ]
+  },
+  {
+    "id": "helikon-cougar",
+    "brandId": "helikon-tex",
+    "name": "헬리콘텍스 HELIKON-TEX",
+    "model": "쿠거 자켓 (샤크스킨 소프트쉘)",
+    "checked": "2026-10-05",
+    "website": "https://www.netpx.co.kr/app/contents/brandshoplist/HEK",
+    "modelUrl": "https://www.netpx.co.kr/app/product/detail/118702/0",
+    "source": "https://static.netpx.co.kr/images/prd_img/img/helikon-tex/118702_1.jpg",
+    "sourceLabel": "사이즈 조견표",
+    "sourceNote": "넷피엑스 블랙 상품 상세 · SIZE INFO 원본",
+    "measurementNote": "블랙 상품의 조견표 기준. 숫자 범위는 조견표의 국내표기입니다. 가슴은 그림의 단면 측정 기준. 측정 방법·위치에 따라 1~3cm 오차 가능.",
+    "chartImage": null,
+    "requestedSource": "",
+    "requestedSourceStatus": "",
+    "crossCheckSource": "",
+    "crossCheckChart": "",
+    "fields": [
+      {
+        "key": "shoulder",
+        "label": "어깨"
+      },
+      {
+        "key": "chest",
+        "label": "가슴단면"
+      },
+      {
+        "key": "sleeve",
+        "label": "소매길이"
+      },
+      {
+        "key": "length",
+        "label": "총기장"
+      }
+    ],
+    "sizes": [
+      {
+        "size": "S",
+        "alias": "95~100",
+        "aliasNote": "원본 조견표의 국내 사이즈 범위",
+        "shoulder": 46,
+        "chest": 55,
+        "sleeve": 66,
+        "length": 69
+      },
+      {
+        "size": "M",
+        "alias": "100~105",
+        "aliasNote": "원본 조견표의 국내 사이즈 범위",
+        "shoulder": 48,
+        "chest": 57.5,
+        "sleeve": 67,
+        "length": 71
+      },
+      {
+        "size": "L",
+        "alias": "105~110",
+        "aliasNote": "원본 조견표의 국내 사이즈 범위",
+        "shoulder": 50,
+        "chest": 60,
+        "sleeve": 68,
+        "length": 73
+      },
+      {
+        "size": "XL",
+        "alias": "110~115",
+        "aliasNote": "원본 조견표의 국내 사이즈 범위",
+        "shoulder": 52,
+        "chest": 62.5,
+        "sleeve": 69,
+        "length": 75
+      }
+    ]
   }
 ]

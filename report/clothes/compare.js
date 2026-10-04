@@ -87,6 +87,7 @@ function updateComparison() {
     const link = element('a', `${item.name} · ${item.model} 원본 치수표 ↗`);
     link.href = item.source; link.target = '_blank'; link.rel = 'noopener';
     note.append(link, document.createTextNode(` · 확인일 ${item.checked}`));
+    if (item.measurementNote) note.append(element('span', item.measurementNote, 'compare-note'));
     const ranking = suggested.get(item.id);
     if (ranking) {
       const best = ranking[0];

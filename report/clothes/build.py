@@ -13,7 +13,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parent
 FIELD_LABELS = {'shoulder':'어깨', 'chest':'가슴단면', 'sleeve':'소매길이',
                 'length':'총기장', 'hem':'밑단단면', 'waist':'허리단면',
-                'hip':'엉덩이단면', 'thigh':'허벅지단면', 'rise':'밑위', 'inseam':'안쪽기장'}
+                'hip':'엉덩이단면', 'thigh':'허벅지단면', 'rise':'밑위', 'inseam':'안쪽기장', 'back_neck_sleeve':'화장(뒷목~소매 끝)'}
 DEFAULT_FIELDS = [{'key':key, 'label':FIELD_LABELS[key]} for key in ('shoulder','chest','sleeve','length','hem')]
 MODEL_KEYS = dict(zip(
     ['model_id','brand_id','brand_name','model_name','checked_at','brand_url','model_url','chart_url',

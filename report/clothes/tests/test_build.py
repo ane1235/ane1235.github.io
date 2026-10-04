@@ -19,7 +19,10 @@ class CSVBuildTest(unittest.TestCase):
         self.source = Path(self.temp.name)/'source'; self.source.mkdir()
         self.output = Path(self.temp.name)/'output'
         for name in ('models.csv','sizes.csv'):
-            (self.source/name).write_bytes((ROOT/name).read_bytes())
+            with (ROOT/name).open(newline='') as f:
+                reader = csv.DictReader(f); headers = reader.fieldnames
+                rows = [row for row in reader if row['model_id'] in ('hyperops', 'spaver')]
+            self.write(name, headers, rows)
 
     def read(self, name):
         with (self.source/name).open(newline='',encoding='utf-8-sig') as f:
