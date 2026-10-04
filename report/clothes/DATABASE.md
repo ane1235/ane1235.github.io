@@ -27,6 +27,7 @@
 | helikon-cougar | 헬리콘텍스 HELIKON-TEX | 쿠거 자켓 (샤크스킨 소프트쉘) | 2026-10-05 | [메이커](https://www.netpx.co.kr/app/contents/brandshoplist/HEK) | [모델](https://www.netpx.co.kr/app/product/detail/118702/0) | [조견표](https://static.netpx.co.kr/images/prd_img/img/helikon-tex/118702_1.jpg) |
 | hyperops-neptune-3l | 하이퍼옵스 | 넵튠 자켓 (3레이어) | 2026-10-05 | [메이커](https://hyper-ops.com/) | [모델](https://www.hyper-ops.com/product/detail.html?cate_no=329&product_no=391) | [조견표](https://static.netpx.co.kr/images/goods_cont/img_37406fa3bb9c82f3d95c1c5240d5951a.jpg) |
 | 511-responder-parka-2 | 5.11 택티컬 | 리스폰더 파카 2.0 | 2026-10-05 | [메이커](https://www.netpx.co.kr/app/contents/brandshoplist/OLL) | [모델](https://www.netpx.co.kr/app/product/detail/138211/0) | [조견표](https://www.netpx.co.kr/app/product/detail/138211/0) |
+| 511-sabre-softshell-2 | 5.11 택티컬 | 사브레 소프트쉘 자켓 2.0 (다크 네이비) | 2026-10-05 | [메이커](https://www.netpx.co.kr/app/contents/brandshoplist/OLL) | [모델](https://www.netpx.co.kr/app/product/detail/121024/0) | [조견표](https://www.netpx.co.kr/app/product/detail/121024/0) |
 
 ## 하이퍼옵스 · 크러쉬 자켓
 
@@ -163,3 +164,15 @@
 
 - 출처: 넷피엑스 블랙 상품 상세 · size 실측표
 - 측정 안내: 소매길이는 어깨선부터 소매 끝, 가슴단면은 겨드랑이 바로 아래 수평 측정. 숫자 사이즈 병기는 원표 미제공. 실측 오차 1~3cm, 재입고 시기에 따라 차이 가능.
+
+## 5.11 택티컬 · 사브레 소프트쉘 자켓 2.0 (다크 네이비)
+
+| 사이즈 | 별칭 | 어깨 | 가슴단면 | 소매길이 | 총기장 |
+|---|---|---|---|---|---|
+| S |  | — | 56 | 76 | 71 |
+| M |  | — | 60 | 78 | 74 |
+| L |  | — | 64 | 80.5 | 76 |
+| XL |  | — | 67 | 81 | 80 |
+
+- 출처: 넷피엑스 상품 상세 · MEASUREMENT 실측표
+- 측정 안내: 어깨와 숫자 사이즈 병기는 원표 미제공. 어깨 미제공으로 어깨+소매x2 및 자동 대응 계산 제외. 팔길이는 상품의 측정 안내에 따라 어깨선부터 소매 끝까지로 기록. 실측 오차 2~3cm.

@@ -663,5 +663,67 @@
         "length": 81
       }
     ]
+  },
+  {
+    "id": "511-sabre-softshell-2",
+    "brandId": "511-tactical",
+    "name": "5.11 택티컬",
+    "model": "사브레 소프트쉘 자켓 2.0 (다크 네이비)",
+    "checked": "2026-10-05",
+    "website": "https://www.netpx.co.kr/app/contents/brandshoplist/OLL",
+    "modelUrl": "https://www.netpx.co.kr/app/product/detail/121024/0",
+    "source": "https://www.netpx.co.kr/app/product/detail/121024/0",
+    "sourceLabel": "실측 사이즈 조견표",
+    "sourceNote": "넷피엑스 상품 상세 · MEASUREMENT 실측표",
+    "measurementNote": "어깨와 숫자 사이즈 병기는 원표 미제공. 어깨 미제공으로 어깨+소매x2 및 자동 대응 계산 제외. 팔길이는 상품의 측정 안내에 따라 어깨선부터 소매 끝까지로 기록. 실측 오차 2~3cm.",
+    "chartImage": null,
+    "requestedSource": "",
+    "requestedSourceStatus": "",
+    "crossCheckSource": "",
+    "crossCheckChart": "",
+    "fields": [
+      {
+        "key": "shoulder",
+        "label": "어깨"
+      },
+      {
+        "key": "chest",
+        "label": "가슴단면"
+      },
+      {
+        "key": "sleeve",
+        "label": "소매길이"
+      },
+      {
+        "key": "length",
+        "label": "총기장"
+      }
+    ],
+    "sizes": [
+      {
+        "size": "S",
+        "chest": 56,
+        "sleeve": 76,
+        "length": 71
+      },
+      {
+        "size": "M",
+        "chest": 60,
+        "sleeve": 78,
+        "length": 74
+      },
+      {
+        "size": "L",
+        "chest": 64,
+        "sleeve": 80.5,
+        "length": 76
+      },
+      {
+        "size": "XL",
+        "chest": 67,
+        "sleeve": 81,
+        "length": 80
+      }
+    ]
   }
 ]
