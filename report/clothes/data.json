@@ -227,5 +227,79 @@
         "length": 81
       }
     ]
+  },
+  {
+    "id": "helikon-gunfighter-black",
+    "brandId": "helikon-tex",
+    "name": "헬리콘텍스 HELIKON-TEX",
+    "model": "건파이터 자켓 (블랙)",
+    "checked": "2026-10-05",
+    "website": "https://www.netpx.co.kr/app/contents/brandshoplist/HEK",
+    "modelUrl": "https://www.netpx.co.kr/app/product/detail/117012/0",
+    "source": "https://static.netpx.co.kr/images/prd_img/img/helikon-tex/117012.jpg",
+    "sourceLabel": "사이즈 조견표",
+    "sourceNote": "넷피엑스 상품 상세 · SIZE INFO 원본",
+    "measurementNote": "샤크스킨 소프트쉘. 숫자 범위는 조견표의 국내표기입니다. 가슴은 그림의 단면 측정 기준. 측정 방법·위치에 따라 1~3cm 오차 가능.",
+    "chartImage": null,
+    "requestedSource": "",
+    "requestedSourceStatus": "",
+    "crossCheckSource": "",
+    "crossCheckChart": "",
+    "fields": [
+      {
+        "key": "shoulder",
+        "label": "어깨"
+      },
+      {
+        "key": "chest",
+        "label": "가슴단면"
+      },
+      {
+        "key": "sleeve",
+        "label": "소매길이"
+      },
+      {
+        "key": "length",
+        "label": "총기장"
+      }
+    ],
+    "sizes": [
+      {
+        "size": "S",
+        "alias": "95~100",
+        "aliasNote": "넷피엑스 SIZE INFO 조견표의 국내표기",
+        "shoulder": 46,
+        "chest": 55,
+        "sleeve": 64,
+        "length": 72
+      },
+      {
+        "size": "M",
+        "alias": "100~105",
+        "aliasNote": "넷피엑스 SIZE INFO 조견표의 국내표기",
+        "shoulder": 48,
+        "chest": 58.5,
+        "sleeve": 65,
+        "length": 73
+      },
+      {
+        "size": "L",
+        "alias": "105~110",
+        "aliasNote": "넷피엑스 SIZE INFO 조견표의 국내표기",
+        "shoulder": 50,
+        "chest": 61,
+        "sleeve": 66,
+        "length": 74
+      },
+      {
+        "size": "XL",
+        "alias": "110~115",
+        "aliasNote": "넷피엑스 SIZE INFO 조견표의 국내표기",
+        "shoulder": 52,
+        "chest": 63.5,
+        "sleeve": 67,
+        "length": 75
+      }
+    ]
   }
 ]

@@ -21,6 +21,7 @@
 | hyperops | 하이퍼옵스 | 크러쉬 자켓 | 2026-10-05 | [메이커](https://hyper-ops.com/) | [모델](https://hyper-ops.com/product/detail.html?product_no=390) | [조견표](https://hyper-ops.com/product/detail.html?product_no=390) |
 | spaver | 스페이버 SPAVER | 어반 소프트쉘 자켓 | 2026-10-05 | [메이커](https://www.netpx.co.kr/app/contents/brandshoplist/SPV) | [모델](https://www.netpx.co.kr/app/product/detail/114754/0) | [조견표](https://www.netpx.co.kr/app/product/detail/114754/0) |
 | kidon-light-wind-breaker | 키돈 Kidon | 경량 윈드 브레이커 | 2026-10-05 | [메이커](https://www.netpx.co.kr/app/contents/brandshoplist/KDN) | [모델](https://smartstore.naver.com/papaland/products/5531863221) | [조견표](https://img.netpx.co.kr/images/prd_img/pd_150450/150734/06.jpg) |
+| helikon-gunfighter-black | 헬리콘텍스 HELIKON-TEX | 건파이터 자켓 (블랙) | 2026-10-05 | [메이커](https://www.netpx.co.kr/app/contents/brandshoplist/HEK) | [모델](https://www.netpx.co.kr/app/product/detail/117012/0) | [조견표](https://static.netpx.co.kr/images/prd_img/img/helikon-tex/117012.jpg) |
 
 ## 하이퍼옵스 · 크러쉬 자켓
 
@@ -71,3 +72,19 @@
 - L 별칭 근거: 사용자 제공 표기 및 넷피엑스 조견표 일치
 - XL 별칭 근거: 사용자 제공 표기 및 넷피엑스 조견표 일치
 - XXL 별칭 근거: 사용자 제공 표기 및 넷피엑스 조견표 일치
+
+## 헬리콘텍스 HELIKON-TEX · 건파이터 자켓 (블랙)
+
+| 사이즈 | 별칭 | 어깨 | 가슴단면 | 소매길이 | 총기장 |
+|---|---|---|---|---|---|
+| S | 95~100 | 46 | 55 | 64 | 72 |
+| M | 100~105 | 48 | 58.5 | 65 | 73 |
+| L | 105~110 | 50 | 61 | 66 | 74 |
+| XL | 110~115 | 52 | 63.5 | 67 | 75 |
+
+- 출처: 넷피엑스 상품 상세 · SIZE INFO 원본
+- 측정 안내: 샤크스킨 소프트쉘. 숫자 범위는 조견표의 국내표기입니다. 가슴은 그림의 단면 측정 기준. 측정 방법·위치에 따라 1~3cm 오차 가능.
+- S 별칭 근거: 넷피엑스 SIZE INFO 조견표의 국내표기
+- M 별칭 근거: 넷피엑스 SIZE INFO 조견표의 국내표기
+- L 별칭 근거: 넷피엑스 SIZE INFO 조견표의 국내표기
+- XL 별칭 근거: 넷피엑스 SIZE INFO 조견표의 국내표기
