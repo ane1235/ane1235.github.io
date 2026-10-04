@@ -30,20 +30,18 @@ function value(item, size, field) {
   const compatible = item.fields.some(f => f.key === field.key && f.label === field.label);
   return compatible && Number.isFinite(size?.[field.key]) ? size[field.key] : null;
 }
-function score(reference, item, size) {
-  let total = 0;
-  for (const field of measurements) {
-    const a = value(reference.item, reference.size, field);
-    const b = value(item, size, field);
-    if (a === null || b === null) return null;
-    total += Math.abs(b - a);
-  }
-  return Math.round(total * 100) / 100;
+function shoulderSleeveSpan(item, size) {
+  const shoulder = value(item, size, measurements[0]);
+  const sleeve = value(item, size, measurements[2]);
+  return shoulder === null || sleeve === null ? null : shoulder + sleeve * 2;
 }
-function shoulderChest(item, size) {
-  const a = value(item, size, measurements[0]);
-  const b = value(item, size, measurements[1]);
-  return a === null || b === null ? null : a + b;
+function score(reference, item, size) {
+  const referenceChest = value(reference.item, reference.size, measurements[1]);
+  const targetChest = value(item, size, measurements[1]);
+  const referenceSpan = shoulderSleeveSpan(reference.item, reference.size);
+  const targetSpan = shoulderSleeveSpan(item, size);
+  if ([referenceChest, targetChest, referenceSpan, targetSpan].some(number => number === null)) return null;
+  return Math.round((Math.abs(targetChest - referenceChest) + Math.abs(targetSpan - referenceSpan)) * 100) / 100;
 }
 function cellWithDelta(number, baseline, isReference) {
   const cell = element('td', number === null ? '—' : format(number));
@@ -104,8 +102,8 @@ function updateComparison() {
     for (const {item, size} of selected) row.append(cellWithDelta(value(item, size, field), baseline, item.id === reference.item.id));
     body.append(row);
   }
-  const sumRow = element('tr'); const sumLabel = element('th', '어깨+가슴 합계'); sumLabel.scope = 'row'; sumRow.append(sumLabel);
-  for (const {item, size} of selected) sumRow.append(cellWithDelta(shoulderChest(item, size), shoulderChest(reference.item, reference.size), item.id === reference.item.id));
+  const sumRow = element('tr'); const sumLabel = element('th', '어깨+소매x2'); sumLabel.scope = 'row'; sumRow.append(sumLabel);
+  for (const {item, size} of selected) sumRow.append(cellWithDelta(shoulderSleeveSpan(item, size), shoulderSleeveSpan(reference.item, reference.size), item.id === reference.item.id));
   body.append(sumRow);
   const scoreRow = element('tr'); const scoreLabel = element('th', '치수 차이 합계'); scoreLabel.scope = 'row'; scoreRow.append(scoreLabel);
   for (const {item, size} of selected) {

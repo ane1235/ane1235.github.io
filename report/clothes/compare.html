@@ -28,7 +28,9 @@
     <div class="comparison-scroll" tabindex="0" role="region" aria-label="선택한 사이즈 비교표, 좁은 화면에서는 가로로 스크롤">
       <table id="comparison-table"><caption>메이커·모델별 선택 사이즈 치수</caption><thead></thead><tbody></tbody></table>
     </div>
-    <p class="meta">치수 차이 합계 = |어깨 차이| + |가슴단면 차이| + |소매길이 차이|. 작을수록 기준에 가까우며, 어깨+가슴 합계는 보조 지표입니다.</p>
+    <p class="meta" id="comparison-formula">어깨+소매x2 = 어깨 + 소매길이 × 2.<br>
+      치수 차이 합계 = |비교 대상 가슴단면 − 기준 가슴단면| + |비교 대상의 (어깨 + 소매길이 × 2) − 기준의 (어깨 + 소매길이 × 2)|.<br>
+      | |는 절대값입니다. 합계가 작을수록 기준에 가까운 대응 후보이며, 기준 사이즈 자체의 차이는 0입니다. 필수 치수가 없으면 계산하지 않습니다.</p>
     <div id="comparison-notes"></div>
   </section>
   <noscript><p>사이즈 비교에는 JavaScript가 필요합니다. <a href="static.html">정적 치수표 보기</a></p></noscript>
