@@ -11,8 +11,8 @@ const stages={STARTED:'조회 시작',QUERY_CONFIRMED:'조회 확인',SAVE_PENDI
 let accessToken='',expiresAt=0,tokenClient=null,authPending=false,busy=false,session=0;
 let metrics=null,samples=[],delta=null,lastSuccess=0,lastAttempt=0,sourceModified=null,stateModified=null;
 let source=null,stateFile=null,version=null,nextStateRead=0,nextPoll=0,error='',authRequired=false;
-let gisReady=false,gisFailed=false;
-function message(code){return ({NO_FILE:'진행 로그를 찾을 수 없습니다. 연결한 Google 계정을 확인해 주세요.',MULTIPLE_FILES:'동일한 이름의 로그가 여러 개여서 자동 선택하지 않았습니다.',NO_DOWNLOAD:'로그 읽기 권한이 없습니다.',NO_VALID_ROWS:'해석할 수 있는 로그가 없습니다.',AUTH:'인증이 만료됐습니다. Drive 재연결을 눌러 주세요.',DENIED:'Drive 읽기 권한 승인이 필요합니다.',POPUP:'로그인 창이 닫혔거나 차단됐습니다. 다시 연결해 주세요.',NETWORK:'Google 연결 실패 · 마지막 확인값',SETUP:'웹용 Google Client ID 설정이 필요합니다.',GIS:'Google 로그인 모듈에 연결할 수 없습니다.',TOO_LARGE:'로그 크기가 허용 범위를 초과했습니다.',SOURCE_ERROR:'Drive 읽기 실패 · 마지막 확인값'})[code]||'Drive 읽기 실패 · 마지막 확인값';}
+let gisReady=false,gisFailed=false,readStep='',failureStep='',httpStatus=0;
+function message(code){return ({API_DISABLED:'Google Cloud 프로젝트에서 Google Drive API를 사용 설정해 주세요.',RATE_LIMIT:'Google 요청 한도에 도달했습니다. 잠시 후 다시 읽어 주세요.',POLICY:'Google 계정의 조직 정책으로 Drive 접근이 차단됐습니다.',BAD_REQUEST:'Drive 요청 형식을 확인해야 합니다.',NO_FILE:'진행 로그를 찾을 수 없습니다. 연결한 Google 계정을 확인해 주세요.',MULTIPLE_FILES:'동일한 이름의 로그가 여러 개여서 자동 선택하지 않았습니다.',NO_DOWNLOAD:'로그 읽기 권한이 없습니다.',NO_VALID_ROWS:'해석할 수 있는 로그가 없습니다.',AUTH:'인증이 만료됐습니다. Drive 재연결을 눌러 주세요.',DENIED:'Drive 읽기 권한 승인이 필요합니다.',POPUP:'로그인 창이 닫혔거나 차단됐습니다. 다시 연결해 주세요.',NETWORK:'Google 연결 실패 · 마지막 확인값',SETUP:'웹용 Google Client ID 설정이 필요합니다.',GIS:'Google 로그인 모듈에 연결할 수 없습니다.',TOO_LARGE:'로그 크기가 허용 범위를 초과했습니다.',SOURCE_ERROR:'Drive 읽기 실패 · 마지막 확인값'})[code]||'Drive 읽기 실패 · 마지막 확인값';}
 function render(){
  const now=Date.now();if(accessToken&&now>=expiresAt){accessToken='';authRequired=true;error='AUTH';samples=[];delta=null;}
  let status=!CLIENT_ID?'SETUP':authRequired?'AUTH':!accessToken?'SIGNED_OUT':error?'SOURCE_ERROR':classify(metrics,lastSuccess,now);
@@ -37,12 +37,27 @@ function render(){
   $('details').replaceChildren(...entries.flatMap(([k,v])=>[Object.assign(document.createElement('dt'),{textContent:k}),Object.assign(document.createElement('dd'),{textContent:v})]));
   if(Object.values(m.warnings).some(Boolean))warnings.push(`누락 ${m.warnings.missing} · 충돌 ${m.warnings.conflicts} · 형식 ${m.warnings.malformed} · 범위 밖 ${m.warnings.out_of_range}`);
  }
- $('notice').hidden=!warnings.length;$('notice').textContent=warnings.join(' / ');
+ const diagnosis=error?`${failureStep||'인증'} · ${error}${httpStatus?' · HTTP '+httpStatus:''}`:'';
+ $('status').title=error?message(error)+' ('+diagnosis+')':'';
+ $('notice').hidden=!warnings.length;$('notice').textContent=warnings.join(' / ')+(diagnosis?' ['+diagnosis+']':'');
 }
 async function drive(url,asText=false){
  if(!accessToken||Date.now()>=expiresAt)throw Error('AUTH');
  const r=await fetch(url,{headers:{Authorization:'Bearer '+accessToken},cache:'no-store',signal:AbortSignal.timeout(15000),credentials:'omit'});
- if(r.status===401)throw Error('AUTH');if(r.status===403)throw Error('DENIED');if(!r.ok)throw Error('SOURCE_ERROR');
+ if(!r.ok){
+  httpStatus=r.status;
+  // Classify only documented reason codes; never display raw response text.
+  let body={};try{body=await r.json();}catch{}
+  const reasons=[...(Array.isArray(body.error?.errors)?body.error.errors:[]),...(Array.isArray(body.error?.details)?body.error.details:[])].map(e=>e.reason);
+  if(r.status===401)throw Error('AUTH');
+  if(reasons.some(x=>['accessNotConfigured','SERVICE_DISABLED'].includes(x)))throw Error('API_DISABLED');
+  if(r.status===429||reasons.some(x=>['rateLimitExceeded','userRateLimitExceeded','dailyLimitExceeded','RATE_LIMIT_EXCEEDED'].includes(x)))throw Error('RATE_LIMIT');
+  if(reasons.includes('domainPolicy'))throw Error('POLICY');
+  if(r.status===403)throw Error('DENIED');
+  if(r.status===404)throw Error('NO_FILE');
+  if(r.status===400)throw Error('BAD_REQUEST');
+  throw Error('SOURCE_ERROR');
+ }
  if(asText){if(Number(r.headers.get('Content-Length'))>33554432)throw Error('TOO_LARGE');const text=await r.text();if(text.length>33554432)throw Error('TOO_LARGE');return text;}
  return r.json();
 }
@@ -56,21 +71,23 @@ async function findSources(){
 async function poll(){
  if(busy||!accessToken)return;busy=true;const generation=session;lastAttempt=Date.now();render();
  try{
+  httpStatus=0;readStep='파일 검색';
   if(!source){const found=await findSources();if(generation!==session)return;source=found.log;stateFile=found.state;stateModified=stateFile?.modifiedTime||null;}
+  readStep='로그 정보';
   const meta=await drive(API+'/'+encodeURIComponent(source.id)+'?fields=id,modifiedTime,size,version,capabilities(canDownload)');
   if(generation!==session)return;
   if(meta.capabilities?.canDownload===false)throw Error('NO_DOWNLOAD');
   const v=String(meta.version||meta.modifiedTime)+'|'+meta.size;
-  let next=metrics;if(!metrics||v!==version)next=parseLog(await drive(API+'/'+encodeURIComponent(source.id)+'?alt=media',true));
+  let next=metrics;if(!metrics||v!==version){readStep='로그 읽기';const text=await drive(API+'/'+encodeURIComponent(source.id)+'?alt=media',true);readStep='로그 해석';next=parseLog(text);}
   if(generation!==session||!accessToken)return;
   const now=Date.now();if(lastSuccess&&now-lastSuccess>150000)samples=[];
-  metrics=next;version=v;sourceModified=meta.modifiedTime;lastSuccess=now;error='';
+  metrics=next;version=v;sourceModified=meta.modifiedTime;lastSuccess=now;error='';failureStep='';httpStatus=0;
   samples=samples.filter(s=>now-s.time<=750000);samples.push({time:now,metrics});delta=intervalDelta(samples,now);
-  if(stateFile&&now>=nextStateRead){try{const m=await drive(API+'/'+encodeURIComponent(stateFile.id)+'?fields=modifiedTime');if(generation===session)stateModified=m.modifiedTime;}catch{/* Auxiliary state never replaces the progress log. */}nextStateRead=Date.now()+300000;}
- }catch(e){if(generation===session){const safe=['AUTH','DENIED','NO_FILE','MULTIPLE_FILES','NO_DOWNLOAD','NO_VALID_ROWS','TOO_LARGE','SOURCE_ERROR'];error=safe.includes(e.message)?e.message:'NETWORK';samples=[];delta=null;if(error==='AUTH'){accessToken='';authRequired=true;}}}
+  if(stateFile&&now>=nextStateRead){try{const m=await drive(API+'/'+encodeURIComponent(stateFile.id)+'?fields=modifiedTime');if(generation===session)stateModified=m.modifiedTime;}catch{httpStatus=0;/* Auxiliary state never replaces the progress log. */}nextStateRead=Date.now()+300000;}
+ }catch(e){if(generation===session){failureStep=readStep;const safe=['API_DISABLED','RATE_LIMIT','POLICY','BAD_REQUEST','AUTH','DENIED','NO_FILE','MULTIPLE_FILES','NO_DOWNLOAD','NO_VALID_ROWS','TOO_LARGE','SOURCE_ERROR'];error=safe.includes(e.message)?e.message:'NETWORK';samples=[];delta=null;if(error==='AUTH'){accessToken='';authRequired=true;}}}
  finally{busy=false;nextPoll=generation===session?lastAttempt+60000:0;render();}
 }
-function clearData(){metrics=null;samples=[];delta=null;lastSuccess=0;source=null;stateFile=null;version=null;sourceModified=null;stateModified=null;nextStateRead=0;for(const id of ['completed','saved','noData','failures','through','current','stage'])$(id).textContent='—';$('percent').textContent='—';$('bar').value=0;$('updated').textContent='로그 —';$('details').replaceChildren();$('delta').textContent='10분 · 측정 대기';}
+function clearData(){failureStep='';httpStatus=0;metrics=null;samples=[];delta=null;lastSuccess=0;source=null;stateFile=null;version=null;sourceModified=null;stateModified=null;nextStateRead=0;for(const id of ['completed','saved','noData','failures','through','current','stage'])$(id).textContent='—';$('percent').textContent='—';$('bar').value=0;$('updated').textContent='로그 —';$('details').replaceChildren();$('delta').textContent='10분 · 측정 대기';}
 function initGIS(){
  if(!CLIENT_ID)return;
  try{tokenClient=google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:SCOPE,include_granted_scopes:false,
@@ -78,7 +95,7 @@ function initGIS(){
   error_callback:()=>{authPending=false;error='POPUP';render();}});gisReady=true;
  }catch{gisFailed=true;}render();
 }
-$('connect').addEventListener('click',()=>{if(!tokenClient)return;authPending=true;error='';render();try{tokenClient.requestAccessToken({prompt:accessToken?'select_account':''});}catch{authPending=false;error='POPUP';render();}});
+$('connect').addEventListener('click',()=>{if(!tokenClient)return;authPending=true;error='';failureStep='';httpStatus=0;render();try{tokenClient.requestAccessToken({prompt:accessToken?'select_account':''});}catch{authPending=false;error='POPUP';render();}});
 $('disconnect').addEventListener('click',()=>{session++;accessToken='';expiresAt=0;authRequired=false;error='';clearData();render();});
 $('refresh').addEventListener('click',poll);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&accessToken&&Date.now()>=nextPoll)poll();});
