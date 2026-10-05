@@ -13,6 +13,12 @@
 video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#000;border:1px solid #302b23}
 .seek-row{display:flex;align-items:center;gap:14px;flex:1 0 100%;width:100%;font-size:14px}.seek-row span{min-width:100px}.seek-row input{flex:1;min-width:0;height:48px;accent-color:#d8be97;touch-action:pan-x}.player-message{color:#d8be97;font-size:14px;line-height:1.7}
 @media(max-width:650px){.player-tools button{flex:1 0 28%;min-width:80px;padding:10px 8px}.seek-row{flex:1 0 100%}}
+
+.player-shell:fullscreen{position:relative}
+.player-shell:fullscreen .player-tools,.player-shell.screen-expanded .player-tools{position:absolute;left:0;right:0;bottom:0;z-index:2;background:linear-gradient(transparent,rgba(16,16,14,.94) 24%);padding-top:30px;opacity:1;transition:opacity .2s ease,visibility .2s ease}
+.player-shell:fullscreen.controls-hidden .player-tools,.player-shell.screen-expanded.controls-hidden .player-tools{opacity:0;visibility:hidden;pointer-events:none}
+.player-shell:fullscreen.controls-hidden,.player-shell.screen-expanded.controls-hidden{cursor:none}
+@media(prefers-reduced-motion:reduce){.player-tools{transition:none!important}}
 </style>
 </head>
 <body><main>
@@ -36,8 +42,34 @@ video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#
 const shell=document.querySelector('.player-shell');
 const media=shell.querySelector('iframe,video');
 const fullscreenButton=document.querySelector('[data-fullscreen]');
+const tools=document.querySelector('.player-tools');
+let hideTimer,draggingControls=false,keyboardControls=false;
+function scheduleHide(){
+ clearTimeout(hideTimer);
+ if(!expanded())return;
+ hideTimer=setTimeout(()=>{
+  if(!expanded()||draggingControls||(keyboardControls&&tools.contains(document.activeElement)))return;
+  if(tools.contains(document.activeElement))document.activeElement.blur();
+  shell.classList.add('controls-hidden');
+ },3000);
+}
+function showControls(){shell.classList.remove('controls-hidden');scheduleHide();}
+shell.addEventListener('pointermove',showControls);
+shell.addEventListener('pointerdown',e=>{
+ keyboardControls=false;
+ if(e.target.closest('.player-tools'))draggingControls=true;
+ showControls();
+});
+document.addEventListener('pointerup',()=>{if(draggingControls){draggingControls=false;showControls();}});
+document.addEventListener('pointercancel',()=>{draggingControls=false;showControls();});
+shell.addEventListener('keydown',()=>{keyboardControls=true;showControls();});
+tools.addEventListener('focusin',showControls);
+tools.addEventListener('focusout',scheduleHide);
+media.addEventListener('play',showControls);
+media.addEventListener('pause',showControls);
+media.addEventListener('ended',showControls);
 function expanded(){return !!document.fullscreenElement||shell.classList.contains('screen-expanded')}
-function sync(){fullscreenButton.textContent=expanded()?'화면 축소':'전체화면';fullscreenButton.setAttribute('aria-pressed',String(expanded()));}
+function sync(){fullscreenButton.textContent=expanded()?'화면 축소':'전체화면';fullscreenButton.setAttribute('aria-pressed',String(expanded()));showControls();}
 fullscreenButton.addEventListener('click',async()=>{
  if(expanded()){
   if(document.fullscreenElement){await document.exitFullscreen();}
