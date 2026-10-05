@@ -8,6 +8,7 @@
 <h4>Cloudflare R2 재생</h4>
 <ul>
 <li><a href="mov/261005_uav_codex-blender_sj/cloudflare-r2.html">Cloudflare R2 재생 페이지</a><br><small>Cloudflare R2 · 1920×1080 · 4:26 · 504.07 MB · 30fps<br>H.265/HEVC Main10 + AAC · 14.96 Mbps · Rec.709 · 10bit · .mp4</small></li>
+<li><a href="mov/261005_uav_codex-blender_sj/cloudflare-r2.html?fullscreen=1" data-fullscreen-player>Cloudflare R2 전체화면 자동 재생</a><br><small>Cloudflare R2 · 1920×1080 · 4:26 · 504.07 MB · 30fps<br>H.265/HEVC Main10 + AAC · 14.96 Mbps · Rec.709 · 10bit · .mp4</small></li>
 <li><a href="https://pub-ec5d667da6234f93bcfaca2fbbcad4fa.r2.dev/mov/261005_uav_codex-blender_sj/261005_codex_blender_sj_v01_h265.mp4">Cloudflare R2 재생 MP4</a><br><small>Cloudflare R2 · 1920×1080 · 4:26 · 504.07 MB · 30fps<br>H.265/HEVC Main10 + AAC · 14.96 Mbps · Rec.709 · 10bit · .mp4</small></li>
 <li><span aria-disabled="true" style="color:#687780">Cloudflare R2 재생 WebM (미완성)</span></li>
 </ul>
@@ -36,4 +37,61 @@
 <p>병원·공사장 하이라이트 · 2026/10/04 해질녘 · Dr.Min</p>
 <ul><li><a href="mov/261004_codex_hospital_contrast_60s_1080p30_FINAL.webm">github 재생 WebM</a><br><small>github · 1920×1080 · 1:00 · 104.2 MB · 30fps<br>VP9 Profile 0 · 13.68 Mbps · Rec.709 · 8bit · .webm</small></li></ul>
 </section>
-</section></main></body></html>
+</section></main>
+<style>
+.video-overlay{position:fixed;inset:0;width:100%;height:100%;height:100dvh;z-index:10000;background:#000}
+.video-overlay iframe{display:block;width:100%;height:100%;border:0}
+</style>
+<script>
+(()=>{
+ const link=document.querySelector('[data-fullscreen-player]');
+ const main=document.querySelector('main');
+ let active=null;
+ function closePlayer(){
+  if(!active)return;
+  const state=active;active=null;
+  if(document.fullscreenElement===state.overlay){document.exitFullscreen().catch(()=>{});}
+  state.overlay.remove();
+  main.inert=state.wasInert;
+  document.body.style.overflow=state.overflow;
+  link.focus({preventScroll:true});
+  window.scrollTo(state.scrollX,state.scrollY);
+ }
+ link.addEventListener('click',event=>{
+  if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  event.preventDefault();
+  if(active)return;
+  const overlay=document.createElement('div');
+  overlay.className='video-overlay';
+  overlay.setAttribute('role','dialog');
+  overlay.setAttribute('aria-modal','true');
+  overlay.setAttribute('aria-label','가을의 시작, 2026 · 전체화면 재생');
+  const frame=document.createElement('iframe');
+  frame.title='가을의 시작, 2026 · 동영상 플레이어';
+  frame.allow='autoplay; fullscreen';
+  frame.allowFullscreen=true;
+  frame.src=link.href;
+  overlay.append(frame);
+  const state={overlay,frame,entered:false,wasInert:main.inert,overflow:document.body.style.overflow,scrollX:scrollX,scrollY:scrollY};
+  active=state;
+  document.body.append(overlay);
+  main.inert=true;
+  document.body.style.overflow='hidden';
+  // Request during this click: navigation would lose transient user activation.
+  try{
+   if(overlay.requestFullscreen){overlay.requestFullscreen().catch(()=>{});}
+  }catch{/* Keep the viewport-filling player when fullscreen is unavailable. */}
+  frame.addEventListener('load',()=>{if(active===state)frame.focus();},{once:true});
+ });
+ document.addEventListener('fullscreenchange',()=>{
+  if(!active)return;
+  if(document.fullscreenElement===active.overlay)active.entered=true;
+  else if(active.entered&&!document.fullscreenElement)closePlayer();
+ });
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&active)closePlayer();});
+ window.addEventListener('message',event=>{
+  if(active&&event.origin===location.origin&&event.source===active.frame.contentWindow&&event.data?.type==='r2-player-close')closePlayer();
+ });
+})();
+</script>
+</body></html>

@@ -43,6 +43,9 @@ const shell=document.querySelector('.player-shell');
 const media=shell.querySelector('iframe,video');
 const fullscreenButton=document.querySelector('[data-fullscreen]');
 const tools=document.querySelector('.player-tools');
+const startExpanded=new URLSearchParams(location.search).get('fullscreen')==='1';
+const embeddedExpanded=startExpanded&&window.parent!==window;
+function closeEmbedded(){window.parent.postMessage({type:'r2-player-close'},location.origin);}
 let hideTimer,draggingControls=false,keyboardControls=false;
 function scheduleHide(){
  clearTimeout(hideTimer);
@@ -71,6 +74,7 @@ media.addEventListener('ended',showControls);
 function expanded(){return !!document.fullscreenElement||shell.classList.contains('screen-expanded')}
 function sync(){fullscreenButton.textContent=expanded()?'화면 축소':'전체화면';fullscreenButton.setAttribute('aria-pressed',String(expanded()));showControls();}
 fullscreenButton.addEventListener('click',async()=>{
+ if(embeddedExpanded){closeEmbedded();return;}
  if(expanded()){
   if(document.fullscreenElement){await document.exitFullscreen();}
   shell.classList.remove('screen-expanded');document.body.classList.remove('player-expanded');sync();return;
@@ -81,7 +85,7 @@ fullscreenButton.addEventListener('click',async()=>{
  sync();
 });
 document.addEventListener('fullscreenchange',sync);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){shell.classList.remove('screen-expanded');document.body.classList.remove('player-expanded');sync();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(embeddedExpanded){closeEmbedded();return;}shell.classList.remove('screen-expanded');document.body.classList.remove('player-expanded');sync();}});
 const external=document.querySelector('[data-drive-open]');
 if(external){document.querySelectorAll('a[target="drive-video"]').forEach(a=>a.addEventListener('click',()=>{external.href=a.href.replace('/preview','/view');}));}
 const seek=document.querySelector('[data-seek]'),time=document.querySelector('[data-time]'),mute=document.querySelector('[data-mute]'),message=document.querySelector('.player-message');
@@ -107,6 +111,7 @@ async function startAutomatically(){
  }
 }
 media.addEventListener('volumechange',()=>{mute.textContent=media.muted?'소리 켜기':'음소거';mute.setAttribute('aria-pressed',String(media.muted));});
+if(startExpanded){shell.classList.add('screen-expanded');document.body.classList.add('player-expanded');sync();}
 startAutomatically();
 </script>
 </body></html>
