@@ -8,9 +8,16 @@
 <h4>Cloudflare R2 재생</h4>
 <ul>
 <li><a href="mov/261005_uav_codex-blender_sj/cloudflare-r2.html">Cloudflare R2 재생 페이지</a><br><small>Cloudflare R2 · 1920×1080 · 4:26 · 504.07 MB · 30fps<br>H.265/HEVC Main10 + AAC · 14.96 Mbps · Rec.709 · 10bit · .mp4</small></li>
-<li><a href="mov/261005_uav_codex-blender_sj/cloudflare-r2.html?fullscreen=1" data-fullscreen-player>Cloudflare R2 전체화면 자동 재생</a><br><small>Cloudflare R2 · 1920×1080 · 4:26 · 504.07 MB · 30fps<br>H.265/HEVC Main10 + AAC · 14.96 Mbps · Rec.709 · 10bit · .mp4</small></li>
+<li><a href="mov/261005_uav_codex-blender_sj/cloudflare-r2.html?fullscreen=1" data-fullscreen-player data-video-src="https://pub-ec5d667da6234f93bcfaca2fbbcad4fa.r2.dev/mov/261005_uav_codex-blender_sj/261005_codex_blender_sj_v01_h265.mp4">Cloudflare R2 전체화면 자동 재생</a><br><small>Cloudflare R2 · 1920×1080 · 4:26 · 504.07 MB · 30fps<br>H.265/HEVC Main10 + AAC · 14.96 Mbps · Rec.709 · 10bit · .mp4</small></li>
 <li><a href="https://pub-ec5d667da6234f93bcfaca2fbbcad4fa.r2.dev/mov/261005_uav_codex-blender_sj/261005_codex_blender_sj_v01_h265.mp4">Cloudflare R2 재생 MP4</a><br><small>Cloudflare R2 · 1920×1080 · 4:26 · 504.07 MB · 30fps<br>H.265/HEVC Main10 + AAC · 14.96 Mbps · Rec.709 · 10bit · .mp4</small></li>
 <li><span aria-disabled="true" style="color:#687780">Cloudflare R2 재생 WebM (미완성)</span></li>
+</ul>
+<h4>Cloudflare R2 (저용량) 재생</h4>
+<ul>
+<li><a href="mov/261005_uav_codex-blender_sj/cloudflare-r2-low.html">Cloudflare R2 (저용량) 재생 페이지</a><br><small>Cloudflare R2 (저용량) · 1920×1080 · 4:26 · 170.18 MB · 30fps<br>H.265/HEVC Main10 + AAC · 4.98 Mbps · Rec.709 · 10bit · .mp4</small></li>
+<li><a href="mov/261005_uav_codex-blender_sj/cloudflare-r2-low.html?fullscreen=1" data-fullscreen-player data-video-src="https://pub-ec5d667da6234f93bcfaca2fbbcad4fa.r2.dev/mov/261005_uav_codex-blender_sj/261005_codex_blender_sj_v01_mobile5_h265.mp4">Cloudflare R2 (저용량) 전체화면 자동 재생</a><br><small>Cloudflare R2 (저용량) · 1920×1080 · 4:26 · 170.18 MB · 30fps<br>H.265/HEVC Main10 + AAC · 4.98 Mbps · Rec.709 · 10bit · .mp4</small></li>
+<li><a href="https://pub-ec5d667da6234f93bcfaca2fbbcad4fa.r2.dev/mov/261005_uav_codex-blender_sj/261005_codex_blender_sj_v01_mobile5_h265.mp4">Cloudflare R2 (저용량) 재생 MP4</a><br><small>Cloudflare R2 (저용량) · 1920×1080 · 4:26 · 170.18 MB · 30fps<br>H.265/HEVC Main10 + AAC · 4.98 Mbps · Rec.709 · 10bit · .mp4</small></li>
+<li><span aria-disabled="true" style="color:#687780">Cloudflare R2 (저용량) 재생 WebM (미완성)</span></li>
 </ul>
 <h4>google Drive 재생</h4>
 <ul>
@@ -45,7 +52,7 @@
 <script src="mov/native-video.js"></script>
 <script>
 (()=>{
- const link=document.querySelector('[data-fullscreen-player]');
+ const links=document.querySelectorAll('[data-fullscreen-player]');
  const main=document.querySelector('main');
  let active=null;
  function closePlayer(){
@@ -55,15 +62,15 @@
   state.overlay.remove();
   main.inert=state.wasInert;
   document.body.style.overflow=state.overflow;
-  link.focus({preventScroll:true});
+  state.link.focus({preventScroll:true});
   window.scrollTo(state.scrollX,state.scrollY);
  }
- link.addEventListener('click',event=>{
+ links.forEach(link=>link.addEventListener('click',event=>{
   if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
   event.preventDefault();
   if(active)return;
   if(window.NativeVideoPlayer?.isMobile()){
-   NativeVideoPlayer.open(document.querySelector('#videos a[href$="v01_h265.mp4"]').href);return;
+   NativeVideoPlayer.open(link.dataset.videoSrc);return;
   }
   const overlay=document.createElement('div');
   overlay.className='video-overlay';
@@ -76,7 +83,7 @@
   frame.allowFullscreen=true;
   frame.src=link.href;
   overlay.append(frame);
-  const state={overlay,frame,entered:false,wasInert:main.inert,overflow:document.body.style.overflow,scrollX:scrollX,scrollY:scrollY};
+  const state={link,overlay,frame,entered:false,wasInert:main.inert,overflow:document.body.style.overflow,scrollX:scrollX,scrollY:scrollY};
   active=state;
   document.body.append(overlay);
   main.inert=true;
@@ -86,7 +93,7 @@
    if(overlay.requestFullscreen){overlay.requestFullscreen().catch(()=>{});}
   }catch{/* Keep the viewport-filling player when fullscreen is unavailable. */}
   frame.addEventListener('load',()=>{if(active===state)frame.focus();},{once:true});
- });
+ }));
  document.addEventListener('fullscreenchange',()=>{
   if(!active)return;
   if(document.fullscreenElement===active.overlay)active.entered=true;
