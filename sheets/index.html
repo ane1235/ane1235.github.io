@@ -23,8 +23,7 @@
       }}}
     };
   </script>
-  <link rel="stylesheet" href="css/style.css" id="main-css">
-  <script>document.getElementById('main-css').href='css/style.css?v='+Date.now();</script>
+  <link rel="stylesheet" href="css/style.css?v=20261002.1" id="main-css">
 </head>
 <body>
 
@@ -106,9 +105,12 @@
   <div id="toast" class="toast"></div>
 
   <!-- JS 로드 순서: config → utils → state → nav → calendar → app -->
-  <!-- 캐시 버스팅: 모바일 브라우저 캐시 문제 방지 -->
-  <script>
-  (function(){var t=Date.now();var s=['js/config.js','js/utils.js','js/state.js','js/nav.js','js/calendar.js','js/app.js'];for(var i=0;i<s.length;i++){document.write('<script src="'+s[i]+'?v='+t+'"><\/script>');}})();
-  </script>
+  <!-- JS/CSS 수정 배포 시 버전을 함께 올린다. 근무 데이터는 매 조회 시 별도로 가져온다. -->
+  <script defer src="js/config.js?v=20261002.1"></script>
+  <script defer src="js/utils.js?v=20261002.1"></script>
+  <script defer src="js/state.js?v=20261002.1"></script>
+  <script defer src="js/nav.js?v=20261002.1"></script>
+  <script defer src="js/calendar.js?v=20261002.1"></script>
+  <script defer src="js/app.js?v=20261002.1"></script>
 </body>
 </html>

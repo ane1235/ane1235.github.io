@@ -51,7 +51,7 @@ function doGet(e) {
     return asJson(getSheetList());
   }
   if (action === 'getSheetData') {
-    return asJson(getSheetData(params.sheetKey, params.gid));
+    return asJson(getSheetData(params.sheetKey, params.gid, params.includeFontColors));
   }
 
   return asJson({ success: false, error: 'Unknown action: ' + action });
@@ -147,7 +147,7 @@ function getSheetList() {
    시트 데이터 조회
    ═══════════════════════════════════════════ */
 
-function getSheetData(sheetKey, gid) {
+function getSheetData(sheetKey, gid, includeFontColors) {
   try {
     var src = null;
     for (var i = 0; i < SHEET_VIEWER_SOURCES.length; i++) {
@@ -164,14 +164,7 @@ function getSheetData(sheetKey, gid) {
     var targetGid = (gid !== undefined && gid !== null && gid !== '')
       ? parseInt(gid, 10) : src.defaultGid;
 
-    var targetSheet = null;
-    var allSheets = ss.getSheets();
-    for (var j = 0; j < allSheets.length; j++) {
-      if (allSheets[j].getSheetId() === targetGid) {
-        targetSheet = allSheets[j];
-        break;
-      }
-    }
+    var targetSheet = ss.getSheetById(targetGid);
     if (!targetSheet) {
       return { success: false, error: '탭을 찾을 수 없습니다 (gid: ' + targetGid + ')' };
     }
@@ -182,7 +175,9 @@ function getSheetData(sheetKey, gid) {
       return { success: true, data: { headers: [], rows: [], fontColors: [], tabName: targetSheet.getName() } };
     }
 
-    var fontColors = dataRange.getFontColors();
+    /* Assign 화면은 글자색을 사용하지 않는다. 기존 호출과 Duty는 색상 정보를 유지한다. */
+    var needsFontColors = includeFontColors !== false && includeFontColors !== 'false';
+    var fontColors = needsFontColors ? dataRange.getFontColors() : [];
     /* 표시값(displayValues)은 퇴근시간 등 시간 포맷 셀을 그대로 가져오기 위해 별도 보존 */
     var displayValues = dataRange.getDisplayValues();
 

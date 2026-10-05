@@ -4,8 +4,6 @@
 /* ── 전역 ── */
 var sheetSources = [];
 var DISPLAY_LABELS = { sheet1: 'ASSIGN', sheet2: '근무표 및 특기사항' };
-var assignDataCache = {};
-var shiftDataCache = {};
 
 /* Off로 분류되는 근무형태 */
 var OFF_SHIFT_TYPES = { '휴가': true, '특휴': true, 'Off': true, 'off': true, 'H휴가': true };
@@ -300,20 +298,13 @@ function loadAssignData() {
   var container = document.getElementById('section-data-sheet1');
   if (!container) return;
 
-  var cacheKey = tab.gid;
-  if (assignDataCache[cacheKey]) {
-    renderAssignSection(assignDataCache[cacheKey], container);
-    return;
-  }
-
-  callApi({ action: 'getSheetData', sheetKey: 'sheet1', gid: tab.gid })
+  callApi({ action: 'getSheetData', sheetKey: 'sheet1', gid: tab.gid, includeFontColors: false })
     .then(function(result) {
       if (!result.success) {
         container.innerHTML = '<p class="text-danger text-sm" style="padding:16px;">' + escHtml(result.error) + '</p>';
         return;
       }
       var allRows = [result.data.headers].concat(result.data.rows);
-      assignDataCache[cacheKey] = allRows;
       renderAssignSection(allRows, container);
     })
     .catch(function(err) {
@@ -578,28 +569,19 @@ function loadShiftData() {
   if (!container) return;
 
   /* sheet2(근무표) 로드 */
-  var shiftCacheKey = shiftTab.gid;
-  var shiftPromise = shiftDataCache[shiftCacheKey]
-    ? Promise.resolve(shiftDataCache[shiftCacheKey])
-    : callApi({ action: 'getSheetData', sheetKey: 'sheet2', gid: shiftTab.gid })
+  var shiftPromise = callApi({ action: 'getSheetData', sheetKey: 'sheet2', gid: shiftTab.gid })
         .then(function(result) {
           if (!result.success) throw new Error(result.error);
-          var cached = { rows: result.data.rows, fc: result.data.fontColors };
-          shiftDataCache[shiftCacheKey] = cached;
-          return cached;
+          return { rows: result.data.rows, fc: result.data.fontColors };
         });
 
   /* sheet1(Assign노트) 로드 — 없으면 null */
   var assignPromise = assignTab
-    ? (assignDataCache[assignTab.gid]
-        ? Promise.resolve(assignDataCache[assignTab.gid])
-        : callApi({ action: 'getSheetData', sheetKey: 'sheet1', gid: assignTab.gid })
+    ? callApi({ action: 'getSheetData', sheetKey: 'sheet1', gid: assignTab.gid, includeFontColors: false })
             .then(function(result) {
               if (!result.success) return null;
-              var allRows = [result.data.headers].concat(result.data.rows);
-              assignDataCache[assignTab.gid] = allRows;
-              return allRows;
-            }).catch(function() { return null; }))
+              return [result.data.headers].concat(result.data.rows);
+            }).catch(function() { return null; })
     : Promise.resolve(null);
 
   Promise.all([shiftPromise, assignPromise])
