@@ -38,6 +38,7 @@ video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#
 <p class="player-message" role="status" hidden>이 브라우저에서 영상이 표시되지 않으면 아래의 Google Drive로 재생을 이용하세요.</p>
 <p class="note">Music: 김준석 — 비밀의 숲 OST &nbsp;·&nbsp; 개인 영상 습작</p>
 </main>
+<script src="../native-video.js"></script>
 <script>
 const shell=document.querySelector('.player-shell');
 const media=shell.querySelector('iframe,video');
@@ -51,7 +52,7 @@ function scheduleHide(){
  clearTimeout(hideTimer);
  if(!expanded())return;
  hideTimer=setTimeout(()=>{
-  if(!expanded()||draggingControls||(keyboardControls&&tools.contains(document.activeElement)))return;
+  if(media.paused||!expanded()||draggingControls||(keyboardControls&&tools.contains(document.activeElement)))return;
   if(tools.contains(document.activeElement))document.activeElement.blur();
   shell.classList.add('controls-hidden');
  },3000);
@@ -75,6 +76,7 @@ function expanded(){return !!document.fullscreenElement||shell.classList.contain
 function sync(){fullscreenButton.textContent=expanded()?'화면 축소':'전체화면';fullscreenButton.setAttribute('aria-pressed',String(expanded()));showControls();}
 fullscreenButton.addEventListener('click',async()=>{
  if(embeddedExpanded){closeEmbedded();return;}
+ if(window.NativeVideoPlayer?.isMobile()){NativeVideoPlayer.open(media);return;}
  if(expanded()){
   if(document.fullscreenElement){await document.exitFullscreen();}
   shell.classList.remove('screen-expanded');document.body.classList.remove('player-expanded');sync();return;
@@ -103,15 +105,19 @@ const playButton=document.querySelector('[data-play]');
 if(playButton){playButton.addEventListener('click',async()=>{if(media.paused){try{await media.play();}catch{playButton.textContent='다시 재생';message.hidden=false;}}else media.pause();});const update=()=>{playButton.textContent=media.paused?'재생':'일시정지';};media.addEventListener('play',update);media.addEventListener('pause',update);}
 
 async function startAutomatically(){
+ media.muted=false;
  try{await media.play();}
  catch(error){
-  if(error.name!=='NotAllowedError')return;
-  media.muted=true;
-  try{await media.play();}catch{showControls();}
+  if(error.name==='NotAllowedError'){playButton.textContent='소리 켜고 재생';showControls();}
+  else if(error.name!=='AbortError'){message.hidden=false;}
  }
 }
 media.addEventListener('volumechange',()=>{mute.textContent=media.muted?'소리 켜기':'음소거';mute.setAttribute('aria-pressed',String(media.muted));});
-if(startExpanded){shell.classList.add('screen-expanded');document.body.classList.add('player-expanded');sync();}
-startAutomatically();
+if(startExpanded&&window.NativeVideoPlayer?.isMobile()){
+ NativeVideoPlayer.open(media);
+}else{
+ if(startExpanded){shell.classList.add('screen-expanded');document.body.classList.add('player-expanded');sync();}
+ startAutomatically();
+}
 </script>
 </body></html>
