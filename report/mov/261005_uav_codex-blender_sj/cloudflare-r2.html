@@ -24,7 +24,7 @@ video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#
 <body><main>
 <header><div><p class="eyebrow">CODEX AI WITH BLENDER 02</p><h1>가을의 시작, 2026</h1><p style="font-family:Georgia,serif;font-size:clamp(20px,2.5vw,32px);margin:12px 0 0;color:#d8be97">Beginning of Beginning</p></div><p class="credit">병원 26/09/13 &amp; 26/10/04 &nbsp;·&nbsp; 26/10/05 &nbsp;·&nbsp; by Dr.Min</p></header>
 <div class="player-shell">
-<video controls playsinline preload="metadata" aria-label="가을의 시작, 2026 · 4분 26초"><source src="https://pub-ec5d667da6234f93bcfaca2fbbcad4fa.r2.dev/mov/261005_uav_codex-blender_sj/261005_codex_blender_sj_v01_h265.mp4" type="video/mp4"></video>
+<video controls autoplay playsinline preload="auto" aria-label="가을의 시작, 2026 · 4분 26초"><source src="https://pub-ec5d667da6234f93bcfaca2fbbcad4fa.r2.dev/mov/261005_uav_codex-blender_sj/261005_codex_blender_sj_v01_h265.mp4" type="video/mp4"></video>
 <div class="player-tools">
 <button type="button" data-play>재생</button>
 <button type="button" data-back aria-label="10초 뒤로">−10초</button>
@@ -91,11 +91,22 @@ media.addEventListener('timeupdate',updateTime);media.addEventListener('loadedme
 seek.addEventListener('input',()=>{if(media.readyState>=1)media.currentTime=Number(seek.value);});
 document.querySelector('[data-back]').addEventListener('click',()=>{if(media.readyState>=1)media.currentTime=Math.max(0,media.currentTime-10);});
 document.querySelector('[data-forward]').addEventListener('click',()=>{if(media.readyState>=1)media.currentTime=Math.min(Number.isFinite(media.duration)?media.duration:266,media.currentTime+10);});
-mute.addEventListener('click',()=>{media.muted=!media.muted;mute.textContent=media.muted?'음소거 해제':'음소거';mute.setAttribute('aria-pressed',String(media.muted));});
+mute.addEventListener('click',()=>{media.muted=!media.muted;mute.textContent=media.muted?'소리 켜기':'음소거';mute.setAttribute('aria-pressed',String(media.muted));});
 media.addEventListener('error',()=>{message.hidden=false;media.controls=true;});
 media.addEventListener('playing',()=>{setTimeout(()=>{if(media.videoWidth===0)message.hidden=false;},1500);});
 media.controls=false;
 const playButton=document.querySelector('[data-play]');
 if(playButton){playButton.addEventListener('click',async()=>{if(media.paused){try{await media.play();}catch{playButton.textContent='다시 재생';message.hidden=false;}}else media.pause();});const update=()=>{playButton.textContent=media.paused?'재생':'일시정지';};media.addEventListener('play',update);media.addEventListener('pause',update);}
+
+async function startAutomatically(){
+ try{await media.play();}
+ catch(error){
+  if(error.name!=='NotAllowedError')return;
+  media.muted=true;
+  try{await media.play();}catch{showControls();}
+ }
+}
+media.addEventListener('volumechange',()=>{mute.textContent=media.muted?'소리 켜기':'음소거';mute.setAttribute('aria-pressed',String(media.muted));});
+startAutomatically();
 </script>
 </body></html>
