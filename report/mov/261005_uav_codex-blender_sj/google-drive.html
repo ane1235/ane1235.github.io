@@ -7,11 +7,40 @@
 <title>google drive 재생 페이지 — 가을의 시작, 2026 · by Dr.Min</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#10100e;color:#efe8db;font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif}main{max-width:1440px;margin:auto;padding:7vh 5vw 5vh}header{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:30px}.eyebrow{color:#c49b62;letter-spacing:.22em;font-size:11px;margin:0 0 14px}h1{font-family:"Noto Serif CJK KR","Noto Serif KR","AppleMyungjo","Batang",serif;font-size:clamp(28px,4vw,52px);font-weight:400;letter-spacing:-.04em;margin:0}.credit{font-size:13px;color:#a59c8d;white-space:normal;margin:0 0 5px}iframe{display:block;width:100%;aspect-ratio:16/9;background:#000;border:1px solid #302b23}footer{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-top:24px;color:#9e9587;font-size:12px}.downloads{display:flex;gap:20px}a{color:#d8be97;text-decoration:none;border-bottom:1px solid #6e5940;padding-bottom:4px}a:hover,a:focus-visible{color:white;border-color:white}.note{margin-top:20px;font-size:11px;color:#776f63}::selection{background:#5c4228;color:#fff}@media(max-width:650px){main{padding:38px 18px}header{display:block}.credit{margin-top:16px}footer{align-items:start;flex-direction:column;gap:18px}}
+
+.player-shell{background:#000}.player-tools{display:flex;flex-wrap:wrap;gap:10px;padding:12px;background:#191713}.player-tools button,.player-tools a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:120px;padding:10px 16px;border:1px solid #6e5940;border-radius:8px;background:#30271d;color:#efe8db;font:inherit;font-size:16px;cursor:pointer;touch-action:manipulation}.player-tools button:focus-visible,.player-tools a:focus-visible{outline:2px solid #d8be97;outline-offset:3px}.downloads{flex-wrap:wrap;gap:10px}.downloads a,.downloads span{display:inline-flex;align-items:center;min-height:44px}.player-shell:fullscreen,.player-shell.screen-expanded{display:flex;flex-direction:column;width:100%;height:100%;background:#000}.player-shell:fullscreen iframe,.player-shell:fullscreen video,.player-shell.screen-expanded iframe,.player-shell.screen-expanded video{flex:1;min-height:0;width:100%;height:100%;aspect-ratio:auto;object-fit:contain}.player-shell.screen-expanded{position:fixed;inset:0;width:100vw;height:100dvh;z-index:1000}.player-shell:fullscreen .player-tools,.player-shell.screen-expanded .player-tools{padding-bottom:max(12px,env(safe-area-inset-bottom))}body.player-expanded{overflow:hidden}@media(max-width:650px){main{padding:24px 12px}header{margin-bottom:20px}.player-tools>*{flex:1}.credit{line-height:1.7}.downloads{width:100%}.downloads a,.downloads span{padding:8px 12px;border:1px solid #6e5940;border-radius:6px}}
 </style>
 </head>
 <body><main>
 <header><div><p class="eyebrow">CODEX AI WITH BLENDER 02</p><h1>가을의 시작, 2026</h1><p style="font-family:Georgia,serif;font-size:clamp(20px,2.5vw,32px);margin:12px 0 0;color:#d8be97">Beginning of Beginning</p></div><p class="credit">병원 26/09/13 &amp; 26/10/04 &nbsp;·&nbsp; 26/10/05 &nbsp;·&nbsp; by Dr.Min</p></header>
+<div class="player-shell">
 <iframe name="drive-video" title="가을의 시작, 2026 · Google Drive 영상 재생" src="https://drive.google.com/file/d/1Nt8b7os1Ty3EnXpN5Hnf_gkTf9Q0FUWL/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<div class="player-tools"><button type="button" data-fullscreen aria-pressed="false">전체화면</button><a data-drive-open href="https://drive.google.com/file/d/1Nt8b7os1Ty3EnXpN5Hnf_gkTf9Q0FUWL/view" target="_blank" rel="noopener">Drive에서 재생</a></div>
+</div>
 <footer><span>04:26 &nbsp; / &nbsp; 1920 × 1080 &nbsp; / &nbsp; 30 fps</span><div class="downloads"><a href="https://drive.google.com/file/d/1Nt8b7os1Ty3EnXpN5Hnf_gkTf9Q0FUWL/preview" target="drive-video">MP4 재생</a><span aria-disabled="true">WebM 재생 (미완성)</span></div></footer>
 <p class="note">Music: 김준석 — 비밀의 숲 OST &nbsp;·&nbsp; 개인 영상 습작</p>
-</main></body></html>
+</main>
+<script>
+const shell=document.querySelector('.player-shell');
+const media=shell.querySelector('iframe,video');
+const fullscreenButton=document.querySelector('[data-fullscreen]');
+function expanded(){return !!document.fullscreenElement||shell.classList.contains('screen-expanded')}
+function sync(){fullscreenButton.textContent=expanded()?'화면 축소':'전체화면';fullscreenButton.setAttribute('aria-pressed',String(expanded()));}
+fullscreenButton.addEventListener('click',async()=>{
+ if(expanded()){
+  if(document.fullscreenElement){await document.exitFullscreen();}
+  shell.classList.remove('screen-expanded');document.body.classList.remove('player-expanded');sync();return;
+ }
+ if(media.tagName==='VIDEO'&&!shell.requestFullscreen&&media.webkitEnterFullscreen){media.webkitEnterFullscreen();return;}
+ try{if(!shell.requestFullscreen)throw Error('unsupported');await shell.requestFullscreen();}
+ catch{shell.classList.add('screen-expanded');document.body.classList.add('player-expanded');}
+ sync();
+});
+document.addEventListener('fullscreenchange',sync);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){shell.classList.remove('screen-expanded');document.body.classList.remove('player-expanded');sync();}});
+const external=document.querySelector('[data-drive-open]');
+if(external){document.querySelectorAll('a[target="drive-video"]').forEach(a=>a.addEventListener('click',()=>{external.href=a.href.replace('/preview','/view');}));}
+const playButton=document.querySelector('[data-play]');
+if(playButton){playButton.addEventListener('click',async()=>{if(media.paused){try{await media.play();}catch{playButton.textContent='다시 재생';}}else media.pause();});const update=()=>{playButton.textContent=media.paused?'재생':'일시정지';};media.addEventListener('play',update);media.addEventListener('pause',update);}
+</script>
+</body></html>
