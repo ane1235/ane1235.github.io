@@ -1,0 +1,14 @@
+# Allow search engines to read each page's noindex directive.
+User-agent: *
+Disallow:
+
+# Restrict OpenAI training and search crawlers.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+# Restrict Google generative AI uses controlled by this token.
+User-agent: Google-Extended
+Disallow: /
