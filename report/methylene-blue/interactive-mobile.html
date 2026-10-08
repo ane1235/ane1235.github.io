@@ -1,413 +1,64 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="description" content="프로베블루주 0.5% · 낮은 SVR의 난치성 혈관마비에 대한 약리학적 근거·임상성과·비상 비축 제안">
-<title>메틸렌블루: 구제치료의 선택지를 확보하라 | 인터랙티브 · 모바일</title>
-<style>:root {
-  --ink: #09172c;
-  --navy: #07152b;
-  --blue: #2453ff;
-  --lime: #d8ff62;
-  --paper: #f4f5f1;
-  --white: #fff;
-  --muted: #526174;
-  --line: #d7dde5;
-  --soft: #edf1ff;
-  --page-width: 1440px;
-  --gutter: clamp(24px, 4.5vw, 76px);
-  font-family: "Apple SD Gothic Neo", "Noto Sans CJK KR", "Noto Sans KR", "Malgun Gothic", sans-serif;
-  color: var(--ink);
-  background: var(--paper);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-}
-
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 32px; }
-body { margin: 0; font-size: 16px; line-height: 1.75; }
-a { color: var(--blue); text-underline-offset: 4px; overflow-wrap: anywhere; }
-button, select, input { font: inherit; }
-button, select { color: var(--ink); }
-button, a, input, select { -webkit-tap-highlight-color: transparent; }
-button, select, input[type="checkbox"] { cursor: pointer; }
-:focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
-[hidden] { display: none !important; }
-h1, h2, h3, h4, h5, p { margin: 0; }
-h1, h2, h3, h4 { word-break: keep-all; overflow-wrap: anywhere; }
-p, li, dd, th, td { overflow-wrap: anywhere; word-break: keep-all; }
-h1 { font-size: clamp(40px, 4.4vw, 70px); line-height: 1.19; letter-spacing: -.058em; font-weight: 850; }
-h2 { font-size: clamp(28px, 2.7vw, 43px); line-height: 1.32; letter-spacing: -.045em; font-weight: 800; }
-h3 { font-size: 23px; line-height: 1.4; letter-spacing: -.035em; }
-h4 { font-size: 21px; line-height: 1.45; letter-spacing: -.03em; }
-h5 { font-size: 13px; letter-spacing: .025em; }
-main, .masthead, .site-footer { width: min(100%, var(--page-width)); margin-inline: auto; }
-.muted { color: var(--muted); font-size: 13px; }
-.kicker, .eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .16em; line-height: 1.5; text-transform: uppercase; }
-.kicker { color: var(--blue); }
-.skip-link { position: fixed; top: -120px; left: 16px; z-index: 100; background: var(--lime); color: var(--ink); padding: 12px 20px; }
-.skip-link:focus { top: 16px; }
-.masthead { padding: 25px var(--gutter); display: flex; justify-content: space-between; align-items: center; gap: 24px; }
-.brand { display: flex; align-items: center; gap: 15px; text-decoration: none; color: var(--ink); font-size: 12px; font-weight: 750; }
-.brand-mark { display: inline-flex; flex-shrink: 0; align-items: baseline; gap: 3px; font-size: 26px; line-height: 1; letter-spacing: -.07em; font-weight: 900; }
-.brand-mark span { color: var(--blue); font-size: 22px; }
-.edition { font-size: 11px; color: var(--muted); text-align: right; flex-shrink: 0; }
-.hero { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(230px, 1fr); gap: 64px; padding: 72px var(--gutter) 52px; background: var(--navy); color: var(--white); border-top: 5px solid var(--blue); }
-.eyebrow { color: var(--lime); margin-bottom: 28px; }
-.hero h1 { max-width: 16ch; white-space: pre-line; }
-.hero-subtitle { color: #b9c8e1; font-size: 16px; margin-top: 23px; white-space: pre-line; }
-.hero-statement { margin-top: 34px; padding-left: 21px; border-left: 3px solid var(--lime); color: #f4f7ff; font-size: 21px; font-weight: 650; line-height: 1.65; white-space: pre-line; }
-.hero-meta { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 35px; color: #a8b9d4; font-size: 11px; letter-spacing: .05em; }
-.hero-aside { align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; border-left: 1px solid #30405a; padding-left: 40px; }
-.editorial-mark { display: flex; align-items: flex-end; justify-content: space-between; gap: 15px; font: 900 clamp(70px, 9vw, 140px)/.86 Arial, sans-serif; letter-spacing: -.09em; color: var(--blue); padding-top: 15px; padding-bottom: 54px; }
-.editorial-mark span { color: var(--lime); font: 700 11px/1.6 Arial, sans-serif; letter-spacing: .02em; }
-.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; margin-top: auto; }
-.metric strong { display: block; color: var(--white); font: 700 clamp(36px, 3.4vw, 54px)/1.15 Arial, sans-serif; letter-spacing: -.06em; font-variant-numeric: tabular-nums; }
-.metric span { display: block; font-size: 11px; color: #c1cce0; margin-top: 8px; }
-.metric-note { margin-top: 20px; color: #a8b9d4; font-size: 10px; }
-.google-documents { padding: 22px var(--gutter); background: var(--white); border-bottom: 1px solid var(--line); }
-.google-documents > div { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 10px; font-size: 13px; font-weight: 750; }
-.report-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 50px; padding: 50px var(--gutter) 80px; align-items: start; }
-.report-body { min-width: 0; }
-.chapter-nav { padding-top: 14px; }
-.interactive-desktop .chapter-nav { position: sticky; top: 26px; max-height: calc(100dvh - 52px); overflow-y: auto; scrollbar-width: thin; }
-.chapter-nav .kicker { margin-bottom: 22px; }
-.chapter-nav ol, .index-toc ol { list-style: none; padding: 0; margin: 0; }
-.chapter-nav li { border-bottom: 1px solid var(--line); }
-.chapter-nav ol a, .index-toc ol a { display: flex; align-items: baseline; gap: 12px; color: var(--muted); text-decoration: none; font-size: 12px; line-height: 1.6; padding: 13px 4px; }
-.chapter-nav ol a:hover, .chapter-nav ol a[aria-current] { color: var(--blue); background: #e9edff; }
-.nav-number { flex-shrink: 0; font: 700 11px/1.5 Arial, sans-serif; font-variant-numeric: tabular-nums; color: var(--blue); }
-.nav-footer { display: grid; gap: 9px; padding-top: 22px; font-size: 11px; }
-.chapter { padding: 52px 0 56px; border-bottom: 1px solid var(--line); scroll-margin-top: 28px; }
-.chapter:first-child { padding-top: 8px; }
-.section-topline { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 23px; padding-top: 12px; border-top: 2px solid var(--ink); }
-.section-topline > span:last-child { flex-shrink: 0; font-size: 11px; color: var(--muted); }
-.section-topline .chapter-number { font: 700 24px/1 Arial, sans-serif; color: var(--blue); letter-spacing: -.05em; }
-.section-summary { margin-top: 22px; font-size: 19px; font-weight: 650; line-height: 1.7; white-space: pre-line; }
-.decision-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 30px; }
-.decision-card { background: var(--white); padding: 26px; }
-.decision-card:first-child { background: var(--blue); color: var(--white); }
-.decision-card:first-child .card-number { color: var(--lime); }
-.card-number { display: block; font: 700 44px/1 Arial, sans-serif; color: var(--blue); letter-spacing: -.06em; margin-bottom: 30px; }
-.decision-card h3 { margin-bottom: 16px; }
-.decision-card p { font-size: 15px; white-space: pre-line; }
-.mechanism { margin-top: 35px; padding: 32px; background: var(--navy); color: var(--white); border-top: 5px solid var(--blue); }
-.mechanism .section-topline { border-top-color: #41516a; }
-.mechanism .kicker, .mechanism .source-line a { color: var(--lime); }
-.mechanism .section-topline > span:last-child, .mechanism .source-line > span { color: #c3cfe2; }
-.mechanism-lead { margin-top: 26px; padding-left: 19px; border-left: 4px solid var(--lime); font-size: 22px; line-height: 1.65; font-weight: 750; white-space: pre-line; }
-.pathway { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; padding: 0; margin: 35px 0 0; gap: 22px; }
-.pathway-step { position: relative; padding: 19px 14px; border-top: 2px solid var(--lime); background: #13233d; }
-.pathway-step:not(:last-child)::after { content: "→"; position: absolute; right: -19px; top: 21px; color: var(--lime); font-size: 20px; }
-.pathway-number { display: block; margin-bottom: 18px; color: var(--lime); font: 700 29px/1 Arial, sans-serif; letter-spacing: -.06em; }
-.pathway-step h3 { font-size: 17px; }
-.pathway-step p { color: #d6dfec; font-size: 12px; margin-top: 12px; white-space: pre-line; }
-.mechanism-badge { display: flex; align-items: baseline; flex-wrap: wrap; gap: 7px 16px; margin-top: 24px; background: var(--lime); color: var(--ink); padding: 15px 20px; }
-.mechanism-badge strong { font-size: 19px; }
-.mechanism-badge span { font-weight: 750; font-size: 15px; overflow-wrap: anywhere; }
-.mechanism-badge .target-action { flex-basis: 100%; margin: 0; }
-.target-comparison-heading { margin: 35px 0 20px; font-size: 21px; }
-.target-selector { margin-bottom: 20px; }
-.enhanced .js-only.target-selector { display: flex; gap: 8px; }
-.target-selector button { flex: 1 1 0; min-width: 0; padding: 14px 10px; background: #172941; color: var(--white); border: 1px solid #59708f; border-radius: 0; font-size: 14px; font-weight: 750; overflow-wrap: anywhere; }
-.target-selector button span { display: block; margin-top: 7px; font-size: 11px; font-weight: 500; }
-.target-selector button[aria-selected="true"] { color: var(--ink); background: var(--lime); border-color: var(--lime); }
-.target-selector button:focus-visible { outline-color: var(--lime); }
-.target-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: start; }
-.enhanced .interactive-desktop .target-grid, .enhanced .interactive-mobile .target-grid { grid-template-columns: 1fr; }
-.target-card { padding: 21px; border-top: 3px solid #7791b5; color: var(--ink); background: var(--white); scroll-margin-top: 128px; }
-.target-card.target-featured { border-top-color: var(--lime); background: #f0f8d9; }
-.target-number { display: block; font: 700 30px/1 Arial, sans-serif; color: var(--blue); margin-bottom: 17px; }
-.target-card h3 { font-size: 21px; }
-.target-badge { display: inline-block; margin-top: 16px; padding: 7px 10px; background: var(--soft); color: var(--blue); font-size: 13px; font-weight: 750; white-space: pre-line; }
-.target-featured .target-badge { background: var(--navy); color: var(--lime); }
-.target-action { font-size: 14px; font-weight: 750; margin-top: 15px; white-space: pre-line; }
-.target-explanation { font-size: 14px; margin-top: 18px; white-space: pre-line; }
-.target-role { margin-top: 24px; padding-top: 15px; border-top: 1px solid #b9c4d4; }
-.target-role h4 { font-size: 11px; color: var(--muted); }
-.target-role p { font-size: 14px; font-weight: 700; margin-top: 8px; white-space: pre-line; }
-.mechanism-note { margin-top: 26px; padding: 20px; border: 1px solid #596f8e; }
-.mechanism-note p { margin-top: 10px; font-size: 15px; font-weight: 650; white-space: pre-line; }
-.mechanism-clinical-role { margin-top: 24px; border-left: 3px solid var(--lime); padding-left: 20px; font-weight: 750; white-space: pre-line; }
-body[class$="-mobile"] .chapter.mechanism { padding: 26px 20px; }
-body[class$="-mobile"] .pathway, body[class$="-mobile"] .target-grid { grid-template-columns: 1fr; }
-body[class$="-mobile"] .pathway-step:not(:last-child)::after { content: "↓"; right: 24px; top: auto; bottom: -24px; }
-body[class$="-mobile"] .mechanism-lead { font-size: 19px; }
-.key-points { list-style: none; margin: 27px 0 0; padding: 0; }
-.key-points li { position: relative; padding: 16px 0 16px 23px; border-bottom: 1px solid var(--line); white-space: pre-line; }
-.key-points li::before { content: ""; width: 6px; height: 6px; background: var(--blue); position: absolute; left: 0; top: 28px; }
-.table-wrap { margin-top: 30px; overflow-x: auto; border-top: 2px solid var(--ink); }
-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; text-align: left; }
-caption { text-align: left; font-size: 11px; color: var(--muted); padding: 12px 0; caption-side: bottom; }
-th, td { padding: 16px 15px; border-bottom: 1px solid var(--line); vertical-align: top; white-space: pre-line; }
-th { font-weight: 750; background: #e9eef6; color: var(--ink); }
-td:first-child { color: var(--blue); font-weight: 700; }
-tbody tr:nth-child(even) { background: #f0f2ef; }
-.callout { padding: 25px 28px; margin-top: 30px; background: var(--navy); color: var(--white); border-left: 4px solid var(--lime); }
-.callout .kicker { color: var(--lime); }
-.callout p { margin-top: 9px; font-weight: 650; white-space: pre-line; }
-.source-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin-top: 24px; font-size: 11px; }
-.source-line > span { color: var(--muted); font-weight: 700; }
-.source-line a { font-weight: 700; }
-.evidence-note { margin-top: 12px; }
-.js-only { display: none; }
-.enhanced .js-only { display: block; }
-.filter-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 18px; margin-top: 28px; }
-.filter-row label { flex: 1 1 180px; font-size: 12px; font-weight: 700; min-width: 0; }
-select { display: block; width: 100%; border: 1px solid #97a5bd; border-radius: 0; background: var(--white); padding: 11px 30px 11px 12px; margin-top: 6px; min-height: 46px; font-size: 14px; text-overflow: ellipsis; }
-.text-button { border: 0; background: transparent; padding: 11px 0; min-height: 46px; color: var(--blue); font-size: 12px; font-weight: 700; }
-.evidence-tabs { display: flex; gap: 5px; margin-top: 26px; padding-bottom: 0; border-bottom: 2px solid var(--ink); }
-.evidence-tabs button { background: transparent; border: 0; padding: 16px; min-height: 48px; font-size: 14px; font-weight: 750; }
-.evidence-tabs button[aria-selected="true"] { background: var(--navy); color: var(--white); }
-.evidence-tabs button span { display: inline-block; margin-left: 8px; color: var(--blue); font: 700 12px/1 Arial, sans-serif; }
-.evidence-tabs button[aria-selected="true"] span { color: var(--lime); }
-.filter-status { color: var(--muted); margin: 14px 0; font-size: 12px; }
-.panel-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 15px; margin: 35px 0 20px; }
-.panel-heading span { font-size: 12px; font-weight: 500; color: var(--muted); white-space: nowrap; }
-.study-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
-.study-card { background: var(--white); border: 1px solid var(--line); border-top: 3px solid var(--blue); padding: 24px; scroll-margin-top: 30px; }
-.study-topline { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 12px; color: var(--muted); }
-.country-chip { color: var(--blue); background: var(--soft); padding: 3px 9px; font-weight: 750; }
-.study-id { margin-top: 21px; margin-bottom: 6px; color: var(--muted); font-size: 10px; }
-.study-sample { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 20px; margin: 24px 0; padding-block: 18px; border-block: 1px solid var(--line); }
-.study-sample span { font-size: 11px; color: var(--muted); }
-.study-sample strong { font-size: 30px; line-height: 1.3; letter-spacing: -.045em; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-.study-facts { margin: 0; font-size: 12px; }
-.study-facts > div { display: grid; grid-template-columns: 65px minmax(0, 1fr); gap: 10px; margin-top: 9px; }
-dt { color: var(--muted); }
-dd { margin: 0; white-space: pre-line; }
-.study-result { margin-top: 23px; }
-.study-result h5 { color: var(--blue); }
-.study-result p, .study-limit p { margin-top: 6px; font-size: 14px; white-space: pre-line; }
-.study-limit { margin-top: 20px; padding: 16px; background: #f1f3f5; border-left: 2px solid #95a3b8; }
-.study-links { display: flex; flex-wrap: wrap; gap: 8px 18px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 24px; font-size: 11px; font-weight: 700; }
-.empty-state, .filter-empty { padding: 25px; border: 1px dashed #9aa9bf; color: var(--muted); font-size: 14px; }
-.review-boundary { padding: 19px 22px; margin-top: 22px; background: #e9f0cd; border-left: 3px solid #789631; font-size: 14px; font-weight: 650; }
-.readiness-status { display: grid; gap: 15px; margin-top: 25px; }
-.readiness-status output { font-weight: 750; font-size: 15px; }
-progress { width: 100%; height: 8px; border: 0; accent-color: var(--blue); background: var(--line); }
-progress::-webkit-progress-bar { background: var(--line); }
-progress::-webkit-progress-value { background: var(--blue); }
-progress::-moz-progress-bar { background: var(--blue); }
-.review-list { list-style: none; padding: 0; margin: 25px 0; }
-.review-list li { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); align-items: flex-start; }
-.review-list input { appearance: auto; accent-color: var(--blue); width: 22px; height: 22px; margin: 5px 0 0; flex-shrink: 0; }
-.review-list label { display: block; font-size: 15px; font-weight: 650; }
-.review-list a { font-size: 11px; }
-.paper-checkbox { font-size: 24px; line-height: 1.4; }
-.reference-list { list-style: none; padding: 0; margin: 32px 0 0; }
-.reference-list > li { display: grid; grid-template-columns: minmax(45px, auto) minmax(0, 1fr); gap: 20px; padding: 24px 0; border-top: 1px solid var(--line); scroll-margin-top: 30px; }
-.reference-number { color: var(--blue); font-size: 12px; font-weight: 800; overflow-wrap: anywhere; max-width: 110px; }
-.reference-citation { font-size: 14px; font-weight: 650; white-space: pre-line; }
-.reference-note { color: var(--muted); font-size: 13px; margin-top: 9px; white-space: pre-line; }
-.reference-list .external { display: inline-block; font-size: 11px; margin-top: 8px; word-break: break-all; }
-.reference-backlinks { display: flex; flex-wrap: wrap; gap: 9px; font-size: 10px; margin-top: 13px; }
-.reference-backlinks span { color: var(--muted); }
-:target:not(main) { outline: 2px solid var(--blue); outline-offset: 6px; }
-.reading-progress { position: fixed; inset: 0 0 auto; height: 4px; z-index: 50; pointer-events: none; }
-.reading-progress span { display: block; height: 100%; transform: scaleX(0); transform-origin: left; background: var(--blue); }
-.site-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 15px; padding: 28px var(--gutter); border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
-.index-body { padding: 58px var(--gutter) 80px; }
-.editions-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 34px; }
-.edition-card { background: var(--white); border: 1px solid var(--line); padding: 35px; }
-.edition-card:nth-child(3) { border-top: 4px solid var(--blue); }
-.edition-card h2 { font-size: 27px; margin-top: 24px; }
-.edition-card p:not(.kicker) { font-size: 14px; color: var(--muted); margin-top: 13px; }
-.edition-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 24px; margin-top: 28px; font-size: 12px; font-weight: 700; }
-.button { display: inline-block; background: var(--navy); color: var(--white); padding: 13px 20px; text-decoration: none; min-height: 46px; }
-.button:hover { background: var(--blue); }
-.download-note { font-size: 13px; color: var(--muted); margin-top: 25px; }
-.index-toc { margin-top: 64px; padding-top: 36px; border-top: 2px solid var(--ink); }
-.index-toc h2 { margin-top: 16px; }
-.index-toc ol { columns: 2; column-gap: 50px; margin-top: 22px; }
-.index-toc li { break-inside: avoid; border-bottom: 1px solid var(--line); }
-.index-toc ol a { font-size: 15px; }
-
-body[class$="-mobile"] { --gutter: 24px; --page-width: 760px; }
-body[class$="-mobile"] h1 { font-size: clamp(36px, 7vw, 51px); }
-body[class$="-mobile"] h2 { font-size: 29px; }
-body[class$="-mobile"] .hero { grid-template-columns: 1fr; gap: 34px; padding-top: 44px; }
-body[class$="-mobile"] .hero h1 { max-width: none; }
-body[class$="-mobile"] .hero-aside { border-left: 0; border-top: 1px solid #30405a; padding: 26px 0 0; }
-body[class$="-mobile"] .editorial-mark { display: none; }
-body[class$="-mobile"] .metric strong { font-size: 42px; }
-body[class$="-mobile"] .report-layout { display: block; padding-top: 0; }
-body[class$="-mobile"] .chapter-nav { margin: 0 calc(-1 * var(--gutter)); padding: 12px var(--gutter); background: var(--paper); border-bottom: 1px solid var(--line); }
-body.interactive-mobile .chapter-nav { position: sticky; top: 0; z-index: 20; }
-body[class$="-mobile"] .chapter-nav .kicker, body[class$="-mobile"] .nav-footer { display: none; }
-body[class$="-mobile"] .chapter-nav ol { display: flex; gap: 13px; overflow-x: auto; scrollbar-width: thin; padding: 4px; }
-body[class$="-mobile"] .chapter-nav li { flex: 0 0 auto; border: 0; }
-body[class$="-mobile"] .chapter-nav ol a { max-width: 190px; font-size: 11px; padding: 7px; }
-body[class$="-mobile"] .chapter { padding-block: 38px; scroll-margin-top: 128px; }
-body[class$="-mobile"] .study-card, body[class$="-mobile"] .reference-list > li { scroll-margin-top: 128px; }
-body[class$="-mobile"] .decision-grid, body[class$="-mobile"] .study-grid { grid-template-columns: 1fr; }
-body[class$="-mobile"] .decision-card { padding: 25px; }
-body[class$="-mobile"] .section-summary { font-size: 18px; }
-body[class$="-mobile"] .table-wrap { overflow: visible; }
-body[class$="-mobile"] table, body[class$="-mobile"] tbody, body[class$="-mobile"] tr, body[class$="-mobile"] td { display: block; width: 100%; }
-body[class$="-mobile"] thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-body[class$="-mobile"] tbody tr { margin: 16px 0; border: 1px solid var(--line); background: var(--white); }
-body[class$="-mobile"] td { display: grid; grid-template-columns: minmax(72px, .65fr) minmax(0, 1.8fr); gap: 13px; padding: 14px; }
-body[class$="-mobile"] td::before { content: attr(data-label); color: var(--muted); font-size: 12px; font-weight: 700; }
-body[class$="-mobile"] td:last-child { border-bottom: 0; }
-body[class$="-mobile"] td:first-child { background: var(--soft); }
-body[class$="-mobile"] caption { display: block; }
-
-@media (max-width: 1050px) {
-  .report-layout { grid-template-columns: 165px minmax(0, 1fr); gap: 30px; }
-  .hero { gap: 36px; grid-template-columns: minmax(0, 1.5fr) minmax(220px, 1fr); }
-  .hero-aside { padding-left: 26px; }
-  .study-grid { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 700px) {
-  :root { --gutter: 22px; }
-  .masthead { align-items: flex-start; gap: 16px; padding-block: 20px; }
-  .brand { font-size: 10px; gap: 10px; }
-  .edition { font-size: 10px; max-width: 85px; }
-  .hero { grid-template-columns: 1fr; gap: 30px; padding-top: 42px; padding-bottom: 32px; }
-  .hero h1 { max-width: none; font-size: 38px; }
-  .hero-aside { border-left: 0; border-top: 1px solid #30405a; padding: 25px 0 0; }
-  .editorial-mark { display: none; }
-  .hero-statement { font-size: 18px; padding-left: 16px; margin-top: 26px; }
-  .hero-subtitle { font-size: 14px; }
-  .metric strong { font-size: 39px; }
-  .report-layout { display: block; padding-top: 0; }
-  .chapter-nav { margin: 0 calc(-1 * var(--gutter)); padding: 12px var(--gutter); border-bottom: 1px solid var(--line); background: var(--paper); }
-  .interactive-desktop .chapter-nav { top: 0; z-index: 20; max-height: none; overflow: visible; }
-  .chapter-nav ol { display: flex; gap: 10px; overflow-x: auto; padding: 4px; }
-  .chapter-nav li { flex: 0 0 auto; border: 0; }
-  .chapter-nav ol a { max-width: 180px; font-size: 11px; padding: 7px; }
-  .chapter-nav .kicker, .nav-footer { display: none; }
-  .chapter { padding-block: 36px; scroll-margin-top: 128px; }
-  .chapter:first-child { padding-top: 35px; }
-  .study-card, .reference-list > li { scroll-margin-top: 128px; }
-  .decision-grid, .study-grid, .editions-grid { grid-template-columns: 1fr; }
-  .decision-card { padding: 25px; }
-  .card-number { font-size: 36px; margin-bottom: 22px; }
-  .section-summary { font-size: 18px; }
-  .section-topline { margin-bottom: 20px; }
-  .callout { padding: 21px; }
-  .evidence-tabs { gap: 0; }
-  .evidence-tabs button { flex: 1 1 0; padding: 13px 7px; font-size: 12px; }
-  .evidence-tabs button span { margin-left: 5px; font-size: 10px; }
-  .filter-row { gap: 10px; }
-  .filter-row label { flex-basis: 130px; }
-  .text-button { width: 100%; text-align: right; }
-  .study-card { padding: 23px; }
-  .reference-list > li { grid-template-columns: 1fr; gap: 9px; }
-  .reference-number { max-width: none; }
-  .index-body { padding-top: 38px; }
-  .edition-card { padding: 25px; }
-  .index-toc ol { columns: 1; }
-  .site-footer { font-size: 10px; }
-  .chapter.mechanism { padding: 26px 20px; }
-  .pathway, .target-grid { grid-template-columns: 1fr; }
-  .pathway-step:not(:last-child)::after { content: "↓"; right: 24px; top: auto; bottom: -24px; }
-  .mechanism-lead { font-size: 19px; }
-  .enhanced .target-selector { flex-wrap: wrap; }
-  .target-selector button { flex-basis: 100%; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; text-align: left; }
-  .target-selector button span { margin-top: 0; text-align: right; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation: none !important; transition: none !important; }
-}
-
-@page { size: A4; margin: 16mm 14mm; }
-@media print {
-  :root { --gutter: 0; --page-width: none; background: white; }
-  html { scroll-behavior: auto; }
-  body, body[class$="-mobile"] { --gutter: 0; --page-width: none; font-size: 10pt; color: #111; background: white; }
-  *, *::before, *::after { box-shadow: none !important; text-shadow: none !important; animation: none !important; transition: none !important; }
-  .masthead, .chapter-nav, .skip-link, .reading-progress, .evidence-controls, .site-footer, .edition-actions, .filter-empty, .nav-footer { display: none !important; }
-  .evidence-panel[hidden], .study-card[hidden] { display: block !important; }
-  .target-card[hidden] { display: block !important; }
-  .target-selector { display: none !important; }
-  .chapter.mechanism, body[class$="-mobile"] .chapter.mechanism { padding: 7mm 0; background: white; color: #111; }
-  .mechanism .kicker, .mechanism .source-line a, .mechanism .section-topline > span:last-child, .mechanism .source-line > span { color: #163fa8; }
-  .mechanism-lead, body[class$="-mobile"] .mechanism-lead { font-size: 13pt; border-left-color: #2453ff; }
-  .pathway, body[class$="-mobile"] .pathway { display: block; }
-  .pathway-step { margin-top: 4mm; padding: 4mm; background: white; border: 1pt solid #999; }
-  .pathway-step:not(:last-child)::after { display: none; }
-  .pathway-step p { color: #222; font-size: 9pt; }
-  .pathway-number { color: #163fa8; font-size: 18pt; margin-bottom: 3mm; }
-  .mechanism-badge { background: white; border: 2pt solid #2453ff; color: #111; }
-  .target-grid, body[class$="-mobile"] .target-grid { display: block; }
-  .target-card, .target-card.target-featured { padding: 5mm; margin-top: 4mm; background: white; border: 1pt solid #999; color: #111; }
-  .target-badge, .target-featured .target-badge { color: #163fa8; background: white; border: 1pt solid #999; }
-  .target-explanation, .target-role p, .target-action, .mechanism-note p { font-size: 10pt; }
-  .mechanism-note, .mechanism-clinical-role { border-color: #999; }
-  main, .report-layout, .report-body, .index-body { display: block !important; width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
-  .hero, body[class$="-mobile"] .hero { display: block; color: #111; background: white; padding: 0 0 8mm; border-top: 3pt solid #2453ff; }
-  .hero-copy { padding-top: 7mm; }
-  .google-documents { padding: 4mm 0; }
-  .google-documents a::after { content: " (" attr(href) ")"; font-weight: 400; }
-  h1, .hero h1, body[class$="-mobile"] h1 { font-size: 28pt; max-width: none; }
-  h2, body[class$="-mobile"] h2 { font-size: 20pt; }
-  h3 { font-size: 15pt; }
-  h4 { font-size: 13pt; }
-  h5 { font-size: 9pt; }
-  h1, h2, h3, h4, h5, .section-topline { break-after: avoid; }
-  .hero-subtitle, .hero-statement, .hero-meta, .eyebrow, .metric span, .metric-note { color: #333; }
-  .hero-statement { font-size: 13pt; border-color: #2453ff; }
-  .hero-aside, body[class$="-mobile"] .hero-aside { display: block; margin-top: 6mm; padding: 5mm 0 0; border: 0; border-top: 1pt solid #bbb; }
-  .editorial-mark { display: none; }
-  .metrics { display: flex; gap: 15mm; }
-  .metric strong, body[class$="-mobile"] .metric strong { color: #111; font-size: 26pt; }
-  .chapter, body[class$="-mobile"] .chapter { padding: 8mm 0; border-bottom: 1pt solid #ccc; }
-  .section-summary, body[class$="-mobile"] .section-summary { font-size: 12pt; margin-top: 4mm; }
-  .decision-grid, .study-grid, body[class$="-mobile"] .decision-grid, body[class$="-mobile"] .study-grid, .editions-grid { display: block; background: none; border: 0; }
-  .decision-card, .decision-card:first-child, .study-card, .edition-card { background: white; color: #111; border: 1pt solid #bbb; padding: 5mm; margin-top: 4mm; }
-  .decision-card, .pathway-step, .target-card, .study-card, .reference-list > li, .callout, .mechanism-note, .mechanism-badge, tr { break-inside: avoid; }
-  .decision-card:first-child .card-number { color: #2453ff; }
-  .decision-card p, .study-result p, .study-limit p { font-size: 10pt; }
-  .card-number { font-size: 22pt; margin-bottom: 3mm; }
-  .study-topline, .country-chip, .study-facts, .study-links, .muted { font-size: 9pt; }
-  .study-sample { margin: 4mm 0; padding: 3mm 0; }
-  .study-sample strong { font-size: 20pt; }
-  .study-limit, .callout, .review-boundary { color: #111; background: white; border: 1pt solid #888; }
-  .callout .kicker { color: #2453ff; }
-  .callout, .review-boundary { padding: 4mm; }
-  .table-wrap, body[class$="-mobile"] .table-wrap { overflow: visible; }
-  table, body[class$="-mobile"] table { display: table; width: 100%; table-layout: fixed; font-size: 9pt; }
-  thead, body[class$="-mobile"] thead { display: table-header-group; position: static; width: auto; height: auto; clip-path: none; overflow: visible; }
-  tbody, body[class$="-mobile"] tbody { display: table-row-group; }
-  tr, body[class$="-mobile"] tr { display: table-row; background: white; }
-  th, td, body[class$="-mobile"] td { display: table-cell; padding: 3mm; width: auto; border-bottom: 1pt solid #ccc; background: white; }
-  body[class$="-mobile"] td::before { display: none; }
-  caption, body[class$="-mobile"] caption { display: table-caption; }
-  .key-points li { padding-block: 3mm; }
-  .key-points li::before { top: 6mm; }
-  .source-line, .reference-backlinks, .reference-list .external { font-size: 8pt; }
-  .reference-list > li { display: block; padding: 4mm 0; }
-  .reference-number { display: block; max-width: none; }
-  .reference-citation, .reference-note { font-size: 9pt; }
-  .reference-list .external { word-break: break-all; }
-  .study-links .external::after { content: " (" attr(href) ")"; font-weight: 400; overflow-wrap: anywhere; }
-  .review-list li { break-inside: avoid; }
-  .review-list label { font-size: 10pt; }
-  p, li { orphans: 3; widows: 3; }
-  :target:not(main) { outline: none; }
-  a { color: #163fa8; }
-}
+<meta name="description" content="메틸렌블루 약리 실험실·근거 지도·연구 비교·비축 설계. 직접 조작하는 경영진 근거 탐색 웹.">
+<title>메틸렌블루: 구제치료의 선택지를 확보하라 | Interactive Lab v2</title>
+<style>:root{--paper:#f3f4ef;--white:#fff;--ink:#152333;--muted:#566574;--line:#d9dedc;--navy:#102e43;--blue:#125dda;--teal:#087e83;--lime:#d6f47c;--orange:#ad511b;font-family:"Apple SD Gothic Neo","Noto Sans CJK KR","Malgun Gothic",sans-serif;color:var(--ink);background:var(--paper);font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;font-size:16px;line-height:1.7}button,input,select{font:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer;color:inherit}a{color:var(--blue);text-underline-offset:4px}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--blue);outline-offset:4px}button:disabled{cursor:default}h1,h2,h3,h4,p{margin-top:0}h1,h2,h3{line-height:1.35;word-break:keep-all}h1{font-size:clamp(32px,3.8vw,58px);letter-spacing:-.045em;font-weight:750}h2{font-size:clamp(27px,2.5vw,38px);letter-spacing:-.035em}h3{font-size:20px}em{font-style:normal;color:var(--teal)}[hidden]{display:none!important}main{max-width:1440px;margin:auto;padding:0 48px}button{border:1px solid var(--line);background:white;border-radius:9px;padding:10px 16px}input,select{max-width:100%;width:100%;border:1px solid #a9b7bd;border-radius:7px;padding:10px 12px;background:white;color:var(--ink)}label{display:block;font-size:14px;font-weight:650}label input,label select{margin-top:7px}select{min-height:44px}.eyebrow{font-size:11px;letter-spacing:.16em;font-weight:750;color:var(--teal);margin-bottom:12px}.hint{font-size:13px;color:var(--muted);margin:16px 0 0}.app-controls{display:none}.enhanced .app-controls{display:revert}.skip-link{position:absolute;left:16px;top:-100px;background:white;padding:14px;z-index:20}.skip-link:focus{top:12px}.app-header{display:flex;align-items:center;gap:30px;max-width:1440px;margin:auto;padding:28px 48px;border-bottom:1px solid var(--line)}.app-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);font-size:12px;line-height:1.35}.brand-symbol{display:flex;align-items:center;gap:6px;padding:10px;background:var(--navy);color:white;font-size:24px;font-weight:800;letter-spacing:-.04em}.brand-symbol span{color:var(--lime);font-size:19px}.header-description{font-size:14px}.header-description span{display:block;color:var(--muted);font-size:12px}.document-link{margin-left:auto;font-size:13px}.app-intro{padding:46px 0 30px}.app-intro>p:not(.eyebrow){color:var(--muted);max-width:690px}.intro-facts{display:flex;align-items:center;flex-wrap:wrap;gap:25px;margin-top:24px;font-size:12px}.intro-facts b{font-size:21px;margin-right:8px}.boundary-tag{margin-left:auto;padding:6px 12px;border:1px solid #b9c7ca;border-radius:30px;color:var(--muted)}.enhanced .app-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:8px 0 36px;background:#e5e9e4;border:1px solid var(--line);padding:7px;border-radius:13px}.app-nav button{text-align:left;background:transparent;border-color:transparent;font-size:17px;font-weight:750;padding:14px 18px}.app-nav button>span{display:inline-block;color:var(--muted);font-size:11px;margin-right:12px;font-weight:400}.app-nav small{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-left:28px}.app-nav [aria-current]{background:var(--navy);color:white;box-shadow:0 3px 7px #0f2c4314}.app-nav [aria-current] span,.app-nav [aria-current] small{color:#c1dbe0}.workspace-heading{display:flex;justify-content:space-between;gap:40px;align-items:flex-end;margin-bottom:28px}.workspace-heading h2{margin-bottom:0}.workspace-heading>p{max-width:400px;color:var(--muted);font-size:14px;margin:0}.lab-layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:24px}.control-card{border:1px solid var(--line);background:white;border-radius:14px;padding:26px;min-width:0}.target-switch{display:flex;position:relative;gap:10px;align-items:center;border-top:1px solid var(--line);padding:17px 0;cursor:pointer;font-size:14px}.target-switch input{position:absolute;opacity:0;width:22px;height:22px}.target-switch input:focus-visible+span{outline:3px solid var(--blue);outline-offset:6px}.target-switch small{display:block;font-size:11px;color:var(--muted);margin-top:4px}.switch-track{margin-left:auto;background:#ced5d4;flex:0 0 34px;height:20px;border-radius:20px;position:relative}.switch-track:after{content:"";background:white;position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;transition:transform .2s}.target-switch:has(input:checked) .switch-track{background:var(--teal)}.target-switch:has(input:checked) .switch-track:after{transform:translateX(14px)}.lab-context{border-top:1px solid var(--line);padding-top:22px;margin-top:22px}.lab-context p{font-size:13px;margin:14px 0}.subtle-button{font-size:12px;text-align:left;padding:8px 10px;background:#f2f5f4}.lab-canvas{background:var(--navy);color:white;padding:28px;border-radius:14px;min-width:0}.canvas-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:13px;margin-bottom:28px}.canvas-heading button{background:#ffffff0b;border-color:#7d929d;color:white;font-size:11px;padding:7px 10px}.live-dot{display:inline-block;height:7px;width:7px;background:var(--lime);border-radius:50%;margin-right:7px}.signal-path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;position:relative;margin-bottom:30px}.signal-node{position:relative;text-align:left;color:#c1d8de;background:#183d53;border:1px solid #527080;min-height:167px;padding:15px 12px;border-radius:9px;transition:background .25s,border-color .25s,opacity .25s}.signal-node strong{display:block;font-size:15px;line-height:1.4;margin:12px 0}.signal-node>span:last-of-type{font-size:11px;line-height:1.5;display:block}.node-index{font-size:10px;letter-spacing:.16em;color:#adc6ca}.signal-node[aria-pressed=true]{border-color:var(--lime);background:#244c57;color:white}.signal-node[aria-pressed=true] .node-index{color:var(--lime)}.signal-link{position:absolute;right:-16px;top:50%;width:15px;height:2px;background:repeating-linear-gradient(90deg,#8eb8bf 0 4px,transparent 4px 7px)}.signal-link:after{content:"›";position:absolute;right:-2px;top:-14px;color:#8eb8bf;font-style:normal;font-size:19px}.signal-node:last-child .signal-link{display:none}.playing .signal-link{animation:flow .5s linear infinite}.mb-selected .signal-node:nth-child(2){border-color:#78bdff;background:#174362}.mb-selected .signal-node:nth-child(2) .signal-link{background:#78bdff;animation:none}.mb-selected .signal-node:nth-child(2) .signal-link:after{content:"⊣";color:#78bdff;font-size:23px;right:0;top:-17px}.mb-selected .signal-node:nth-child(n+3){border-style:dashed}.branch-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.receptor-branch{border:1px solid #557382;border-radius:8px;padding:13px 15px;opacity:.55;transition:opacity .2s,background .2s}.receptor-branch span{display:block;font-size:11px;color:#cadde0}.receptor-branch strong{font-size:13px;font-weight:550;display:block;margin:5px 0}.receptor-branch.selected{opacity:1;background:#1d555c;border-color:#8fcebf}.branch-line{height:3px;background:#466f7b;margin-top:10px}.selected .branch-line{background:var(--lime)}.playing .selected .branch-line{background:repeating-linear-gradient(90deg,var(--lime) 0 8px,#2c6669 8px 12px);animation:flow .7s linear infinite}.mb-intervention{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px;margin-top:18px;border:1px dashed #587f95;border-radius:8px;color:#b6ccd7;font-size:12px;transition:background .2s,border-color .2s}.mb-intervention>span:first-child{font-size:9px;letter-spacing:.15em}.mb-intervention>span:last-child{margin-left:auto}.mb-selected .mb-intervention{background:#0c4d6d;border-color:#79c6ee;color:#d6f2ff}.signal-detail{display:flex;gap:18px;padding:24px 0;margin-top:10px;border-bottom:1px solid #416174}.detail-number{font-size:39px;font-weight:700;color:var(--lime);line-height:1}.signal-detail h3{font-size:18px;margin-bottom:8px}.signal-detail p{font-size:13px;color:#d2e3e7;margin:0}.target-explanations article{padding:16px 0;border-bottom:1px solid #416174;font-size:13px}.target-explanations h4{font-size:14px;margin:0 0 8px}.target-explanations p{margin:0 0 8px;color:#d2e3e7}.state-note{font-size:12px;color:var(--lime);margin-top:20px}.safety-boundary{border-left:3px solid var(--orange);background:#fcf1e7;padding:14px 17px;color:#763c1c;font-size:12px;margin-top:24px}.lab-canvas .safety-boundary{background:#ffffff08;color:#e0eaed;border-color:#d8c884}.source-links{display:flex;gap:9px;flex-wrap:wrap;font-size:10px;align-items:center;margin-top:18px}.lab-canvas .source-links a{color:#c0e2f2}.source-links>span{margin-right:4px;color:#b6cbd3}.atlas-controls{display:grid;grid-template-columns:180px 150px minmax(180px,1fr) auto;gap:20px;align-items:end;padding:24px;background:white;border:1px solid var(--line);border-radius:12px}.enhanced .atlas-controls{display:grid}.year-control output{float:right;color:var(--teal)}input[type=range]{padding:0;accent-color:var(--teal);min-height:43px}.atlas-controls button{font-size:12px;min-height:44px}.atlas-summary{display:flex;gap:20px;flex-wrap:wrap;padding:22px 3px;font-size:13px;color:var(--muted)}.atlas-summary b{color:var(--ink);font-size:22px;margin-right:7px}.atlas-card{background:white;border:1px solid var(--line);border-radius:14px;padding:25px}.chart-caption{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:20px}.chart-caption b{font-size:11px;color:var(--orange);font-weight:500}.atlas-scroll{overflow-x:auto;overscroll-behavior-inline:contain;border-radius:6px}.evidence-map{min-width:870px;height:390px;position:relative;background:repeating-linear-gradient(to bottom,transparent 0 78px,#e9efec 78px 79px);margin-top:10px}.chart-row-label{position:absolute;left:6px;font-size:12px;width:113px;font-weight:600;line-height:1.5}.chart-axis-label{position:absolute;bottom:4px;font-size:11px;color:var(--muted);transform:translateX(-50%)}.chart-year-line{position:absolute;top:0;bottom:35px;border-left:1px dashed #dfe5e2}.evidence-dot{position:absolute;transform:translate(-50%,-50%);border:2px solid var(--teal);background:#e7f5f0;color:#085954;border-radius:50%;width:42px;height:42px;font-size:10px;font-weight:750;padding:0;transition:opacity .2s,background .2s}.evidence-dot.context-sepsis{border-color:#125dda;background:#e6efff;color:#164aa0}.evidence-dot.context-other{border-color:#b36531;background:#fff0e3;color:#8b4616}.evidence-dot:hover,.evidence-dot:focus-visible{background:var(--navy);color:white;z-index:3}.evidence-dot:hover:after,.evidence-dot:focus-visible:after{content:attr(data-tooltip);position:absolute;bottom:50px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;padding:8px 12px;border-radius:5px;font-size:11px;white-space:nowrap;pointer-events:none}.undated-evidence{padding-top:18px;border-top:1px solid var(--line);font-size:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.undated-evidence button{font-size:12px;border-color:var(--blue);padding:8px 12px}.atlas-insight{background:#e3ece6;border:1px solid #cad9cd;padding:22px;border-radius:12px;font-size:13px;margin-top:22px}.atlas-insight h3{font-size:18px;margin-bottom:8px}.atlas-insight p{margin:0}.empty-message{padding:18px;background:white;border:1px solid var(--line);border-radius:8px}.mobile-chart-hint{font-size:11px;color:var(--muted);margin-bottom:8px}.compare-selectors{display:grid;grid-template-columns:1fr 44px 1fr;align-items:end;gap:22px;padding:24px;background:white;border:1px solid var(--line);border-radius:12px}.enhanced .compare-selectors{display:grid}.compare-selectors button{height:44px;padding:0;font-size:24px}.comparison-context{padding:18px 20px;border-left:3px solid var(--teal);background:#e2eee8;margin:24px 0;font-size:13px}.comparison-grid{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:white}.comparison-row{display:grid;grid-template-columns:110px 1fr 1fr;border-top:1px solid var(--line)}.comparison-row:first-child{border-top:0}.comparison-row>div{padding:20px;min-width:0;overflow-wrap:anywhere}.comparison-row>div+div{border-left:1px solid var(--line);font-size:14px}.comparison-label{font-size:12px;font-weight:750;color:var(--muted);background:#f2f5f0}.comparison-row:first-child .comparison-value{font-size:19px;color:var(--teal);font-weight:700}.comparison-row.limit-row{background:#fff4e8}.comparison-row.limit-row .comparison-label{background:#fbecdd;color:#804411}.planning-layout{display:grid;grid-template-columns:minmax(260px,360px) minmax(0,1fr);gap:24px}.planning-layout form>label{margin-bottom:18px}.stock-result{border:1px solid #adc6bc;background:#e7eee7;border-radius:14px;padding:32px;min-width:0}.formula-parts{display:flex;align-items:center;gap:18px;justify-content:space-between;padding:30px 0;border-bottom:1px solid #bdcec4}.formula-parts span{font-size:11px;text-align:center;color:var(--muted)}.formula-parts b{display:block;font-size:35px;color:var(--ink);font-weight:650}.formula-parts i{font-style:normal;color:var(--teal);font-size:25px}.stock-total{padding:22px 0 10px}.stock-total output{font-size:clamp(36px,5vw,70px);font-weight:750;letter-spacing:-.06em;color:var(--teal);line-height:1.3;overflow-wrap:anywhere;display:block}.stock-total>span{display:block;font-size:14px;color:var(--muted)}.stock-result>p:not(.eyebrow):not(.safety-boundary){font-size:13px}.stock-result>a{font-size:12px}.stock-result>button{display:block;margin-top:24px;font-size:13px;border-color:#93b2a2}.protocol-board{margin-top:28px;background:white;border:1px solid var(--line);border-radius:14px;padding:28px}.protocol-board>div:first-child>p:last-child{font-size:13px;color:var(--muted)}.protocol-stages{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.enhanced .protocol-stages{display:grid}.protocol-stages button{text-align:left;font-size:13px}.protocol-stages button[aria-pressed=true]{background:var(--navy);color:white;border-color:var(--navy)}.protocol-detail{margin-top:22px;border-top:1px solid var(--line);padding-top:22px;font-size:14px}.protocol-detail b{display:block;color:var(--teal);font-size:12px;margin-bottom:8px}.protocol-detail p{margin-bottom:8px}.workspace-footer{display:flex;justify-content:space-between;gap:20px;font-size:11px;color:var(--muted);padding:30px 0;align-items:center}.workspace-footer>div{display:flex;gap:15px;align-items:center;flex-wrap:wrap}.workspace-footer button{font-size:11px;padding:7px 10px}.source-archive{border:1px solid var(--line);border-radius:12px;background:white;margin-bottom:30px}.source-archive>summary{cursor:pointer;padding:25px;font-size:16px;font-weight:700}.source-archive>summary small{display:block;font-size:11px;font-weight:400;color:var(--muted);margin-top:8px}.source-archive>div{padding:0 28px 28px}.source-archive .chapter{border-top:1px solid var(--line);padding:30px 0;scroll-margin-top:20px}.source-archive .chapter h2{font-size:26px}.source-archive .section-topline,.source-archive .source-line{display:flex;gap:10px;flex-wrap:wrap;font-size:12px}.source-archive .section-summary,.source-archive .muted{color:var(--muted)}.source-archive .table-wrap{max-width:100%;overflow:auto}.source-archive table{border-collapse:collapse;width:100%;font-size:13px}.source-archive th,.source-archive td{border:1px solid var(--line);padding:12px;text-align:left;vertical-align:top;min-width:130px}.source-archive .table-wrap caption{font-size:11px;text-align:left;padding:8px 0}.source-archive .study-card{border:1px solid var(--line);padding:22px;border-radius:8px;margin-bottom:20px;scroll-margin-top:20px}.source-archive .study-card h4{font-size:20px}.source-archive .study-topline{display:flex;gap:12px;color:var(--teal);font-size:12px}.source-archive .study-sample strong{display:block;font-size:23px}.source-archive dl>div{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--line);padding:10px 0;font-size:14px}.source-archive dt{font-weight:700}.source-archive dd{margin:0}.source-archive .study-limit,.source-archive .callout,.source-archive .mechanism-note{padding:18px;background:#fcf1e7;font-size:13px}.source-archive h5{font-size:14px;margin:15px 0 8px}.source-archive .reference-list{padding-left:24px;font-size:13px}.source-archive .reference-list li{padding:15px 0;overflow-wrap:anywhere}.source-archive .reference-backlinks{display:flex;gap:10px;flex-wrap:wrap}.source-archive .pathway{padding-left:20px}.source-archive .target-card{margin:20px 0}.source-archive .decision-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.source-archive .decision-card{padding:18px;background:#edf3ed}.app-bottom{max-width:1440px;margin:auto;border-top:1px solid var(--line);padding:22px 48px;display:flex;justify-content:space-between;gap:20px;font-size:11px;color:var(--muted)}.app-bottom p{margin:0}.print-summary{display:none}.noscript-note{padding:20px;border:1px solid var(--line);background:white}.app-header,.app-intro,.workspace{overflow-wrap:anywhere}dialog{border:1px solid var(--line);border-radius:16px;max-width:780px;width:calc(100% - 32px);max-height:90dvh;padding:28px;color:var(--ink);box-shadow:0 20px 100px #071f4a42}dialog::backdrop{background:#102e4388;backdrop-filter:blur(4px)}dialog h2{font-size:26px;line-height:1.5;margin:20px 0}.dialog-top{display:flex;align-items:center;justify-content:space-between;gap:20px}.dialog-top .eyebrow{margin:0}.dialog-top button{padding:4px 12px;font-size:19px}.dialog-fact{padding:15px 0;border-top:1px solid var(--line)}.dialog-fact h3{font-size:11px;color:var(--muted);letter-spacing:.07em;margin-bottom:8px}.dialog-fact p{font-size:14px;margin:0}.dialog-fact.limit{background:#fff4e8;padding:18px}.dialog-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}.dialog-actions button{font-size:12px}.dialog-actions button:last-child{background:var(--navy);color:white}.dialog-source{font-size:12px;display:inline-block;margin-top:18px}.dialog-top,.dialog-actions{position:relative}@keyframes flow{to{background-position:14px 0}}
+@media(max-width:1100px){main{padding:0 26px}.app-header,.app-bottom{padding-left:26px;padding-right:26px}.lab-layout{grid-template-columns:260px minmax(0,1fr);gap:16px}.control-card,.lab-canvas{padding:20px}.signal-path{gap:12px}.signal-node{padding:12px 8px}.signal-node strong{font-size:13px}.signal-link{right:-13px;width:12px}.app-nav button{padding:13px 10px}.app-nav button>span{margin-right:7px}.app-nav small{margin-left:20px}.workspace-heading{gap:24px}.workspace-heading>p{max-width:300px}.atlas-controls{grid-template-columns:1fr 1fr 1.3fr;gap:15px}.atlas-controls>button{grid-column:3;text-align:center}.stock-result{padding:24px}}
+@media(max-width:760px){body{font-size:15px}main{padding:0 18px}.app-header{padding:18px;gap:12px}.header-description{font-size:11px}.header-description span{font-size:9px}.app-brand>span:last-child{display:none}.document-link{font-size:11px;white-space:nowrap}.brand-symbol{font-size:19px;padding:8px}.app-intro{padding:28px 0 23px}.app-intro h1{font-size:32px}.app-intro>p:not(.eyebrow){font-size:13px}.intro-facts{gap:14px;font-size:10px}.intro-facts b{font-size:17px;margin-right:4px}.boundary-tag{margin:0;font-size:9px}.enhanced .app-nav{grid-template-columns:repeat(2,1fr);gap:5px;margin-bottom:28px}.app-nav button{font-size:14px;padding:11px}.app-nav small{font-size:9px}.workspace-heading{display:block;margin-bottom:22px}.workspace-heading>p{margin-top:15px;font-size:12px;max-width:none}.workspace-heading h2{font-size:28px}.lab-layout,.planning-layout{grid-template-columns:1fr}.control-card{padding:22px}.control-card h3{font-size:18px}.enhanced .control-card>.app-controls{display:grid;grid-template-columns:1fr}.target-switch{padding:14px 0}.lab-context{margin-top:16px;padding-top:16px}.lab-canvas{padding:20px 17px}.canvas-heading{flex-wrap:wrap;font-size:12px;gap:14px}.signal-path{grid-template-columns:1fr;gap:18px}.signal-node{display:grid;grid-template-columns:25px 1fr;text-align:left;column-gap:12px;min-height:0;padding:13px 15px}.signal-node .node-index{grid-row:span 2;align-self:center}.signal-node strong{font-size:15px;margin:0 0 5px}.signal-node>span:last-of-type{grid-column:2;font-size:11px}.signal-link{top:auto;bottom:-19px;left:50%;right:auto;width:2px;height:18px;background:repeating-linear-gradient(0deg,#8eb8bf 0 4px,transparent 4px 7px)}.signal-link:after{content:"⌄";right:-5px;top:1px}.mb-selected .signal-node:nth-child(2) .signal-link:after{content:"⊥";font-size:20px;right:-8px;top:-4px}.branch-grid{gap:10px}.receptor-branch{padding:12px}.receptor-branch strong{font-size:11px}.receptor-branch span{font-size:10px}.mb-intervention{font-size:11px;gap:8px}.mb-intervention strong{flex-basis:100%}.mb-intervention>span:last-child{margin:0}.detail-number{font-size:31px}.signal-detail h3{font-size:17px}.signal-detail p{font-size:12px}.safety-boundary{font-size:11px}.atlas-controls,.enhanced .atlas-controls{grid-template-columns:1fr 1fr;padding:18px;gap:15px}.year-control{grid-column:span 2}.atlas-controls>button{grid-column:span 2;font-size:11px}.atlas-summary{gap:14px;font-size:11px}.atlas-summary b{font-size:19px}.atlas-card{padding:15px}.chart-caption{display:block;font-size:11px}.chart-caption b{display:block;margin-top:6px;font-size:10px}.atlas-insight{padding:18px;font-size:12px}.compare-selectors,.enhanced .compare-selectors{gap:12px;padding:17px;grid-template-columns:1fr 34px 1fr}.compare-selectors label{font-size:12px}.compare-selectors select{font-size:11px;padding:8px 5px}.compare-selectors button{height:44px;font-size:21px}.comparison-row{grid-template-columns:1fr 1fr}.comparison-row>div{padding:14px;line-height:1.65}.comparison-row .comparison-label{grid-column:span 2;padding:8px 14px;font-size:11px;border-bottom:1px solid var(--line)}.comparison-row>div+div{font-size:12px}.comparison-row>div:nth-child(2){border-left:0}.comparison-row:first-child .comparison-value{font-size:17px}.stock-result{padding:24px}.formula-parts{gap:10px}.formula-parts b{font-size:28px}.formula-parts span{font-size:9px}.formula-parts i{font-size:20px}.protocol-board{padding:20px}.protocol-stages,.enhanced .protocol-stages{grid-template-columns:1fr 1fr;gap:9px}.protocol-stages button{font-size:12px}.workspace-footer{display:block;padding:24px 0}.workspace-footer>div{margin-top:14px;gap:12px}.workspace-footer button{font-size:10px}.source-archive>summary{font-size:14px;padding:20px}.source-archive>summary small{font-size:10px}.source-archive>div{padding:0 18px 20px}.source-archive .chapter h2{font-size:23px}.source-archive .decision-grid{grid-template-columns:1fr}.source-archive .study-card{padding:17px}.source-archive .study-card h4{font-size:17px}.source-archive dl>div{grid-template-columns:1fr;gap:5px}.source-archive .reference-list{padding-left:15px;font-size:12px}.app-bottom{padding:20px 18px;display:block;font-size:10px}.app-bottom a{display:inline-block;margin-top:8px}dialog{padding:20px;max-height:88dvh}dialog h2{font-size:20px}.dialog-fact p{font-size:13px}.dialog-actions button{font-size:11px;padding:9px 12px}}
+.source-archive{overflow-wrap:anywhere}.source-archive dl>div>*{min-width:0}.evidence-map{background:white;min-width:1175px}.chart-band-line{position:absolute;left:0;right:0;border-top:1px solid #e9efec}.atlas-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;margin:10px 0;color:var(--muted)}.atlas-legend span:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--teal);margin-right:6px}.atlas-legend span:nth-child(2):before{background:var(--blue)}.atlas-legend span:nth-child(3):before{background:#b36531}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{body{background:white;font-size:11pt}main{max-width:none;padding:0}.app-header,.app-intro,.app-nav,.workspace,.workspace-footer,.app-bottom,dialog,.skip-link,.noscript-note{display:none!important}.print-summary{display:block;border-bottom:2px solid #333;padding-bottom:20px;margin-bottom:20px}.print-summary h2{font-size:20pt}.source-archive{border:0}.source-archive>summary{display:none}.source-archive>div{padding:0}.source-archive .chapter{break-before:auto;padding:20px 0}.source-archive .chapter h2{font-size:18pt;break-after:avoid}.source-archive .table-wrap{overflow:visible}.source-archive table{font-size:9pt}.source-archive td,.source-archive th{min-width:0;padding:7px}.source-archive thead{display:table-header-group}.source-archive tr{break-inside:avoid}.source-archive .reference-list{font-size:9pt}.source-archive .study-card{break-inside:auto;border:0;padding:15px 0}.source-archive .study-card h4{break-after:avoid}.source-archive .study-topline{break-after:avoid}.source-archive .decision-grid{display:block}.source-archive .decision-card{margin-bottom:12px}a{color:inherit;overflow-wrap:anywhere}.source-archive h3,.source-archive h4,.source-archive h5{break-after:avoid}p,li{orphans:3;widows:3}}
 </style></head>
-<body class="interactive-mobile"><a class="skip-link" href="#main">본문 바로가기</a><div class="reading-progress" aria-hidden="true"><span></span></div>
-<header class="masthead"><a class="brand" href="index.html" aria-label="보고서 목차">
-<span class="brand-mark" aria-hidden="true">MB<span>↗</span></span><span>메틸렌블루: 구제치료의 선택지를 확보하라</span></a>
-<span class="edition">인터랙티브 · 모바일</span></header>
-<main id="main"><section class="hero" aria-labelledby="report-title">
-<div class="hero-copy"><p class="eyebrow">LOW SVR / A DIFFERENT PHARMACOLOGIC TARGET</p>
-<h1 id="report-title">혈관이 반응하지 않을 때,
-다른 표적의 구제전략이 필요하다</h1>
-<p class="hero-subtitle">프로베블루주 0.5% · 낮은 SVR의 난치성 혈관마비에 대한 약리학적 근거·임상성과·비상 비축 제안</p>
-<p class="hero-statement">메틸렌블루는 과도한 NO–sGC–cGMP 혈관 이완 신호에 개입하는 비카테콜아민성 후보 약물임. 낮은 SVR의 난치성 혈관마비에서 추가·구제요법으로 연구되고 실제 사용됨. 심장수술·중증 쇼크 진료체계를 운영하는 병원은 비상 비축과 전문의 통제하 제한사용 체계를 갖춰야 한다는 것이 본 보고서의 권고임.</p>
-<div class="hero-meta"><span>2026-10-08</span><span>1.1</span></div></div>
-<aside class="hero-aside" aria-label="보고서 구성"><div class="editorial-mark" aria-hidden="true">MB<span>Evidence<br>to decision.</span></div>
-<div class="metrics"><div class="metric"><strong>18</strong><span>보고서 장</span></div><div class="metric"><strong>19</strong><span>연구·기관 자료</span></div><div class="metric"><strong>37</strong><span>참고문헌</span></div></div><p class="metric-note">본 보고서에 수록된 자료 기준</p></aside></section><aside class="google-documents" aria-label="Google 문서"><span class="kicker">GOOGLE DOCUMENTS</span><div><a class="external" href="https://docs.google.com/document/d/1aTnU_KcOAxubIvFiE8NH5koiQ-OT-n7GgCBeEFUp4Wc" target="_blank" rel="noopener noreferrer">Google Docs · 상세 보고서</a><a class="external" href="https://docs.google.com/presentation/d/1GlAY_G5F5XcJwUnOwwXQd9mYaK0y0dRcySjReixwAKQ" target="_blank" rel="noopener noreferrer">Google Slides · 경영진 발표자료</a></div></aside><div class="report-layout"><nav class="chapter-nav" aria-label="장별 목차"><p class="kicker">CONTENTS</p><ol><li><a href="#overview"><span class="nav-number">01</span><span>핵심 판단</span></a></li><li><a href="#mechanism"><span class="nav-number">02</span><span>약리학적 구제전략</span></a></li><li><a href="#chapter-01"><span class="nav-number">03</span><span>비상 비축과 전문의 통제하 구제체계 구축을 권고함</span></a></li><li><a href="#chapter-02"><span class="nav-number">04</span><span>프로베블루주는 염색약만으로 허가된 제품이 아님</span></a></li><li><a href="#chapter-03"><span class="nav-number">05</span><span>분포성 쇼크의 핵심은 낮은 SVR이며, 혈관마비가 표적임</span></a></li><li><a href="#chapter-04"><span class="nav-number">06</span><span>메틸렌블루는 기존 승압제와 다른 약리 표적에 개입함</span></a></li><li><a href="#chapter-05"><span class="nav-number">07</span><span>다른 표적을 활용한 시험적 추가·구제 후보로 연구되고 사용됨</span></a></li><li><a href="#chapter-06"><span class="nav-number">08</span><span>성인 CPB 지침은 난치성 혈관마비의 대체약 고려를 공식 권고함</span></a></li><li><a href="#chapter-07"><span class="nav-number">09</span><span>무작위시험과 실제 구제치료에서 임상 반응이 반복 보고됨</span></a></li><li><a href="#chapter-08"><span class="nav-number">10</span><span>연구성과는 환자군과 결과 지표를 함께 읽어야 함</span></a></li><li><a href="#chapter-09"><span class="nav-number">11</span><span>분포성 쇼크의 여러 원인에서 구제투여가 보고됨. 근거 수준은 구분 필요</span></a></li><li><a href="#chapter-10"><span class="nav-number">12</span><span>통합분석도 유익성 신호를 보고함. 독립적인 대규모 확증은 아님</span></a></li><li><a href="#chapter-11"><span class="nav-number">13</span><span>해외 사용의 설득력은 국가 이름보다 기관·환자·결과의 확인에 있음</span></a></li><li><a href="#chapter-12"><span class="nav-number">14</span><span>메틸렌블루는 표준치료를 완료하면서 검토하는 추가 선택지임</span></a></li><li><a href="#chapter-13"><span class="nav-number">15</span><span>위험을 알고 제한하는 체계가 구제약 비축의 전제임</span></a></li><li><a href="#chapter-14"><span class="nav-number">16</span><span>누가, 어떤 조건에서, 무엇을 기록할지 사전에 확정해야 함</span></a></li><li><a href="#chapter-15"><span class="nav-number">17</span><span>비축 수량은 응급 대응능력과 공급기간으로 정해야 함</span></a></li><li><a href="#chapter-16"><span class="nav-number">18</span><span>반론에 답하려면 강한 근거와 근거의 경계를 함께 제시해야 함</span></a></li><li><a href="#chapter-17"><span class="nav-number">19</span><span>비축 승인과 시행 조건을 한 문서에 명시할 것을 권고함</span></a></li><li><a href="#chapter-18"><span class="nav-number">20</span><span>공식 지침·원저·기관 자료를 우선 대조한 신속 근거 검토임</span></a></li><li><a href="#evidence"><span class="nav-number">21</span><span>연구 근거</span></a></li><li><a href="#readiness"><span class="nav-number">22</span><span>검토 체크리스트</span></a></li><li><a href="#references"><span class="nav-number">23</span><span>참고문헌</span></a></li></ol>
-<div class="nav-footer"><a href="index.html">판본·다운로드 ↗</a><a href="interactive-desktop.html">데스크톱판 ↗</a></div></nav><div class="report-body">
-<section id="overview" class="chapter overview" data-chapter>
+<body class="interactive-mobile">
+<a class="skip-link" href="#main">본문 바로가기</a>
+<header class="app-header"><a class="app-brand" href="index.html"><span class="brand-symbol">MB<span>↗</span></span><span>Evidence<br><b>Workspace</b></span></a>
+<div class="header-description">프로베블루주 0.5%<span>경영진 근거 탐색 · 2026-10-08</span></div>
+<a class="document-link" href="static-mobile.html">기본 보고서 ↗</a></header>
+<main id="main">
+<section class="app-intro"><p class="eyebrow">INTERACTIVE LAB / VERSION 2</p><h1>읽는 보고서에서,<br><em>판단을 탐색하는 작업 공간으로.</em></h1>
+<p>표적을 켜고, 연구를 짝지으며, 비축 조건을 바꿔보기.<br>같은 근거를 직접 조작하며 차이와 한계를 확인하는 웹.</p>
+<div class="intro-facts"><span><b>03</b> 약리 표적</span><span><b>19</b> 연구·기관 자료</span><span><b>37</b> 원문 출처</span><span class="boundary-tag">처방·환자 반응 예측 도구 아님</span></div></section>
+<noscript><p class="noscript-note">JavaScript가 꺼져 있어 조작 기능은 실행되지 않음. 아래 전체 원문·자료·참고문헌 열람 또는 <a href="static-mobile.html">기본 보고서</a> 이용.</p></noscript>
+<nav class="app-nav app-controls" aria-label="탐색 작업 선택">
+<button type="button" data-view="lab" aria-controls="workspace-lab"><span>01</span>약리 실험실<small>신호와 표적 조작</small></button>
+<button type="button" data-view="atlas" aria-controls="workspace-atlas"><span>02</span>근거 지도<small>시간·설계·맥락 탐색</small></button>
+<button type="button" data-view="compare" aria-controls="workspace-compare"><span>03</span>연구 비교<small>두 근거를 나란히</small></button>
+<button type="button" data-view="planning" aria-controls="workspace-planning"><span>04</span>비축 설계<small>조건을 입력하고 계산</small></button></nav>
+<section id="workspace-lab" class="workspace" data-workspace="lab" aria-labelledby="lab-title">
+<div class="workspace-heading"><div><p class="eyebrow">PHARMACOLOGY / MANIPULATE</p><h2 id="lab-title" tabindex="-1">수축을 더할 것인가.<br>이완 신호를 억제할 것인가.</h2></div><p>표적을 하나씩 켜고 신호 경로의 변화를 확인.<br>색·움직임은 정성적 개념 표시이며 효과 크기 아님.</p></div>
+<div class="lab-layout"><aside class="control-card"><span class="eyebrow">01 / 표적 선택</span><h3>서로 다른 경로를 겹쳐보기</h3>
+<div class="app-controls"><label class="target-switch"><input type="checkbox" data-target="norepinephrine"><span><strong>노르에피네프린</strong><small>주로 α₁ 수용체</small></span><span class="switch-track" aria-hidden="true"></span></label><label class="target-switch"><input type="checkbox" data-target="vasopressin"><span><strong>바소프레신</strong><small>주로 V₁a 수용체</small></span><span class="switch-track" aria-hidden="true"></span></label><label class="target-switch"><input type="checkbox" data-target="methylene"><span><strong>메틸렌블루</strong><small>NO–sGC–cGMP 신호</small></span><span class="switch-track" aria-hidden="true"></span></label></div><p class="hint">동시에 선택 가능. 약제의 동등성·병용 효과·사용 순위를 계산하는 기능 아님.</p>
+<div class="lab-context"><label for="lab-context">임상 맥락</label><select id="lab-context" class="app-controls"><option value="cardiac">심장수술·CPB</option><option value="sepsis">패혈성 쇼크</option><option value="other">기타·증례</option></select><p id="context-note" aria-live="polite"></p><button type="button" id="related-evidence" class="subtle-button app-controls">이 맥락의 근거 지도 보기 →</button></div></aside>
+<div class="lab-canvas"><div class="canvas-heading"><span><i class="live-dot"></i>NO–sGC–cGMP 신호 경로</span><div class="app-controls"><button type="button" id="play-signal" aria-pressed="false">▶ 단계 재생</button><button type="button" id="reset-lab">초기화 ↺</button></div></div>
+<div id="signal-path" class="signal-path"><button type="button" class="signal-node" data-stage="0" aria-pressed="false"><span class="node-index">01</span><strong>염증·수술·독성 자극</strong><span>NO 관련 신호의 과활성화에 기여</span><i class="signal-link" aria-hidden="true"></i></button><button type="button" class="signal-node" data-stage="1" aria-pressed="false"><span class="node-index">02</span><strong>NO → sGC</strong><span>혈관 평활근 내 신호전달 활성화</span><i class="signal-link" aria-hidden="true"></i></button><button type="button" class="signal-node" data-stage="2" aria-pressed="false"><span class="node-index">03</span><strong>cGMP 증가</strong><span>평활근 이완·혈관 긴장 저하</span><i class="signal-link" aria-hidden="true"></i></button><button type="button" class="signal-node" data-stage="3" aria-pressed="false"><span class="node-index">04</span><strong>SVR 감소</strong><span>혈압·관류압 유지 곤란</span><i class="signal-link" aria-hidden="true"></i></button></div>
+<div class="branch-grid"><div id="branch-norepinephrine" class="receptor-branch"><span>노르에피네프린</span><strong>α₁ 수용체 → 수축 자극</strong><div class="branch-line" aria-hidden="true"></div></div><div id="branch-vasopressin" class="receptor-branch"><span>바소프레신</span><strong>V₁a 수용체 → 수축 자극</strong><div class="branch-line" aria-hidden="true"></div></div></div>
+<div id="mb-intervention" class="mb-intervention"><span>MB TARGET</span><strong>NO–sGC–cGMP 이완 신호에 개입</strong><span id="mb-state">표적 미선택</span></div>
+<div class="signal-detail"><span id="stage-number" class="detail-number">01</span><div><h3 id="stage-title"></h3><p id="stage-description" aria-live="polite"></p></div></div>
+<div id="target-explanations" class="target-explanations" aria-live="polite"></div>
+<p id="lab-status" class="state-note" role="status"></p><p class="safety-boundary">기전의 보완성 ≠ 임상적 동등성 ≠ 생존효과. 기전 개념도이며 검증된 환자 반응 예측검사는 아님. 혈압 반응·조직 산소전달·장기 기능·생존은 서로 다른 결과임. SVR 상승에도 산소화 악화가 관찰된 소규모 연구 존재 [SF07].</p>
+<div class="source-links"><span>근거 원문</span><a href="#ref-31">[MA01]</a><a href="#ref-32">[MA03]</a><a href="#ref-33">[MO01]</a><a href="#ref-34">[MO02]</a><a href="#ref-18">[SF05]</a><a href="#ref-19">[SF07]</a><a href="#ref-01">[G01]</a><a href="#ref-02">[G02]</a><a href="#ref-22">[TR01]</a></div></div></div></section>
+<section id="workspace-atlas" class="workspace" data-workspace="atlas" aria-labelledby="atlas-title" hidden>
+<div class="workspace-heading"><div><p class="eyebrow">EVIDENCE / EXPLORE</p><h2 id="atlas-title" tabindex="-1">연구가 쌓인 위치와,<br>아직 비어 있는 근거를 보기.</h2></div><p>점 하나가 연구 또는 기관 자료 하나.<br>점을 선택하면 결과·한계와 원문을 열람.</p></div>
+<div class="atlas-controls app-controls"><label>임상 맥락<select id="atlas-context"><option value="all">전체</option><option value="cardiac">심장수술</option><option value="sepsis">패혈증</option><option value="other">기타·증례</option></select></label><label>국가<select id="atlas-country"><option value="all">전체</option></select></label><label class="year-control">자료 연도 상한 <output id="year-label">2025</output><input id="atlas-year" type="range" min="2003" max="2025" value="2025" aria-label="자료 연도 상한"></label><button type="button" id="reset-atlas">전체 복원 ↺</button></div>
+<div class="atlas-summary" id="atlas-summary" role="status"></div>
+<div class="atlas-card"><p class="chart-caption">가로축: 자료 연도 · 세로축: 설계 분류 <b>공식 GRADE 등급이나 효과 크기 아님</b></p><div class="atlas-legend" aria-label="점의 색상"><span>심장수술</span><span>패혈증</span><span>기타·증례</span></div><p class="mobile-chart-hint">작은 화면에서는 지도 안에서 좌우 이동. 점은 키보드로도 선택 가능.</p><div class="atlas-scroll" tabindex="0" role="region" aria-label="연도별 근거 지도"><div id="evidence-map" class="evidence-map"></div></div><div id="undated-evidence" class="undated-evidence"></div><p class="hint">동일 연도·설계의 점은 식별을 위해 같은 연도 열 안에서 세로로 분리. 연도 미표시 자료는 연도 필터와 별도로 표시.</p></div>
+<div id="atlas-insight" class="atlas-insight"></div><p id="atlas-empty" class="empty-message" hidden>현재 조건에 해당하는 자료 없음. 전체 복원으로 조건 해제 가능.</p></section>
+<section id="workspace-compare" class="workspace" data-workspace="compare" aria-labelledby="compare-title" hidden>
+<div class="workspace-heading"><div><p class="eyebrow">EVIDENCE / CONTRAST</p><h2 id="compare-title" tabindex="-1">같은 약제의 연구라도,<br>같은 질문에 답하지 않음.</h2></div><p>두 자료를 골라 환자군·비교약·결과·한계 대조.<br>표본수 합산이나 효과 통합은 하지 않음.</p></div>
+<div class="compare-selectors app-controls"><label>비교 A<select id="compare-left"></select></label><button type="button" id="swap-comparison" aria-label="비교 A와 B 자리 교환">⇄</button><label>비교 B<select id="compare-right"></select></label></div>
+<div id="comparison-context" class="comparison-context" role="status"></div><div id="comparison-grid" class="comparison-grid"></div>
+<p class="safety-boundary">예방·초기 보조·2선 후보·불응성 구제는 서로 다른 연구 질문임. 관찰·증례의 개선을 약물 단독 효과나 일반적 성공률로 환산하지 않음.</p></section>
+<section id="workspace-planning" class="workspace" data-workspace="planning" aria-labelledby="planning-title" hidden>
+<div class="workspace-heading"><div><p class="eyebrow">STOCK / DESIGN</p><h2 id="planning-title" tabindex="-1">비축 규모는 가정이 아니라,<br>병원이 확정한 입력에서 시작.</h2></div><p>승인된 1건당 수량·동시 대응·안전재고를 변경.<br>공급기간에 따른 안전재고는 약제부가 별도 결정.</p></div>
+<div class="planning-layout"><form id="stock-form" class="control-card" novalidate><p class="eyebrow">INPUT / 실제 값을 입력</p><label>약제부가 정한 재고 단위<input id="stock-unit" type="text" maxlength="30" placeholder="예: 병원이 사용하는 포장 단위" autocomplete="off"></label><label>승인된 1건당 필요 수량<input id="stock-case" type="number" min="1" max="10000" step="1" placeholder="미제공" inputmode="numeric"></label><label>동시 대응 건수<input id="stock-concurrent" type="number" min="1" max="10000" step="1" placeholder="미제공" inputmode="numeric"></label><label>공급기간을 반영한 안전재고<input id="stock-reserve" type="number" min="0" max="10000000" step="1" placeholder="미제공 · 0도 명시 입력 필요" inputmode="numeric"></label><button type="button" id="reset-stock" class="subtle-button app-controls">입력 초기화 ↺</button><p class="hint">투여량·농도·환자 체중 입력 없음. 실제 병원 값은 제공되지 않아 기본 수량을 제시하지 않음.</p></form>
+<div class="stock-result"><p class="eyebrow">LIVE / 입력 기반 산식</p><div class="formula-parts"><span><b id="formula-case">—</b>1건당 수량</span><i>×</i><span><b id="formula-concurrent">—</b>동시 대응</span><i>+</i><span><b id="formula-reserve">—</b>안전재고</span></div><div class="stock-total"><output id="stock-total" aria-live="polite">미산출</output><span id="stock-total-unit">필수 입력 미제공</span></div><p id="stock-status" role="status"></p><p class="safety-boundary">단순 재고 산식의 결과이지 적정 비축량·구매·처방·사용 승인 아님. 유통 포장·유효기간·보관 조건·조달기간·대체약을 확인하여 약제부가 확정해야 함.</p><a href="#chapter-15">비상 비축 원문·산식 제안 확인 ↗</a><button type="button" id="save-plan" class="app-controls">현재 설계 초안 내려받기 ↓</button></div></div>
+<div class="protocol-board"><div><p class="eyebrow">OPERATION / 책임 경로</p><h3>수량 다음은, 사용 경로의 확정.</h3><p>단계를 선택해 책임 주체와 필수 기록 확인.</p></div><div id="protocol-stages" class="protocol-stages app-controls"></div><div id="protocol-detail" class="protocol-detail" aria-live="polite"></div></div></section>
+<aside class="workspace-footer"><span>근거 보고서 v1.1 / 웹 탐색 인터페이스 v2</span><div><a href="index.html">전체 판본·다운로드 ↗</a><a href="interactive-desktop.html">다른 화면 판본 ↗</a><button type="button" id="print-workspace" class="app-controls">원문·현재 설계 인쇄</button></div></aside>
+<section class="print-summary"><h2>웹 작업 공간 — 현재 탐색 기록</h2><p id="print-context"></p><p id="print-stock"></p><p>정성적 기전·문헌 탐색·재고 산식이며 환자 반응 예측·투여량 계산·승인 도구 아님.</p></section>
+<details id="source-archive" class="source-archive" open><summary><span>검증한 근거 전체 펼치기</span><small>본문 18절 · 연구·기관 자료 19개 · 참고문헌 37개 · 인쇄에 전부 포함</small></summary><div><section id="overview" class="chapter overview" data-chapter>
 <div class="section-topline"><span class="kicker">DECISION BRIEF</span><span>핵심 판단</span></div>
 <h2>의사결정의 출발점</h2><div class="decision-grid"><article class="decision-card"><span class="card-number">01</span>
 <h3>비축 승인</h3><p>약제부 관리하에 24시간 접근 가능한 구제약 확보. 구입량은 승인된 1회 치료 소요량·동시 대응 건수·공급기간으로 산정.</p></article><article class="decision-card"><span class="card-number">02</span>
@@ -421,7 +72,7 @@ body[class$="-mobile"] caption { display: block; }
 <h3>NO → sGC</h3><p>혈관 평활근 내 신호전달 활성화</p></li><li class="pathway-step"><span class="pathway-number">03</span>
 <h3>cGMP 증가</h3><p>평활근 이완·혈관 긴장 저하</p></li><li class="pathway-step"><span class="pathway-number">04</span>
 <h3>SVR 감소</h3><p>혈압·관류압 유지 곤란</p></li></ol><div class="mechanism-badge"><strong>메틸렌블루</strong><span>NO–sGC–cGMP 신호</span></div>
-<h3 class="target-comparison-heading">약리 표적과 임상적 역할 비교</h3><div class="target-selector js-only" aria-label="약리 표적 선택"><button type="button" id="target-button-01" data-target-button="target-panel-01">노르에피네프린<span>주로 α₁ 수용체</span></button><button type="button" id="target-button-02" data-target-button="target-panel-02">바소프레신<span>주로 V₁a 수용체</span></button><button type="button" id="target-button-03" data-target-button="target-panel-03">메틸렌블루<span>NO–sGC–cGMP 신호</span></button></div>
+<h3 class="target-comparison-heading">약리 표적과 임상적 역할 비교</h3>
 <div class="target-grid"><article id="target-panel-01" class="target-card" data-target-panel aria-labelledby="target-heading-01">
 <span class="target-number">01</span><h3 id="target-heading-01">노르에피네프린</h3>
 <p class="target-badge">주로 α₁ 수용체</p><p class="target-explanation">말초 α-adrenergic 수용체를 통한 혈관수축 자극. 심장 β-adrenergic 작용도 존재 [MO01].</p>
@@ -516,8 +167,7 @@ p&lt;0.001; 구제치료 시험 아님 [TR03]</td></tr><tr><td data-label="연�
 <div class="section-topline"><span class="kicker">EVIDENCE ATLAS</span><span>연구 근거</span></div>
 <h2>임상 맥락별 근거와 한계</h2><p class="section-summary">국가·연구 설계·결과·한계를 함께 확인.</p>
 <p class="muted evidence-note">원자료의 분류에 따라 구분. 복수 맥락 또는 분류 미확인 자료는 ‘기타·분류 확인’에 수록.</p>
-<div class="evidence-controls js-only"><div class="filter-row"><label>국가<select id="filter-country"><option value="">전체</option><option value="독일">독일</option><option value="멕시코">멕시코</option><option value="미국">미국</option><option value="브라질">브라질</option><option value="아르헨티나">아르헨티나</option><option value="영국">영국</option><option value="이집트">이집트</option><option value="인도">인도</option><option value="일본">일본</option><option value="중국">중국</option><option value="캐나다">캐나다</option><option value="튀르키예">튀르키예</option><option value="프랑스">프랑스</option><option value="한국">한국</option><option value="호주">호주</option></select></label><label>연구 설계<select id="filter-design"><option value="">전체</option><option value="3군 눈가림 RCT · 초기 보조요법">3군 눈가림 RCT · 초기 보조요법</option><option value="54명 치료 연구 · 동시 무작위 대조군 없음">54명 치료 연구 · 동시 무작위 대조군 없음</option><option value="NHS 지역 공식 처방집; 2026-10-08 공식 서버의 현행 HTML 원문 확인; 환자 연구 아님">NHS 지역 공식 처방집; 2026-10-08 공식 서버의 현행 HTML 원문 확인; 환자 연구 아님</option><option value="공개형 RCT · 두 번째 약제 직접비교">공개형 RCT · 두 번째 약제 직접비교</option><option value="공개형 파일럿 RCT · 초기 보조요법">공개형 파일럿 RCT · 초기 보조요법</option><option value="단일 환자 비심장수술 증례보고; 공개 전문 확인">단일 환자 비심장수술 증례보고; 공개 전문 확인</option><option value="단일 환자 중독 증례 및 MB 약동학 분석; 공개 전문 확인. 온라인 선출판 2017년, 권호 2018년">단일 환자 중독 증례 및 MB 약동학 분석; 공개 전문 확인. 온라인 선출판 2017년, 권호 2018년</option><option value="단일 환자 증례보고; 공개 전문 확인">단일 환자 증례보고; 공개 전문 확인</option><option value="단일기관 전향적 공개 관찰 코호트; MB 투여 전·1시간 후 비교. 저자 초록 및 ClinicalTrials.gov 등록 원문 확인; 학술지 전문 미확보">단일기관 전향적 공개 관찰 코호트; MB 투여 전·1시간 후 비교. 저자 초록 및 ClinicalTrials.gov 등록 원문 확인; 학술지 전문 미확보</option><option value="단일기관 후향적 10년 코호트; 성향점수 1:1 매칭; 공개 전문 확인">단일기관 후향적 10년 코호트; 성향점수 1:1 매칭; 공개 전문 확인</option><option value="단일기관 후향적 MB 투여 코호트; 전후 혈역학 및 반응군·비반응군 분석; 공개 전문 확인">단일기관 후향적 MB 투여 코호트; 전후 혈역학 및 반응군·비반응군 분석; 공개 전문 확인</option><option value="단일기관 후향적 관찰 코호트; 기관 내 MB 프로토콜 및 조기·후기 투여 비교; 공개 전문 확인">단일기관 후향적 관찰 코호트; 기관 내 MB 프로토콜 및 조기·후기 투여 비교; 공개 전문 확인</option><option value="단일환자 구제투여 증례 · 공개 전문 확인">단일환자 구제투여 증례 · 공개 전문 확인</option><option value="단일환자 구제투여 증례 · 원저 초록 확인">단일환자 구제투여 증례 · 원저 초록 확인</option><option value="무작위시험 · 미세순환 평가">무작위시험 · 미세순환 평가</option><option value="무작위시험 · 발생 후 치료">무작위시험 · 발생 후 치료</option><option value="무작위시험 · 수술 전 예방">무작위시험 · 수술 전 예방</option><option value="이중눈가림 RCT · 초기 보조요법">이중눈가림 RCT · 초기 보조요법</option></select></label><button type="button" class="text-button" id="reset-filters">필터 초기화 ↺</button></div>
-<div class="evidence-tabs" aria-label="임상 맥락별 연구 근거"><button type="button" id="tab-cardiac" data-tab="cardiac">심장수술<span>7</span></button><button type="button" id="tab-sepsis" data-tab="sepsis">패혈증<span>6</span></button><button type="button" id="tab-other" data-tab="other">기타·분류 확인<span>6</span></button></div><p id="filter-status" class="filter-status" role="status" aria-live="polite"></p></div><section id="panel-cardiac" class="evidence-panel" data-panel="cardiac" aria-labelledby="heading-cardiac">
+<section id="panel-cardiac" class="evidence-panel" data-panel="cardiac" aria-labelledby="heading-cardiac">
 <h3 id="heading-cardiac" class="panel-heading">심장수술<span>07개 자료</span></h3>
 <div class="study-grid"><article id="study-01" class="study-card" data-study data-country="독일" data-design="54명 치료 연구 · 동시 무작위 대조군 없음">
 <div class="study-topline"><span class="country-chip">독일</span><span>2003</span></div>
@@ -637,29 +287,7 @@ p&lt;0.001; 구제치료 시험 아님 [TR03]</td></tr><tr><td data-label="연�
 <div class="study-sample"><span>표본 / 규모</span><strong>1</strong></div>
 <dl class="study-facts"><div><dt>기관</dt><dd>경희대학교 의과대학 마취통증의학교실, 서울; 세부 병원 지점은 원문 미명시</dd></div><div><dt>연구 설계</dt><dd>단일 환자 비심장수술 증례보고; 공개 전문 확인</dd></div><div><dt>임상 맥락</dt><dd>요추 유합술 중·후 정상 심박출지수와 낮은 전신혈관저항을 동반한 불응성 저혈압이 발생한 77세 여성. 수액·수혈·phenylephrine·norepinephrine·vasopressin 사용 후에도 지속. 패혈성 쇼크 연구 아님.</dd></div><div><dt>원자료 분류</dt><dd>기타</dd></div></dl><div class="study-result"><h5>주요 결과</h5><p>혈압 74/54→112/66 mmHg 상승. 구토로 주입 중단. 다음날 승압제 중단, 16일째 합병증 없이 퇴원.</p></div>
 <div class="study-limit"><h5>해석의 한계</h5><p>단일 증례·병용 승압제·출혈 및 수혈 등 교란요인 존재. 계획 용량 35 mg과 실제 용량 26 mg을 구분해야 함. 혈압 호전과 함께 구토로 인한 중단도 보고. 심장수술·패혈증 또는 국내 전체 채택으로 일반화 불가.</p></div>
-<div class="study-links"><a class="external" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7713804/" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a><a href="#ref-13">참고문헌 [CT08]</a></div></article></div><p class="filter-empty" hidden>선택한 조건에 해당하는 연구 없음. 필터를 초기화해 전체 자료 확인.</p></section></section><section id="readiness" class="chapter readiness" data-chapter>
-<div class="section-topline"><span class="kicker">REVIEW READINESS</span><span>검토 체크리스트</span></div>
-<h2>의사결정 전, 보고서 검토 기록</h2><p class="section-summary">각 장의 주장·근거·한계 검토 여부 기록.</p>
-<p class="review-boundary">병원 승인·처방·투여 적합성 판단을 대체하지 않는 검토 도구. 체크 완료는 도입 승인이나 임상적 사용 준비 완료를 의미하지 않음.</p>
-<div class="readiness-status"><output id="readiness-status" aria-live="polite">검토 전 · 0/18개 장 기록</output><progress id="readiness-progress" max="18" value="0" aria-label="검토 기록 진행률"></progress></div><ul class="review-list"><li><input type="checkbox" id="review-1" data-review aria-label="비상 비축과 전문의 통제하 구제체계 구축을 권고함 검토 기록"><div><label for="review-1">비상 비축과 전문의 통제하 구제체계 구축을 권고함</label>
-<a href="#chapter-01">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-2" data-review aria-label="프로베블루주는 염색약만으로 허가된 제품이 아님 검토 기록"><div><label for="review-2">프로베블루주는 염색약만으로 허가된 제품이 아님</label>
-<a href="#chapter-02">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-3" data-review aria-label="분포성 쇼크의 핵심은 낮은 SVR이며, 혈관마비가 표적임 검토 기록"><div><label for="review-3">분포성 쇼크의 핵심은 낮은 SVR이며, 혈관마비가 표적임</label>
-<a href="#chapter-03">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-4" data-review aria-label="메틸렌블루는 기존 승압제와 다른 약리 표적에 개입함 검토 기록"><div><label for="review-4">메틸렌블루는 기존 승압제와 다른 약리 표적에 개입함</label>
-<a href="#chapter-04">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-5" data-review aria-label="다른 표적을 활용한 시험적 추가·구제 후보로 연구되고 사용됨 검토 기록"><div><label for="review-5">다른 표적을 활용한 시험적 추가·구제 후보로 연구되고 사용됨</label>
-<a href="#chapter-05">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-6" data-review aria-label="성인 CPB 지침은 난치성 혈관마비의 대체약 고려를 공식 권고함 검토 기록"><div><label for="review-6">성인 CPB 지침은 난치성 혈관마비의 대체약 고려를 공식 권고함</label>
-<a href="#chapter-06">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-7" data-review aria-label="무작위시험과 실제 구제치료에서 임상 반응이 반복 보고됨 검토 기록"><div><label for="review-7">무작위시험과 실제 구제치료에서 임상 반응이 반복 보고됨</label>
-<a href="#chapter-07">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-8" data-review aria-label="연구성과는 환자군과 결과 지표를 함께 읽어야 함 검토 기록"><div><label for="review-8">연구성과는 환자군과 결과 지표를 함께 읽어야 함</label>
-<a href="#chapter-08">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-9" data-review aria-label="분포성 쇼크의 여러 원인에서 구제투여가 보고됨. 근거 수준은 구분 필요 검토 기록"><div><label for="review-9">분포성 쇼크의 여러 원인에서 구제투여가 보고됨. 근거 수준은 구분 필요</label>
-<a href="#chapter-09">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-10" data-review aria-label="통합분석도 유익성 신호를 보고함. 독립적인 대규모 확증은 아님 검토 기록"><div><label for="review-10">통합분석도 유익성 신호를 보고함. 독립적인 대규모 확증은 아님</label>
-<a href="#chapter-10">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-11" data-review aria-label="해외 사용의 설득력은 국가 이름보다 기관·환자·결과의 확인에 있음 검토 기록"><div><label for="review-11">해외 사용의 설득력은 국가 이름보다 기관·환자·결과의 확인에 있음</label>
-<a href="#chapter-11">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-12" data-review aria-label="메틸렌블루는 표준치료를 완료하면서 검토하는 추가 선택지임 검토 기록"><div><label for="review-12">메틸렌블루는 표준치료를 완료하면서 검토하는 추가 선택지임</label>
-<a href="#chapter-12">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-13" data-review aria-label="위험을 알고 제한하는 체계가 구제약 비축의 전제임 검토 기록"><div><label for="review-13">위험을 알고 제한하는 체계가 구제약 비축의 전제임</label>
-<a href="#chapter-13">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-14" data-review aria-label="누가, 어떤 조건에서, 무엇을 기록할지 사전에 확정해야 함 검토 기록"><div><label for="review-14">누가, 어떤 조건에서, 무엇을 기록할지 사전에 확정해야 함</label>
-<a href="#chapter-14">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-15" data-review aria-label="비축 수량은 응급 대응능력과 공급기간으로 정해야 함 검토 기록"><div><label for="review-15">비축 수량은 응급 대응능력과 공급기간으로 정해야 함</label>
-<a href="#chapter-15">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-16" data-review aria-label="반론에 답하려면 강한 근거와 근거의 경계를 함께 제시해야 함 검토 기록"><div><label for="review-16">반론에 답하려면 강한 근거와 근거의 경계를 함께 제시해야 함</label>
-<a href="#chapter-16">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-17" data-review aria-label="비축 승인과 시행 조건을 한 문서에 명시할 것을 권고함 검토 기록"><div><label for="review-17">비축 승인과 시행 조건을 한 문서에 명시할 것을 권고함</label>
-<a href="#chapter-17">해당 장 확인 ↗</a></div></li><li><input type="checkbox" id="review-18" data-review aria-label="공식 지침·원저·기관 자료를 우선 대조한 신속 근거 검토임 검토 기록"><div><label for="review-18">공식 지침·원저·기관 자료를 우선 대조한 신속 근거 검토임</label>
-<a href="#chapter-18">해당 장 확인 ↗</a></div></li></ul><p class="muted">체크 상태는 현재 페이지에만 유지. 새로고침 시 초기화.</p></section><section id="references" class="chapter references" data-chapter>
+<div class="study-links"><a class="external" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7713804/" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a><a href="#ref-13">참고문헌 [CT08]</a></div></article></div><p class="filter-empty" hidden>선택한 조건에 해당하는 연구 없음. 필터를 초기화해 전체 자료 확인.</p></section></section><section id="references" class="chapter references" data-chapter>
 <div class="section-topline"><span class="kicker">SOURCE REGISTER</span><span>전체 참고문헌</span></div>
 <h2>판단의 근거를 원문까지</h2><p class="section-summary">보고서 수록 참고문헌 37건.</p>
 <ol class="reference-list"><li id="ref-01"><span class="reference-number">[G01]</span>
@@ -736,204 +364,471 @@ p&lt;0.001; 구제치료 시험 아님 [TR03]</td></tr><tr><td data-label="연�
 <div><p class="reference-citation">Laes JR, Williams DM, Cole JB. Improvement in Hemodynamics After Methylene Blue Administration in Drug-Induced Vasodilatory Shock: A Case Report. J Med Toxicol. 2015;11:460–463. doi:10.1007/s13181-015-0500-1.</p><p class="reference-note">미국 Hennepin County Medical Center, Minneapolis의 혼합중독 1명 증례. 선행 PMC 전문 검토와 이번 출판사 원문 대조. EF 60–65%, CO 10.5 L/min, SVR 240→1204 dyn·s·cm⁻⁵. 투여 1시간 내 변화. 다중 동시 치료·약물 제거 영향을 분리하지 못함. 모든 CCB·베타차단제 중독의 표준치료 또는 생존효과 근거 아님.</p>
 <a class="external" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4675606/" target="_blank" rel="noopener noreferrer">https://pmc.ncbi.nlm.nih.gov/articles/PMC4675606/</a><div class="reference-backlinks"><span>인용 위치</span><a href="#chapter-09">09장</a></div></div></li><li id="ref-37"><span class="reference-number">[TR08]</span>
 <div><p class="reference-citation">Effects of Early Use of Methylene Blue and Vasopressin on Noradrenaline Dose in Septic Shock: A Randomized Controlled Trial. 2025. doi:10.5005/jp-journals-10071-24905.</p><p class="reference-note">Kuri et al.; Indian Journal of Critical Care Medicine 29:108–112; 단일기관 공개형 평행군 RCT. 전문·Table 2 확인. 24시간 생리학적 평가, 소표본·비눈가림. 원저의 유지용량을 후대 메타분석이 시간당 용량으로 다르게 표기함. 원저 문구 보존. 활성 비교약 시험을 MB 대 무치료 효과로 합산하면 오류.</p>
-<a class="external" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11915450/" target="_blank" rel="noopener noreferrer">https://pmc.ncbi.nlm.nih.gov/articles/PMC11915450/</a><div class="reference-backlinks"><span>인용 위치</span><a href="#chapter-05">05장</a><a href="#chapter-09">09장</a></div></div></li></ol></section></div></div></main>
-<footer class="site-footer"><span>2026-10-08 · 1.1</span>
-<span>경영진 근거보고서</span><a href="#main">처음으로 ↑</a></footer><script>(() => {
+<a class="external" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11915450/" target="_blank" rel="noopener noreferrer">https://pmc.ncbi.nlm.nih.gov/articles/PMC11915450/</a><div class="reference-backlinks"><span>인용 위치</span><a href="#chapter-05">05장</a><a href="#chapter-09">09장</a></div></div></li></ol></section></div></details>
+</main>
+<dialog id="study-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span id="dialog-meta" class="eyebrow"></span><button type="button" id="close-study" aria-label="연구 상세 닫기">✕</button></div><h2 id="dialog-title"></h2><div id="dialog-body"></div><div class="dialog-actions"><button type="button" id="set-left">비교 A에 넣기</button><button type="button" id="set-right">비교 B에 넣기</button><button type="button" id="open-comparison">비교 화면 열기 →</button></div><p class="hint" id="dialog-selection" role="status"></p></dialog>
+<footer class="app-bottom"><p>2026-10-08 · 인터랙티브 v2 · 모바일 · 단일 파일 · 외부 실행 라이브러리·추적 코드 없음</p><a href="index.html">MB / 보고서 입구 ↗</a></footer>
+<script type="application/json" id="explorer-data">{"mechanism": {"title": "수축 신호를 더하는 전략과, 과도한 이완 신호를 억제하는 전략", "lead": "적용 대상은 낮은 전신혈관저항(SVR)이 중심인 혈관마비. MB는 NO–sGC–cGMP 이완 신호에 개입함. 수용체를 통한 수축 자극과 보완되는 경로라는 약리학적 가설임.", "steps": [{"label": "염증·수술·독성 자극", "detail": "NO 관련 신호의 과활성화에 기여"}, {"label": "NO → sGC", "detail": "혈관 평활근 내 신호전달 활성화"}, {"label": "cGMP 증가", "detail": "평활근 이완·혈관 긴장 저하"}, {"label": "SVR 감소", "detail": "혈압·관류압 유지 곤란"}], "targets": [{"id": "norepinephrine", "label": "노르에피네프린", "target": "주로 α₁ 수용체", "explanation": "말초 α-adrenergic 수용체를 통한 혈관수축 자극. 심장 β-adrenergic 작용도 존재 [MO01].", "role": "패혈성 쇼크의 표준 1차 승압제 [G02]"}, {"id": "vasopressin", "label": "바소프레신", "target": "주로 V₁a 수용체", "explanation": "V1–Gq/11–PLC–IP3 신호와 세포 내 칼슘 방출을 통한 혈관수축 자극 [MO02].", "role": "노르에피네프린 요구 증가 시 지침상 추가 약제 [G02]"}, {"id": "methylene", "label": "메틸렌블루", "target": "NO–sGC–cGMP 신호", "explanation": "과도한 혈관 이완 신호를 억제해 혈관 긴장 회복과 기존 승압제 요구 감소를 도모. 선택적 단일 표적 약물로 단정하지 않음.", "role": "심장수술 난치성 혈관마비의 고려 대상. 일부 패혈증 시험에서 2선 후보·초기 보조제로 연구; 보편적 2선 표준 아님 [G01, G02, TR01]"}], "note": "기전 개념도이며 검증된 환자 반응 예측검사는 아님. 혈압 반응·조직 산소전달·장기 기능·생존은 서로 다른 결과임. SVR 상승에도 산소화 악화가 관찰된 소규모 연구 존재 [SF07].", "sources": ["MA01", "MA03", "MO01", "MO02", "SF05", "SF07", "G01", "G02", "TR01"]}, "studies": [{"id": "MA03", "country": "독일", "institution": "Hannover Medical School, Hannover", "title": "Methylene blue: the drug of choice for catecholamine-refractory vasoplegia after cardiopulmonary bypass? — Leyh et al.", "year": 2003, "design": "54명 치료 연구 · 동시 무작위 대조군 없음", "n": 54, "setting": "심폐우회술 후 norepinephrine 불응성 혈관마비. 구제투여 후 혈역학·NE 요구량 평가.", "result": "초록에서 51명에 대해 1시간 이내 임상적으로 의미 있는 SVR 증가와 NE 감소 보고.", "limit": "대조군 없음. 초록의 51명 반응·4명 무반응이 총 54명과 일치하지 않아 반응률 산출 보류. 병용치료·자연회복 영향을 분리하지 못함. 필수약·생존효과 근거로 확대 불가.", "url": "https://pubmed.ncbi.nlm.nih.gov/12830064/", "category": "심장수술"}, {"id": "PH01", "country": "브라질", "institution": "Hospital das Clínicas, Faculdade de Medicina de Ribeirão Preto, Universidade de São Paulo", "title": "Methylene blue to treat anaphylaxis during anesthesia: case report — Stocche et al.", "year": 2004, "design": "단일환자 구제투여 증례 · 원저 초록 확인", "n": 1, "setting": "Dipyrone 투여 후 심정지·아나필락시스 발생. 소생술·epinephrine·dopamine 후에도 지속 저혈압에 MB 추가.", "result": "수축기혈압 60→85→105 mmHg, dopamine 감량 보고. MAP 수치 아님.", "limit": "무대조 1명. SVR·CO 실측·장기 예후는 확인 초록에서 미확인. 병용치료 효과를 분리하지 못함. 현대 아나필락시스 표준치료나 MB 우선순위 권고 아님.", "url": "https://pubmed.ncbi.nlm.nih.gov/19471794/", "category": "기타"}, {"id": "PH02", "country": "미국", "institution": "Hennepin County Medical Center, Minneapolis", "title": "Improvement in Hemodynamics After Methylene Blue Administration in Drug-Induced Vasodilatory Shock: A Case Report — Laes et al.", "year": 2015, "design": "단일환자 구제투여 증례 · 공개 전문 확인", "n": 1, "setting": "Atenolol·amlodipine·valsartan 혼합중독. 다중 승압제·고용량 insulin·지질유제·신대체요법에도 쇼크 지속. MB 직전 EF 60–65%, CO 10.5 L/min, SVR 240 dyn·s·cm⁻⁵로 혈관확장 우세 확인.", "result": "1시간 내 SVR 1204 dyn·s·cm⁻⁵. 2시간 내 phenylephrine 중단·epinephrine 50% 감량. 이후 중대한 후유증 없이 퇴원 보고.", "limit": "무대조 혼합중독 1명. 약물 제거·동시 치료·측정오차 영향 배제 불가. 모든 CCB·베타차단제 중독이나 수축력 저하 중심 쇼크에 일반화 불가.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4675606/", "category": "기타"}, {"id": "TR08", "country": "인도", "institution": "All India Institute of Medical Sciences (AIIMS), Jodhpur", "title": "Effects of Early Use of Methylene Blue and Vasopressin on Noradrenaline Dose in Septic Shock: A Randomized Controlled Trial — Kuri et al.", "year": 2025, "design": "공개형 RCT · 두 번째 약제 직접비교", "n": "74명 / MB 37명·바소프레신 37명", "setting": "NE 요구량 >0.2 μg/kg/min에서 MB 추가와 vasopressin 추가 비교. MAP ≥65 mmHg 유지에 필요한 6·12·24시간 NE 요구량 평가.", "result": "12시간 NE 1.54±0.59 대 1.27±0.56 μg/kg/min(p=0.042), 24시간 1.55±0.80 대 1.06±0.79(p=0.009). 두 시점 모두 바소프레신군이 더 낮음.", "limit": "단일기관·소표본·비눈가림·24시간 평가. 사망률 미평가. MB 우월성·동등성·비열등성 입증 아님. 원저 용량과 후대 분석의 재표기 구분.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11915450/", "category": "패혈증"}, {"id": "CT01", "country": "미국", "institution": "University of Virginia, Charlottesville, Virginia; 흉부·심혈관외과", "title": "Methylene Blue for Vasoplegic Syndrome After Cardiac Operation: Early Administration Improves Survival — Mehaffey et al.", "year": 2017, "design": "단일기관 후향적 관찰 코호트; 기관 내 MB 프로토콜 및 조기·후기 투여 비교; 공개 전문 확인", "n": 118, "setting": "2011–2016년 심폐우회술(CPB) 환자 3,608명 중 불응성 혈관마비로 MB를 투여받은 118명(3.3%). 수술실 조기 투여 48명, ICU 후기 투여 70명. 패혈성 쇼크 코호트 아님.", "result": "수술실 조기 투여 48명 대 ICU 후기 투여 70명. 수술 관련 사망률 10.4% 대 28.6%, p=0.018. 동일 기관의 실제 구제약 프로토콜과 118명 투여 기록 확인.", "limit": "비무작위 조기·후기 비교로 질병 중증도·투여 시점 선택의 잔여 교란 가능. 같은 중증도의 MB 비투여군과 비교한 효능시험 아님. 생존 개선의 인과성 미확립. 초록과 본문의 연구 종료 월에 불일치가 있어 기간은 연도로만 표기. 용량은 당시 기관 기록이며 현재 보편 권장 용량 아님. 기관 내 consensus를 미국 또는 국제 합의로 확대 불가. 연구국은 본문 시행기관으로 판정; 저자 국적 미확인.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5523819/", "category": "심장수술"}, {"id": "CT02", "country": "독일", "institution": "LMU Hospital, Ludwig-Maximilians-University Munich, München", "title": "Early Use of Methylene Blue in Vasoplegic Syndrome: A 10-Year Propensity Score-Matched Cohort Study — Kofler et al.", "year": 2022, "design": "단일기관 후향적 10년 코호트; 성향점수 1:1 매칭; 공개 전문 확인", "n": 120, "setting": "2006-04–2016-03 LMU의 성인 CPB 심장수술. 혈관마비 분석대상 1,022명 중 MB 투여 221명. 주 비교는 진단 15분 이내 MB 투여 60명과 표준치료 대조 60명. 불응성 기준은 norepinephrine ≥0.3 μg/kg/min 및 vasopressin ≥1 IU/h.", "result": "첫 1시간 혈압 안정 및 승압제 요구 감소. 90일 생존은 49/60(81.7%) 대 48/60(80.0%)로 유의차 미확인. 초기 크레아티닌 상승, 투석 발생은 양군 동일.", "limit": "후향적 매칭으로 미측정 교란 제거 불가. 매칭 변수는 연령·성별·BMI·수술 종류. 조기 투여 15분 기준의 사후 설정 및 결측 제외 가능성. 생존 이득 미확인; creatinine 상승과 투석 차이 없음 모두 보존. 프랑스 소재 제약사 연구비와 다른 저자 소속을 연구 시행국으로 오인하면 안 됨. 시행지는 본문상 독일 LMU 단일기관.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8880443/", "category": "심장수술"}, {"id": "CT03", "country": "영국", "institution": "NHS Kent and Medway Joint Medicines Formulary; Maidstone and Tunbridge Wells, Dartford and Gravesham, Medway, East Kent의 지역 처방집", "title": "Methaemoglobinaemia — Methylthionium chloride (methylene blue) injection: approved uses in K\u0026M", "year": "연도 미표시", "design": "NHS 지역 공식 처방집; 2026-10-08 공식 서버의 현행 HTML 원문 확인; 환자 연구 아님", "n": "환자수 없음", "setting": "지역 ICU에서 현지 지침에 따라 치료하는 불응성 혈관마비성 패혈증. 실제 환자수·투여 횟수·기관별 사용 빈도 미보고.", "result": "승인된 용도 목록에 ICU의 불응성 혈관마비성 패혈증 치료를 off-label 용도로 명시. 영국 일부 지역의 제도적 사용 경로 존재 확인. 임상 결과·사망률 수치 없음.", "limit": "지역 처방 허용은 실제 투여 건수나 임상효과의 증거가 아님. 영국 전체 채택·NHS 전체 표준·SSC 2026 일상적 권고로 확대 불가. 상세 성인 불응성 저혈압 프로토콜 승인 원본은 미확보. 현행 쇼크 항목의 발행·개정연도 미표시로 year=null. 같은 페이지의 2019년 표기와 3 mg/kg 용량은 부갑상선 수술 시각화 FAQ에 속하므로 쇼크 프로토콜 날짜·용량으로 사용하지 않음. 검색 도구의 오래된 캐시와 달리 공식 서버 직접 조회에서 쇼크 용도 확인.", "url": "https://kentandmedwayformulary.nhs.uk/therapeutic-sections/emergency-treatment-of-poisoning/methaemoglobinaemia/", "category": "패혈증"}, {"id": "CT04", "country": "프랑스", "institution": "Hôpital Cardiovasculaire et Pneumologique Louis Pradel, Hospices Civils de Lyon, Bron; 20병상 ICU", "title": "Effects of methylene blue on microcirculatory alterations following cardiac surgery: A prospective cohort study — Maurin et al.; MAGIC BLUE, NCT04250389", "year": 2022, "design": "단일기관 전향적 공개 관찰 코호트; MB 투여 전·1시간 후 비교. 저자 초록 및 ClinicalTrials.gov 등록 원문 확인; 학술지 전문 미확보", "n": 25, "setting": "CPB 심장수술 후 norepinephrine >0.5 μg/kg/min이 필요한 성인 불응성 혈관마비 환자 25명. MAP >65 mmHg, 심박출지수 >2.0 L/min/m² 유지 목적. 전원 MB 1.5 mg/kg 정주. 등록원문은 프랑스 Bron의 Louis Pradel 단일기관, 실제 등록 25명, 연구 완료를 명시.", "result": "MB 후 미세혈관 혈류지수 2.0→2.2(p=0.008), 관류혈관밀도 7.4→9.1 mm/mm²(p=0.02), 조직 재산소화 속도 0.5→0.7%/s(p=0.002). 개인별 반응 차이 큼. 모세혈관 재충만시간 변화 없음. 해당 병원의 실제 심장수술 후 투여 확인. 등록 근거: https://clinicaltrials.gov/study/NCT04250389 .", "limit": "25명·비교군 없는 전후 분석·1시간 생리지표 평가. 생존·장기 예후 이득 입증 아님. 학술지 전문 접근 실패 및 공개 저장소의 전문 파일 부재; 수치는 저자 초록 범위만 사용. 서지상 2022년 권호이며 검색 색인에 2021년 날짜도 있어 권호 연도로 통일. 저자 소속뿐 아니라 연구등록의 실제 장소로 국가 확정.", "url": "https://pubmed.ncbi.nlm.nih.gov/34610607/", "category": "심장수술"}, {"id": "CT05", "country": "호주", "institution": "Prince of Wales Hospital, Sydney, New South Wales; Clinical Toxicology Unit 및 Emergency Medicine", "title": "Vasoplegic Shock Treated with Methylene Blue Complicated by Severe Serotonin Syndrome — Chan et al.", "year": 2018, "design": "단일 환자 중독 증례 및 MB 약동학 분석; 공개 전문 확인. 온라인 선출판 2017년, 권호 2018년", "n": 1, "setting": "amlodipine·ramipril·quetiapine 및 세로토닌성 항우울제 등 다약제 대량 복용 후 고용량 승압제에 반응하지 않는 혈관마비성 쇼크. 심장수술·패혈성 쇼크 연구 아님.", "result": "혈압 48→70 mmHg로 30분 이내 상승하고 승압제 감량. 이후 중증 세로토닌증후군 발생, 집중치료 후 회복.", "limit": "단일 복합중독 사례로 효능·위험 발생률 산출 불가. 세로토닌성 약물 과량복용 및 MB의 MAO 억제 상호작용이 해석의 핵심. 당시 장시간·고용량 투여를 보편적 권장 용법으로 인용하지 않음. 혈압 호전만 기재하고 중증 부작용을 누락하면 안 됨.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6013734/", "category": "기타"}, {"id": "CT06", "country": "캐나다", "institution": "University of Calgary 및 Alberta Health Services, Calgary; 개별 치료 병원명은 원문 미명시", "title": "Severe Undifferentiated Vasoplegic Shock Refractory to Vasoactive Agents Treated with Methylene Blue — Manji et al.", "year": 2017, "design": "단일 환자 증례보고; 공개 전문 확인", "n": 1, "setting": "methamphetamine 정주 후 다장기 이상과 원인 미상 혈관마비성 쇼크를 보인 27세 남성. norepinephrine·epinephrine·vasopressin 병용. 저자 평가에서 명확한 패혈증·아나필락시스·부신부전 원인 확인되지 않음.", "result": "투여 후 2시간 내 노르에피네프린 절반, 15시간 내 바소프레신 중단, 24시간 내 모든 승압제 중단·발관 보고.", "limit": "단일 사례·대조군 없음·원인 미상으로 자연 회복과 동시 치료 영향을 분리할 수 없음. 심장수술 또는 패혈성 쇼크의 일반 효능 자료 아님. 장기 생존 결과 미보고. 캐나다 임상기관의 증례이며 저자 국적·캐나다 전국 사용률은 미확인.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5642875/", "category": "기타"}, {"id": "CT07", "country": "일본", "institution": "Hitachi General Hospital, Hitachi, Ibaraki; Department of Emergency and Critical Care Medicine", "title": "Successful use of methylene blue for catecholamine-refractory vasoplegic shock due to metformin intoxication: A case report and literature review — Takahashi et al.", "year": 2024, "design": "단일 환자 증례보고; 공개 전문 확인", "n": 1, "setting": "metformin 약 71 g 복용 후 심정지·중증 산증·불응성 쇼크를 보인 45세 여성. VA-ECMO, 지속적 혈액여과투석(CHDF), 다중 승압제 병용. 비심장수술·중독 관련 쇼크.", "result": "기관 윤리위원회 허가초과 승인 후 투여, 혈압·승압제 요구·젖산 개선. ECMO 이탈 후에도 저산소성 뇌병증으로 10일째 사망.", "limit": "제목의 Successful을 생존 성공으로 해석하면 안 됨. 단일 사례·동시 ECMO/CHDF·MB 전 metformin 농도 감소로 독립 효과 불명확. EF 약 30%, 심박출량·SVR 측정 부재로 순수 혈관마비성 쇼크의 확증에도 제한. 일본 전국 표준 또는 패혈성 쇼크 권고 근거 아님.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11247704/", "category": "기타"}, {"id": "CT08", "country": "한국", "institution": "경희대학교 의과대학 마취통증의학교실, 서울; 세부 병원 지점은 원문 미명시", "title": "Use of methylene blue in vasoplegic syndrome that developed during non-cardiac surgery - A case report -", "year": 2019, "design": "단일 환자 비심장수술 증례보고; 공개 전문 확인", "n": 1, "setting": "요추 유합술 중·후 정상 심박출지수와 낮은 전신혈관저항을 동반한 불응성 저혈압이 발생한 77세 여성. 수액·수혈·phenylephrine·norepinephrine·vasopressin 사용 후에도 지속. 패혈성 쇼크 연구 아님.", "result": "혈압 74/54→112/66 mmHg 상승. 구토로 주입 중단. 다음날 승압제 중단, 16일째 합병증 없이 퇴원.", "limit": "단일 증례·병용 승압제·출혈 및 수혈 등 교란요인 존재. 계획 용량 35 mg과 실제 용량 26 mg을 구분해야 함. 혈압 호전과 함께 구토로 인한 중단도 보고. 심장수술·패혈증 또는 국내 전체 채택으로 일반화 불가.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7713804/", "category": "기타"}, {"id": "CT11", "country": "미국", "institution": "Emory University의 성인 심장수술 임상기관, Atlanta, Georgia", "title": "Methylene Blue for Postcardiopulmonary Bypass Vasoplegic Syndrome: A Cohort Study", "year": 2017, "design": "단일기관 후향적 MB 투여 코호트; 전후 혈역학 및 반응군·비반응군 분석; 공개 전문 확인", "n": 88, "setting": "2010-08–2012-06 Emory의 성인 CPB 심장수술 후 MB를 투여받은 88명. 1–2 mg/kg을 약 10분간 투여. 주요 수술은 복잡 판막 및 대동맥 수술.", "result": "MAP 74±19→82±13 mmHg(p=0.004), norepinephrine 12.5±5.9→10.4±6.5 μg/min(p=0.04). vasopressin·epinephrine 용량 변화는 유의하지 않음. 2시간 내 승압제 감량 기준 반응자는 39/88명(44.3%). 반응군·비반응군 병원 내 사망률 차이 p=0.09로 유의하지 않음.", "limit": "MB 비투여 대조군 없는 후향적 전후 비교. 반응군 분류 자체가 예후·중증도의 영향을 받을 수 있어 생존 효과 추론 불가. 모든 환자에서 반응하는 약제로 표현하면 안 됨. 시행국은 본문 Emory 기관으로 확인; 복수 저자의 현 소속·학술지 발행국을 연구 시행국으로 사용하지 않음.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5408522/", "category": "심장수술"}, {"id": "TR01", "country": "멕시코", "institution": "Hospital Civil Fray Antonio Alcalde, Guadalajara", "title": "Early adjunctive methylene blue in patients with septic shock: a randomized controlled trial", "year": 2023, "design": "이중눈가림 RCT · 초기 보조요법", "n": "91명 분석 / 92명 배정", "setting": "18세 이상 Sepsis-3 패혈성 쇼크, NE 시작 24시간 이내. 기준 NE 중앙값 0.45 대 0.37 μg/kg/min, vasopressin 사용 80% 대 74%. 분류: early adjunct. 다중 승압제 최대치 실패를 필수조건으로 삼은 rescue 시험 아님.", "result": "승압제 중단시간 중앙값 69시간(IQR 59–83) 대 94시간(74–141), p\u003c0.001. 28일 사망 15/45 대 21/46, p=0.23.", "limit": "초기 보조요법 연구로 최종 구제치료와 구분. 사망률 개선 확정 아님. 두 중앙값의 차이 25시간은 원문 추정 효과 29.4시간과 다른 계산.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10010212/", "category": "패혈증"}, {"id": "TR02", "country": "아르헨티나", "institution": "Buenos Aires 심장수술 연구", "title": "Methylene blue reduces mortality and morbidity in vasoplegic patients after cardiac surgery", "year": 2004, "design": "무작위시험 · 발생 후 치료", "n": 56, "setting": "심장수술 후 저혈압·낮은 충만압·정상/높은 심장지수·낮은 말초저항·승압제 필요의 5개 조건을 충족한 혈관마비. 분류: established postoperative vasoplegia 치료. 패혈성 쇼크 예방/조기 adjunct 연구와 구별함.", "result": "메틸렌블루 28명 중 사망 0명, 위약 28명 중 6명(21.4%), p=0.01. 메틸렌블루군 전원 혈관마비 지속 6시간 미만.", "limit": "원저 초록 확인. 소표본 및 사망 추적시점 상세 미확인. 현대적 다중 승압제 불응 기준·패혈성 쇼크로 일반화 불가.", "url": "https://pubmed.ncbi.nlm.nih.gov/14759425/", "category": "심장수술"}, {"id": "TR03", "country": "튀르키예", "institution": "Gülhane Military Medical Academy, Ankara", "title": "Preoperative methylene blue administration in patients at high risk for vasoplegic syndrome during cardiac surgery", "year": 2005, "design": "무작위시험 · 수술 전 예방", "n": 100, "setting": "ACE inhibitor·calcium-channel blocker·heparin 수술 전 사용으로 혈관마비 고위험인 예정 CABG 환자. 분류: 수술 전 prophylaxis. 이미 발생한 불응성 혈관마비의 rescue RCT가 아님.", "result": "혈관마비 발생 0/50 대 13/50(26%), p\u003c0.001. ICU 체류 1.2 대 2.1일.", "limit": "고위험 예정 CABG의 예방시험임. 이미 발생한 난치성 쇼크의 구제치료 시험으로 분류하지 않음. 원저 초록 확인.", "url": "https://pubmed.ncbi.nlm.nih.gov/15854942/", "category": "심장수술"}, {"id": "TR06", "country": "브라질", "institution": "University of São Paulo, Ribeirão Preto", "title": "Methylene blue therapy in addition to standard treatment for acute-phase septic shock: a pilot randomized controlled trial", "year": 2024, "design": "공개형 파일럿 RCT · 초기 보조요법", "n": "42명 분석 / 80명 배정 보고", "setting": "18세 초과 패혈성 쇼크. NE ≥0.2 μg/kg/min에서 vasopressin 0.04 IU/min을 추가하는 시점에 MB 시작. 분류: 두 번째 승압제 도입 시 조기 adjunct. 두 약물의 실패 후 최종 rescue로 고정된 설계 아님.", "result": "바소프레신 추가 시점에 메틸렌블루를 병용한 군에서 노르에피네프린·바소프레신 감량 촉진 보고.", "limit": "무작위배정 후 38명 제외, 19명 대 23명 분석. 비눈가림·중증도 불균형. 사망률 평가용 설계 아님.", "url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2024.1431321/full", "category": "패혈증"}, {"id": "TR07", "country": "이집트", "institution": "Cairo University National Cancer Institute", "title": "Comparative study between high and low dose methylene blue infusion in septic cancer patients: a randomized, blinded, controlled study", "year": 2025, "design": "3군 눈가림 RCT · 초기 보조요법", "n": 90, "setting": "18–65세 암 환자, 기계환기 중 Sepsis-3 패혈성 쇼크, NE 시작 24시간 이내. 분류: early adjunct. 일반 ICU 전체·고령자·최종 refractory rescue 모집단 아님.", "result": "승압제 중단시간: 위약 94.3시간, 저용량 73.6시간, 고용량 70.1시간(평균), 전체 p\u003c0.001.", "limit": "암·기계환기 환자 한정. 고·저용량 간 유의차 없음. 전체 28일 사망률 비교 p=0.083. 논문 모형의 HR/OR 표기 불일치로 생존 효과값 인용 보류.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11707904/", "category": "패혈증"}, {"id": "TR09", "country": "중국", "institution": "Taizhou Enze Medical Center, Zhejiang", "title": "The Effect of Methylene Blue on Sublingual Microcirculation in Patients with Septic Shock: A Randomized Controlled Trial", "year": 2025, "design": "무작위시험 · 미세순환 평가", "n": 72, "setting": "18세 이상 기관삽관·기계환기 중 패혈성 쇼크, 진단 24시간 이내 투여. 분류: early adjunct/미세순환 표적. 다중 승압제 불응성을 필수로 삼지 않음.", "result": "설하 미세순환 혈류지수 차이 0.21(95% CI 0.09–0.33), p=0.001. 28일 사망 9/36 대 15/36, p=0.200.", "limit": "초기 보조요법·단일기관·소표본. 미세순환 개선이 환자 생존 개선을 입증하는 것은 아님.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12751372/", "category": "패혈증"}], "references": [{"id": "G01", "citation": "Wahba A, Kunst G, De Somer F, et al. 2024 EACTS/EACTAIC/EBCP Guidelines on cardiopulmonary bypass in adult cardiac surgery. Eur J Cardiothorac Surg. 2025;67(2):ezae354. doi:10.1093/ejcts/ezae354. Recommendation Table 40.", "url": "https://doi.org/10.1093/ejcts/ezae354", "note": "3학회 공식 지침. EACTS 게시 2025-02-14, 공식 페이지 수정표기 2025-02-17. 2026-10-08 공식 게시 페이지와 보존 원문 42쪽 Table 40 대조. 성인 CPB 맥락의 난치성 혈관마비에서 대체약을 단독 또는 병용으로 고려: Class IIa/B. 모든 쇼크로 확대 불가. 공식 게시: https://www.eacts.org/clinical-practice-guideline/2024-eacts-eactaic-ebcp-guidelines-on-cardiopulmonary-bypass-in-adult-cardiac-surgery/"}, {"id": "G02", "citation": "Society of Critical Care Medicine. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2026. Published March 23, 2026. Methylene blue recommendation and remarks.", "url": "https://www.sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-campaign-international-guidelines-for-management-of-sepsis-and-septic-shock-2026", "note": "2026-10-08 SCCM 공식 페이지 재확인. 난치성 패혈성 쇼크에서 IV 메틸렌블루 권고를 내릴 근거 부족. 혈압 개선 가능성과 구제요법 생존 이득의 불확실성 구분. 패널 사용 성향은 효과 추정치·전국 사용률 아님."}, {"id": "P01", "citation": "약학정보원. 프로베블루주0.5% 복약안내문. 의약품코드 2017121500009. 사용자 지정 품목.", "url": "https://health.kr/searchDrug/result_take.asp?drug_cd=2017121500009", "note": "제품명, 메틸렌블루 5 mg/mL, 삼오제약, 전문의약품·해독제 분류 확인. 품목 허가 원문과 구분."}, {"id": "KR01", "citation": "MFDS 의약품안전나라 — 프로베블루주0.5%(메틸렌블루) 품목 상세정보 (2017).", "url": "https://nedrug.mfds.go.kr/pbp/CCBBB01/getItemDetail?itemSeq=201708376", "note": "2026-10-08 공식 서버 현행 원문 재확인. 공식 품목명 프로베블루주0.5%(메틸렌블루), 업체 (주)삼오제약, 위탁제조업체 Cenexi, 품목기준코드 201708376. 메틸렌블루 5 mg/mL, 전문의약품. 효능·효과는 약물에 의한 메트헤모글로빈혈증. Vasoplegic shock 적응증 기재 없음. 2 mL 및 10 mL 앰플 포장 확인. 특정 환자의 허가초과 사용 승인 또는 다른 품목의 허가를 뜻하지 않음."}, {"id": "KR02", "citation": "MFDS 의약품안전나라 — 품목기준코드 201708376 검색결과.", "url": "https://nedrug.mfds.go.kr/searchDrug?itemSeq=201708376\u0026searchYn=true", "note": "품목명·업체·품목기준코드 일치. 허가번호 표시값 3, 허가일 2017-12-14, 취소/취하구분 정상. 수입 완제 전문의약품, 수입제조국 프랑스, ATC V03AB 확인. 허가번호 3과 품목기준코드 201708376은 서로 다른 식별자임. 검색대장의 정상 표시는 혈관마비성 쇼크 적응증 승인을 뜻하지 않음."}, {"id": "CT01", "citation": "Methylene Blue for Vasoplegic Syndrome After Cardiac Operation: Early Administration Improves Survival — Mehaffey et al.. 2017. University of Virginia, Charlottesville, Virginia; 흉부·심혈관외과.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5523819/", "note": "단일기관 후향적 관찰 코호트; 기관 내 MB 프로토콜 및 조기·후기 투여 비교; 공개 전문 확인; 비무작위 조기·후기 비교로 질병 중증도·투여 시점 선택의 잔여 교란 가능. 같은 중증도의 MB 비투여군과 비교한 효능시험 아님. 생존 개선의 인과성 미확립. 초록과 본문의 연구 종료 월에 불일치가 있어 기간은 연도로만 표기. 용량은 당시 기관 기록이며 현재 보편 권장 용량 아님. 기관 내 consensus를 미국 또는 국제 합의로 확대 불가. 연구국은 본문 시행기관으로 판정; 저자 국적 미확인."}, {"id": "CT02", "citation": "Early Use of Methylene Blue in Vasoplegic Syndrome: A 10-Year Propensity Score-Matched Cohort Study — Kofler et al.. 2022. LMU Hospital, Ludwig-Maximilians-University Munich, München.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8880443/", "note": "단일기관 후향적 10년 코호트; 성향점수 1:1 매칭; 공개 전문 확인; 후향적 매칭으로 미측정 교란 제거 불가. 매칭 변수는 연령·성별·BMI·수술 종류. 조기 투여 15분 기준의 사후 설정 및 결측 제외 가능성. 생존 이득 미확인; creatinine 상승과 투석 차이 없음 모두 보존. 프랑스 소재 제약사 연구비와 다른 저자 소속을 연구 시행국으로 오인하면 안 됨. 시행지는 본문상 독일 LMU 단일기관."}, {"id": "CT03", "citation": "Methaemoglobinaemia — Methylthionium chloride (methylene blue) injection: approved uses in K\u0026M. 발행연도 미표시. NHS Kent and Medway Joint Medicines Formulary; Maidstone and Tunbridge Wells, Dartford and Gravesham, Medway, East Kent의 지역 처방집.", "url": "https://kentandmedwayformulary.nhs.uk/therapeutic-sections/emergency-treatment-of-poisoning/methaemoglobinaemia/", "note": "NHS 지역 공식 처방집; 2026-10-08 공식 서버의 현행 HTML 원문 확인; 환자 연구 아님; 지역 처방 허용은 실제 투여 건수나 임상효과의 증거가 아님. 영국 전체 채택·NHS 전체 표준·SSC 2026 일상적 권고로 확대 불가. 상세 성인 불응성 저혈압 프로토콜 승인 원본은 미확보. 현행 쇼크 항목의 발행·개정연도 미표시로 year=null. 같은 페이지의 2019년 표기와 3 mg/kg 용량은 부갑상선 수술 시각화 FAQ에 속하므로 쇼크 프로토콜 날짜·용량으로 사용하지 않음. 검색 도구의 오래된 캐시와 달리 공식 서버 직접 조회에서 쇼크 용도 확인."}, {"id": "CT04", "citation": "Effects of methylene blue on microcirculatory alterations following cardiac surgery: A prospective cohort study — Maurin et al.; MAGIC BLUE, NCT04250389. 2022. Hôpital Cardiovasculaire et Pneumologique Louis Pradel, Hospices Civils de Lyon, Bron; 20병상 ICU.", "url": "https://pubmed.ncbi.nlm.nih.gov/34610607/", "note": "단일기관 전향적 공개 관찰 코호트; MB 투여 전·1시간 후 비교. 저자 초록 및 ClinicalTrials.gov 등록 원문 확인; 학술지 전문 미확보; 25명·비교군 없는 전후 분석·1시간 생리지표 평가. 생존·장기 예후 이득 입증 아님. 학술지 전문 접근 실패 및 공개 저장소의 전문 파일 부재; 수치는 저자 초록 범위만 사용. 서지상 2022년 권호이며 검색 색인에 2021년 날짜도 있어 권호 연도로 통일. 저자 소속뿐 아니라 연구등록의 실제 장소로 국가 확정."}, {"id": "CT05", "citation": "Vasoplegic Shock Treated with Methylene Blue Complicated by Severe Serotonin Syndrome — Chan et al.. 2018. Prince of Wales Hospital, Sydney, New South Wales; Clinical Toxicology Unit 및 Emergency Medicine.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6013734/", "note": "단일 환자 중독 증례 및 MB 약동학 분석; 공개 전문 확인. 온라인 선출판 2017년, 권호 2018년; 단일 복합중독 사례로 효능·위험 발생률 산출 불가. 세로토닌성 약물 과량복용 및 MB의 MAO 억제 상호작용이 해석의 핵심. 당시 장시간·고용량 투여를 보편적 권장 용법으로 인용하지 않음. 혈압 호전만 기재하고 중증 부작용을 누락하면 안 됨."}, {"id": "CT06", "citation": "Severe Undifferentiated Vasoplegic Shock Refractory to Vasoactive Agents Treated with Methylene Blue — Manji et al.. 2017. University of Calgary 및 Alberta Health Services, Calgary; 개별 치료 병원명은 원문 미명시.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5642875/", "note": "단일 환자 증례보고; 공개 전문 확인; 단일 사례·대조군 없음·원인 미상으로 자연 회복과 동시 치료 영향을 분리할 수 없음. 심장수술 또는 패혈성 쇼크의 일반 효능 자료 아님. 장기 생존 결과 미보고. 캐나다 임상기관의 증례이며 저자 국적·캐나다 전국 사용률은 미확인."}, {"id": "CT07", "citation": "Successful use of methylene blue for catecholamine-refractory vasoplegic shock due to metformin intoxication: A case report and literature review — Takahashi et al.. 2024. Hitachi General Hospital, Hitachi, Ibaraki; Department of Emergency and Critical Care Medicine.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11247704/", "note": "단일 환자 증례보고; 공개 전문 확인; 제목의 Successful을 생존 성공으로 해석하면 안 됨. 단일 사례·동시 ECMO/CHDF·MB 전 metformin 농도 감소로 독립 효과 불명확. EF 약 30%, 심박출량·SVR 측정 부재로 순수 혈관마비성 쇼크의 확증에도 제한. 일본 전국 표준 또는 패혈성 쇼크 권고 근거 아님."}, {"id": "CT08", "citation": "Use of methylene blue in vasoplegic syndrome that developed during non-cardiac surgery - A case report -. 2019. 경희대학교 의과대학 마취통증의학교실, 서울; 세부 병원 지점은 원문 미명시.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7713804/", "note": "단일 환자 비심장수술 증례보고; 공개 전문 확인; 단일 증례·병용 승압제·출혈 및 수혈 등 교란요인 존재. 계획 용량 35 mg과 실제 용량 26 mg을 구분해야 함. 혈압 호전과 함께 구토로 인한 중단도 보고. 심장수술·패혈증 또는 국내 전체 채택으로 일반화 불가."}, {"id": "CT11", "citation": "Methylene Blue for Postcardiopulmonary Bypass Vasoplegic Syndrome: A Cohort Study. 2017. Emory University의 성인 심장수술 임상기관, Atlanta, Georgia.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5408522/", "note": "단일기관 후향적 MB 투여 코호트; 전후 혈역학 및 반응군·비반응군 분석; 공개 전문 확인; MB 비투여 대조군 없는 후향적 전후 비교. 반응군 분류 자체가 예후·중증도의 영향을 받을 수 있어 생존 효과 추론 불가. 모든 환자에서 반응하는 약제로 표현하면 안 됨. 시행국은 본문 Emory 기관으로 확인; 복수 저자의 현 소속·학술지 발행국을 연구 시행국으로 사용하지 않음."}, {"id": "SF01", "citation": "FDA PROVAYBLUE (methylene blue) injection: Prescribing Information, NDA 204630/S-023. 2024.", "url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2024/204630Orig1s023lbl.pdf", "note": "Revised 02/2024. Boxed warning 주요 변경 11/2023 허가 적응증의 문서. 쇼크 효과·표준 용량·안전한 누적 상한을 승인한 근거가 아님"}, {"id": "SF03", "citation": "EMA: Methylthioninium chloride Proveblue 5 mg/ml — EPAR Product Information / SmPC. 2025.", "url": "https://www.ema.europa.eu/en/documents/product-information/methylthioninium-chloride-proveblue-epar-product-information_en.pdf", "note": "EMA EPAR 제품정보 갱신 2025-12-19; PDF HTTP Last-Modified 2025-12-19 확인 EU 제품 기준. 국내 동일 성분 제품의 허가·조제 지침으로 자동 전용 불가. EMA 문서에는 미국식 boxed warning 분류를 적용하지 않음"}, {"id": "SF04", "citation": "Ramsay et al. Methylene blue and serotonin toxicity: inhibition of monoamine oxidase A (MAO A) confirms a theoretical prediction. 2007. doi:10.1038/sj.bjp.0707430.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2078225/", "note": "PMC 원문 확인 기전 연구로 임상 serotonin syndrome 발생률·안전한 병용 역치 추정 불가"}, {"id": "SF05", "citation": "Mayer, Brunner and Schmidt. Inhibition of nitric oxide synthesis by methylene blue. 1993. doi:10.1016/0006-2952(93)90072-5.", "url": "https://pubmed.ncbi.nlm.nih.gov/7679577/", "note": "PubMed 원저 초록 확인; 전체 원문 미검토 실험계별 효소·농도 차이 존재. 쇼크 환자의 주된 작용 부위·치료 효과를 직접 입증하지 않음"}, {"id": "SF07", "citation": "Weingartner et al. Blockade of the action of nitric oxide in human septic shock increases systemic vascular resistance and has detrimental effects on pulmonary function after a short infusion of methylene blue. 1999. doi:10.1590/S0100-879X1999001200009.", "url": "https://pubmed.ncbi.nlm.nih.gov/10585632/", "note": "PubMed 원저 초록 확인; 전체 원문 미검토 10명·비무작위·단기 생리학 연구. 모든 투여법의 위해 빈도나 폐고혈압 환자의 절대 금기를 확정하지 않음"}, {"id": "SF10", "citation": "Hencken et al. Serotonin Syndrome Following Methylene Blue Administration for Vasoplegic Syndrome. 2016. doi:10.1111/jocs.12705.", "url": "https://pubmed.ncbi.nlm.nih.gov/26934199/", "note": "PubMed 원저 초록·색인 확인; 전체 원문 미검토 증례로 발생률·개별 약물의 기여도·위험 없는 용량 추정 불가"}, {"id": "SF12", "citation": "Stevic et al. Determining susceptibility of routine clinical biochemistry assays to methylene blue interference. 2025. doi:10.1016/j.clinbiochem.2025.110940.", "url": "https://pubmed.ncbi.nlm.nih.gov/40320108/", "note": "PubMed 원저 초록 확인; 전체 원문 미검토 시험관 내 특정 장비 결과. 통상 임상농도에서 모든 co-oximetry가 부정확하다는 근거가 아님"}, {"id": "TR01", "citation": "Early adjunctive methylene blue in patients with septic shock: a randomized controlled trial. 2023. doi:10.1186/s13054-023-04397-7.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10010212/", "note": "Ibarra-Estrada et al.; Critical Care 27:110; 단일기관 이중눈가림 평행군 RCT. 본문·Tables 1–2 확인. 단일기관·소표본, 사망률 검정력 부족, 후향 등록, 색 변화에 의한 눈가림 손상 가능성. 사망 RR 0.76 및 CI는 원문 그대로임. 제시 사건수의 단순 비율비와 일치하지 않아 산출법 추가 확인 필요. 중단시간 차이 29.4 h는 원문 추정치임. 두 중앙값의 단순 차이로 대체하지 않음."}, {"id": "TR02", "citation": "Methylene blue reduces mortality and morbidity in vasoplegic patients after cardiac surgery. 2004. doi:10.1016/S0003-4975(03)01510-8.", "url": "https://pubmed.ncbi.nlm.nih.gov/14759425/", "note": "Levin et al.; Annals of Thoracic Surgery 77:496–499; 수술 환자 연속 코호트에서 혈관마비 발생 환자만 무작위배정. PubMed 원저 초록 확인; 공개 저널 전문은 확보하지 못함. CI·눈가림 상세·정확한 사망 추적기간 미확인. 승압제 필요는 확인되지만 NE/vasopressin 최대치 실패 등 현대적 refractory rescue 기준은 초록에서 미확인. 수술 후 혈관마비 결과를 불응성 패혈성 쇼크의 생존효과로 일반화할 수 없음."}, {"id": "TR03", "citation": "Preoperative methylene blue administration in patients at high risk for vasoplegic syndrome during cardiac surgery. 2005. doi:10.1016/j.athoracsur.2004.10.038.", "url": "https://pubmed.ncbi.nlm.nih.gov/15854942/", "note": "Ozal et al.; Annals of Thoracic Surgery 79:1615–1619; 전향적 무작위 예방시험. PubMed 원저 초록 확인; 전문·CI·사망률 검정 상세 미확인. 불응성 사례의 발생은 예방시험 결과의 일부임. MB 구제투여의 무작위 비교로 재분류 불가. 고위험 CABG에 한정된 모집단."}, {"id": "TR06", "citation": "Methylene blue therapy in addition to standard treatment for acute-phase septic shock: a pilot randomized controlled trial. 2024. doi:10.3389/fmed.2024.1431321.", "url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2024.1431321/full", "note": "Luis-Silva et al.; Frontiers in Medicine 11:1431321; 2024-10-14 출판; 단일기관 공개형 파일럿 RCT. 저널 전문 확인. 80명 배정 후 38명 제외에 따른 선택·탈락 편향 우려. MB군 중증도 불균형, 소표본, 비눈가림. 용량이 다른 연구보다 크고 장시간임. 다른 요법과 효과·안전성 동일시 불가."}, {"id": "TR07", "citation": "Comparative study between high and low dose methylene blue infusion in septic cancer patients: a randomized, blinded, controlled study. 2025. doi:10.1186/s12871-024-02792-3.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11707904/", "note": "Shaker et al.; BMC Anesthesiology 25:15; 2025-01-08 출판; 단일기관 3군 이중눈가림 RCT. Methods·Table 2 확인. 암·기계환기 환자에 한정된 소표본. 사망은 2차 평가변수. logistic regression으로 HR를 산출했다고 기재한 통계 표기 문제. 용량군 간 우월성 입증 없음. 고용량의 일상 사용 근거로 전환 불가."}, {"id": "TR09", "citation": "The Effect of Methylene Blue on Sublingual Microcirculation in Patients with Septic Shock: A Randomized Controlled Trial. 2025. doi:10.2147/DDDT.S561592.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12751372/", "note": "Dong et al.; Drug Design, Development and Therapy 19:11629–11640; 2025-12-25 출판; 단일기관 무작위시험, 환자·연구자 눈가림 보고. 전문·Table 2 확인. 소표본·단일기관. 미세순환 대리지표 개선을 생존효과로 전환 불가. 소변 색으로 눈가림 손상 가능성. 사망률 검정력 제한. Methods의 12시간 주입과 Discussion의 반복투여처럼 읽히는 문구를 구분함."}, {"id": "TR10", "citation": "Methylene Blue in Septic Shock: A Systematic Review and Meta-Analysis. 2024. doi:10.1097/CCE.0000000000001110.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11196076/", "note": "Critical Care Explorations 6:e1110; 2024-06-21 온라인 출판. 2024-01-10까지 검색한 RCT 메타분석. 전문·Table 2·민감도 분석 확인. 6개 중 4개 시험이 높은 비뚤림 위험. 안전성 보고도 불완전. 사망 CI 상한이 본문·초록 0.94, Table 2 0.95로 다름. 임의 통일하지 않음. 민감도 분석의 사망률 null과 기존 소규모 RCT 중복 포함을 함께 해석해야 함."}, {"id": "TR12", "citation": "Methylene Blue Reduces Mortality in Critically Ill and Perioperative Patients: A Meta-Analysis of Randomized Trials. 2024. doi:10.1053/j.jvca.2023.09.037.", "url": "https://pubmed.ncbi.nlm.nih.gov/37880041/", "note": "Journal of Cardiothoracic and Vascular Anesthesia 38:268–274; 2023-10-01 온라인, 2024년 1월 권호. RCT 메타분석. PubMed·저널 초록 및 공개 본문 일부 확인; 결과별 표본수와 세부 하위군 효과는 미확인. 질환·투여시점 혼합, 작은 원 연구들. 제목의 단정형을 임상 결론으로 그대로 사용하지 않음. 다른 메타분석과 원 RCT 중복."}, {"id": "TR16", "citation": "Methylene blue for vasoplegic syndrome in cardiopulmonary bypass surgery: A systematic review and meta-analysis. 2021. doi:10.1177/0218492321998523.", "url": "https://pubmed.ncbi.nlm.nih.gov/33653154/", "note": "Asian Cardiovascular and Thoracic Annals 29:717–728; RCT·관찰연구 혼합 체계적 고찰/메타분석. PubMed·저널 초록 확인. 총 n·연구별 상세·사망 추적기간은 확인 자료 부족. 관찰연구와 작은 시험의 혼합. 강한 OR를 확정적 인과효과로 해석 불가. 심장수술 결과를 septic shock routine recommendation에 전용 불가."}, {"id": "MA01", "citation": "Ignarro LJ, Buga GM, Wood KS, et al. Endothelium-derived relaxing factor produced and released from artery and vein is nitric oxide. Proc Natl Acad Sci USA. 1987;84:9265–9269. doi:10.1073/pnas.84.24.9265.", "url": "https://pubmed.ncbi.nlm.nih.gov/2827174/", "note": "분리 혈관·내피세포 원저. NO·cGMP와 혈관 이완의 기초 근거. 임상 쇼크의 생존효과 근거 아님. 이번 PubMed 직접 재열람 응답이 제한되어 선행 확인 기록과 연결된 원문으로 대조."}, {"id": "MA03", "citation": "Leyh RG, Kofidis T, Strüber M, et al. Methylene blue: the drug of choice for catecholamine-refractory vasoplegia after cardiopulmonary bypass? J Thorac Cardiovasc Surg. 2003;125:1426–1431. doi:10.1016/S0022-5223(02)73284-4.", "url": "https://pubmed.ncbi.nlm.nih.gov/12830064/", "note": "2026-10-08 PubMed 원저 초록 재확인. Hannover Medical School, 독일. NE 불응성 CPB 후 혈관마비 54명 치료 연구. 51명에서 1시간 이내 SVR 증가·NE 감소 보고. 같은 초록의 4명 무반응과 총수 불일치로 반응률 산출 보류. 동시 무작위 대조군 없음. 제목의 drug of choice는 공식 지위·필수약 판정 아님."}, {"id": "MO01", "citation": "DailyMed. LEVOPHED (norepinephrine bitartrate) injection. Clinical Pharmacology 12.1–12.2.", "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=c4de72a8-2a75-4984-ce90-e4870226dc12", "note": "공식 라벨의 말초 α-adrenergic 혈관수축·심장 β-adrenergic 작용 확인용. 공개 라벨 개정표기 10/2020. 혈압 상승과 장기 혈류 개선을 동일시하지 않음."}, {"id": "MO02", "citation": "DailyMed. VASOSTRICT (vasopressin) injection. Mechanism of Action.", "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d162d386-105d-e916-e053-2995a90a350c", "note": "공식 라벨의 혈관 평활근 V1 수용체·Gq/11–PLC–IP3·칼슘 방출 기전 확인용. 국내 품목의 처방·조제 지침으로 전용하지 않음."}, {"id": "PH01", "citation": "Stocche RM, Garcia LV, Reis MP, et al. Methylene blue to treat anaphylaxis during anesthesia: case report. Rev Bras Anestesiol. 2004;54:809–814. doi:10.1590/S0034-70942004000600010.", "url": "https://pubmed.ncbi.nlm.nih.gov/19471794/", "note": "브라질 Universidade de São Paulo, Ribeirão Preto의 1명 증례. 원저 초록 기준 수축기혈압 60→85→105 mmHg. MAP로 표기하지 않음. SVR·CO 실측, 두 번째 MB 용량·간격, 장기 예후 미확인. 무대조·동시 소생술 및 약물치료로 인과효과 확정 불가. 저널 PDF 전문 미확보."}, {"id": "PH02", "citation": "Laes JR, Williams DM, Cole JB. Improvement in Hemodynamics After Methylene Blue Administration in Drug-Induced Vasodilatory Shock: A Case Report. J Med Toxicol. 2015;11:460–463. doi:10.1007/s13181-015-0500-1.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4675606/", "note": "미국 Hennepin County Medical Center, Minneapolis의 혼합중독 1명 증례. 선행 PMC 전문 검토와 이번 출판사 원문 대조. EF 60–65%, CO 10.5 L/min, SVR 240→1204 dyn·s·cm⁻⁵. 투여 1시간 내 변화. 다중 동시 치료·약물 제거 영향을 분리하지 못함. 모든 CCB·베타차단제 중독의 표준치료 또는 생존효과 근거 아님."}, {"id": "TR08", "citation": "Effects of Early Use of Methylene Blue and Vasopressin on Noradrenaline Dose in Septic Shock: A Randomized Controlled Trial. 2025. doi:10.5005/jp-journals-10071-24905.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11915450/", "note": "Kuri et al.; Indian Journal of Critical Care Medicine 29:108–112; 단일기관 공개형 평행군 RCT. 전문·Table 2 확인. 24시간 생리학적 평가, 소표본·비눈가림. 원저의 유지용량을 후대 메타분석이 시간당 용량으로 다르게 표기함. 원저 문구 보존. 활성 비교약 시험을 MB 대 무치료 효과로 합산하면 오류."}], "guidelines": {"id": "guidelines", "kicker": "06 / 국제 지침", "title": "성인 CPB 지침은 난치성 혈관마비의 대체약 고려를 공식 권고함", "summary": "2024 EACTS/EACTAIC/EBCP 심폐우회술 지침은 난치성 혈관마비에서 메틸렌블루 등을 고려하도록 명시함. 개인 경험을 넘어 공동학회 지침으로 확인되는 구제요법의 근거임.", "table": {"headers": ["맥락", "확인된 공식 입장", "경영진 해석"], "rows": [["2024 EACTS/EACTAIC/EBCP\n2025년 출판", "심폐우회술 관련 난치성 혈관마비에서 메틸렌블루 또는 테를리프레신 등 대체약 고려: Class IIa, Level B", "제한된 구제요법 경로를 마련할 공식 학회 근거 확보"], ["Surviving Sepsis Campaign 2026", "승압제 요구가 증가하는 난치성 패혈성 쇼크에서 IV 메틸렌블루 권고를 내릴 근거 부족", "패혈증의 일상적·보편적 사용 승인 근거로 인용 불가"]]}, "bullets": ["Class IIa·근거수준 B: 사용을 고려해야 한다는 권고. 성인 심장수술·심폐우회술의 임상 맥락에서 해석.", "‘효과 없음’과 ‘생존효과 확정에 필요한 근거 부족’은 다른 결론임. 혈역학 개선 자료는 구제 선택지 확보를 뒷받침.", "패혈성 쇼크의 최신 SSC 2026은 권고를 유보함. 일부 회복 가능한 환자의 개별 치료 시도를 언급하지만, 보편적 표준치료 권고는 아님."], "callout": "경영진이 결정할 사항: 명시적 지침 근거와 실제 사용 경험을 갖춘 구제수단을, 원내 통제 아래 사용할 수 있도록 준비할 것.", "sources": ["G01", "G02"]}, "safety": {"id": "safety", "kicker": "13 / 안전장치", "title": "위험을 알고 제한하는 체계가 구제약 비축의 전제임", "summary": "약리 기전이 다른 만큼 별도의 위험도 존재함. 안전성은 보고서 말미의 면책 문구가 아니라 실제 사용 경로의 필수 조건임.", "table": {"headers": ["핵심 위험", "의미", "운영 통제"], "rows": [["세로토닌증후군", "MAO-A 억제 작용. FDA는 세로토닌성 약물·오피오이드 병용 회피를 boxed warning으로 명시", "입원 전 약·최근 중단약·수술 및 ICU 투여약까지 검토"], ["G6PD 결핍·용혈", "알려진 G6PD 결핍에서 금기 및 용혈 위험", "기왕력·검사 가용성 확인, 상태 미상 시 별도 위험판단"], ["농도·누적 용량 오류", "0.5% = 5 mg/mL; 제품 간 농도 차이", "mg와 mL 분리 확인, 조제·투여 이중 점검"], ["산소포화도 측정 간섭", "청색 색소가 광학 측정에 간섭", "실제 저산소화와 기기 간섭을 구분. 혈액가스·장비별 간섭·임상소견 대조"], ["신기능·폐혈관·과민반응", "노출 증가 및 혈관 저항·과민반응 관련 위험 검토", "환자 상태별 위험평가와 지속 감시"], ["희석·배합 오류", "미국·EU 제품정보는 NaCl 희석·혼합 회피 또는 금지", "문헌 조제법을 복사하지 않고 국내 품목 기준으로 약제부 확정"]]}, "callout": "문헌의 쇼크 투여법을 메트헤모글로빈혈증 허가 용법과 혼용하지 않음. 이 보고서는 투여량 계산기나 환자별 처방표를 제공하지 않음.", "sources": ["KR01", "SF01", "SF03", "SF04", "SF07", "SF10", "SF12"], "bullets": ["폐고혈압·우심실 기능저하는 고위험 평가 항목임. 검토한 라벨의 일률적 절대금기로 표현하지 않음.", "G6PD 결핍 여부 미상을 정상으로 간주하지 않음. 신장애·반복 및 지속주입은 노출 증가를 고려해 별도 검토.", "연구에서 중대한 이상반응이 관찰되지 않았다는 사실만으로, 소규모 연구가 드문 중증 위해를 배제했다고 설명할 수 없음."]}, "protocol": {"id": "protocol", "kicker": "14 / 제한사용안", "title": "누가, 어떤 조건에서, 무엇을 기록할지 사전에 확정해야 함", "summary": "다음은 약사위원회 심의를 위한 임상 운영 구조안임. 책임 전문의 판단과 정식 원내 승인체계를 전제로 적용.", "table": {"headers": ["단계", "필수 판단·기록", "책임 주체"], "rows": [["1. 대상 확인", "성인 난치성 혈관마비 및 표준치료 반응 평가; 원인별 근거 구분", "중환자의학·마취통증의학·관련 진료 전문의"], ["2. 사용 판단", "회복 가능성, 대안, 금기·상호작용, 설명·동의 또는 원내 응급 절차", "책임 전문의 + 약사; 필요시 관련과 협의"], ["3. 출고·투여", "승인된 처방·농도·희석·투여경로·모니터링 이중 확인", "약제부 + 담당 의료진"], ["4. 반응 재평가", "혈압뿐 아니라 승압제 요구·관류·장기 기능·이상반응 기록", "진료팀"], ["5. 사후 심의", "무반응·위해 신호·일탈·임상 결과 검토 및 재고 보충", "약사위원회·환자안전·약제부"]]}, "bullets": ["중단 또는 재투여 판단은 승인된 임상 프로토콜에 명시. 비반응 상태에서 무제한 증량하는 구조 금지.", "긴급 사용이 예상되는 약이므로 의사결정 담당자와 야간 출고 경로를 평상시에 지정.", "전례 등록에는 환자 식별정보를 공개하지 않고, 내부 보호체계에서 적절히 관리."], "sources": ["SF01", "SF03"]}, "stock": {"id": "stock", "kicker": "15 / 비상 비축", "title": "비축 수량은 응급 대응능력과 공급기간으로 정해야 함", "summary": "사용 빈도가 낮다는 사실은 비축의 불필요성을 증명하지 않음. 판단 기준은 대상 진료의 존재, 긴급 조달 가능성, 대체약 가용성과 유효기간임.", "bullets": ["최소 재고 산식 제안: 승인된 1건당 필요 수량 × 동시 대응 건수 + 공급기간을 반영한 안전재고.", "약제부가 실제 유통 포장단위·보관 조건·공급기간에 맞춰 재고 수량을 확정.", "24시간 접근 가능한 보관·출고 체계를 구축하고 사용 후 즉시 보충.", "정기 점검: 유효기간, 재고 결손, 출고 지연, 절차 누락, 무반응 및 이상반응 사례.", "병원 실제 사용 빈도·포장단위·조달기간은 미제공. 수량은 임의로 제시하지 않음."], "callout": "비축은 대량 투여를 위한 결정이 아님. 드문 위기에 대응할 수 있도록 최소한의 선택지를 확보하는 결정임.", "sources": ["KR01"]}}</script><script>(() => {
   "use strict";
 
-  const tablist = document.querySelector(".evidence-tabs");
-  const tabs = [...document.querySelectorAll("[data-tab]")];
-  const panels = [...document.querySelectorAll("[data-panel]")];
-  const country = document.getElementById("filter-country");
-  const design = document.getElementById("filter-design");
-  const filterStatus = document.getElementById("filter-status");
-  let selected = panels.find(panel => panel.querySelector("[data-study]"))?.dataset.panel || "cardiac";
+  const data = JSON.parse(document.getElementById("explorer-data").textContent);
+  const sourceArchive = document.getElementById("source-archive");
+  const workspaces = [...document.querySelectorAll("[data-workspace]")];
+  const navigation = [...document.querySelectorAll("[data-view]")];
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const studies = data.studies;
+  const studyById = new Map(studies.map(study => [study.id, study]));
+  const contextLabels = { cardiac: "심장수술", sepsis: "패혈증", other: "기타·증례" };
+  const contextNotes = {
+    cardiac: "심장수술·CPB 관련 난치성 혈관마비의 고려 대상. 표준치료·책임 전문의 평가를 전제로 검토.",
+    sepsis: "일부 시험에서 초기 보조·2선 후보로 연구. SSC 2026의 근거 부족을 반영해야 하며 보편적 2선 표준 아님.",
+    other: "아나필락시스·중독 등 구제 반응은 주로 증례. 원인별 표준치료 대체·일반적 성공률 산출 불가."
+  };
+  const designLabels = ["무작위시험", "관찰·비대조", "증례", "기관 처방집"];
+  let activeView = "lab";
+  let activeStage = 0;
+  let signalTimer = null;
+  let selectedStudy = null;
+  let beforePrintArchive = false;
 
-  function updateEvidence() {
-    let selectedCount = 0;
-    let selectedTotal = 0;
-    tabs.forEach(tab => {
-      const active = tab.dataset.tab === selected;
-      tab.setAttribute("aria-selected", String(active));
-      tab.tabIndex = active ? 0 : -1;
+  function element(tag, content, className) {
+    const node = document.createElement(tag);
+    if (content !== undefined) node.textContent = String(content);
+    if (className) node.className = className;
+    return node;
+  }
+
+  function contextOf(study) {
+    const category = String(study.category || "");
+    if (/心|심장|심폐|cardiac|cpb/i.test(category)) return "cardiac";
+    if (/패혈|sepsis|septic/i.test(category)) return "sepsis";
+    return "other";
+  }
+
+  function designOf(study) {
+    const design = String(study.design || "");
+    if (/RCT|무작위시험/.test(design)) return 0;
+    if (/처방집/.test(design)) return 3;
+    if (/증례/.test(design)) return 2;
+    return 1;
+  }
+
+  function stopSignal() {
+    if (signalTimer !== null) window.clearInterval(signalTimer);
+    signalTimer = null;
+    document.querySelector(".lab-canvas").classList.remove("playing");
+    const play = document.getElementById("play-signal");
+    play.setAttribute("aria-pressed", "false");
+    play.textContent = "▶ 단계 재생";
+  }
+
+  function activateView(identifier, focusHeading = false) {
+    if (!workspaces.some(workspace => workspace.dataset.workspace === identifier)) return;
+    activeView = identifier;
+    workspaces.forEach(workspace => { workspace.hidden = workspace.dataset.workspace !== identifier; });
+    navigation.forEach(button => {
+      if (button.dataset.view === identifier) button.setAttribute("aria-current", "page");
+      else button.removeAttribute("aria-current");
     });
-    panels.forEach(panel => {
-      const active = panel.dataset.panel === selected;
-      panel.hidden = !active;
-      const cards = [...panel.querySelectorAll("[data-study]")];
-      let matches = 0;
-      cards.forEach(card => {
-        const visible = (!country.value || card.dataset.country === country.value)
-          && (!design.value || card.dataset.design === design.value);
-        card.hidden = !visible;
-        if (visible) matches += 1;
+    if (identifier !== "lab") stopSignal();
+    if (identifier === "atlas") renderAtlas();
+    if (focusHeading) {
+      const heading = document.querySelector(`#workspace-${identifier} h2`);
+      heading.focus({ preventScroll: true });
+      heading.scrollIntoView({ behavior: reducedMotion.matches ? "instant" : "smooth", block: "start" });
+    }
+  }
+
+  navigation.forEach(button => button.addEventListener("click", () => activateView(button.dataset.view, true)));
+
+  function updateStage(index) {
+    activeStage = index;
+    const step = data.mechanism.steps[index];
+    document.querySelectorAll("[data-stage]").forEach(button => {
+      button.setAttribute("aria-pressed", String(Number(button.dataset.stage) === index));
+    });
+    document.getElementById("stage-number").textContent = String(index + 1).padStart(2, "0");
+    document.getElementById("stage-title").textContent = step.label;
+    document.getElementById("stage-description").textContent = step.detail;
+  }
+
+  const targetInputs = [...document.querySelectorAll("[data-target]")];
+  function updateTargets() {
+    const selected = new Set(targetInputs.filter(input => input.checked).map(input => input.dataset.target));
+    const methylene = selected.has("methylene");
+    document.querySelector(".lab-canvas").classList.toggle("mb-selected", methylene);
+    for (const identifier of ["norepinephrine", "vasopressin"]) {
+      document.getElementById(`branch-${identifier}`).classList.toggle("selected", selected.has(identifier));
+    }
+    document.getElementById("mb-state").textContent = methylene ? "억제 가설 표시 · 반응 미예측" : "표적 미선택";
+    const explanations = document.getElementById("target-explanations");
+    explanations.replaceChildren();
+    for (const target of data.mechanism.targets.filter(target => selected.has(target.id))) {
+      const article = element("article");
+      article.append(element("h4", `${target.label} / ${target.target}`), element("p", target.explanation), element("p", target.role));
+      explanations.append(article);
+    }
+    document.getElementById("lab-status").textContent = selected.size
+      ? `${selected.size}개 약리 표적 표시 · 다른 경로의 개입을 비교한 것임. 병용 효과·혈압·생존 수치 미산출.`
+      : "표적을 켜면 개입 위치·수축 경로·근거 설명이 함께 변경됨.";
+  }
+
+  targetInputs.forEach(input => input.addEventListener("change", () => { stopSignal(); updateTargets(); }));
+  document.querySelectorAll("[data-stage]").forEach(button => button.addEventListener("click", () => {
+    stopSignal();
+    updateStage(Number(button.dataset.stage));
+  }));
+  document.getElementById("play-signal").addEventListener("click", () => {
+    if (signalTimer !== null) { stopSignal(); return; }
+    updateStage(0);
+    const play = document.getElementById("play-signal");
+    play.setAttribute("aria-pressed", "true");
+    play.textContent = "Ⅱ 재생 멈춤";
+    document.querySelector(".lab-canvas").classList.add("playing");
+    signalTimer = window.setInterval(() => {
+      const methylene = targetInputs.some(input => input.dataset.target === "methylene" && input.checked);
+      if (activeStage >= (methylene ? 1 : 3)) { stopSignal(); return; }
+      updateStage(activeStage + 1);
+    }, 1100);
+  });
+  const labContext = document.getElementById("lab-context");
+  function updateContext() {
+    document.getElementById("context-note").textContent = contextNotes[labContext.value];
+  }
+  labContext.addEventListener("change", updateContext);
+  document.getElementById("reset-lab").addEventListener("click", () => {
+    stopSignal();
+    targetInputs.forEach(input => { input.checked = false; });
+    labContext.value = "cardiac";
+    updateStage(0);
+    updateTargets();
+    updateContext();
+  });
+
+  const atlasContext = document.getElementById("atlas-context");
+  const atlasCountry = document.getElementById("atlas-country");
+  const atlasYear = document.getElementById("atlas-year");
+  const evidenceMap = document.getElementById("evidence-map");
+  const rowCenters = [78, 190, 280, 347];
+  const availableCountries = [...new Set(studies.map(study => study.country))].sort();
+  availableCountries.forEach(country => {
+    const option = element("option", country);
+    option.value = country;
+    atlasCountry.append(option);
+  });
+
+  function filteredStudies() {
+    return studies.filter(study => (atlasContext.value === "all" || contextOf(study) === atlasContext.value)
+      && (atlasCountry.value === "all" || study.country === atlasCountry.value)
+      && (typeof study.year !== "number" || study.year <= Number(atlasYear.value)));
+  }
+
+  function renderAtlas() {
+    const selected = filteredStudies();
+    document.getElementById("year-label").textContent = atlasYear.value;
+    const summary = document.getElementById("atlas-summary");
+    summary.replaceChildren();
+    const counters = [["전체 자료", selected.length], ["무작위시험", selected.filter(study => designOf(study) === 0).length],
+      ["관찰·증례", selected.filter(study => [1, 2].includes(designOf(study))).length],
+      ["기관 처방집", selected.filter(study => designOf(study) === 3).length]];
+    for (const [label, count] of counters) {
+      const item = element("span");
+      item.append(element("b", count), document.createTextNode(label));
+      summary.append(item);
+    }
+    evidenceMap.replaceChildren();
+    const chartWidth = Math.max(1175, evidenceMap.clientWidth);
+    const position = year => 145 + ((year - 2003) / 22) * (chartWidth - 185);
+    for (const boundary of [145, 235, 320]) {
+      const line = element("span", "", "chart-band-line");
+      line.style.top = `${boundary}px`;
+      evidenceMap.append(line);
+    }
+    for (const year of [2003, 2008, 2013, 2018, 2023, 2025]) {
+      const line = element("span", "", "chart-year-line");
+      line.style.left = `${position(year)}px`;
+      const label = element("span", year, "chart-axis-label");
+      label.style.left = `${position(year)}px`;
+      evidenceMap.append(line, label);
+    }
+    designLabels.forEach((label, index) => {
+      const row = element("span", label, "chart-row-label");
+      row.style.top = `${rowCenters[index] - 10}px`;
+      evidenceMap.append(row);
+    });
+    const dated = selected.filter(study => typeof study.year === "number");
+    const clusters = new Map();
+    dated.forEach(study => {
+      const key = `${study.year}-${designOf(study)}`;
+      if (!clusters.has(key)) clusters.set(key, []);
+      clusters.get(key).push(study);
+    });
+    for (const cluster of clusters.values()) {
+      cluster.forEach((study, index) => {
+        const node = element("button", study.id, `evidence-dot context-${contextOf(study)}`);
+        node.type = "button";
+        node.dataset.studyNode = study.id;
+        node.dataset.tooltip = `${study.year} · ${study.country} · ${study.id}`;
+        node.setAttribute("aria-label", `${study.id} · ${study.year} · ${study.country} · ${designLabels[designOf(study)]} 상세 열기`);
+        node.style.left = `${position(study.year)}px`;
+        node.style.top = `${rowCenters[designOf(study)] + (index - (cluster.length - 1) / 2) * 44}px`;
+        node.addEventListener("click", () => showStudy(study.id));
+        evidenceMap.append(node);
       });
-      panel.querySelector(".filter-empty").hidden = matches > 0 || cards.length === 0;
-      const badge = tabs.find(tab => tab.dataset.tab === panel.dataset.panel).querySelector("span");
-      badge.textContent = String(matches);
-      if (active) {
-        selectedCount = matches;
-        selectedTotal = cards.length;
+    }
+    const undated = document.getElementById("undated-evidence");
+    undated.replaceChildren(element("span", "연도 미표시 · 연도 필터 별도"));
+    for (const study of selected.filter(study => typeof study.year !== "number")) {
+      const button = element("button", `${study.id} · ${study.country} · ${designLabels[designOf(study)]}`);
+      button.type = "button";
+      button.dataset.studyNode = study.id;
+      button.addEventListener("click", () => showStudy(study.id));
+      undated.append(button);
+    }
+    if (!selected.some(study => typeof study.year !== "number")) undated.append(element("span", "현재 조건에 해당하는 연도 미표시 자료 없음"));
+    document.getElementById("atlas-empty").hidden = selected.length > 0;
+    const insight = document.getElementById("atlas-insight");
+    insight.replaceChildren(element("h3", "연구의 수보다, 연구가 답한 질문을 확인."));
+    insight.append(element("p", atlasContext.value === "all"
+      ? "RCT·관찰·증례·기관 처방집은 다른 자료임. 국가가 늘어나도 국가 전체 채택이나 생존효과 입증을 의미하지 않음. 점을 선택해 결과와 한계를 함께 확인."
+      : contextNotes[atlasContext.value]));
+  }
+
+  atlasContext.addEventListener("change", renderAtlas);
+  atlasCountry.addEventListener("change", renderAtlas);
+  atlasYear.addEventListener("input", renderAtlas);
+  document.getElementById("reset-atlas").addEventListener("click", () => {
+    atlasContext.value = "all";
+    atlasCountry.value = "all";
+    atlasYear.value = "2025";
+    renderAtlas();
+  });
+  document.getElementById("related-evidence").addEventListener("click", () => {
+    atlasContext.value = labContext.value;
+    atlasCountry.value = "all";
+    atlasYear.value = "2025";
+    activateView("atlas", true);
+    renderAtlas();
+  });
+
+  const comparisonLeft = document.getElementById("compare-left");
+  const comparisonRight = document.getElementById("compare-right");
+  for (const select of [comparisonLeft, comparisonRight]) {
+    for (const study of studies) {
+      const option = element("option", `${study.id} · ${study.year} · ${study.country}`);
+      option.value = study.id;
+      select.append(option);
+    }
+  }
+  comparisonLeft.value = "TR01";
+  comparisonRight.value = "TR08";
+  const comparisonFields = [["근거 ID", "id"], ["연구·자료", "title"], ["국가·기관", "institution"], ["연도", "year"],
+    ["설계", "design"], ["표본·규모", "n"], ["환자군·상황", "setting"], ["확인된 결과", "result"], ["해석의 한계", "limit"]];
+
+  function updateComparison() {
+    const left = studyById.get(comparisonLeft.value);
+    const right = studyById.get(comparisonRight.value);
+    const sameContext = contextOf(left) === contextOf(right);
+    document.getElementById("comparison-context").textContent = left.id === right.id
+      ? "같은 자료를 선택함. 다른 자료로 변경하면 두 연구의 차이를 대조할 수 있음."
+      : `${sameContext ? `같은 맥락: ${contextLabels[contextOf(left)]}` : "서로 다른 임상 맥락"} · ${designLabels[designOf(left)]} ↔ ${designLabels[designOf(right)]}. 설계가 같아도 투여 시점·비교약·평가지표의 일치 여부는 개별 확인 필요.`;
+    const grid = document.getElementById("comparison-grid");
+    grid.replaceChildren();
+    for (const [label, key] of comparisonFields) {
+      const row = element("div", undefined, `comparison-row${key === "limit" ? " limit-row" : ""}`);
+      row.append(element("div", label, "comparison-label"));
+      for (const study of [left, right]) {
+        row.append(element("div", key === "institution" ? `${study.country} · ${study.institution}` : study[key] ?? "미제공", "comparison-value"));
       }
-    });
-    const title = document.getElementById(`heading-${selected}`).firstChild.textContent;
-    filterStatus.textContent = `${title} · ${selectedTotal}개 자료 중 ${selectedCount}개 표시`;
-    scheduleProgress();
-  }
-
-  tablist.setAttribute("role", "tablist");
-  tabs.forEach((tab, index) => {
-    const panel = document.getElementById(`panel-${tab.dataset.tab}`);
-    tab.setAttribute("role", "tab");
-    tab.setAttribute("aria-controls", panel.id);
-    panel.setAttribute("role", "tabpanel");
-    panel.setAttribute("aria-labelledby", tab.id);
-    panel.tabIndex = 0;
-    tab.addEventListener("click", () => {
-      selected = tab.dataset.tab;
-      updateEvidence();
-    });
-    tab.addEventListener("keydown", event => {
-      let next = index;
-      if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
-      else if (event.key === "ArrowLeft") next = (index + tabs.length - 1) % tabs.length;
-      else if (event.key === "Home") next = 0;
-      else if (event.key === "End") next = tabs.length - 1;
-      else return;
-      event.preventDefault();
-      selected = tabs[next].dataset.tab;
-      updateEvidence();
-      tabs[next].focus();
-    });
-  });
-  country.addEventListener("change", updateEvidence);
-  design.addEventListener("change", updateEvidence);
-  document.getElementById("reset-filters").addEventListener("click", () => {
-    country.value = "";
-    design.value = "";
-    updateEvidence();
-  });
-
-  const reviews = [...document.querySelectorAll("[data-review]")];
-  function updateReadiness() {
-    const count = reviews.filter(review => review.checked).length;
-    const label = count === reviews.length ? "전 장 검토 기록 · 별도 승인 필요" : count ? "검토 진행 중" : "검토 전";
-    document.getElementById("readiness-status").textContent = `${label} · ${count}/${reviews.length}개 장 기록`;
-    document.getElementById("readiness-progress").value = count;
-  }
-  reviews.forEach(review => {
-    review.checked = false;
-    review.addEventListener("change", updateReadiness);
-  });
-
-  const targetSelector = document.querySelector(".target-selector");
-  const targetButtons = [...document.querySelectorAll("[data-target-button]")];
-  const targetPanels = [...document.querySelectorAll("[data-target-panel]")];
-  const targetOrientation = window.matchMedia("(max-width: 700px)");
-  function selectTarget(identifier) {
-    targetButtons.forEach(button => {
-      const active = button.dataset.targetButton === identifier;
-      button.setAttribute("aria-selected", String(active));
-      button.tabIndex = active ? 0 : -1;
-    });
-    targetPanels.forEach(panel => { panel.hidden = panel.id !== identifier; });
-    scheduleProgress();
-  }
-  if (targetSelector) {
-    targetSelector.setAttribute("role", "tablist");
-    function updateTargetOrientation() {
-      targetSelector.setAttribute("aria-orientation", targetOrientation.matches ? "vertical" : "horizontal");
+      grid.append(row);
     }
-    updateTargetOrientation();
-    targetOrientation.addEventListener("change", updateTargetOrientation);
-    targetButtons.forEach((button, index) => {
-      const panel = document.getElementById(button.dataset.targetButton);
-      button.setAttribute("role", "tab");
-      button.setAttribute("aria-controls", panel.id);
-      panel.setAttribute("role", "tabpanel");
-      panel.setAttribute("aria-labelledby", button.id);
-      panel.tabIndex = 0;
-      button.addEventListener("click", () => selectTarget(panel.id));
-      button.addEventListener("keydown", event => {
-        let next = index;
-        if (event.key === (targetOrientation.matches ? "ArrowDown" : "ArrowRight")) next = (index + 1) % targetButtons.length;
-        else if (event.key === (targetOrientation.matches ? "ArrowUp" : "ArrowLeft")) next = (index + targetButtons.length - 1) % targetButtons.length;
-        else if (event.key === "Home") next = 0;
-        else if (event.key === "End") next = targetButtons.length - 1;
-        else return;
-        event.preventDefault();
-        selectTarget(targetButtons[next].dataset.targetButton);
-        targetButtons[next].focus();
-      });
-    });
-  }
-
-  const progressBar = document.querySelector(".reading-progress span");
-  const navigation = [...document.querySelectorAll(".chapter-nav ol a")];
-  const chapters = [...document.querySelectorAll("[data-chapter]")];
-  let progressPending = false;
-  function updateProgress() {
-    progressPending = false;
-    const available = document.documentElement.scrollHeight - window.innerHeight;
-    const fraction = available > 0 ? Math.min(1, Math.max(0, window.scrollY / available)) : 1;
-    progressBar.style.transform = `scaleX(${fraction})`;
-    let current = chapters[0];
-    for (const chapter of chapters) {
-      if (chapter.getBoundingClientRect().top <= window.innerHeight * 0.3) current = chapter;
+    const sourceRow = element("div", undefined, "comparison-row");
+    sourceRow.append(element("div", "원문", "comparison-label"));
+    for (const study of [left, right]) {
+      const value = element("div", undefined, "comparison-value");
+      value.append(sourceLink(study.url, `[${study.id}] 원문 열기 ↗`));
+      sourceRow.append(value);
     }
-    navigation.forEach(link => {
-      if (link.hash === `#${current.id}`) link.setAttribute("aria-current", "location");
-      else link.removeAttribute("aria-current");
-    });
-  }
-  function scheduleProgress() {
-    if (progressPending) return;
-    progressPending = true;
-    requestAnimationFrame(updateProgress);
+    grid.append(sourceRow);
   }
 
-  function revealAnchor() {
+  comparisonLeft.addEventListener("change", updateComparison);
+  comparisonRight.addEventListener("change", updateComparison);
+  document.getElementById("swap-comparison").addEventListener("click", () => {
+    const previous = comparisonLeft.value;
+    comparisonLeft.value = comparisonRight.value;
+    comparisonRight.value = previous;
+    updateComparison();
+  });
+
+  function sourceLink(url, label) {
+    const link = element("a", label, "dialog-source");
+    if (typeof url === "string" && /^https?:\/\//.test(url)) {
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    } else link.textContent = "원문 URL 미제공";
+    return link;
+  }
+
+  const studyDialog = document.getElementById("study-dialog");
+  function showStudy(identifier) {
+    selectedStudy = studyById.get(identifier);
+    if (!selectedStudy) return;
+    const study = selectedStudy;
+    document.getElementById("dialog-title").textContent = study.title;
+    document.getElementById("dialog-meta").textContent = `${study.id} / ${study.country} / ${study.year}`;
+    const body = document.getElementById("dialog-body");
+    body.replaceChildren();
+    for (const [label, key] of comparisonFields.filter(([, key]) => !["id", "title", "year"].includes(key))) {
+      const fact = element("section", undefined, `dialog-fact${key === "limit" ? " limit" : ""}`);
+      fact.append(element("h3", label), element("p", study[key] ?? "미제공"));
+      body.append(fact);
+    }
+    body.append(sourceLink(study.url, `[${study.id}] 원문 열기 ↗`));
+    document.getElementById("dialog-selection").textContent = "비교 A·B에 넣으면 두 자료를 같은 항목으로 대조 가능.";
+    studyDialog.showModal();
+  }
+
+  document.getElementById("close-study").addEventListener("click", () => studyDialog.close());
+  for (const [buttonId, select, label] of [["set-left", comparisonLeft, "A"], ["set-right", comparisonRight, "B"]]) {
+    document.getElementById(buttonId).addEventListener("click", () => {
+      if (!selectedStudy) return;
+      select.value = selectedStudy.id;
+      updateComparison();
+      document.getElementById("dialog-selection").textContent = `${selectedStudy.id}를 비교 ${label}에 넣음. 비교 화면에서 대조 가능.`;
+    });
+  }
+  document.getElementById("open-comparison").addEventListener("click", () => {
+    studyDialog.close();
+    activateView("compare", true);
+  });
+
+  const stockUnit = document.getElementById("stock-unit");
+  const stockCase = document.getElementById("stock-case");
+  const stockConcurrent = document.getElementById("stock-concurrent");
+  const stockReserve = document.getElementById("stock-reserve");
+  const stockInputs = [stockCase, stockConcurrent, stockReserve];
+
+  function stockValue(input) {
+    if (input.value.trim() === "" || !input.validity.valid) return null;
+    const value = Number(input.value);
+    if (!Number.isSafeInteger(value)) return null;
+    return value;
+  }
+
+  function stockState() {
+    const values = stockInputs.map(stockValue);
+    const complete = stockUnit.value.trim() !== "" && values.every(value => value !== null);
+    return { values, complete, total: complete ? values[0] * values[1] + values[2] : null, unit: stockUnit.value.trim() };
+  }
+
+  function updateStock() {
+    const state = stockState();
+    const identifiers = ["formula-case", "formula-concurrent", "formula-reserve"];
+    state.values.forEach((value, index) => {
+      document.getElementById(identifiers[index]).textContent = value === null ? "—" : value.toLocaleString("ko-KR");
+      const invalid = stockInputs[index].value !== "" && value === null;
+      stockInputs[index].setAttribute("aria-invalid", String(invalid));
+    });
+    document.getElementById("stock-total").textContent = state.complete ? state.total.toLocaleString("ko-KR") : "미산출";
+    document.getElementById("stock-total-unit").textContent = state.complete ? `${state.unit} · 입력 조건에 따른 단순 산식 결과` : "필수 입력 미제공 또는 입력 범위 오류";
+    const missing = state.values.filter(value => value === null).length + (state.unit ? 0 : 1);
+    document.getElementById("stock-status").textContent = state.complete
+      ? `${state.values[0]} × ${state.values[1]} + ${state.values[2]} = ${state.total} ${state.unit}. 실제 적정 재고는 약제부 확정 필요.`
+      : `4개 필수 항목 중 ${missing}개가 미제공 또는 유효하지 않음. 기본값이나 승인된 수량을 임의 가정하지 않음. 수량·건수는 지정 범위의 정수 입력 필요.`;
+  }
+
+  for (const input of [stockUnit, ...stockInputs]) input.addEventListener("input", updateStock);
+  document.getElementById("stock-form").addEventListener("submit", event => event.preventDefault());
+  document.getElementById("reset-stock").addEventListener("click", () => {
+    [stockUnit, ...stockInputs].forEach(input => { input.value = ""; });
+    updateStock();
+  });
+
+  function planText() {
+    const state = stockState();
+    return ["메틸렌블루 비축 검토 — 사용자 입력 초안", "근거 보고서 v1.1 / 웹 작업 공간 v2", "",
+      `재고 단위: ${state.unit || "미제공"}`,
+      `승인된 1건당 수량: ${state.values[0] ?? "미제공 또는 오류"}`,
+      `동시 대응 건수: ${state.values[1] ?? "미제공 또는 오류"}`,
+      `공급기간을 반영한 안전재고: ${state.values[2] ?? "미제공 또는 오류"}`,
+      `산식 결과: ${state.complete ? `${state.total} ${state.unit}` : "미산출"}`, "",
+      "입력값의 승인 여부는 검증하지 않음. 약제부가 유통 포장·보관·유효기간·공급기간·대체약을 확인하여 실제 수량 확정 필요.",
+      "투여량 계산·환자별 처방·병원 승인 문서 아님.",
+      "책임 경로: 대상 확인 → 사용 판단 → 출고·투여 → 반응 재평가 → 사후 심의.",
+      "공개 보고서: https://ane1235.github.io/report/methylene-blue/"].join("\n");
+  }
+
+  document.getElementById("save-plan").addEventListener("click", () => {
+    const file = new Blob(["\ufeff", planText()], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(file);
+    const link = element("a");
+    link.href = url;
+    link.download = "methylene-blue-stock-draft.txt";
+    document.body.append(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+
+  const protocolStages = document.getElementById("protocol-stages");
+  const protocolRows = data.protocol.table.rows;
+  function showProtocol(index) {
+    const row = protocolRows[index];
+    protocolStages.querySelectorAll("button").forEach(button => button.setAttribute("aria-pressed", String(Number(button.dataset.protocol) === index)));
+    document.getElementById("protocol-detail").replaceChildren(element("b", `책임 주체 / ${row[2]}`), element("p", row[1]),
+      element("p", "약사위원회 심의를 위한 운영 구조안. 실제 승인 또는 사용 준비 완료를 의미하지 않음.", "hint"));
+  }
+  protocolRows.forEach((row, index) => {
+    const button = element("button", row[0]);
+    button.type = "button";
+    button.dataset.protocol = String(index);
+    button.addEventListener("click", () => showProtocol(index));
+    protocolStages.append(button);
+  });
+
+  function revealSource() {
+    if (!location.hash || location.hash.length < 2) return;
     let identifier;
-    try {
-      identifier = decodeURIComponent(location.hash.slice(1));
-    } catch {
-      return;
-    }
+    try { identifier = decodeURIComponent(location.hash.slice(1)); } catch { return; }
     const target = document.getElementById(identifier);
-    const targetPanel = target?.closest("[data-target-panel]");
-    if (targetPanel && targetSelector) {
-      selectTarget(targetPanel.id);
+    if (target && sourceArchive.contains(target)) {
+      sourceArchive.open = true;
       requestAnimationFrame(() => target.scrollIntoView({ block: "start", behavior: "instant" }));
-      return;
     }
-    const panel = target?.closest("[data-panel]");
-    if (!panel) return;
-    selected = panel.dataset.panel;
-    const card = target.closest("[data-study]");
-    if (card && (card.hidden || panel.hidden)) {
-      country.value = "";
-      design.value = "";
-    }
-    updateEvidence();
-    requestAnimationFrame(() => target.scrollIntoView({ block: "start", behavior: "instant" }));
   }
-
-  window.addEventListener("scroll", scheduleProgress, { passive: true });
-  window.addEventListener("resize", scheduleProgress);
-  window.addEventListener("hashchange", revealAnchor);
-  window.addEventListener("load", scheduleProgress);
-  document.querySelectorAll('a[href^="#study-"]').forEach(link => {
-    link.addEventListener("click", () => requestAnimationFrame(revealAnchor));
+  window.addEventListener("hashchange", revealSource);
+  document.querySelectorAll('a[href^="#"]').forEach(link => link.addEventListener("click", () => requestAnimationFrame(revealSource)));
+  window.addEventListener("beforeprint", () => {
+    beforePrintArchive = sourceArchive.open;
+    sourceArchive.open = true;
+    const selectedTargets = targetInputs.filter(input => input.checked).map(input => data.mechanism.targets.find(target => target.id === input.dataset.target).label);
+    document.getElementById("print-context").textContent = `표적 표시: ${selectedTargets.join(" · ") || "미선택"}. 임상 맥락: ${contextLabels[labContext.value]}. 비교: ${comparisonLeft.value} / ${comparisonRight.value}.`;
+    document.getElementById("print-stock").textContent = planText();
+    document.getElementById("print-stock").style.whiteSpace = "pre-line";
   });
-  if ("ResizeObserver" in window) {
-    new ResizeObserver(scheduleProgress).observe(document.body);
-  }
-  updateEvidence();
-  updateReadiness();
-  if (targetSelector) {
-    selectTarget((targetPanels.find(panel => panel.classList.contains("target-featured")) || targetPanels[0]).id);
-  }
+  window.addEventListener("afterprint", () => { sourceArchive.open = beforePrintArchive; });
+  document.getElementById("print-workspace").addEventListener("click", () => window.print());
+  document.addEventListener("visibilitychange", () => { if (document.hidden) stopSignal(); });
+  reducedMotion.addEventListener("change", stopSignal);
+  let resizePending = false;
+  window.addEventListener("resize", () => {
+    if (resizePending || activeView !== "atlas") return;
+    resizePending = true;
+    requestAnimationFrame(() => { resizePending = false; renderAtlas(); });
+  });
+
+  sourceArchive.open = false;
   document.documentElement.classList.add("enhanced");
-  revealAnchor();
+  updateStage(0);
+  updateTargets();
+  updateContext();
+  renderAtlas();
+  updateComparison();
+  updateStock();
+  showProtocol(0);
+  activateView("lab");
+  revealSource();
 })();
 </script></body></html>
